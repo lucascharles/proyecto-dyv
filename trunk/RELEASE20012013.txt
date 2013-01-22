@@ -1,0 +1,33 @@
+/controller
+MandantesController.php
+	NOTA: public function listar_dirtmp($array)
+		public function grabarcontmp($array)
+		public function borrartmp($array)
+		public function getcontmp($array)
+		public function alta($array)  (modificacion)
+
+DocuentosCotroller.php
+	Nota: todo
+
+/view
+alta_mandante.php
+	NOTA: todo
+
+carga_masiva.php
+
+/model
+ContactoMandanteModel.php
+	NOTA: nuevo 
+
+DocumentosModel.php
+	Nota: todo
+
+/includes/clases
+clases_sistemadv.php
+	NOTA: Contacto_MandantesTmp - Contacto_MandantesTmpCollection
+		ModoPago - ModoPagoCollection - LogError - Det_LogError_CargaMasiva
+
+bd 
+  SCRIPTultimo.sql
+
+  insertar en la opcion carga masiva: index.php?controlador=Documentos&accion=cargam

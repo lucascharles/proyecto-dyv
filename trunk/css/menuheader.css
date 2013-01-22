@@ -1,0 +1,49 @@
+	/* ----------------------- */
+	/* ----- BaluArt.net ----- */
+	/* ----Arte y Cultura ---- */
+	/* ----------------------- */
+/*
+body
+{
+	margin:0;
+	padding:0; 
+	text-align:center; 
+	background-color:#ffffff;
+}
+*/
+/*
+#main
+{	width:900px;
+	position:relative;
+	margin-left:0px;*/
+	/*left:390px;  posición del nav */
+/*	text-align:center;}*/
+
+#header{ width:100%; height:30px;/* background-color:#e2e2e2;*/position:relative; z-index:9000;}
+
+/* ------------- Menú de Navegación -------------------------- */
+#nav{margin:0;position:relative;top:0px;right:30px;margin-left:0px; margin-bottom:0px;/*margen con el div */}
+#nav li{color:#FFFFFF; /*color base del texto*/float:left;/*width:14em;*/margin:0;padding:0;list-style:none;background:transparent;font:12px Verdana,Tahoma,Helvetica,Sans-serif;text-align:center;position:relative;cursor:default;}
+#nav li ul{padding-top:5px; position:absolute;left:-60px;/* referente a la parte superior */width:25em; margin:0; }
+#nav a{text-decoration:none;}
+#nav li a{ color: #FFFFFF; font-weight: bold;}
+#nav li a:hover{text-decoration:underline;}
+#nav li li a:hover{text-decoration:none;}
+#nav li li{filter:Alpha(opacity=50,finishopacity=50,style=1);/* Transparencia en Internet Explorer */}
+#nav li li a{ border-color: #e2e2e2; border-style:solid; border-width:0 2px 1px 2px; display:block;	color:#666666; *color:#ffffff; font-weight: bold;background: #FFFFFF; line-height:20px;}
+#nav li li a:hover{color:#333333;background:#FFFFFF;/* Transparencia en Otros navegadores */}
+li ul{padding:0.5em 0 1em 0;display:none;position:absolute;top:100%;left:0;}
+li>ul{top:auto;left:auto;}
+li li{float:center;border:0;display:block;background:transparent;}
+li:hover ul,li.over ul{display:block;}
+#navli{color:#FFFFFF; /*color base del texto*/float:left;width:5em;margin:0;padding:0;list-style:none;background:transparent;font:11px Verdana,Tahoma,Helvetica,Sans-serif;text-align:center;position:relative;cursor:default;}
+
+/*  -------------- Estilos propios -----------------------------------*/
+.principal {color:#000000;}
+.menulist {position:relative;}
+
+.textopie {color:#FFFFFF; FONT-FAMILY: Tahoma, Verdana, Arial, Helvetica, sans-serif; FONT-SIZE: 12px; LINE-HEIGHT: 150%; text-overflow: ellipsis; overflow: hidden}
+A:link {text-decoration:none;}
+A:visited {text-decoration:none;}
+A:active {text-decoration:none;}
+A:hover {text-decoration:none;}
