@@ -7,10 +7,10 @@ $config->set('viewsFolder', 'views/');
 
 
 // CONFIGURACION SQL SERVER
-$config->set('dbhost', 'LCHARLES-PC\SQLEXPRESS');
+$config->set('dbhost', 'SEBA-D5DE59D8ED\SQLEXPRESS');
 $config->set('dbname', 'sistemadv');
 $config->set('dbuser', 'sa');
-$config->set('dbpass', 'salucas1978');
+$config->set('dbpass', 'sa654seba');
 
 
 /*
