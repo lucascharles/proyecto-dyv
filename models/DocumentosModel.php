@@ -1,6 +1,15 @@
 <?php
 class DocumentosModel extends ModelBase
 {
+	public function getTiposError()
+	{
+		$dato = new ErrorCargaCollection();
+		$dato->load();
+		
+		return $dato;
+	}
+	
+	
 	public function carga_masiva($archivo, $id_usuario)
 	{
 		include 'config.php';
@@ -105,7 +114,7 @@ class DocumentosModel extends ModelBase
 					// digito verificador
 					if(false)
 					{
-						$error_rutmandante[] = 4;
+						$error_rutmandante[] = 3;
 					}
 				
 					// no existe mandante
@@ -116,7 +125,7 @@ class DocumentosModel extends ModelBase
 					$mandante->load();
 					if(is_null($mandante->get_data("id_mandante")))
 					{
-						$error_rutmandante[] = 8;
+						$error_rutmandante[] = 4;
 					}
 					
 					//echo("<br>paso validacion mandante");
@@ -124,19 +133,19 @@ class DocumentosModel extends ModelBase
 					// cero
 					if((int)$arraydatos[1] == 0)
 					{
-						$error_rutdeudor[] = 1;
+						$error_rutdeudor[] = 5;
 					}
 					
 					// vacio
 					if(trim($arraydatos[1]) == "")
 					{
-						$error_rutdeudor[] = 2;
+						$error_rutdeudor[] = 6;
 					}
 					
 					// digito verificador
 					if(false)
 					{
-						$error_rutdeudor[] = 4;
+						$error_rutdeudor[] = 7;
 					}
 					
 					// no existe deudor
@@ -147,7 +156,7 @@ class DocumentosModel extends ModelBase
 					$deudor->load();
 					if(is_null($deudor->get_data("id_deudor")))
 					{
-						$error_rutdeudor[] = 9;
+						$error_rutdeudor[] = 8;
 					}
 					
 					//echo("<br>paso validacion deudor");
@@ -156,32 +165,26 @@ class DocumentosModel extends ModelBase
 					// cero
 					if((int)$arraydatos[2] == 0)
 					{
-						$error_monto[] = 1;
+						$error_monto[] = 9;
 					}
 					
 					// vacio
 					if(trim($arraydatos[2]) == "")
 					{
-						$error_monto[] = 2;
+						$error_monto[] = 10;
 					}
 					
 					// valor no numerico
 					if(false)
 					{
-						$error_monto[] = 3;
+						$error_monto[] = 11;
 					}
 					//echo("<br>paso validacion importe");
 				// VALIDACION TIPO DOCUMENTO
 					// vacio
 					if(trim($arraydatos[3]) == "")
 					{
-						$error_tipodocumento[] = 2;
-					}
-					
-					// tipo no permitido 
-					if(false)
-					{
-						$error_tipodocumento[] = 5;
+						$error_tipodocumento[] = 12;
 					}
 					
 					// no existe tipo documento
@@ -190,22 +193,15 @@ class DocumentosModel extends ModelBase
 					$tipodoc->load();
 					if(is_null($tipodoc->get_data("id_tipo_documento")))
 					{
-						$error_tipodocumento[] = 6;
+						$error_tipodocumento[] = 13;
 					}
 					//echo("<br>paso validacion tipodocumento");
 				// VALIDACION BANCO				
 					// vacio
 					if(trim($arraydatos[4]) == "")
 					{
-						$error_banco[] = 2;
+						$error_banco[] = 14;
 						//echo("<br>ERROR banco 2 ");
-					}
-					
-					// valor no numerico
-					if(false)
-					{
-						$error_banco[] = 3;
-						//echo("<br>ERROR banco 3 ");
 					}
 					
 					// no existe banco
@@ -215,45 +211,45 @@ class DocumentosModel extends ModelBase
 					if(is_null($banco->get_data("id_banco")))
 					{
 						//echo("<br>ERROR banco 7 ");
-						$error_banco[] = 7;
+						$error_banco[] = 15;
 					}
 					//echo("<br>paso validacion banco");
 				// VALIDACION NUMERO DOCUMENTO
 					// cero
 					if((int)$arraydatos[5] == 0)
 					{
-						$error_nrodocumento[] = 1;					
+						$error_nrodocumento[] = 16;					
 					}
 					
 					// vacio
 					if(trim($arraydatos[5]) == "")
 					{
-						$error_nrodocumento[] = 2;
+						$error_nrodocumento[] = 17;
 					}
 					
 					// valor no numerico
 					if(false)
 					{
-						$error_nrodocumento[] = 3;
+						$error_nrodocumento[] = 18;
 					}
 					//echo("<br>paso validacion nro documento");
 				// VALIDACION CUENTA CORRIENTE
 					// cero
 					if((int)$arraydatos[6] == 0)
 					{
-						$error_ctacte[] = 1;
+						$error_ctacte[] = 19;
 					}
 					
 					// vacio
 					if(trim($arraydatos[6]) == "")
 					{
-						$error_ctacte[] = 2;
+						$error_ctacte[] = 20;
 					}
 					
 					// valor numerico
 					if(false)
 					{
-						$error_ctacte[] = 3;
+						$error_ctacte[] = 21;
 					}
 					/*
 					echo("<br>paso validacion cuenta corriente");
@@ -427,6 +423,7 @@ class DocumentosModel extends ModelBase
 		$datoe->save();
 	}
 	
+
 	
 	public function getListaTipoDoc($des)
 	{
@@ -770,6 +767,6 @@ class DocumentosModel extends ModelBase
 
     return $sqlpersonal;
 	}
-	
+		
 }
 ?>
