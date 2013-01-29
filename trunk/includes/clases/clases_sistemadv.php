@@ -8,6 +8,35 @@
 	//add_database($db, $config->get('dbname'));
 	
 	// CLASES MODELO DE NEGOCIO
+	class ErrorCarga extends BusinessObject
+	{
+		function ErrorCarga()
+		{
+			$this->table_name = "ErrorCarga";
+			$this->field_metadata = array(
+					"id" => array("int"),
+					"error" => array("varchar")
+				);
+			parent::BusinessObject();
+		}
+	}
+	
+	class ErrorCargaCollection extends BusinessObjectCollection
+	{
+		function ErrorCargaCollection()
+		{
+			parent::BusinessObjectCollection();
+		}
+		
+		function create_singular($row) 
+		{ 
+			$obj = new ErrorCarga();
+			$obj->load_from_list($row);
+			
+			return $obj;
+		}
+	}
+	
 	class MandanteModoPago extends BusinessObject
 	{
 		function MandanteModoPago()
@@ -694,6 +723,7 @@
 	{
 		function Permiso()
 		{
+
 			$this->table_name = "Permiso";
 			$this->field_metadata = array(
 					"id" => array("int"),
