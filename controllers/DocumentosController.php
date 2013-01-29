@@ -208,6 +208,7 @@ class DocumentosController extends ControllerBase
 		$id_log = $doc->carga_masiva($array["arch_upload"]["txtarchivo"], $_SESSION["idusuario"] );
 		$data['logerror'] = $doc->getLogError($id_log);
 		$data['logerror_det'] = $doc->getLogErrorDetalle($id_log);
+		$data['coltipoerror'] = $doc->getTiposError();
 		
 		$this->view->show("log_error_carga.php", $data);
 	}
