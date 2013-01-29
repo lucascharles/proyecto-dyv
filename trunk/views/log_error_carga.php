@@ -35,12 +35,12 @@
 </head>
 <body id="datos">
 <form name="frmcargamasiva" action="" method="post" >
-<table width="100%" align="center" border="0" cellpadding="10" cellspacing="10" >
-	 <tr>
-		<td width="70" align="left">Resultados:</td>
-        <td align="left"></td>
-        <td align="center"> </td>
+<table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" >	
+	<tr class="cabecera_listado">
+      <th width="15" align="center"></th>
+      <th align="left" colspan="2"><font class="titulolistado">Resultados</font></th>  
     </tr>
+	 
     <?
     if(is_null($logerror->get_data("id")))
 	{
@@ -55,6 +55,11 @@
 	else
 	{
 	?>
+     <tr>
+        <td align="center" colspan="3" height="10">
+
+         </td>
+    </tr>
     <tr>
         <td align="left" colspan="3" height="0" class="etiqueta_form">
      	Fecha: <? echo($logerror->get_data("fecha_hora")) ?>
@@ -66,14 +71,13 @@
          </td>
     </tr>
      <tr>
-        <td align="center" colspan="3" height="15">
+        <td align="center" colspan="3" height="20">
 
          </td>
     </tr>
-    <tr>
-        <td align="left" colspan="3" height="0"  >
-     	Detalle   
-         </td>
+    <tr class="cabecera_listado">
+      <th width="15" align="center"></th>
+      <th align="left" colspan="2"><font class="titulolistado">Detalles</font></th>  
     </tr>
      <tr>
         <td align="left" colspan="3" height="15" class="etiqueta_form">
