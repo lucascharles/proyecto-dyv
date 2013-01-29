@@ -8,9 +8,24 @@
     <link id="theme" rel="stylesheet" type="text/css" href="css/general.css" title="theme" />
     <script src="js/jquery-1.7.1.min.js" type="text/javascript"></script>
     <script src="js/validacampos.js" type="text/javascript"></script>
+    <script src="js/funciones.js" type="text/javascript"></script>
 
     <script language="javascript">
-
+		$(document).ready(function(){
+  			$('form').validator();
+		});
+		
+		function overClass(obj)
+		{
+			$(obj).removeClass('menu_head');
+			$(obj).addClass('seleccionado');
+		}
+		
+		function outClass(obj)
+		{
+			$(obj).removeClass('seleccionado');
+			$(obj).addClass('menu_head');
+		}
 		
 		function salir()
 		{
@@ -18,14 +33,13 @@
 		}
 		
 		function cargar()
-		{
-			var arraySel = new Array();
+		{		
 			
 			if(!validar("N"))
 			{
 				return false;
 			}
-			
+
 			document.frmcargamasiva.submit();
 			
 		}
@@ -40,7 +54,7 @@
 <table width="100%" align="center" border="0" cellpadding="10" cellspacing="10" >
 	 <tr>
 		<td width="70" align="left" class="etiqueta_form">Archivo:</td>
-        <td align="left">&nbsp;&nbsp;&nbsp; <input type="file" name="txtarchivo" id="txtarchivo"  size="40"  class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/></td>
+        <td align="left">&nbsp;&nbsp;&nbsp; <input type="file" name="txtarchivo" id="txtarchivo"  size="40"  class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto"/></td>
         <td align="center"> </td>
     </tr>
     <tr>
