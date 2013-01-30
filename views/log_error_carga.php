@@ -68,7 +68,7 @@
     </tr>
     <tr>
         <td align="left" colspan="3" height="0" class="etiqueta_form">
-     	Fecha: <? echo($logerror->get_data("fecha_hora")) ?>
+     	Fecha: <? echo(formatoFecha($logerror->get_data("fecha_hora"),"","")) ?>
          </td>
     </tr>
     <tr>
