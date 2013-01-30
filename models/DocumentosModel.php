@@ -13,9 +13,9 @@ class DocumentosModel extends ModelBase
 	public function carga_masiva($archivo, $id_usuario)
 	{
 		include 'config.php';
-		//echo("<br> parametro: ".$archivo);
+
 		$_FILES['archivo'] = $archivo;
-		
+		$error_upload = "";
 		// SE CREA CARPETA DONDE SE ALOJA ARCHIVO COMO RESPALDO
 		$nombre_carpeta = $dir_uploaded_files."carga".date("YmdHis");
 		if(!(is_dir($nombre_carpeta) || is_file(strtoupper($nombre_carpeta))))
@@ -30,28 +30,22 @@ class DocumentosModel extends ModelBase
 		$tamano_archivo = $_FILES['archivo']['size']; 
 		$error = $_FILES['archivo']['error'];
 		
-		/*
-		echo("<br>nombre_archivo: ".$nombre_archivo);
-		echo("<br>tipo_archivo: ".$tipo_archivo);
-		echo("<br>tamano_archivo: ".$tamano_archivo);
-		echo("<br>error: ".$error);
-		*/
-				
+		$error_upload = "";
 		// VALIDACIONES DE TIPO DE ARCHIVO
-		if (($nombre_archivo != NULL && $nombre_archivo != "") && !(strpos($tipo_archivo, "application/vnd.ms-excel"))) 
+		if (($nombre_archivo != NULL && $nombre_archivo != "") && strpos($tipo_archivo, "application/vnd.ms-excel") <> false) 
 		{
-			if($ir == "")
+			if($error_upload == "")
 			{
-				$ir = "../message.php?titulo=Error en subida de archivo&mensaje=La extensión de la foto no es correcta.&destino=panel.php?mod=adm_respuestas";
+				$error_upload = "TYPE";
 			}
 		}
 		
 		// VALIDACION TAMAÑO DE ARCHIVO
 		if (($nombre_archivo != NULL && $nombre_archivo != "") && $tamano_archivo> $max_size) 
 		{
-			if($ir == "")
+			if($error_upload == "")
 			{
-				$ir = "../message.php?titulo=Error en subida de archivo&mensaje=El tamaño de la foto supera el máximo permitido.&destino=panel.php?mod=adm_respuestas";
+				$error_upload = "SIZE";
 			}
 		}
 		
@@ -62,17 +56,22 @@ class DocumentosModel extends ModelBase
 
 			if(!$uploadOk) 
 			{
-				if($ir == "")
+				if($error_upload == "")
 				{
-					$ir = "../message.php?titulo=Error en subida de archivo&mensaje=El archivo no pudo subir correctamente.&destino=panel.php?mod=adm_respuestas";
+					$error_upload = "UPLOAD";
 				}
 			}
 		}
 		
+		$id_log = 0;
+		
+		if($error_upload == "")
+		{
+		
 		// CARGAR DOCUMENTOS 
 		$fp = fopen ( $nombre_carpeta."/".$nombre_archivo , "r" );
 		$i = 0;
-		$id_log = 0;
+		
 		while (( $data = fgetcsv ( $fp , 1000 , "," )) !== FALSE ) 
 		{ 
 			foreach($data as $row) 
@@ -81,15 +80,7 @@ class DocumentosModel extends ModelBase
 				if($i>0)
 				{
 					$arraydatos = explode(";",$row);
-					/*
-					echo("<br>rut_mandante: ".$arraydatos[0]);
-					echo("<br>rut_deudor: ".$arraydatos[1]);
-					echo("<br>monto: ".$arraydatos[2]);
-					echo("<br>tipo_documento: ".$arraydatos[3]);
-					echo("<br>banco: ".$arraydatos[4]);
-					echo("<br>numero_documento: ".$arraydatos[5]);
-					echo("<br>cta_cte: ".$arraydatos[6]);
-				    */
+					
 					$error_rutmandante = array();
 					$error_rutdeudor = array();
 					$error_monto = array();
@@ -98,7 +89,7 @@ class DocumentosModel extends ModelBase
 					$error_nrodocumento = array();
 					$error_ctacte = array();
 				
-				// VALIDACION RUT MANDANTE
+					// VALIDACION RUT MANDANTE
 					// cero
 					if((int)$arraydatos[0] == 0)
 					{
@@ -128,8 +119,8 @@ class DocumentosModel extends ModelBase
 						$error_rutmandante[] = 4;
 					}
 					
-					//echo("<br>paso validacion mandante");
-				// VALIDACION RUT DEUDOR
+					
+					// VALIDACION RUT DEUDOR
 					// cero
 					if((int)$arraydatos[1] == 0)
 					{
@@ -159,9 +150,8 @@ class DocumentosModel extends ModelBase
 						$error_rutdeudor[] = 8;
 					}
 					
-					//echo("<br>paso validacion deudor");
-					
-				// VALIDACION IMPORTE
+										
+					// VALIDACION IMPORTE
 					// cero
 					if((int)$arraydatos[2] == 0)
 					{
@@ -179,8 +169,8 @@ class DocumentosModel extends ModelBase
 					{
 						$error_monto[] = 11;
 					}
-					//echo("<br>paso validacion importe");
-				// VALIDACION TIPO DOCUMENTO
+					
+					// VALIDACION TIPO DOCUMENTO
 					// vacio
 					if(trim($arraydatos[3]) == "")
 					{
@@ -195,8 +185,8 @@ class DocumentosModel extends ModelBase
 					{
 						$error_tipodocumento[] = 13;
 					}
-					//echo("<br>paso validacion tipodocumento");
-				// VALIDACION BANCO				
+					
+					// VALIDACION BANCO				
 					// vacio
 					if(trim($arraydatos[4]) == "")
 					{
@@ -213,8 +203,8 @@ class DocumentosModel extends ModelBase
 						//echo("<br>ERROR banco 7 ");
 						$error_banco[] = 15;
 					}
-					//echo("<br>paso validacion banco");
-				// VALIDACION NUMERO DOCUMENTO
+
+					// VALIDACION NUMERO DOCUMENTO
 					// cero
 					if((int)$arraydatos[5] == 0)
 					{
@@ -232,7 +222,7 @@ class DocumentosModel extends ModelBase
 					{
 						$error_nrodocumento[] = 18;
 					}
-					//echo("<br>paso validacion nro documento");
+
 				// VALIDACION CUENTA CORRIENTE
 					// cero
 					if((int)$arraydatos[6] == 0)
@@ -251,17 +241,7 @@ class DocumentosModel extends ModelBase
 					{
 						$error_ctacte[] = 21;
 					}
-					/*
-					echo("<br>paso validacion cuenta corriente");
 					
-					echo("<br>count error_rutmandante: ".count($error_rutmandante));
-					echo("<br>count error_rutdeudor: ".count($error_rutdeudor));
-					echo("<br>count error_monto: ".count($error_monto));
-					echo("<br>count error_tipodocumento: ".count($error_tipodocumento));
-					echo("<br>count error_banco: ".count($error_banco));
-					echo("<br>count error_nrodocumento: ".count($error_nrodocumento));
-					echo("<br>count error_ctacte: ".count($error_ctacte));
-					*/
 					if(count($error_rutmandante) == 0 && 
 						count($error_rutdeudor) == 0 && 
 						count($error_monto) == 0 && 
@@ -384,7 +364,38 @@ class DocumentosModel extends ModelBase
 
 		}
 		fclose ( $fp );
-		
+		}// fin if sin error upload
+		else
+		{
+			if($error_upload == "TYPE")
+			{
+				$idtipo = 22;
+			}
+			
+			if($error_upload == "SIZE")
+			{
+				$idtipo = 23;
+			}
+			
+			if($error_upload == "UPLOAD")
+			{
+				$idtipo = 24;
+			}
+			
+			$logerror = new LogError();
+			$logerror->set_data("fecha_hora",date("d/m/Y H:i:s"));
+			$logerror->set_data("id_usuario",$id_usuario);
+			$logerror->save();
+							
+			$id_log = getUltimoId(new LogErrorCollection(), "id");
+
+			$log_e = new Det_LogError_CargaMasiva();
+			$log_e->set_data("id_logerror",$id_log);
+			$log_e->set_data("id_tipo_error",$idtipo);
+			$log_e->set_data("archivo",$nombre_archivo);
+			$log_e->set_data("fila",0);
+			$log_e->save();
+		}
 		return $id_log;
 	}
 	
@@ -423,7 +434,6 @@ class DocumentosModel extends ModelBase
 		$datoe->save();
 	}
 	
-
 	
 	public function getListaTipoDoc($des)
 	{
