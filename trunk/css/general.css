@@ -11,6 +11,15 @@ body{
 	background: #EEE;
 }
 
+.titulopantalla
+{
+	background:url(../images/fondotitulopantalla.png) repeat-x;
+	color:#ffffff;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	font-weight:bold;
+}
+
+
 #menu{
 	position:absolute;
 	margin-left:0px;
