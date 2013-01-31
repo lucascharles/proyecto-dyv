@@ -78,9 +78,16 @@
 <body>
 <form name="frmadmmandantes">
 <input  type="hidden" name="id_mandantes" id="id_mandantes" value=""/>
+<table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="titulopantalla">
+	<tr>
+		<th align="left" height="30">&nbsp;B&uacute;squeda Mandantes</th>
+        <th></th>
+        <th></th>
+    </tr>
+ </table>
 <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
 	<tr>
-		<th align="left">Busqueda</th>
+		<th align="left" height="20"></th>
         <th></th>
         <th></th>
     </tr>

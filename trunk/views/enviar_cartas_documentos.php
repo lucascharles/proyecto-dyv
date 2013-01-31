@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-	<title>MVC - Modelo, Vista, Controlador - Jourmoly</title>
+	<title></title>
 
     <script language="javascript">
 
@@ -73,9 +73,17 @@
 <body>
 <form name="frmadmdocumentos">
 <input  type="hidden" name="id_documento" id="id_documento" value=""/>
-<table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
+
+ <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="titulopantalla">
 	<tr>
-		<th align="left">Enviar Cartas</th>
+		<th align="left" height="30">&nbsp;Enviar Cartas</th>
+        <th></th>
+        <th></th>
+    </tr>
+ </table>
+ <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
+	<tr>
+		<th align="left" height="20"></th>
         <th></th>
         <th></th>
     </tr>
@@ -83,21 +91,17 @@
 <div id="buscador" style="">
 <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
 	 <tr>
-		<td width="20" align="left">Desde:</td>
-        <td align="left">&nbsp; <input type="text" name="txtdesde" id="txtdesde"  size="40"  /></td>
+		<td width="20" align="left" class="etiqueta_form">Desde:</td>
+        <td align="left">&nbsp; <input type="text" name="txtdesde" id="txtdesde"  size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" /></td>
         
-        <td width="40" align="left">Hasta:</td>
-        <td align="left">&nbsp;<input type="text" name="txthasta" id="txthasta"  size="40"  /></td>
+        <td width="40" align="left" class="etiqueta_form">Hasta:</td>
+        <td align="left">&nbsp;<input type="text" name="txthasta" id="txthasta"  size="40"  class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)"/></td>
      </tr>
-	<tr>
-		<td></td>
-        <td></td>
-		<td></td>
-        <td></td>
-        
-        <td> <input  type="button" name="btnmarcar" id="btnmarcar" onclick="marcar()"  value="Marcar" class="botonform" onclick="marcar()"/></td>
-        <td> <input  type="button" name="btnenviar" id="btnenviar" onclick="enviar()"  value="Enviar" class="botonform" onclick="enviar()" /></td>
-        <td> <input  type="button" name="btnlimpiar" id="btnlimpiar" value="Limpiar" class="botonform" onclick="limpiar()"/></td>
+	<tr>      
+        <td align="right" colspan="4"> 
+        <input type="button" name="btnmarcar" id="btnmarcar" onclick="marcar()"  value="Marcar" onclick="marcar()" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/>&nbsp;
+         <input  type="button" name="btnenviar" id="btnenviar" onclick="enviar()"  value="Enviar" onclick="enviar()" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/>&nbsp;
+          <input  type="button" name="btnlimpiar" id="btnlimpiar" value="Limpiar" onclick="limpiar()" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/></td>
     </tr>
     <tr>
 		<td></td>
@@ -118,7 +122,7 @@
     <tr>
 		<td colspan="3" align="right">
         
-            <input  type="button" name="btnsalir" id="btnsalir" onclick="salir()"  value="salir" style="width:50px;"/>
+            <input  type="button" name="btnsalir" id="btnsalir" onclick="salir()"  value="salir" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/>
          </td>
     </tr>
 </table>

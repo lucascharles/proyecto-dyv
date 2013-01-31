@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-	<title>MVC - Modelo, Vista, Controlador - Jourmoly</title>
+	<title></title>
 
     <script language="javascript">
 		function mostrar(obj)
@@ -89,41 +89,57 @@
 <body>
 <form name="frmadmdocumentos">
 <input  type="hidden" name="id_documento" id="id_documento" value=""/>
-<table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
+<table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="titulopantalla">
 	<tr>
-		<th align="left">Busqueda</th>
+		<th align="left" height="30">&nbsp;B&uacute;squeda Documentos</th>
+        <th></th>
+        <th></th>
+    </tr>
+ </table>
+ <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
+	<tr>
+		<th align="left" height="20"></th>
         <th></th>
         <th></th>
     </tr>
  </table>
 <div id="buscador" style="">
 <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
-	 <tr>
-		<td width="20" align="left">Rut:</td>
-        <td align="left">&nbsp; <input type="text" name="txtrut" id="txtrut"  size="40" onkeyup='mostrar(this)' /></td>
-        
-        <td width="40" align="left">Primer Apellido:</td>
-        <td align="left">&nbsp;<input type="text" name="txtPrimerApel" id="txtPrimerApel"  size="40" onkeyup='mostrar(this)' /></td>
-     
-        <td width="40" align="left">Segundo Apellido:</td>
-        <td align="left">&nbsp;&nbsp; <input type="text" name="txtSegundoApel" id="txtSegundoApel"  size="40" onkeyup='mostrar(this)' /></td>
-     </tr>
-     <tr>   
-        <td width="70" align="left">Primer Nombre:</td>
-        <td align="left">&nbsp;&nbsp; <input type="text" name="txtPrimerNomb" id="txtPrimerNomb"  size="40" onkeyup='mostrar(this)' /></td>
-      
-        <td width="70" align="left">Segundo Nombre:</td>
-        <td align="left">&nbsp;&nbsp; <input type="text" name="txtSegundoNomb" id="txtSegundoNomb"  size="40" onkeyup='mostrar(this)' /></td>
-	</tr>
 	<tr>
-		<td></td>
-        <td></td>
-		<td></td>
-        <td></td>
-        
-        
-        <td> <input  type="button" name="btnbuscar" id="btnbuscar" onclick="buscar()"  value="Buscar" class="botonform" /></td>
-        <td> <input  type="button" name="btnlimpiar" id="btnlimpiar" value="Limpiar" class="botonform" onclick="limpiar()"/></td>
+		<td width="" align="left" class="etiqueta_form">R.U.T.:&nbsp;&nbsp;&nbsp; <input type="text" name="txtrut" id="txtrut"  size="20" onkeyup='mostrar(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" /></td>
+        <td align="left"></td>
+        <td> 
+        </td>
+    </tr>
+     <tr>
+		<td colspan="3" height="15"> </td>
+    </tr>
+    <tr>
+    	<td colspan="3">
+        	 <table width="100%" align="center" cellpadding="0" cellspacing="0" border="0">
+				<tr>
+            		<td align="left" class="etiqueta_form">Primer Apellido</td>
+	                <td align="left" class="etiqueta_form">Segundo Apellido</td>
+    	            <td align="left" class="etiqueta_form">Primer Nombre</td>
+        	        <td align="left" class="etiqueta_form">Segundo Nombre</td>
+			     </tr>
+                 <tr>
+                    <td><input type="text" name="txtPrimerApel" id="txtPrimerApel"  size="20" onkeyup='mostrar(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/></td>
+                    <td align="left"><input type="text" name="txtSegundoApel" id="txtSegundoApel"  size="20" onkeyup='mostrar(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/></td>
+                    <td align="left"><input type="text" name="txtPrimerNomb" id="txtPrimerNomb"  size="20" onkeyup='mostrar(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/></td>
+                    <td align="left"><input type="text" name="txtSegundoNomb" id="txtSegundoNomb"  size="20" onkeyup='mostrar(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/></td>
+                </tr>
+             </table>
+          </td>
+        </tr>
+         <tr>
+		<td colspan="3" height="15"> </td>
+    </tr>
+	<tr>
+       <td colspan="3" align="right"> 
+       		<input  type="button" name="btnbuscar" id="btnbuscar" onclick="buscar()"  value="Buscar" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)' />&nbsp;
+         	<input  type="button" name="btnlimpiar" id="btnlimpiar" value="Limpiar" onclick="limpiar()" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/>
+       </td>
     </tr>
     <tr>
 		<td></td>
@@ -137,22 +153,22 @@
  <div id="datos" style="">
  <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
     <tr>
-		<td colspan="2">
+		<td colspan="2" width="90%">
         	<iframe id="frmlistdocumentos" src="index.php?controlador=Documentos&accion=listar" width="100%" align="middle" height="220" scrolling="auto" frameborder="0"></iframe>
         </td>
-        <td>
+        <td width="10%">
         	<div style="position:relative; margin-left:10px;">
-        	<input  type="button" name="btneliminar" id="btneliminar" onclick="eliminar()"  class="botonformabm" value="Eliminar" style=""/><br />
-	        <input  type="button" name="btnnuevo" id="btnnuevo" onclick="nuevo()"  class="botonformabm" value="Nuevo" style=""/><br />
-            <input  type="button" name="btnmodificar" id="btnmodificar" onclick="editar()"  class="botonformabm" value="Modificar" style=""/><br />
-            <input  type="button" name="btnenvcarta" id="btnenvcarta" onclick="enviarcarta()"  class="botonformabm" value="Cartas" style=""/><br />
+        	<input  type="button" name="btneliminar" id="btneliminar" onclick="eliminar()" value="Eliminar" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/><br />
+	        <input  type="button" name="btnnuevo" id="btnnuevo" onclick="nuevo()"  value="Nuevo" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/><br />
+            <input  type="button" name="btnmodificar" id="btnmodificar" onclick="editar()"  value="Modificar" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/><br />
+            <input  type="button" name="btnenvcarta" id="btnenvcarta" onclick="enviarcarta()"  value="Cartas" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/><br />
             </div>
          </td>
     </tr>
     <tr>
 		<td colspan="3" align="right">
         
-            <input  type="button" name="btnsalir" id="btnsalir" onclick="salir()"  value="salir" style="width:50px;"/>
+            <input  type="button" name="btnsalir" id="btnsalir" onclick="salir()"  value="salir" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/>
          </td>
     </tr>
 </table>

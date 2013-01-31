@@ -19,9 +19,17 @@
 <body>
 <form name="frmadmtipdoc">
 <input  type="hidden" name="id_tip_doc" id="id_tip_doc" value=""/>
-<table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
+
+  <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="titulopantalla">
 	<tr>
-		<th align="left">Carga Masiva Documentos</th>
+		<th align="left" height="30">&nbsp;Carga Masiva Documentos</th>
+        <th></th>
+        <th></th>
+    </tr>
+ </table>
+ <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
+	<tr>
+		<th align="left" height="20"></th>
         <th></th>
         <th></th>
     </tr>
