@@ -252,6 +252,7 @@
 					type: "GET",
 					data: datos,
 					cache: false,
+
 					success: function(res)
 					{
 						$("#pagina").load('index.php?controlador=Deudores&accion=admin');
@@ -427,8 +428,19 @@
 <input type="hidden" name="id_deudor" id="id_deudor" value="<? echo($objDeudor->get_data("id_deudor")) ?>" />
 <input  type="hidden" name="id_dir" id="id_dir" value=""/>
 <input  type="hidden" name="tipo" id="tipo" value=""/>
-
+<table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="titulopantalla">
+	<tr>
+		<th align="left" height="30">&nbsp;Editar Deudores</th>
+        <th></th>
+        <th></th>
+    </tr>
+ </table>
 <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
+<tr>
+		<th align="left" height="20"></th>
+        <th></th>
+        <th></th>
+    </tr>
 	<tr>
 		<th align="left">Datos personales</th>
         <th></th>

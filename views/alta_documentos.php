@@ -103,8 +103,19 @@
 <body>
 <form name="frmadmdocumentos">
 <input  type="hidden" name="id_documento" id="id_documento" value=""/>
-
+<table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="titulopantalla">
+	<tr>
+		<th align="left" height="30">&nbsp;Alta Documento</th>
+        <th></th>
+        <th></th>
+    </tr>
+ </table>
 <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
+<tr>
+		<th align="left" height="20"></th>
+        <th></th>
+        <th></th>
+    </tr>
 	<tr>
 		<th align="left">Origen del Documento</th>
         <th></th>
@@ -115,9 +126,9 @@
 <div id="datos" style="">
 <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" size="20">
     <tr>
-		<td width="70" align="left">Deudor:</td>
+		<td width="70" align="left" class="etiqueta_form">Deudor:</td>
         <td> 
-        	<select name="selDeudor" valida="requerido" tipovalida="texto" id="selDeudor">
+        	<select name="selDeudor" valida="requerido" tipovalida="texto" id="selDeudor" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)">
      			<option value=""><? print utf8_encode("----Seleccione----") ?></option>
         		<?
 			        for($j=0; $j<$coleccion_deudores->get_count(); $j++)
@@ -130,9 +141,9 @@
         
         </td>
 		
-		<td width="70" align="left">Mandatario:</td>
+		<td width="70" align="left" class="etiqueta_form">Mandatario:</td>
         <td> 
-        	<select name="selMandante" valida="requerido" tipovalida="texto" id="selMandante">
+        	<select name="selMandante" valida="requerido" tipovalida="texto" id="selMandante" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)">
      			<option value=""><? print utf8_encode("----Seleccione----") ?></option>
         		<?
 			        for($j=0; $j<$coleccion_mandantes->get_count(); $j++)
@@ -146,14 +157,19 @@
         </td>       
         
     </tr>
+     <tr>
+        <td colspan="4" height="10">
+
+         </td>
+    </tr>   
     
     <tr>
-		<td width="20" align="left">Recibido:</td>
-        <td align="left"><input type="text" name="txtfechaRecibido" id="txtfechaRecibido" value="<?php echo date("d/m/Y"); ?>" size="20" onkeyup='mostrar(this)' /></td>
+		<td width="20" align="left" class="etiqueta_form">Recibido:</td>
+        <td align="left"><input type="text" name="txtfechaRecibido" id="txtfechaRecibido" value="<?php echo date("d/m/Y"); ?>" size="20" onkeyup='mostrar(this)' class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)"/></td>
         
-        <td width="70" align="left">Estado:</td>
+        <td width="70" align="left" class="etiqueta_form">Estado:</td>
         <td> 
-        	<select name="selEstadoDoc" valida="requerido" tipovalida="texto" id="selEstadoDoc">
+        	<select name="selEstadoDoc" valida="requerido" tipovalida="texto" id="selEstadoDoc" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)">
      			<option value=""><? print utf8_encode("----Seleccione----") ?></option>
         		<?
 			        for($j=0; $j<$coleccion_estadoDoc->get_count(); $j++)
@@ -170,7 +186,7 @@
         
     
     <tr>
-        <td colspan="3">
+        <td colspan="4">
         	<span id="mensaje" style="display:none"></span>
          </td>
     </tr>   
@@ -179,6 +195,9 @@
  
  
  <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
+ <tr>
+        <th colspan="3" height="15"></th>
+    </tr>
 	<tr>
 		<th align="left">Detalle del Documento</th>
         <th></th>
@@ -188,31 +207,31 @@
 
 <div id="datos" style="">
 <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
-  
  <tr>
-		<td width="20" align="left">Nro Doc.:</td>
-        <td align="left"><input type="text" name="txtnrodoc" id="txtnrodoc"  size="20" onkeyup='mostrar(this)' /></td>
-        
-        <td width="70" align="left">Tipo Doc.:</td>
-        <td> 
-        	<select name="selTipoDoc" valida="requerido" tipovalida="texto" id="selTipoDoc">
-     			<option value=""><? print utf8_encode("----Seleccione----") ?></option>
-        		<?
-			        for($j=0; $j<$coleccion_tipoDoc->get_count(); $j++)
-			        {
-			            $datoTmp = &$coleccion_tipoDoc->items[$j];
-			            echo("<option value=".$datoTmp->get_data("id_tipo_documento").">".utf8_encode($datoTmp->get_data("tipo_documento"))."</option>");           
-			        }
-    			?>
-			</select>
-        
-        </td>  
-        <td width="20" align="left">Monto:</td>
-        <td align="left"><input type="text" name="txtmonto" id="txtmonto" value="0" size="15" onkeyup='mostrar(this)' /></td>
-        
-        <td width="70" align="left">Banco:</td>
-        <td> 
-        	<select name="selBancos" valida="requerido" tipovalida="texto" id="selBancos">
+ 		<td>
+        	<table align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
+            	<tr>
+					<td width="20" align="left" class="etiqueta_form">Nro Doc.:</td>
+        			<td width="70" align="left" class="etiqueta_form">Tipo Doc.:</td>
+        			<td width="20" align="left" class="etiqueta_form">Monto:</td>       
+        			<td width="70" align="left" class="etiqueta_form">Banco:</td>
+                </tr>
+                <tr>
+        			<td> 
+                        <select name="selTipoDoc" valida="requerido" tipovalida="texto" id="selTipoDoc" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)">
+                            <option value=""><? print utf8_encode("----Seleccione----") ?></option>
+                            <?
+                                for($j=0; $j<$coleccion_tipoDoc->get_count(); $j++)
+                                {
+                                    $datoTmp = &$coleccion_tipoDoc->items[$j];
+                                    echo("<option value=".$datoTmp->get_data("id_tipo_documento").">".utf8_encode($datoTmp->get_data("tipo_documento"))."</option>");           
+                                }
+                            ?>
+                        </select>       
+        			</td>  
+        			<td align="left"><input type="text" name="txtnrodoc" id="txtnrodoc"  size="20" onkeyup='mostrar(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" /></td>
+        			<td align="left"><input type="text" name="txtmonto" id="txtmonto" value="0" size="15" onkeyup='mostrar(this)' class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" /></td>
+        			<td> <select name="selBancos" valida="requerido" tipovalida="texto" id="selBancos" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)">
      			<option value=""><? print utf8_encode("----Seleccione----") ?></option>
         		<?
 			        for($j=0; $j<$coleccion_bancos->get_count(); $j++)
@@ -222,19 +241,21 @@
 			        }
     			?>
 			</select>
-        
-        </td>
-        
-        <td width="20" align="left">Cta. Cte.:</td>
-        <td align="left"><input type="text" name="txtctacte" id="txtctacte"  size="15" onkeyup='mostrar(this)' /></td>        
-    </tr>
-    
-    <tr>
-    	<td width="20" align="left">Fecha Protesto:</td>
-        <td align="left"><input type="text" name="txtfechaprotesto" id="txtfechaprotesto"  size="15" onkeyup='mostrar(this)' /></td>
-		<td width="70" align="left">Causal Protesto:</td>
-        <td> 
-        	<select name="selCausalProtesta" valida="requerido" tipovalida="texto" id="selCausalProtesta">
+        	       </td>
+               </tr>
+               <tr>                  
+		        <td align="left" height="10" colspan="4" ></td>
+                </tr>
+			   <tr>                  
+		        <td width="20" align="left" class="etiqueta_form">Cta. Cte.:</td>
+                <td width="20" align="left" class="etiqueta_form">Fecha Protesto:</td>
+                <td width="70" align="left" colspan="2" class="etiqueta_form">Causal Protesto:</td>
+        	   </tr>
+    			<tr>
+    				<td align="left"><input type="text" name="txtctacte" id="txtctacte"  size="15" onkeyup='mostrar(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/></td>        
+        			<td align="left"><input type="text" name="txtfechaprotesto" id="txtfechaprotesto"  size="15" onkeyup='mostrar(this)' class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)"/></td>
+                    <td colspan="2">
+        	<select name="selCausalProtesta" valida="requerido" tipovalida="texto" id="selCausalProtesta" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)">
      			<option value=""><? print utf8_encode("----Seleccione----") ?></option>
         		<?
 			        for($j=0; $j<$coleccion_causalProtesta->get_count(); $j++)
@@ -244,12 +265,15 @@
 			        }
     			?>
 			</select>
-        
-        </td>
-    
-    	<td colspan="3" align="right">        	
-         	<input  type="button" name="btnAgregar" id="btnAgregar" onclick="grabar()" value="Agregar" style="" />            
+                </td>
+           </tr>
+    		<tr>
+    	<td colspan="4" align="right">        	
+         	<input  type="button" name="btnAgregar" id="btnAgregar" onclick="grabar()" value="Agregar" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/>            
          </td>
+         	</tr>
+            </table>
+            </td>
     
     </tr>
     
@@ -258,12 +282,12 @@
  <div id="datos" style="">
  <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
     <tr>
-		<td colspan="2">
+		<td colspan="2" width="90%">
         	<iframe id="frmlistdocumentos" src="index.php?controlador=Documentos&accion=listarNuevos" width="100%" align="middle" height="220" scrolling="auto" frameborder="0"></iframe>
         </td>
-        <td>
+        <td width="10%">
         	<div style="position:relative; margin-left:10px;">
-        	<input  type="button" name="btneliminar" id="btneliminar" onclick="eliminar()"  class="botonformabm" value="Eliminar" style=""/><br />
+        	<input  type="button" name="btneliminar" id="btneliminar" onclick="eliminar()" value="Eliminar" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/><br />
             </div>
          </td>
     </tr>
@@ -281,8 +305,8 @@
     <tr>
         <td colspan="3" align="center">
         	
-         	<input  type="button" name="btnlimpiar" id="btnlimpiar" onclick="limpiar()"value="Limpiar" style="" />
-            <input  type="button" name="btnsalir" id="btnsalir" onclick="salir()"value="Salir" style="" />
+         	<input  type="button" name="btnlimpiar" id="btnlimpiar" onclick="limpiar()" value="Limpiar" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)' />&nbsp;
+            <input  type="button" name="btnsalir" id="btnsalir" onclick="salir()"value="Salir" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)' />
          </td>
     </tr>
 </table>

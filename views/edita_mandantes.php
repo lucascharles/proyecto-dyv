@@ -303,8 +303,19 @@
 <form name="frmadmmandantes">
 <input  type="hidden" name="id_mandante" id="id_mandante" value="<? echo($objMandantes->get_data("id_mandante")) ?>"/>
 <input  type="hidden" name="id_con" id="id_con" value=""/>
+<table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="titulopantalla">
+	<tr>
+		<th align="left" height="30">&nbsp;Editar Mandantes</th>
+        <th></th>
+        <th></th>
+    </tr>
+ </table>
  <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
-
+<tr>
+		<th align="left" height="20"></th>
+        <th></th>
+        <th align="right"></th>
+    </tr>
 	<tr>
 		<th align="left">Datos del Cliente</th>
         <th></th>

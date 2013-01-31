@@ -488,8 +488,19 @@
 <form name="frmadmtipdoc">
 <input  type="hidden" name="id_dir" id="id_dir" value=""/>
 <input  type="hidden" name="tipo" id="tipo" value=""/>
-
+<table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="titulopantalla">
+	<tr>
+		<th align="left" height="30">&nbsp;Alta Deudores</th>
+        <th></th>
+        <th></th>
+    </tr>
+ </table>
 <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
+<tr>
+		<th align="left" height="20"></th>
+        <th></th>
+        <th></th>
+    </tr>
 	<tr>
 		<th align="left">Datos personales</th>
         <th></th>

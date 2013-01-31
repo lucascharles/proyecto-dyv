@@ -80,9 +80,16 @@
 <body>
 <form name="frmadmtipdoc">
 <input  type="hidden" name="id_deudor" id="id_deudor" value=""/>
-<table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
+<table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="titulopantalla">
 	<tr>
-		<th align="left">Busqueda Deudores</th>
+		<th align="left" height="30">&nbsp;B&uacute;squeda Deudores</th>
+        <th></th>
+        <th></th>
+    </tr>
+ </table>
+ <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" >
+	<tr>
+		<th align="left" height="20"></th>
         <th></th>
         <th></th>
     </tr>
