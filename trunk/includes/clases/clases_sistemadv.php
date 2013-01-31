@@ -405,7 +405,8 @@
 					"fecha_creacion" => array("datetime"),
 					"usuario_creacion" => array("varchar"),
 					"fecha_modificacion" => array("datetime"),
-					"usuario_modificacion" => array("varchar")
+					"usuario_modificacion" => array("varchar"),
+					"activo" => array("char")
 				);
 			parent::BusinessObject();
 		}
@@ -723,7 +724,6 @@
 	{
 		function Permiso()
 		{
-
 			$this->table_name = "Permiso";
 			$this->field_metadata = array(
 					"id" => array("int"),
