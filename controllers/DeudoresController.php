@@ -1,7 +1,137 @@
 <?php
 class DeudoresController extends ControllerBase
 {
-    //Accion index
+    public function ficha_documentos($array)
+	{
+		require 'models/DocumentosModel.php';
+		require 'models/DeudoresModel.php';
+		$deudor = new DeudoresModel();
+		$documentos = new DocumentosModel();
+		
+		
+		if($array["tipoperacion"] == "A")
+		{
+			$dato = $documentos->getListaDocumentos("",$array["ident"]);
+		}
+		
+		if($array["tipoperacion"] == "M")
+		{
+			$datodeudor = $deudor->getDeudorFicha($array["ident"]);	
+			$dato = $documentos->getListaDocumentos("",$datodeudor->get_data("id_deudor"));
+		}
+		
+		$data['nom_sistema'] = "SISTEMA DyV";
+		$data['colleccionDoc'] = $dato;
+		
+		$this->view->show("deudor_ficha_documentos.php", $data);
+	}
+	
+	public function ficha_receptor($array)
+	{
+		require 'models/DeudoresModel.php';
+		$deudor = new DeudoresModel();
+		$idrecp = 0;
+		if($array["tipoperacion"] == "M")
+		{
+			$datorecep = $deudor->getReceptor($array["ident"]);
+			$idrecp = $array["ident"];
+			$data['receptor'] = $datorecep;
+		}
+						
+		$data['nom_sistema'] = "SISTEMA DyV";
+		$data['tipoperacion'] = $array["tipoperacion"];
+		$data['colGastosReceptor'] = $deudor->getGastosReceptor($idrecp);
+		
+		$this->view->show("deudor_ficha_receptor.php", $data);
+	}
+	
+	public function ficha_martillero($array)
+	{
+		require 'models/DeudoresModel.php';
+		$deudor = new DeudoresModel();
+		$idmart = 0;
+		
+		if($array["tipoperacion"] == "M")
+		{
+			$datorecep = $deudor->getReceptor($array["ident"]);
+			$idmart = $array["ident"];
+			$data['receptor'] = $datorecep;
+		}
+		
+		$data['nom_sistema'] = "SISTEMA DyV";
+		$data['colGastosMarillero'] = $deudor->getGastosMartillero($idmart);
+				
+		$this->view->show("deudor_ficha_martillero.php", $data);
+	}
+	
+	public function ficha_consignacion($array)
+	{
+		require 'models/DeudoresModel.php';
+		$deudor = new DeudoresModel();
+		$idcon = 0;
+		
+		if($array["tipoperacion"] == "M")
+		{
+			$datorecep = $deudor->getReceptor($array["ident"]);
+			$idcon = $array["ident"];
+			$data['receptor'] = $datorecep;
+		}
+		
+		$data['nom_sistema'] = "SISTEMA DyV";
+		$data['colGastosConsignacion'] = $deudor->getGastosConsignacion($idcon);
+				
+		$this->view->show("deudor_ficha_consigancion.php", $data);
+	}
+	
+	public function ficha_gastos($array)
+	{
+		require 'models/DeudoresModel.php';
+		$deudor = new DeudoresModel();
+		$idgasto = 0;
+		
+		if($array["tipoperacion"] == "M")
+		{
+			$datorecep = $deudor->getReceptor($array["ident"]);
+			$idgasto = $array["ident"];
+			$data['receptor'] = $datorecep;
+		}
+		
+		$data['nom_sistema'] = "SISTEMA DyV";
+		$data['colGastosGastos'] = $deudor->getGastosGastos($idgasto);
+		
+				
+		$this->view->show("deudor_ficha_gastos.php", $data);
+	}
+	
+	public function deudor_ficha($array)
+    {
+		require 'models/DeudoresModel.php';
+		require 'models/MandantesModel.php';
+		$deudor = new DeudoresModel();
+		$mandate = new MandantesModel();
+		
+		$data['nom_sistema'] = "SISTEMA DyV";
+		$data['ident'] = $array["id"];
+		$data['tipoperacion'] = $array["tipope"];
+		
+		if($array["tipope"] == "M")
+		{
+			$datodeudor = $deudor->getDeudorFicha($array["id"]);	
+		}	
+		
+		if($array["tipope"] == "A")
+		{
+			$datodeudor = $deudor->getDeudorDatos($array["id"]);	
+		}	
+		
+		$datomandante = $mandate->getMandanteDatos($datodeudor->get_data("id_mandante"));
+		$data['deudor'] = $datodeudor;
+		$data['mandante'] = $datomandante;
+		
+		
+		$this->view->show("deudor_ficha.php", $data);
+	}
+	
     public function admin($array)
     {
 		$data['nom_sistema'] = "SISTEMA DyV";
