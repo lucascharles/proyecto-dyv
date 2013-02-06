@@ -1,6 +1,15 @@
 <?php
 class MandantesModel extends ModelBase
 {
+	public function getMandanteDatos($id)
+	{
+		$dato = new Mandantes();
+		$dato->add_filter("id_mandante","=",$id);
+		$dato->load();
+		
+		return $dato;
+	}
+	
 	public function editarMandantes($array)
 	{
 		// INFORMACION MANDANTE
