@@ -76,9 +76,14 @@
 
 			$sql = " SELECT ".$this->sql_select;
 			$sql .= " FROM ".$this->sql_from;
-			$sql .= " WHERE ".$this->sql_where;
+			if(trim($this->sql_where) <> "")
+			{
+				$sql .= " WHERE ".$this->sql_where;
+			}
 			$sql .= ";";
-//			echo("<br>sql: ".$sql);
+			
+			//echo("<br>sql: ".$sql);
+			
 			$select = mssql_query($sql,$this->db_connect_id_s);
 			
 			while($fila=mssql_fetch_array($select))
