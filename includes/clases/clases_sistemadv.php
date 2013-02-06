@@ -8,6 +8,382 @@
 	//add_database($db, $config->get('dbname'));
 	
 	// CLASES MODELO DE NEGOCIO
+	class Ficha extends BusinessObject
+	{
+		function Ficha()
+		{
+			$this->table_name = "Ficha";
+			$this->field_metadata = array(
+					"id_ficha" => array("int"),
+					"id_deudor" => array("int"),
+					"id_mandante" => array("int"),
+					"monto" => array("decimal"),
+					"abogado" => array("varchar"),
+					"firma " => array("varchar"),
+					"ingreso" => array("varchar"),
+					"providencia	" => array("varchar"),
+					"distribucion_corte" => array("datetime"),
+					"rol" => array("varchar"),
+					"nro_juzgado" => array("int"),
+					"juzgado_comuna" => array("int")
+				);
+			parent::BusinessObject();
+		}
+	}
+	
+	class FichaCollection extends BusinessObjectCollection
+	{
+		function FichaCollection()
+		{
+			parent::BusinessObjectCollection();
+		}
+		
+		function create_singular($row) 
+		{ 
+			$obj = new Ficha();
+			$obj->load_from_list($row);
+			
+			return $obj;
+		}
+	}
+
+	class Documento_Ficha extends BusinessObject
+	{
+		function Documento_Ficha()
+		{
+			$this->table_name = "Documento_Ficha";
+			$this->field_metadata = array(
+					"id" => array("int"),
+					"id_ficha" => array("int"),
+					"id_documento" => array("int")
+				);
+			parent::BusinessObject();
+		}
+	}
+	
+	class Documento_FichaCollection extends BusinessObjectCollection
+	{
+		function Documento_FichaCollection()
+		{
+			parent::BusinessObjectCollection();
+		}
+		
+		function create_singular($row) 
+		{ 
+			$obj = new Documento_Ficha();
+			$obj->load_from_list($row);
+			
+			return $obj;
+		}
+	}
+		
+	class Receptor_Ficha extends BusinessObject
+	{
+		function Receptor_Ficha()
+		{
+			$this->table_name = "Receptor_Ficha";
+			$this->field_metadata = array(
+				"id_receptor" => array("int"),
+				"id_ficha" => array("int"),
+				"fecha_mandamiento" => array("date"),
+				"receptor" => array("varchar"),
+				"busqueda" => array("varchar"),
+				"notificacion" => array("varchar"),
+				"notificacion_2" => array("varchar"),
+				"notificacion_3" => array("varchar"),
+				"fecha_domicilio" => array("date"),
+				"fecha_domicilio_1" => array("date"),
+				"entrega_receptor_1" => array("varchar"),
+				"entrega_receptor_2" => array("varchar"),
+				"entrega_receptor_3" => array("varchar"),
+				"entrega_receptor_4" => array("varchar"),
+				"notificacion_1" => array("varchar"),
+				"fecha_embargo_fp" => array("date"),
+				"fecha_oficio" => array("date"),
+				"fecha_traba_emb" => array("date"),
+				"fono_receptor" => array("varchar"),
+				"resultado_busqueda" => array("varchar"),
+				"resultado_notificacion_1" => array("varchar"),
+				"resultado_notificacion_2" => array("varchar"),
+				"resultado_notificacion_3" => array("varchar"),
+				"providencia_1" => array("varchar"),
+				"providencia_2" => array("varchar"),
+				"providencia_3" => array("varchar"),
+				"fecha_busqueda_2" => array("date"),
+				"busqueda_3" => array("varchar"),
+				"embargo" => array("varchar"),
+				"articulo_431044" => array("varchar")
+				);
+			parent::BusinessObject();
+		}
+	}
+	
+	class Receptor_FichaCollection extends BusinessObjectCollection
+	{
+		function Receptor_FichaCollection()
+		{
+			parent::BusinessObjectCollection();
+		}
+		
+		function create_singular($row) 
+		{ 
+			$obj = new Receptor_Ficha();
+			$obj->load_from_list($row);
+			
+			return $obj;
+		}
+	}
+				
+	class Gastos_Receptor_Ficha extends BusinessObject
+	{
+		function Gastos_Receptor_Ficha()
+		{
+			$this->table_name = "Gastos_Receptor_Ficha";
+			$this->field_metadata = array(
+				"id" => array("int"),
+				"id_gasto" => array("int"),
+				"id_receptor" => array("int"),
+				"id_ficha" => array("int"),
+				"importe" => array("decimal")
+			);
+			parent::BusinessObject();
+		}
+	}
+	
+	class Gastos_Receptor_FichaCollection extends BusinessObjectCollection
+	{
+		function Gastos_Receptor_FichaCollection()
+		{
+			parent::BusinessObjectCollection();
+		}
+		
+		function create_singular($row) 
+		{ 
+			$obj = new Gastos_Receptor_Ficha();
+			$obj->load_from_list($row);
+			
+			return $obj;
+		}
+	}
+
+	class Gastos extends BusinessObject
+	{
+		function Gastos()
+		{
+			$this->table_name = "Gastos";
+			$this->field_metadata = array(
+				"id_gasto" => array("int"),
+				"gasto" => array("varchar"),
+				"rep" => array("int"),
+				"orden" => array("int")
+			);
+			parent::BusinessObject();
+		}
+	}
+	
+	class GastosCollection extends BusinessObjectCollection
+	{
+		function GastosCollection()
+		{
+			parent::BusinessObjectCollection();
+		}
+		
+		function create_singular($row) 
+		{ 
+			$obj = new Gastos();
+			$obj->load_from_list($row);
+			
+			return $obj;
+		}
+	}
+						
+	class Martillero_Ficha extends BusinessObject
+	{
+		function Martillero_Ficha()
+		{
+			$this->table_name = "Martillero_Ficha";
+			$this->field_metadata = array(
+				"id_martillero" => array("int"),
+				"id_ficha" => array("int"),
+				"aceptacion_cargo" => array("varchar"),
+				"nombre" => array("varchar"),
+				"rut_martilero" => array("int"),
+				"dv_martillero" => array("int"),
+				"notificacion" => array("varchar"),
+				"retirio_especies_fp" => array("varchar"),
+				"providencia" => array("varchar"),
+				"entrega_receptor" => array("varchar"),
+				"retiro_especies" => array("varchar"),
+				"oposicion_retiro" => array("varchar"),
+				"fecha_remate" => array("date")
+			);
+			parent::BusinessObject();
+		}
+	}
+	
+	class Martillero_FichaCollection extends BusinessObjectCollection
+	{
+		function Martillero_FichaCollection()
+		{
+			parent::BusinessObjectCollection();
+		}
+		
+		function create_singular($row) 
+		{ 
+			$obj = new Martillero_Ficha();
+			$obj->load_from_list($row);
+			
+			return $obj;
+		}
+	}
+	
+	class Gastos_Martillero_Ficha extends BusinessObject
+	{
+		function Gastos_Martillero_Ficha()
+		{
+			$this->table_name = "Gastos_Martillero_Ficha";
+			$this->field_metadata = array(
+				"id" => array("int"),
+				"id_gasto" => array("int"),
+				"id_martillero" => array("int"),
+				"id_ficha" => array("int"),
+				"importe" => array("decimal")
+			);
+			parent::BusinessObject();
+		}
+	}
+	
+	class Gastos_Martillero_FichaCollection extends BusinessObjectCollection
+	{
+		function Gastos_Martillero_FichaCollection()
+		{
+			parent::BusinessObjectCollection();
+		}
+		
+		function create_singular($row) 
+		{ 
+			$obj = new Gastos_Martillero_Ficha();
+			$obj->load_from_list($row);
+			
+			return $obj;
+		}
+	}
+				
+	class Consignacion_Ficha extends BusinessObject
+	{
+		function Consignacion_Ficha()
+		{
+			$this->table_name = "Consignacion_Ficha";
+			$this->field_metadata = array(			
+				"id_consignacion" => array("int"),
+				"id_ficha" => array("int"),
+				"consignacion" => array("int"),
+				"abono_1" => array("decimal"),
+				"abono_2" => array("decimal"),
+				"abono_3" => array("decimal"),
+				"abono_4" => array("decimal"),
+				"pago_cliente" => array("decimal"),
+				"giro_cheque_1" => array("decimal"),
+				"giro_cheque_2" => array("decimal"),
+				"entrega_cheque" => array("varchar"),
+				"costas_procesales" => array("decimal"),
+				"pago_costas" => array("decimal"),
+				"entrega_cheque_1" => array("varchar"),
+				"devolucion_documento" => array("varchar"),
+				"entrega_documento" => array("varchar"),
+				"monto_consignacion" => array("decimal"),
+				"monto_1" => array("decimal"),
+				"monto_2" => array("decimal"),
+				"monto_3" => array("decimal"),
+				"monto_4" => array("decimal"),
+				"pago_dyv" => array("decimal"),
+				"providencia_1" => array("varchar"),
+				"providencia_2" => array("varchar"),
+				"providencia_3" => array("varchar"),
+				"rendicion_cliente" => array("decimal")
+			);
+			parent::BusinessObject();
+		}
+	}
+	
+	class Consignacion_FichaCollection extends BusinessObjectCollection
+	{
+		function Consignacion_FichaCollection()
+		{
+			parent::BusinessObjectCollection();
+		}
+		
+		function create_singular($row) 
+		{ 
+			$obj = new Consignacion_Ficha();
+			$obj->load_from_list($row);
+			
+			return $obj;
+		}
+	}
+			
+	class Gastos_Consignacion_Ficha extends BusinessObject
+	{
+		function Gastos_Consignacion_Ficha()
+		{
+			$this->table_name = "Gastos_Consignacion_Ficha";
+			$this->field_metadata = array(			
+				"id" => array("int"),
+				"id_consignacion" => array("int"),
+				"id_gasto" => array("int"),
+				"id_ficha" => array("int"),
+				"importe" => array("decimal")
+			);
+			parent::BusinessObject();
+		}
+	}
+	
+	class Gastos_Consignacion_FichaCollection extends BusinessObjectCollection
+	{
+		function Gastos_Consignacion_FichaCollection()
+		{
+			parent::BusinessObjectCollection();
+		}
+		
+		function create_singular($row) 
+		{ 
+			$obj = new Gastos_Consignacion_Ficha();
+			$obj->load_from_list($row);
+			
+			return $obj;
+		}
+	}
+				
+	class Gastos_Ficha extends BusinessObject
+	{
+		function Gastos_Ficha()
+		{
+			$this->table_name = "Gastos_Ficha";
+			$this->field_metadata = array(						
+				"id_ficha" => array("int"),
+				"id_gasto" => array("int"),
+				"importe" => array("decimal")
+			);
+			parent::BusinessObject();
+		}
+	}
+	
+	class Gastos_FichaCollection extends BusinessObjectCollection
+	{
+		function Gastos_FichaCollection()
+		{
+			parent::BusinessObjectCollection();
+		}
+		
+		function create_singular($row) 
+		{ 
+			$obj = new Gastos_Ficha();
+			$obj->load_from_list($row);
+			
+			return $obj;
+		}
+	}
+	
 	class ErrorCarga extends BusinessObject
 	{
 		function ErrorCarga()
