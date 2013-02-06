@@ -1,7 +1,15 @@
 <?php
 class DeudoresController extends ControllerBase
 {
-    public function ficha_documentos($array)
+   	
+    public function admin($array)
+    {
+		$data['nom_sistema'] = "SISTEMA DyV";
+		$data['accion_form'] = "";
+		
+		$this->view->show("admin_deudores.php", $data);
+	}
+	 public function ficha_documentos($array)
 	{
 		require 'models/DocumentosModel.php';
 		require 'models/DeudoresModel.php';
@@ -130,14 +138,6 @@ class DeudoresController extends ControllerBase
 		
 		
 		$this->view->show("deudor_ficha.php", $data);
-	}
-	
-    public function admin($array)
-    {
-		$data['nom_sistema'] = "SISTEMA DyV";
-		$data['accion_form'] = "";
-		
-		$this->view->show("admin_deudores.php", $data);
 	}
 	
 	public function grabar($array)
