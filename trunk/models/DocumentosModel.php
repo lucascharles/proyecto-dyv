@@ -528,7 +528,7 @@ class DocumentosModel extends ModelBase
 	 
 	}
 	
-	public function getListaDocumentos($des)
+	public function getListaDocumentos($des, $idd)
 	{
 	
 	include("config.php");
@@ -547,12 +547,20 @@ class DocumentosModel extends ModelBase
 	 								estadodocumentos ed,
 	 								tipodocumento td");
     
-	  $sqlpersonal->set_where(" d.id_banco = c.id_banco
-								and  d.id_deudor = dd.id_deudor
-								and m.id_mandante = d.id_mandatario
-								and d.id_estado_doc = ed.id_estado_doc
-								and d.id_tipo_doc = td.id_tipo_documento
-								and d.activo = 'S' ");
+	  $where = " d.id_banco = c.id_banco
+				and  d.id_deudor = dd.id_deudor
+				and m.id_mandante = d.id_mandatario
+				and d.id_estado_doc = ed.id_estado_doc
+				and d.id_tipo_doc = td.id_tipo_documento
+				and d.activo = 'S' ";
+				
+	if($idd > 0 && trim($idd) <> "")
+	{
+		$where .= " and d.id_deudor = ".$idd;
+	  
+	}
+
+	$sqlpersonal->set_where($where);
 	
     $sqlpersonal->load();
 
@@ -662,18 +670,7 @@ class DocumentosModel extends ModelBase
     	return $dato;
 	}
 
-//	public function getListaTipoDoc($des)
-//	{
-//    	$dato = new TipoDocumentoCollection();
-//    	$dato->add_filter("activo","=","S");
-//    	if(trim($des) <> "")
-//    	{
-//        	$dato->add_filter("AND");
-//        	$dato->add_filter("tipo_documento","like",trim($des)."%");
-//    	}	
-//    	$dato->load();       
-//    	return $dato;
-//	}
+
 	
 	public function getListaCausalProtesta($des)
 	{
