@@ -1,6 +1,134 @@
 <?php
 class DeudoresModel extends ModelBase
 {
+	public function getReceptor($idd)
+	{
+		
+	}
+	
+	public function getGastosReceptor($id_receptor)
+	{
+		
+		include("config.php");
+
+		if($id_receptor <> 0)
+		{
+			$select = " g.id_gasto id_gasto, g.gasto gasto, gr.importe importe"; 
+	 		$from = " gastos g, gastos_receptor_ficha gr ";
+    		$where = " g.id_gasto = gr.id_gasto and gr.id_receptor = ".$id_receptor;
+		}
+		else
+		{
+			$select = " g.id_gasto id_gasto, g.gasto gasto, '' importe "; 
+	 		$from = " gastos g ";
+    		$where = " g.id_gasto in (1,2,3,4,5,6,7,8,9) ";
+		}
+		
+		$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
+		$sqlpersonal->set_select($select);
+		$sqlpersonal->set_from($from);
+		$sqlpersonal->set_where($where);
+    	$sqlpersonal->load();
+
+	    return $sqlpersonal;
+	}
+	
+	public function getGastosMartillero($id_martillero)
+	{
+		
+		include("config.php");
+
+		if($id_martillero <> 0)
+		{
+			$select = " g.id_gasto id_gasto, g.gasto gasto, gm.importe importe"; 
+	 		$from = " gastos g, gastos_martillero_ficha gm ";
+    		$where = " g.id_gasto = gm.id_gasto and gm.id_martillero = ".$id_martillero;
+		}
+		else
+		{
+			$select = " g.id_gasto id_gasto, g.gasto gasto, '' importe "; 
+	 		$from = " gastos g ";
+    		$where = " g.id_gasto in (10,11,12) ";
+		}
+		
+		$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
+		$sqlpersonal->set_select($select);
+		$sqlpersonal->set_from($from);
+		$sqlpersonal->set_where($where);
+    	$sqlpersonal->load();
+
+	    return $sqlpersonal;
+	}
+	
+	public function getGastosConsignacion($id_consignacion)
+	{
+		
+		include("config.php");
+
+		if($id_consignacion <> 0)
+		{
+			$select = " g.id_gasto id_gasto, g.gasto gasto, gc.importe importe"; 
+	 		$from = " gastos g, gastos_consignacion_ficha gc ";
+    		$where = " g.id_gasto = gc.id_gasto and gc.id_martillero = ".$id_consignacion;
+		}
+		else
+		{
+			$select = " g.id_gasto id_gasto, g.gasto gasto, '' importe "; 
+	 		$from = " gastos g ";
+    		$where = " g.id_gasto in (13) ";
+		}
+		
+		$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
+		$sqlpersonal->set_select($select);
+		$sqlpersonal->set_from($from);
+		$sqlpersonal->set_where($where);
+    	$sqlpersonal->load();
+
+	    return $sqlpersonal;
+	}
+	
+	public function getGastosGastos($id_gastos)
+	{
+		
+		include("config.php");
+
+		if($id_consignacion <> 0)
+		{
+			$select = " g.id_gasto id_gasto, g.gasto gasto, gf.importe importe, g.rep rep"; 
+	 		$from = " gastos g, gastos_ficha gf ";
+    		$where = " g.id_gasto = gf.id_gasto and gf.id_gasto = ".$id_gastos." ORDER BY g.orden ASC ";
+		}
+		else
+		{
+			$select = " g.id_gasto id_gasto, g.gasto gasto, '' importe, g.rep rep "; 
+	 		$from = " gastos g ";
+    		$where = " g.id_gasto > 0 ORDER BY g.orden ASC ";
+		}
+		
+		$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
+		$sqlpersonal->set_select($select);
+		$sqlpersonal->set_from($from);
+		$sqlpersonal->set_where($where);
+    	$sqlpersonal->load();
+
+	    return $sqlpersonal;
+	}
+	
+
+	
+	
+	public function getDeudorFicha($idf)
+	{
+		$dato = new Ficha();
+		$dato->add_filter("id_ficha","=",$idf);
+		$dato->load();
+		
+		$datod = new Deudores();
+		$datod->add_filter("id_deudor","=",$dato->get_data("id_deudor"));
+		$datod->load();
+		
+		return $datod;
+	}
 
 	public function editarDeudor($arrayParam)
 	{
@@ -81,6 +209,14 @@ class DeudoresModel extends ModelBase
 		$mand->save();
 	}
 
+	public function getDeudorDatos($id)
+	{
+		$dato = new Deudores();
+		$dato->add_filter("id_deudor","=",$id);
+		$dato->load();
+		return $dato;
+	}
+	
 	public function getDeudor($id, $id_sesion)
 	{
 		$dato = new Deudores();
