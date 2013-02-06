@@ -34,7 +34,7 @@ $(document).ready(function()
 		$(this).siblings();
 	});
 	
-	setTimeout("desplegarMenu(1)",500);
+	//setTimeout("desplegarMenu(1)",500);
 	$("#pagina").load('views/default.php');
 });
 
