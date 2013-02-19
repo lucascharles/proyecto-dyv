@@ -2,9 +2,9 @@ USE [sistemadv]
 GO 
 					
 CREATE TABLE [dbo].[Consignacion_Ficha](
-	[id_consignacion] [int] NULL,
+	[id_consignacion] [int] IDENTITY(1,1) NOT NULL,
 	[id_ficha] [int] NULL,
-	[consignacion] [int] NULL,
+	[consignacion] [varchar](100) COLLATE Modern_Spanish_CI_AS NULL,
 	[abono_1] [decimal](10, 2) NULL,
 	[abono_2] [decimal](10, 2) NULL,
 	[abono_3] [decimal](10, 2) NULL,
