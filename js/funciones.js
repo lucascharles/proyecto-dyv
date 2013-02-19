@@ -1,5 +1,126 @@
 // JavaScript Document
 
+function getParametrosArray(arrayInputS)
+{
+	var arrayInput = arrayInputS; 
+	var urlp = "";
+		
+	 for(var i=0; i<arrayInput.length; i++)
+	 {	
+	 	if(arrayInput[i].getAttribute('grabar') == "S")
+   		{
+			if(urlp == "")	
+			{
+				urlp = arrayInput[i].getAttribute('name')+"="+arrayInput[i].value;
+			}
+			else
+			{
+				urlp += "&"+arrayInput[i].getAttribute('name')+"="+arrayInput[i].value;
+			}
+		}
+	 }
+	 
+	 return urlp;
+}
+
+function getParametros()
+{
+	var arrayInput = document.getElementsByTagName('input');
+	var arraySelect = document.getElementsByTagName('select');
+	
+	var urlp = "";
+		
+	 for(var i=0; i<arrayInput.length; i++)
+	 {	
+	 	if(arrayInput[i].getAttribute('grabar') == "S")
+   		{
+			if(urlp == "")	
+			{
+				urlp = arrayInput[i].getAttribute('name')+"="+arrayInput[i].value;
+			}
+			else
+			{
+				urlp += "&"+arrayInput[i].getAttribute('name')+"="+arrayInput[i].value;
+			}
+		}
+	 }
+	 
+	 for(var i=0; i<arraySelect.length; i++)
+	 {	
+	 	if(arraySelect[i].getAttribute('grabar') == "S")
+   		{
+			if(urlp == "")	
+			{
+				urlp = arraySelect[i].getAttribute('name')+"="+arraySelect[i].value;
+			}
+			else
+			{
+				urlp += "&"+arraySelect[i].getAttribute('name')+"="+arraySelect[i].value;
+			}
+		}
+	 }
+	 
+	 return urlp;
+}
+
+
+function limpiarCampos()
+{
+	var arrayInput = document.getElementsByTagName('input');
+	var arraySelect = document.getElementsByTagName('select');
+
+	 for(var i=0; i<arrayInput.length; i++)
+	 {	
+	 	if(arrayInput[i].getAttribute('grabar') == "S")
+   		{
+			arrayInput[i].value = "";
+			var clase = arrayInput[i].getAttribute("class");
+			
+			
+			if(clase == "notFilled")
+			{
+				$(arrayInput[i]).removeClass(clase);
+				$(arrayInput[i]).addClass('input_form');
+			}
+			if(clase == "notFilled_min")
+			{
+				$(arrayInput[i]).removeClass(clase);
+				$(arrayInput[i]).addClass('input_form_min');
+			}
+			if(clase == "notFilled_medio")
+			{
+				$(arrayInput[i]).removeClass(clase);
+				$(arrayInput[i]).addClass('input_form_medio');
+			}
+		}
+	 }
+	 
+	 for(var i=0; i<arraySelect.length; i++)
+	 {	
+	 	if(arraySelect[i].getAttribute('grabar') == "S")
+   		{
+			arraySelect[i].selectedIndex = 0;
+			var clase = arraySelect[i].getAttribute("class");
+			
+			
+			if(clase == "notFilled")
+			{
+				$(arraySelect[i]).removeClass(clase);
+				$(arraySelect[i]).addClass('input_form');
+			}
+			if(clase == "notFilled_min")
+			{
+				$(arraySelect[i]).removeClass(clase);
+				$(arraySelect[i]).addClass('input_form_min');
+			}
+			if(clase == "notFilled_medio")
+			{
+				$(arraySelect[i]).removeClass(clase);
+				$(arraySelect[i]).addClass('input_form_medio');
+			}
+		}
+	 }
+}
 
 function resaltar(obj)
 {
@@ -63,6 +184,22 @@ function outClassBoton(obj)
 	$(obj).removeClass('boton_form_brillante');
 	$(obj).addClass('boton_form');
 
+}
+
+function overClassBotonMenu(obj)
+{
+	$(obj).removeClass('boton_form');
+	$(obj).addClass('boton_form_brillante');
+}
+
+function outClassBotonMenu(obj)
+{
+	if($(obj).attr("seleccionado") == "S")
+	{ 
+		return false;
+	}
+	$(obj).removeClass('boton_form_brillante');
+	$(obj).addClass('boton_form');
 }
 
 function salirSistema()
