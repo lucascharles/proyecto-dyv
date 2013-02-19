@@ -1,8 +1,8 @@
 USE [sistemadv]
 GO 
-	
+
 CREATE TABLE [dbo].[Martillero_Ficha](
-	[id_martillero] [int] NULL,
+	[id_martillero] [int] IDENTITY(1,1) NOT NULL,
 	[id_ficha] [int] NULL,
 	[aceptacion_cargo] [varchar](100) COLLATE Modern_Spanish_CI_AS NULL,
 	[nombre] [varchar](100) COLLATE Modern_Spanish_CI_AS NULL,
@@ -16,4 +16,3 @@ CREATE TABLE [dbo].[Martillero_Ficha](
 	[oposicion_retiro] [varchar](100) COLLATE Modern_Spanish_CI_AS NULL,
 	[fecha_remate] [datetime] NULL
 ) ON [PRIMARY]
-	
