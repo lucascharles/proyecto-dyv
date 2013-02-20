@@ -528,7 +528,7 @@ class DocumentosModel extends ModelBase
 	 
 	}
 	
-	public function getListaDocumentos($des, $idd)
+	public function getListaDocumentos($des, $idd='')
 	{
 	
 	include("config.php");
