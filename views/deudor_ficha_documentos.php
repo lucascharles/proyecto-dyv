@@ -19,16 +19,12 @@
 	</script>
 </head>
 <body>
-<table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
-<tr>
-		<th align="left" height="20"></th>
-        <th></th>
-        <th align="right"></th>
-    </tr>
+
+ <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="titulopantalla">
 	<tr>
-		<th align="left">Documentos</th>
+		<th align="left" height="30">&nbsp;Documentos</th>
         <th></th>
-        <th align="right"></th>
+        <th></th>
     </tr>
  </table>
 <table width="100%" cellpadding="2" cellspacing="2" align="center" border="0" bgcolor="#FFFFFF">
