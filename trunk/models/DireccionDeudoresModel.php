@@ -1,6 +1,24 @@
 <?php
 class DireccionDeudoresModel extends ModelBase
 {
+	public function getDirActualDeudor($id_deudor)
+	{
+		$dir_deudor = new Direccion_Deudores();
+		
+		$dato = new Direccion_DeudoresCollection();
+		$dato->add_filter("id_deudor","=",$id_deudor);
+		$dato->load();
+		
+		for($j=0; $j<$dato->get_count(); $j++) 
+		{
+			$datoTmp = &$dato->items[$j];  
+			$dir_deudor = $datoTmp;
+			break;
+		}
+		
+		return $dir_deudor;
+	}
+	
 	
 	public function getDireccionTmp($iddir)
 	{
