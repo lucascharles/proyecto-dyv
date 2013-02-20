@@ -12,16 +12,11 @@
 <form name="frmreceptor">
 <input  type="hidden" name="tipoperacion" id="tipoperacion" value="<? echo($tipoperacion) ?>"/>
 
-<table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
-<tr>
-		<th align="left" height="20"></th>
-        <th></th>
-        <th align="right"></th>
-    </tr>
+ <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="titulopantalla">
 	<tr>
-		<th align="left">Gastos</th>
+		<th align="left" height="30">&nbsp;Gastos</th>
         <th></th>
-        <th align="right"></th>
+        <th></th>
     </tr>
  </table>
 <!--<div id="datos" style="">-->
@@ -32,12 +27,13 @@
             <tr>
             	<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
             <?
+			$totales = array();
             for($j=0; $j<$colGastosGastos->get_count(); $j++) 
 			{
 				$datoTmp = &$colGastosGastos->items[$j];  
                	if($datoTmp->get_data("rep") == 1)
 				{
-			
+					$totales[] = $datoTmp->get_data("importe");
 			?>
             	<td>
             	<table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
@@ -45,7 +41,7 @@
                 	<td align="left" class="etiqueta_form"><? echo($datoTmp->get_data("gasto")) ?></td>
                     </tr>
                     <tr>
-                    <td align="left" ><input type="text" name="txtgasto_<? echo($datoTmp->get_data("id_gasto")) ?>" id="txtgasto_<? echo($datoTmp->get_data("gasto")) ?>" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo($datoTmp->get_data("importe")) ?>"/>
+                    <td align="left" ><input type="text" disabled name="txtgasto_<? echo($datoTmp->get_data("id_gasto")) ?>" id="txtgasto_<? echo($datoTmp->get_data("id_gasto")) ?>" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo($datoTmp->get_data("importe")) ?>"/>
                     </td>
                     </tr>
              	</table>   
@@ -59,18 +55,21 @@
             <tr>
             	<td colspan="3"></td>
             <?
+			$indice = 2;
             for($j=0; $j<$colGastosGastos->get_count(); $j++) 
 			{
 				$datoTmp = &$colGastosGastos->items[$j];  
 				if($datoTmp->get_data("rep") == 2)
 				{
+					$totales[$indice] = $totales[$indice] + $datoTmp->get_data("importe");
+					$indice = $indice + 1;
 			?>
             	<td>
             	<table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
                 	<tr>
                     <td align="left" >
                     
-                    <input type="text" name="txtgasto_<? echo($datoTmp->get_data("id_gasto")) ?>" id="txtgasto_<? echo($datoTmp->get_data("gasto")) ?>" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo($datoTmp->get_data("importe")) ?>"/>
+                    <input type="text" disabled name="txtgasto_<? echo($datoTmp->get_data("id_gasto")) ?>" id="txtgasto_<? echo($datoTmp->get_data("id_gasto")) ?>" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo($datoTmp->get_data("importe")) ?>"/>
                     
                     	
 					
@@ -87,18 +86,21 @@
              <tr>
             	<td colspan="3"></td>
             <?
+			$indice = 2;
             for($j=0; $j<$colGastosGastos->get_count(); $j++) 
 			{
 				$datoTmp = &$colGastosGastos->items[$j];  
 				if($datoTmp->get_data("rep") == 3)
 				{
+					$totales[$indice] = $totales[$indice] + $datoTmp->get_data("importe");
+					$indice = $indice + 1;
 			?>
             	<td>
             	<table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
                 	<tr>
                     <td align="left" >
                     
-                    <input type="text" name="txtgasto_<? echo($datoTmp->get_data("id_gasto")) ?>" id="txtgasto_<? echo($datoTmp->get_data("gasto")) ?>" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo($datoTmp->get_data("importe")) ?>"/>
+                    <input type="text" disabled name="txtgasto_<? echo($datoTmp->get_data("id_gasto")) ?>" id="txtgasto_<? echo($datoTmp->get_data("gasto")) ?>" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo($datoTmp->get_data("importe")) ?>"/>
                     
                     	
 					
@@ -120,7 +122,15 @@
            	</tr>
             <tr>
             	<td class="etiqueta_form">Totales:</td>
-                <td colspan="12" height="2"></td>
+                <?
+                	for($i=0; $i<count($totales); $i++)
+					{
+				?>
+                <td><? echo($totales[$i]) ?></td>
+                <?
+					}
+				?>
+               <!-- <td colspan="12" height="2"></td>-->
            	</tr>
            </table>
         </td>
@@ -137,8 +147,10 @@
  <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
     <tr>
         <td colspan="3" align="center">
+        <!--
         	<input  type="button" name="btngrabar" id="btngrabar" onClick="grabarReceptor()"  value="Grabar" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/>&nbsp;
          	<input  type="button" name="btnlimpiar" id="btnlimpiar" onClick="limpiarReceptor()"value="Limpiar" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/>&nbsp;
+            -->
          </td>
     </tr>
 </table>
