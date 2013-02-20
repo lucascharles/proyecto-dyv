@@ -7,7 +7,69 @@
 	add_database($db, $db_name);
 	//add_database($db, $config->get('dbname'));
 	
+	
 	// CLASES MODELO DE NEGOCIO
+	class Juzgado extends BusinessObject
+	{
+		function Juzgado()
+		{
+			$this->table_name = "Juzgado";
+			$this->field_metadata = array(
+					"id_juzgado" => array("int"),
+					"descripcion" => array("varchar"),
+					"activo" => array("char")
+				);
+			parent::BusinessObject();
+		}
+	}
+	
+	class JuzgadoCollection extends BusinessObjectCollection
+	{
+		function JuzgadoCollection()
+		{
+			parent::BusinessObjectCollection();
+		}
+		
+		function create_singular($row) 
+		{ 
+			$obj = new Juzgado();
+			$obj->load_from_list($row);
+			
+			return $obj;
+		}
+	}
+	
+	
+	class JuzgadoComuna extends BusinessObject
+	{
+		function JuzgadoComuna()
+		{
+			$this->table_name = "JuzgadoComuna";
+			$this->field_metadata = array(
+					"id_juzgado" => array("int"),
+					"descripcion" => array("varchar"),
+					"activo" => array("char")
+				);
+			parent::BusinessObject();
+		}
+	}
+	
+	class JuzgadoComunaCollection extends BusinessObjectCollection
+	{
+		function JuzgadoComunaCollection()
+		{
+			parent::BusinessObjectCollection();
+		}
+		
+		function create_singular($row) 
+		{ 
+			$obj = new JuzgadoComuna();
+			$obj->load_from_list($row);
+			
+			return $obj;
+		}
+	}
+	
 	class Ficha extends BusinessObject
 	{
 		function Ficha()
@@ -17,15 +79,16 @@
 					"id_ficha" => array("int"),
 					"id_deudor" => array("int"),
 					"id_mandante" => array("int"),
+					"id_documento" => array("int"),
 					"monto" => array("decimal"),
 					"abogado" => array("varchar"),
-					"firma " => array("varchar"),
+					"firma" => array("varchar"),
 					"ingreso" => array("varchar"),
-					"providencia	" => array("varchar"),
+					"providencia" => array("varchar"),
 					"distribucion_corte" => array("datetime"),
 					"rol" => array("varchar"),
-					"nro_juzgado" => array("int"),
-					"juzgado_comuna" => array("int")
+					"id_juzgado" => array("int"),
+					"id_juzgado_comuna" => array("int")
 				);
 			parent::BusinessObject();
 		}
@@ -277,7 +340,7 @@
 			$this->field_metadata = array(			
 				"id_consignacion" => array("int"),
 				"id_ficha" => array("int"),
-				"consignacion" => array("int"),
+				"consignacion" => array("varchar"),
 				"abono_1" => array("decimal"),
 				"abono_2" => array("decimal"),
 				"abono_3" => array("decimal"),
@@ -525,7 +588,7 @@
 					"celular" => array("numeric"),
 					"telefono_fijo" => array("numeric"),
 					"fax" => array(" numeric"),
-					"id_mandante" => array("numeric"),
+					"id_mandante" => array("int"),
 					"tipo" => array("char"),
 					"razonsocial" => array("varchar"),
 					"email" => array("varchar"),
