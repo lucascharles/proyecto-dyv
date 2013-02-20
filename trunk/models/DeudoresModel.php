@@ -1,9 +1,575 @@
 <?php
 class DeudoresModel extends ModelBase
 {
+	public function recolectarBasuraFichas()
+	{
+		$dato = new Ficha();
+		$dato->add_filter("id_deudor","=",0);
+		$dato->load();
+		$dato->mark_deleted();
+		$dato->save();
+	}
+
+	public function getDatosFicha($id_ficha)
+	{
+		$dato = new Ficha();
+		$dato->add_filter("id_ficha","=",$id_ficha);
+		$dato->load();
+		
+		return $dato;
+	}
+
+	public function altaFicha($param)
+	{
+		$deudor = new Deudores();
+		$deudor->add_filter("rut_deudor","=",trim($param["txtrut_deudor"]));
+		$deudor->add_filter("AND");
+		$deudor->add_filter("dv_deudor","=",trim($param["txtrut_d_deudor"]));
+		$deudor->load();
+		
+		$mandante = new Mandantes();
+		$mandante->add_filter("rut_mandante","=",trim($param["txtrut_mandante"]));
+		$mandante->add_filter("AND");
+		$mandante->add_filter("dv_mandante","=",trim($param["txtrut_d_mandante"]));
+		$mandante->load();
+				
+		$dato = new Ficha();
+		if($param["id_alta"] <> 0 && trim($param["id_alta"]) <> "")
+		{
+			$dato->add_filter("id_ficha","=",$param["id_alta"]);
+			$dato->load();
+		}
+		$dato->set_data("id_deudor",$deudor->get_data("id_deudor"));
+		$dato->set_data("id_mandante",$mandante->get_data("id_mandante"));
+		$dato->set_data("id_documento",$param["id_doc"]);
+		$dato->set_data("monto",$param["txtmonto"]);
+		$dato->set_data("abogado",$param["txtabogado"]);
+		$dato->set_data("firma",$param["txtfirma"]);
+		$dato->set_data("ingreso",$param["txtingreso"]);
+		$dato->set_data("providencia",$param["txtprovidencia_1"]);
+		$dato->set_data("distribucion_corte",$param["txtdist_corte"]);
+		$dato->set_data("rol",$param["txtrol"]);
+		$dato->set_data("id_juzgado",$param["selJuzgadoNro"]);
+		$dato->set_data("id_juzgado_comuna",$param["selJComuna"]);
+		$dato->save();
+		
+		if($param["id_alta"] <> 0 && trim($param["id_alta"]) <> "")
+		{
+			$id = $param["id_alta"];
+		}
+		else
+		{
+			$id = getUltimoId(new FichaCollection(), "id_ficha");
+		}
+		
+		return $id;
+	}
+	
+	public function altaReceptorFicha($param)
+	{
+		$resp = 0;
+		if($param["id_alta"] <> 0 && trim($param["id_alta"]) <> "")
+		{
+			// graba receptor y devuelve id ficha
+			$resp = $param["id_alta"];
+			
+			$val = new Receptor_FichaCollection();
+			$val->add_filter("id_ficha","=",$resp);
+			$val->load();
+			
+			$dator = new Receptor_Ficha();
+			
+			if($val->get_count() > 0)
+			{
+				$dator->add_filter("id_ficha","=",$resp);
+				$dator->load();
+				$id_receptor = $dator->get_data("id_receptor");
+			}	
+			
+			$dator->set_data("id_ficha",$resp);
+			$dator->set_data("fecha_mandamiento",$param["txtfecha_mandamiento"]);
+			$dator->set_data("receptor",$param["txtreceptor"]);
+			$dator->set_data("busqueda",$param["txtbusqueda"]);
+			$dator->set_data("notificacion",$param["txtnotificacion"]);
+			$dator->set_data("notificacion_2",$param["txtnotificacion_2"]);
+			$dator->set_data("notificacion_3",$param["txtnotificacion_3"]);
+			$dator->set_data("fecha_domicilio",$param["txtfecha_domicilio"]);
+			$dator->set_data("fecha_domicilio_1",$param["txtfecha_domicilio_1"]);
+			$dator->set_data("entrega_receptor_1",$param["txtentrega_receptor_1"]);
+			$dator->set_data("entrega_receptor_2",$param["txtentrega_receptor_2"]);
+			$dator->set_data("entrega_receptor_3",$param["txtentrega_receptor_3"]);
+			$dator->set_data("entrega_receptor_4",$param["txtentrega_receptor_4"]);
+			$dator->set_data("notificacion_1",$param["txtnotificacion_1"]);
+			$dator->set_data("fecha_embargo_fp",$param["txtfecha_embargo_fp"]);
+			$dator->set_data("fecha_oficio",$param["txtfecha_oficio"]);
+			$dator->set_data("fecha_traba_emb",$param["txtfecha_traba_emb"]);
+			$dator->set_data("fono_receptor",$param["txtfono_receptor"]);
+			$dator->set_data("resultado_busqueda",$param["txtresultado_busqueda"]);
+			$dator->set_data("resultado_notificacion_1",$param["txtresultado_busqueda"]);
+			$dator->set_data("resultado_notificacion_2",$param["txtresultado_notificacion_2"]);
+			$dator->set_data("resultado_notificacion_3",$param["txtresultado_notificacion_3"]);
+			$dator->set_data("providencia_1",$param["txtprovidencia_1"]);
+			$dator->set_data("providencia_2",$param["txtprovidencia_2"]);
+			$dator->set_data("providencia_3",$param["txtprovidencia_3"]);
+			$dator->set_data("fecha_busqueda_2",$param["txtfecha_busqueda_2"]);
+			$dator->set_data("busqueda_3",$param["txtbusqueda_3"]);
+			$dator->set_data("embargo",$param["txtembargo"]);
+			$dator->set_data("articulo_431044",$param["txtarticulo_431044"]);
+			$dator->save();		
+			
+			if($val->get_count() == 0)
+			{
+				$id_receptor = getUltimoId(new Receptor_FichaCollection(), "id_receptor");
+			}	
+			
+			$colGastoReceptor = $this->getGastosReceptor(0);
+			
+			for($j=0; $j<$colGastoReceptor->get_count(); $j++) 
+			{
+				$datoTmp = &$colGastoReceptor->items[$j];  
+				
+				$imp = 0;
+				if(trim($param["txtgasto_".$datoTmp->get_data("id_gasto")]) <> "")
+				{
+					$imp = trim($param["txtgasto_".$datoTmp->get_data("id_gasto")]);
+				}
+				$gastos_rf = new Gastos_Receptor_Ficha();
+				if($val->get_count() > 0)
+				{
+					$gastos_rf->add_filter("id_ficha","=",$resp);
+					$gastos_rf->add_filter("AND");
+					$gastos_rf->add_filter("id_receptor","=",$id_receptor);
+					$gastos_rf->add_filter("AND");
+					$gastos_rf->add_filter("id_gasto","=",$datoTmp->get_data("id_gasto"));
+					$gastos_rf->load();
+				}
+				$gastos_rf->set_data("id_gasto",$datoTmp->get_data("id_gasto"));
+				$gastos_rf->set_data("id_receptor",$id_receptor);
+				$gastos_rf->set_data("id_ficha",$resp);
+				$gastos_rf->set_data("importe",$imp);
+				$gastos_rf->save();
+				
+				$gasto_ficha = new Gastos_Ficha();
+				if($val->get_count() > 0)
+				{
+					$gasto_ficha->add_filter("id_ficha","=",$resp);
+					$gasto_ficha->add_filter("AND");
+					$gasto_ficha->add_filter("id_gasto","=",$datoTmp->get_data("id_gasto"));
+					$gasto_ficha->load();
+				}
+				$gasto_ficha->set_data("id_gasto",$datoTmp->get_data("id_gasto"));
+				$gasto_ficha->set_data("id_ficha",$resp);
+				$gasto_ficha->set_data("importe",$imp);
+				$gasto_ficha->save();
+				
+			}
+			
+			$ultid_ficha = $resp;
+		}
+		else
+		{
+			// graba ficha, receptor y devuelve id ficha
+			
+			$datof = new Ficha();
+			$datof->set_data("id_deudor",0);
+			$datof->save();
+			
+			$ultid_ficha = getUltimoId(new FichaCollection(), "id_ficha");
+			
+			$dator = new Receptor_Ficha();
+			$dator->set_data("id_ficha",$ultid_ficha);
+			$dator->set_data("fecha_mandamiento",$param["txtfecha_mandamiento"]);
+			$dator->set_data("receptor",$param["txtreceptor"]);
+			$dator->set_data("busqueda",$param["txtbusqueda"]);
+			$dator->set_data("notificacion",$param["txtnotificacion"]);
+			$dator->set_data("notificacion_2",$param["txtnotificacion_2"]);
+			$dator->set_data("notificacion_3",$param["txtnotificacion_3"]);
+			$dator->set_data("fecha_domicilio",$param["txtfecha_domicilio"]);
+			$dator->set_data("fecha_domicilio_1",$param["txtfecha_domicilio_1"]);
+			$dator->set_data("entrega_receptor_1",$param["txtentrega_receptor_1"]);
+			$dator->set_data("entrega_receptor_2",$param["txtentrega_receptor_2"]);
+			$dator->set_data("entrega_receptor_3",$param["txtentrega_receptor_3"]);
+			$dator->set_data("entrega_receptor_4",$param["txtentrega_receptor_4"]);
+			$dator->set_data("notificacion_1",$param["txtnotificacion_1"]);
+			$dator->set_data("fecha_embargo_fp",$param["txtfecha_embargo_fp"]);
+			$dator->set_data("fecha_oficio",$param["txtfecha_oficio"]);
+			$dator->set_data("fecha_traba_emb",$param["txtfecha_traba_emb"]);
+			$dator->set_data("fono_receptor",$param["txtfono_receptor"]);
+			$dator->set_data("resultado_busqueda",$param["txtresultado_busqueda"]);
+			$dator->set_data("resultado_notificacion_1",$param["txtresultado_busqueda"]);
+			$dator->set_data("resultado_notificacion_2",$param["txtresultado_notificacion_2"]);
+			$dator->set_data("resultado_notificacion_3",$param["txtresultado_notificacion_3"]);
+			$dator->set_data("providencia_1",$param["txtprovidencia_1"]);
+			$dator->set_data("providencia_2",$param["txtprovidencia_2"]);
+			$dator->set_data("providencia_3",$param["txtprovidencia_3"]);
+			$dator->set_data("fecha_busqueda_2",$param["txtfecha_busqueda_2"]);
+			$dator->set_data("busqueda_3",$param["txtbusqueda_3"]);
+			$dator->set_data("embargo",$param["txtembargo"]);
+			$dator->set_data("articulo_431044",$param["txtarticulo_431044"]);
+			$dator->save();
+			
+			$ultid_recep = getUltimoId(new Receptor_FichaCollection(), "id_receptor");
+			
+			$colGastoRecept = $this->getGastosReceptor(0);
+			
+			for($j=0; $j<$colGastoRecept->get_count(); $j++) 
+			{
+				$datoTmp = &$colGastoRecept->items[$j];  
+				
+				$imp = 0;
+				if(trim($param["txtgasto_".$datoTmp->get_data("id_gasto")]) <> "")
+				{
+					$imp = trim($param["txtgasto_".$datoTmp->get_data("id_gasto")]);
+				}
+				$gastos_rf = new Gastos_Receptor_Ficha();
+				$gastos_rf->set_data("id_gasto",$datoTmp->get_data("id_gasto"));
+				$gastos_rf->set_data("id_receptor",$ultid_recep);
+				$gastos_rf->set_data("id_ficha",$ultid_ficha);
+				$gastos_rf->set_data("importe",$imp);
+				$gastos_rf->save();
+				
+				$gasto_ficha = new Gastos_Ficha();
+				$gasto_ficha->set_data("id_gasto",$datoTmp->get_data("id_gasto"));
+				$gasto_ficha->set_data("id_ficha",$ultid_ficha);
+				$gasto_ficha->set_data("importe",$imp);
+				$gasto_ficha->save();
+			}
+		}
+		
+		return $ultid_ficha;
+	}
+	
+	public function altaConsignacionFicha($param)
+	{
+		$resp = 0;
+		if($param["id_alta"] <> 0 && trim($param["id_alta"]) <> "")
+		{
+			// graba receptor y devuelve id ficha
+			$resp = $param["id_alta"];
+			
+			$val = new Consignacion_FichaCollection();
+			$val->add_filter("id_ficha","=",$resp);
+			$val->load();
+			
+			$datoc = new Consignacion_Ficha();
+			
+			if($val->get_count() > 0)
+			{
+				$datoc->add_filter("id_ficha","=",$resp);
+				$datoc->load();
+				$id_consig = $datoc->get_data("id_consignacion");
+			}	
+			
+			$datoc->set_data("id_ficha",$resp);
+			$datoc->set_data("consignacion",$param["txtconsignacion"]);
+			$datoc->set_data("abono_1",$param["txtabono_1"]);
+			$datoc->set_data("abono_2",$param["txtabono_2"]);
+			$datoc->set_data("abono_3",$param["txtabono_3"]);
+			$datoc->set_data("abono_4",$param["txtabono_4"]);
+			$datoc->set_data("pago_cliente",$param["txtpago_cliente"]);
+			$datoc->set_data("giro_cheque_1",$param["txtgiro_cheque_1"]);
+			$datoc->set_data("entrega_cheque",$param["txtentrega_cheque"]);
+			$datoc->set_data("costas_procesales",$param["txtcostas_procesales"]);
+			$datoc->set_data("pago_costas",$param["txtpago_costas"]);
+			$datoc->set_data("entrega_cheque_1",$param["txtentrega_cheque_1"]);
+			$datoc->set_data("devolucion_documento",$param["txtdevolucion_documento"]);
+			$datoc->set_data("entrega_documento",$param["txtentrega_documento"]);
+			$datoc->set_data("monto_consignacion",$param["txtmonto_consignacion"]);
+			$datoc->set_data("monto_1",$param["txtmonto_1"]);
+			$datoc->set_data("monto_2",$param["txtmonto_2"]);
+			$datoc->set_data("monto_3",$param["txtmonto_3"]);
+			$datoc->set_data("monto_4",$param["txtmonto_4"]);
+			$datoc->set_data("pago_dyv",$param["txtpago_dyv"]);
+			$datoc->set_data("providencia_1",$param["txtprovidencia_1"]);
+			$datoc->set_data("providencia_2",$param["txtprovidencia_2"]);
+			$datoc->set_data("giro_cheque_2",$param["txtgiro_cheque_2"]);
+			$datoc->set_data("providencia_3",$param["txtprovidencia_3"]);
+			$datoc->set_data("rendicion_cliente",$param["txtrendicion_cliente"]);
+			$datoc->save();		
+			
+			if($val->get_count() == 0)
+			{
+				$id_consig = getUltimoId(new Consignacion_FichaCollection(), "id_consignacion");
+			}	
+			
+			$colGastoConsignacion = $this->getGastosConsignacion(0);
+			
+			for($j=0; $j<$colGastoConsignacion->get_count(); $j++) 
+			{
+				$datoTmp = &$colGastoConsignacion->items[$j];  
+				
+				$imp = 0;
+				if(trim($param["txtgasto_".$datoTmp->get_data("id_gasto")]) <> "")
+				{
+					$imp = trim($param["txtgasto_".$datoTmp->get_data("id_gasto")]);
+				}
+				$gastos_cf = new Gastos_Consignacion_Ficha();
+				if($val->get_count() > 0)
+				{
+					$gastos_cf->add_filter("id_ficha","=",$resp);
+					$gastos_cf->add_filter("AND");
+					$gastos_cf->add_filter("id_consignacion","=",$id_consig);
+					$gastos_cf->add_filter("AND");
+					$gastos_cf->add_filter("id_gasto","=",$datoTmp->get_data("id_gasto"));
+					$gastos_cf->load();
+				}
+				$gastos_cf->set_data("id_gasto",$datoTmp->get_data("id_gasto"));
+				$gastos_cf->set_data("id_consignacion",$id_consig);
+				$gastos_cf->set_data("id_ficha",$resp);
+				$gastos_cf->set_data("importe",$imp);
+				$gastos_cf->save();
+				
+				$gasto_ficha = new Gastos_Ficha();
+				if($val->get_count() > 0)
+				{
+					$gasto_ficha->add_filter("id_ficha","=",$resp);
+					$gasto_ficha->add_filter("AND");
+					$gasto_ficha->add_filter("id_gasto","=",$datoTmp->get_data("id_gasto"));
+					$gasto_ficha->load();
+				}
+				$gasto_ficha->set_data("id_gasto",$datoTmp->get_data("id_gasto"));
+				$gasto_ficha->set_data("id_ficha",$resp);
+				$gasto_ficha->set_data("importe",$imp);
+				$gasto_ficha->save();
+			}
+			
+			$ultid_ficha = $resp;	
+		}
+		else
+		{
+			// graba ficha, receptor y devuelve id ficha
+			
+			$datof = new Ficha();
+			$datof->set_data("id_deudor",0);
+			$datof->save();
+			
+			$ultid_ficha = getUltimoId(new FichaCollection(), "id_ficha");
+			
+			$datoc = new Consignacion_Ficha();
+			$datoc->set_data("id_ficha",$ultid_ficha);
+			$datoc->set_data("consignacion",$param["txtconsignacion"]);
+			$datoc->set_data("abono_1",$param["txtabono_1"]);
+			$datoc->set_data("abono_2",$param["txtabono_2"]);
+			$datoc->set_data("abono_3",$param["txtabono_3"]);
+			$datoc->set_data("abono_4",$param["txtabono_4"]);
+			$datoc->set_data("pago_cliente",$param["txtpago_cliente"]);
+			$datoc->set_data("giro_cheque_1",$param["txtgiro_cheque_1"]);
+			$datoc->set_data("entrega_cheque",$param["txtentrega_cheque"]);
+			$datoc->set_data("costas_procesales",$param["txtcostas_procesales"]);
+			$datoc->set_data("pago_costas",$param["txtpago_costas"]);
+			$datoc->set_data("entrega_cheque_1",$param["txtentrega_cheque_1"]);
+			$datoc->set_data("devolucion_documento",$param["txtdevolucion_documento"]);
+			$datoc->set_data("entrega_documento",$param["txtentrega_documento"]);
+			$datoc->set_data("monto_consignacion",$param["txtmonto_consignacion"]);
+			$datoc->set_data("monto_1",$param["txtmonto_1"]);
+			$datoc->set_data("monto_2",$param["txtmonto_2"]);
+			$datoc->set_data("monto_3",$param["txtmonto_3"]);
+			$datoc->set_data("monto_4",$param["txtmonto_4"]);
+			$datoc->set_data("pago_dyv",$param["txtpago_dyv"]);
+			$datoc->set_data("providencia_1",$param["txtprovidencia_1"]);
+			$datoc->set_data("providencia_2",$param["txtprovidencia_2"]);
+			$datoc->set_data("giro_cheque_2",$param["txtgiro_cheque_2"]);
+			$datoc->set_data("providencia_3",$param["txtprovidencia_3"]);
+			$datoc->set_data("rendicion_cliente",$param["txtrendicion_cliente"]);
+			$datoc->save();
+			
+			$ultid_consig = getUltimoId(new Consignacion_FichaCollection(), "id_consignacion");
+
+			$colGastoConsignacion = $this->getGastosConsignacion(0);
+			
+			for($j=0; $j<$colGastoConsignacion->get_count(); $j++) 
+			{
+				$datoTmp = &$colGastoConsignacion->items[$j];  
+				
+				$imp = 0;
+				if(trim($param["txtgasto_".$datoTmp->get_data("id_gasto")]) <> "")
+				{
+					$imp = trim($param["txtgasto_".$datoTmp->get_data("id_gasto")]);
+				}
+				$gastos_mf = new Gastos_Consignacion_Ficha();
+				$gastos_mf->set_data("id_gasto",$datoTmp->get_data("id_gasto"));
+				$gastos_mf->set_data("id_consignacion",$ultid_consig);
+				$gastos_mf->set_data("id_ficha",$ultid_ficha);
+				$gastos_mf->set_data("importe",$imp);
+				$gastos_mf->save();
+				
+				$gasto_ficha = new Gastos_Ficha();
+				$gasto_ficha->set_data("id_gasto",$datoTmp->get_data("id_gasto"));
+				$gasto_ficha->set_data("id_ficha",$ultid_ficha);
+				$gasto_ficha->set_data("importe",$imp);
+				$gasto_ficha->save();
+			}
+		}
+		
+		return $ultid_ficha;
+	}
+	
+
+	public function altaMartilleroFicha($param)
+	{
+		$resp = 0;
+		if($param["id_alta"] <> 0 && trim($param["id_alta"]) <> "")
+		{
+			// graba receptor y devuelve id ficha
+			$resp = $param["id_alta"];
+						
+			$val = new Martillero_FichaCollection();
+			$val->add_filter("id_ficha","=",$resp);
+			$val->load();
+			
+			$datom = new Martillero_Ficha();
+			
+			if($val->get_count() > 0)
+			{
+				$datom->add_filter("id_ficha","=",$resp);
+				$datom->load();
+				$id_mart = $datom->get_data("id_martillero");
+			}	
+			
+			$datom->set_data("id_ficha",$resp);
+			$datom->set_data("aceptacion_cargo",$param["txtaceptacion_cargo"]);
+			$datom->set_data("nombre",$param["txtnombre"]);
+			$datom->set_data("rut_martilero",$param["txtrut_martilero"]);
+			$datom->set_data("dv_martillero",$param["txtdv_martillero"]);
+			$datom->set_data("notificacion",$param["txtnotificacion"]);
+			$datom->set_data("retirio_especies_fp",$param["txtretirio_especies_fp"]);
+			$datom->set_data("providencia",$param["txtprovidencia"]);
+			$datom->set_data("entrega_receptor",$param["txtentrega_receptor"]);
+			$datom->set_data("retiro_especies",$param["txtretiro_especies"]);
+			$datom->set_data("oposicion_retiro",$param["txtoposicion_retiro"]);
+			$datom->set_data("fecha_remate",$param["txtfecha_remate"]);
+			$datom->save();	
+			
+			if($val->get_count() == 0)
+			{
+				$id_mart = getUltimoId(new Martillero_FichaCollection(), "id_martillero");
+			}	
+			
+			$colGastoMartillero = $this->getGastosMartillero(0);
+			
+			for($j=0; $j<$colGastoMartillero->get_count(); $j++) 
+			{
+				$datoTmp = &$colGastoMartillero->items[$j];  
+				
+				$imp = 0;
+				if(trim($param["txtgasto_".$datoTmp->get_data("id_gasto")]) <> "")
+				{
+					$imp = trim($param["txtgasto_".$datoTmp->get_data("id_gasto")]);
+				}
+				$gastos_mf = new Gastos_Martillero_Ficha();
+				if($val->get_count() > 0)
+				{
+					$gastos_mf->add_filter("id_ficha","=",$resp);
+					$gastos_mf->add_filter("AND");
+					$gastos_mf->add_filter("id_martillero","=",$id_mart);
+					$gastos_mf->add_filter("AND");
+					$gastos_mf->add_filter("id_gasto","=",$datoTmp->get_data("id_gasto"));
+					$gastos_mf->load();
+				}
+				$gastos_mf->set_data("id_gasto",$datoTmp->get_data("id_gasto"));
+				$gastos_mf->set_data("id_martillero",$id_mart);
+				$gastos_mf->set_data("id_ficha",$resp);
+				$gastos_mf->set_data("importe",$imp);
+				$gastos_mf->save();
+				
+				$gasto_ficha = new Gastos_Ficha();
+				if($val->get_count() > 0)
+				{
+					$gasto_ficha->add_filter("id_ficha","=",$resp);
+					$gasto_ficha->add_filter("AND");
+					$gasto_ficha->add_filter("id_gasto","=",$datoTmp->get_data("id_gasto"));
+					$gasto_ficha->load();
+				}
+				$gasto_ficha->set_data("id_gasto",$datoTmp->get_data("id_gasto"));
+				$gasto_ficha->set_data("id_ficha",$resp);
+				$gasto_ficha->set_data("importe",$imp);
+				$gasto_ficha->save();
+			}
+			
+			$ultid_ficha = $resp;	
+		}
+		else
+		{
+			// graba ficha, receptor y devuelve id ficha
+			
+			$datof = new Ficha();
+			$datof->set_data("id_deudor",0);
+			$datof->save();
+			
+			$ultid_ficha = getUltimoId(new FichaCollection(), "id_ficha");
+			
+			$datom = new Martillero_Ficha();
+			$datom->set_data("id_ficha",$ultid_ficha);
+			$datom->set_data("aceptacion_cargo",$param["txtaceptacion_cargo"]);
+			$datom->set_data("nombre",$param["txtnombre"]);
+			$datom->set_data("rut_martilero",$param["txtrut_martilero"]);
+			$datom->set_data("dv_martillero",$param["txtdv_martillero"]);
+			$datom->set_data("notificacion",$param["txtnotificacion"]);
+			$datom->set_data("retirio_especies_fp",$param["txtretirio_especies_fp"]);
+			$datom->set_data("providencia",$param["txtprovidencia"]);
+			$datom->set_data("entrega_receptor",$param["txtentrega_receptor"]);
+			$datom->set_data("retiro_especies",$param["txtretiro_especies"]);
+			$datom->set_data("oposicion_retiro",$param["txtoposicion_retiro"]);
+			$datom->set_data("fecha_remate",$param["txtfecha_remate"]);
+			$datom->save();
+			
+			$ultid_mart = getUltimoId(new Martillero_FichaCollection(), "id_martillero");
+
+			$colGastoMartillero = $this->getGastosMartillero(0);
+			
+			for($j=0; $j<$colGastoMartillero->get_count(); $j++) 
+			{
+				$datoTmp = &$colGastoMartillero->items[$j];  
+				
+				$imp = 0;
+				if(trim($param["txtgasto_".$datoTmp->get_data("id_gasto")]) <> "")
+				{
+					$imp = trim($param["txtgasto_".$datoTmp->get_data("id_gasto")]);
+				}
+				$gastos_mf = new Gastos_Martillero_Ficha();
+				$gastos_mf->set_data("id_gasto",$datoTmp->get_data("id_gasto"));
+				$gastos_mf->set_data("id_martillero",$ultid_mart);
+				$gastos_mf->set_data("id_ficha",$ultid_ficha);
+				$gastos_mf->set_data("importe",$imp);
+				$gastos_mf->save();
+				
+				$gasto_ficha = new Gastos_Ficha();
+				$gasto_ficha->set_data("id_gasto",$datoTmp->get_data("id_gasto"));
+				$gasto_ficha->set_data("id_ficha",$ultid_ficha);
+				$gasto_ficha->set_data("importe",$imp);
+				$gasto_ficha->save();
+				
+			}
+		}
+		
+		return $ultid_ficha;
+	}
+	
 	public function getReceptor($idd)
 	{
+		$dato = new Receptor_Ficha();
+		$dato->add_filter("id_ficha","=",$idd);
+		$dato->load();
 		
+		return $dato;
+	}
+	
+	public function getMartillero($idd)
+	{
+		$dato = new Martillero_Ficha();
+		$dato->add_filter("id_ficha","=",$idd);
+		$dato->load();
+		
+		return $dato;
+	}
+	
+	public function getConsignacion($idd)
+	{
+		$dato = new Consignacion_Ficha();
+		$dato->add_filter("id_ficha","=",$idd);
+		$dato->load();
+		
+		return $dato;
 	}
 	
 	public function getGastosReceptor($id_receptor)
@@ -69,7 +635,7 @@ class DeudoresModel extends ModelBase
 		{
 			$select = " g.id_gasto id_gasto, g.gasto gasto, gc.importe importe"; 
 	 		$from = " gastos g, gastos_consignacion_ficha gc ";
-    		$where = " g.id_gasto = gc.id_gasto and gc.id_martillero = ".$id_consignacion;
+    		$where = " g.id_gasto = gc.id_gasto and gc.id_consignacion = ".$id_consignacion;
 		}
 		else
 		{
@@ -87,16 +653,19 @@ class DeudoresModel extends ModelBase
 	    return $sqlpersonal;
 	}
 	
-	public function getGastosGastos($id_gastos)
+	public function getGastosGastos($id_ficha)
 	{
 		
 		include("config.php");
 
-		if($id_consignacion <> 0)
+		if($id_ficha <> 0)
 		{
-			$select = " g.id_gasto id_gasto, g.gasto gasto, gf.importe importe, g.rep rep"; 
+			$select = " g.id_gasto id_gasto, g.gasto gasto, gf.importe importe, g.rep rep, g.orden"; 
 	 		$from = " gastos g, gastos_ficha gf ";
-    		$where = " g.id_gasto = gf.id_gasto and gf.id_gasto = ".$id_gastos." ORDER BY g.orden ASC ";
+    		$where = " g.id_gasto = gf.id_gasto and gf.id_ficha = ".$id_ficha." union select g.id_gasto id_gasto, g.gasto gasto, 0 importe, g.rep rep,g.orden 
+from gastos g 
+where g.id_gasto not in (select id_gasto from gastos_ficha where id_ficha = ".$id_ficha.")
+ORDER BY g.orden ASC ";
 		}
 		else
 		{
