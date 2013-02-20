@@ -56,10 +56,16 @@
 			$fechavieja = $a."/".$b."/".$c;
 		}
 		
-		
+
 		if($formatoOrigen == "yyyy-mm-dd" && $formatoDestino == "dd/mm/yyyy")
 		{
     		list($a,$m,$d) = explode("-", $fechavieja);
+			$resp = $d."/".$m."/".$a;
+		}
+		
+		if($formatoOrigen == "dd-mm-yyyy" && $formatoDestino == "dd/mm/yyyy")
+		{
+    		list($d,$m,$a) = explode("-", $fechavieja);
 			$resp = $d."/".$m."/".$a;
 		}
 		
