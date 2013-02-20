@@ -1,7 +1,15 @@
 <?php
 class DeudoresController extends ControllerBase
 {
-   	
+
+	public function recolectarBasura($array)
+	{
+		require 'models/DeudoresModel.php';
+		$deudor = new DeudoresModel();
+		
+		$deudor->recolectarBasuraFichas();
+	}
+	
     public function admin($array)
     {
 		$data['nom_sistema'] = "SISTEMA DyV";
@@ -9,7 +17,8 @@ class DeudoresController extends ControllerBase
 		
 		$this->view->show("admin_deudores.php", $data);
 	}
-	 public function ficha_documentos($array)
+	
+	public function ficha_documentos($array)
 	{
 		require 'models/DocumentosModel.php';
 		require 'models/DeudoresModel.php';
@@ -39,20 +48,36 @@ class DeudoresController extends ControllerBase
 		require 'models/DeudoresModel.php';
 		$deudor = new DeudoresModel();
 		$idrecp = 0;
+		
 		if($array["tipoperacion"] == "M")
 		{
 			$datorecep = $deudor->getReceptor($array["ident"]);
-			$idrecp = $array["ident"];
 			$data['receptor'] = $datorecep;
+			$idrecp = $datorecep->get_data("id_receptor");
+		}
+		
+
+		if($array["tipoperacion"] == "A")
+		{
+			if($array["id_alta"] > 0)
+			{
+				$datorecep = $deudor->getReceptor($array["id_alta"]);
+				$data['receptor'] = $datorecep;
+				$idrecp = $datorecep->get_data("id_receptor");
+			}
 		}
 						
 		$data['nom_sistema'] = "SISTEMA DyV";
 		$data['tipoperacion'] = $array["tipoperacion"];
+		$data['ident'] = $array["ident"];
+		$data['id_alta'] = $array["id_alta"];
+		
 		$data['colGastosReceptor'] = $deudor->getGastosReceptor($idrecp);
 		
 		$this->view->show("deudor_ficha_receptor.php", $data);
 	}
 	
+		
 	public function ficha_martillero($array)
 	{
 		require 'models/DeudoresModel.php';
@@ -61,14 +86,28 @@ class DeudoresController extends ControllerBase
 		
 		if($array["tipoperacion"] == "M")
 		{
-			$datorecep = $deudor->getReceptor($array["ident"]);
-			$idmart = $array["ident"];
-			$data['receptor'] = $datorecep;
+			$datomart = $deudor->getMartillero($array["ident"]);
+			$data['martillero'] = $datomart;
+			$idmart = $datomart->get_data("id_martillero");
 		}
 		
+		if($array["tipoperacion"] == "A")
+		{
+			if($array["id_alta"] > 0)
+			{
+				$datomart = $deudor->getMartillero($array["id_alta"]);
+				$data['martillero'] = $datomart;
+				$idmart = $datomart->get_data("id_martillero");
+			}
+		}
+						
 		$data['nom_sistema'] = "SISTEMA DyV";
-		$data['colGastosMarillero'] = $deudor->getGastosMartillero($idmart);
-				
+		$data['tipoperacion'] = $array["tipoperacion"];
+		$data['ident'] = $array["ident"];
+		$data['id_alta'] = $array["id_alta"];
+		
+		$data['colGastosMartillero'] = $deudor->getGastosMartillero($idmart);
+						
 		$this->view->show("deudor_ficha_martillero.php", $data);
 	}
 	
@@ -76,36 +115,49 @@ class DeudoresController extends ControllerBase
 	{
 		require 'models/DeudoresModel.php';
 		$deudor = new DeudoresModel();
-		$idcon = 0;
+		$idconsig = 0;
 		
 		if($array["tipoperacion"] == "M")
 		{
-			$datorecep = $deudor->getReceptor($array["ident"]);
-			$idcon = $array["ident"];
-			$data['receptor'] = $datorecep;
+			$datoconsig = $deudor->getConsignacion($array["ident"]);
+			$data['consignacion'] = $datoconsig;
+			$idconsig = $datoconsig->get_data("id_consignacion");
 		}
 		
+		if($array["tipoperacion"] == "A")
+		{
+			if($array["id_alta"] > 0)
+			{
+				$datoconsig = $deudor->getConsignacion($array["id_alta"]);
+				$data['consignacion'] = $datoconsig;
+				$idconsig = $datoconsig->get_data("id_consignacion");
+			}
+		}
+						
 		$data['nom_sistema'] = "SISTEMA DyV";
-		$data['colGastosConsignacion'] = $deudor->getGastosConsignacion($idcon);
-				
-		$this->view->show("deudor_ficha_consigancion.php", $data);
+		$data['tipoperacion'] = $array["tipoperacion"];
+		$data['ident'] = $array["ident"];
+		$data['id_alta'] = $array["id_alta"];
+		
+		$data['colGastosConsignacion'] = $deudor->getGastosConsignacion($idconsig);
+									
+		$this->view->show("deudor_ficha_consignacion.php", $data);
 	}
 	
 	public function ficha_gastos($array)
 	{
 		require 'models/DeudoresModel.php';
 		$deudor = new DeudoresModel();
-		$idgasto = 0;
+		$idficha = $array["id_alta"];
 		
 		if($array["tipoperacion"] == "M")
 		{
 			$datorecep = $deudor->getReceptor($array["ident"]);
-			$idgasto = $array["ident"];
 			$data['receptor'] = $datorecep;
 		}
 		
 		$data['nom_sistema'] = "SISTEMA DyV";
-		$data['colGastosGastos'] = $deudor->getGastosGastos($idgasto);
+		$data['colGastosGastos'] = $deudor->getGastosGastos($idficha);
 		
 				
 		$this->view->show("deudor_ficha_gastos.php", $data);
@@ -115,16 +167,28 @@ class DeudoresController extends ControllerBase
     {
 		require 'models/DeudoresModel.php';
 		require 'models/MandantesModel.php';
+		require 'models/JuzgadoModel.php';
+		require 'models/JuzgadoComunaModel.php';
+		require 'models/DocumentosModel.php';
+		require 'models/DireccionDeudoresModel.php';
+		
 		$deudor = new DeudoresModel();
 		$mandate = new MandantesModel();
+		$juzgado = new JuzgadoModel();
+		$jcomuna = new JuzgadoComunaModel();
+		$documentos = new DocumentosModel();
+		$direcciones = new DireccionDeudoresModel();
 		
 		$data['nom_sistema'] = "SISTEMA DyV";
 		$data['ident'] = $array["id"];
 		$data['tipoperacion'] = $array["tipope"];
+		$data['coleccion_juzgado'] = $juzgado->getListaJuzgados();
+		$data['coleccion_jcomuna'] = $jcomuna->getListaJuzgadosComuna();
 		
 		if($array["tipope"] == "M")
 		{
-			$datodeudor = $deudor->getDeudorFicha($array["id"]);	
+			$datodeudor = $deudor->getDeudorFicha($array["id"]);
+			$data['ficha'] = $deudor->getDatosFicha($array["id"]);		
 		}	
 		
 		if($array["tipope"] == "A")
@@ -133,11 +197,145 @@ class DeudoresController extends ControllerBase
 		}	
 		
 		$datomandante = $mandate->getMandanteDatos($datodeudor->get_data("id_mandante"));
+
+		$datodocumento = $documentos->getDatoDocumento($array["id_doc"]);
+		
+		$datodir = $direcciones->getDirActualDeudor($datodeudor->get_data("id_deudor"));
+		
 		$data['deudor'] = $datodeudor;
 		$data['mandante'] = $datomandante;
-		
+		$data['documento'] = $datodocumento;
+		$data['direccion'] = $datodir;
 		
 		$this->view->show("deudor_ficha.php", $data);
+	}
+	
+	public function grabarReceptorA($array)
+	{
+		require 'models/DeudoresModel.php';
+		$deudor = new DeudoresModel();
+		
+		$id = $deudor->altaReceptorFicha($array);
+		
+		echo($id);
+	}
+	
+	public function editarReceptor($array)
+	{
+		require 'models/DeudoresModel.php';
+		$deudor = new DeudoresModel();
+		
+		$id = $deudor->altaReceptorFicha($array);
+		
+		echo($id);
+	}
+	
+	public function grabarReceptorM($array)
+	{
+		require 'models/DeudoresModel.php';
+		$deudor = new DeudoresModel();
+			
+		if($array["tipoperacion"] == "A")
+		{
+			$id = $deudor->altaReceptorFicha($array);
+					
+			echo($id);
+		}
+	}
+	
+	public function grabarConsignacionA($array)
+	{
+		require 'models/DeudoresModel.php';
+		$deudor = new DeudoresModel();
+			
+		if($array["tipoperacion"] == "A")
+		{
+			$id = $deudor->altaConsignacionFicha($array);
+					
+			echo($id);
+		}
+	}
+	
+	public function editarConsignacion($array)
+	{
+		require 'models/DeudoresModel.php';
+		$deudor = new DeudoresModel();
+			
+		$id = $deudor->altaConsignacionFicha($array);
+		
+		echo($id);
+	}
+	
+	public function grabarConsignacionM($array)
+	{
+		require 'models/DeudoresModel.php';
+		$deudor = new DeudoresModel();
+			
+		if($array["tipoperacion"] == "A")
+		{
+			$id = $deudor->altaConsignacionFicha($array);
+					
+			echo($id);
+		}
+	}
+	
+	public function grabarfichadeudor($array)
+	{
+		if($array["tipoperacion"] == "A")
+		{
+			require 'models/DeudoresModel.php';
+			$deudor = new DeudoresModel();
+			
+			$id = $deudor->altaFicha($array);
+			
+			echo($id);
+		}
+	}
+	
+	public function modificarfichadeudor($array)
+	{
+		require 'models/DeudoresModel.php';
+		$deudor = new DeudoresModel();
+		
+		$id = $deudor->altaFicha($array);
+		
+		echo($id);
+	}
+	
+	public function grabarMartilleroA($array)
+	{
+		require 'models/DeudoresModel.php';
+		$deudor = new DeudoresModel();
+			
+		if($array["tipoperacion"] == "A")
+		{
+			$id = $deudor->altaMartilleroFicha($array);
+					
+			echo($id);
+		}
+	}
+	
+	public function editarMartillero($array)
+	{
+		require 'models/DeudoresModel.php';
+		$deudor = new DeudoresModel();
+		
+		$id = $deudor->altaMartilleroFicha($array);
+					
+		echo($id);
+	}
+	
+	public function grabarMartilleroM($array)
+	{
+		require 'models/DeudoresModel.php';
+		$deudor = new DeudoresModel();
+			
+		if($array["tipoperacion"] == "A")
+		{
+			$id = $deudor->altaMartilleroFicha($array);
+					
+			echo($id);
+		}
 	}
 	
 	public function grabar($array)
