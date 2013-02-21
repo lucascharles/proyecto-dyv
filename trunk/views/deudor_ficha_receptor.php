@@ -156,11 +156,16 @@
 <!--<div id="datos" style="">-->
 <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
     <tr>
+        <td colspan="3" height="5">
+        	
+         </td>
+    </tr>   
+    <tr>
     	<td width="40%" valign="top">
         	<table cellpadding="0" cellspacing="2" border="0" align="center" width="100%">
             	<tr>
                 	<td align="left" class="etiqueta_form">Fecha mandamiento</td>
-                    <td align="left" ><input type="text" grabar="S" name="txtfecha_mandamiento" id="txtfecha_mandamiento" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo($fecha_mandamiento) ?>"/></td>
+                    <td align="left" ><input type="text" grabar="S" name="txtfecha_mandamiento" id="txtfecha_mandamiento" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="fecha" value="<? echo($fecha_mandamiento) ?>"/></td>
                 </tr>
                 <tr>
 					<td align="left" class="etiqueta_form">Receptor</td>
@@ -176,7 +181,7 @@
                  </tr>
                  <tr>
 					<td align="left" class="etiqueta_form">Fecha domicilio</td>
-                    <td align="left" ><input type="text" grabar="S" name="txtfecha_domicilio" id="txtfecha_domicilio" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo($fecha_domicilio) ?>"/></td>
+                    <td align="left" ><input type="text" grabar="S" name="txtfecha_domicilio" id="txtfecha_domicilio" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="fecha" value="<? echo($fecha_domicilio) ?>"/></td>
 
                  </tr>
                  <tr>
@@ -189,7 +194,7 @@
                  </tr>
                  <tr>
 					<td align="left" class="etiqueta_form">Fecha domicilio 2</td>
-                    <td align="left" ><input type="text" grabar="S" name="txtfecha_domicilio_1" id="txtfecha_domicilio_1" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo($fecha_domicilio_1) ?>"/></td>
+                    <td align="left" ><input type="text" grabar="S" name="txtfecha_domicilio_1" id="txtfecha_domicilio_1" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="fecha" value="<? echo($fecha_domicilio_1) ?>"/></td>
 
                  </tr>
                   <tr>
@@ -202,15 +207,15 @@
                   </tr> 
                   <tr>
 					<td align="left" class="etiqueta_form">Fecha embargo fuerza p&uacute;blica</td>
-                    <td align="left" ><input type="text" grabar="S" name="txtfecha_embargo_fp" id="txtfecha_embargo_fp" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo($fecha_embargo_fp) ?>"/></td>
+                    <td align="left" ><input type="text" grabar="S" name="txtfecha_embargo_fp" id="txtfecha_embargo_fp" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="fecha" value="<? echo($fecha_embargo_fp) ?>"/></td>
                   </tr>  
                   <tr>
 					<td align="left" class="etiqueta_form">Fecha oficio</td>
-                    <td align="left" ><input type="text" grabar="S" name="txtfecha_oficio" id="txtfecha_oficio" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo($fecha_oficio) ?>"/></td>
+                    <td align="left" ><input type="text" grabar="S" name="txtfecha_oficio" id="txtfecha_oficio" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="fecha" value="<? echo($fecha_oficio) ?>"/></td>
                   </tr>  
                   <tr>
 					<td align="left" class="etiqueta_form">Fecha traba embargo</td>
-                    <td align="left" ><input type="text" grabar="S" name="txtfecha_traba_emb" id="txtfecha_traba_emb" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo($fecha_traba_emb) ?>"/></td>
+                    <td align="left" ><input type="text" grabar="S" name="txtfecha_traba_emb" id="txtfecha_traba_emb" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="fecha" value="<? echo($fecha_traba_emb) ?>"/></td>
                   </tr>
             	</table>
         </td>
@@ -240,7 +245,7 @@
                  </tr>
                  <tr>
 					<td align="left" class="etiqueta_form">Fecha B&uacute;squeda 2</td>
-                    <td align="left" ><input type="text" grabar="S" name="txtfecha_busqueda_2" id="txtfecha_busqueda_2" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo($entrega_receptor_1) ?>"/></td>
+                    <td align="left" ><input type="text" grabar="S" name="txtfecha_busqueda_2" id="txtfecha_busqueda_2" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="fecha" value="<? echo($entrega_receptor_1) ?>"/></td>
                  </tr> 
                  <tr>
 					<td align="left" class="etiqueta_form">Resultado notificaci&oacute;n 2</td>
