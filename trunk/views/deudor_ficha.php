@@ -368,17 +368,17 @@
 <div id="datos" style="">
 	<table width="100%" align="center" border="0" cellpadding="2" cellspacing="2">
 	 <tr>
-		<td align="right" class="etiqueta_form" width="10">Deudor:</td><td>&nbsp;&nbsp;&nbsp; <input type="text" grabar="S" name="txtrut_deudor" id="txtrut_deudor"  valida="requerido" tipovalida="texto" size="20"  class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" value="<? echo($deudor->get_data("rut_deudor")) ?>" />&nbsp;
-        <input type="text" grabar="S" name="txtrut_d_deudor" id="txtrut_d_deudor" valida="requerido" tipovalida="texto" size="2"   class="input_form_min" value="<? echo($deudor->get_data("dv_deudor"))?>"/>&nbsp;&nbsp; <input  type="button" name="btnDatosDeudor" id="btnDatosDeudor" onClick="verDatosDeudor()"  value="Ver Deudor" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/>
+		<td align="right" class="etiqueta_form" width="10">Deudor:</td><td>&nbsp;&nbsp;&nbsp; <input type="text" grabar="S" name="txtrut_deudor" id="txtrut_deudor"  valida="requerido" tipovalida="entero" size="20"  class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" value="<? echo($deudor->get_data("rut_deudor")) ?>" />&nbsp;
+        <input type="text" grabar="S" name="txtrut_d_deudor" id="txtrut_d_deudor" valida="requerido" tipovalida="entero" size="2"   class="input_form_min" value="<? echo($deudor->get_data("dv_deudor"))?>"/>&nbsp;&nbsp; <input  type="button" name="btnDatosDeudor" id="btnDatosDeudor" onClick="verDatosDeudor()"  value="Ver Deudor" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/>
         </td>
     </tr>
     <tr>
-		<td align="right" class="etiqueta_form" width="20">Mandatario:</td><td>&nbsp;&nbsp;&nbsp; <input type="text" grabar="S" name="txtrut_mandante" id="txtrut_mandante" valida="requerido" tipovalida="texto" size="20"  class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" value="<? echo($mandante->get_data("rut_mandante"))?>"/>&nbsp;
-        <input type="text" grabar="S" name="txtrut_d_mandante" id="txtrut_d_mandante" valida="requerido" tipovalida="texto" size="2"   class="input_form_min" value="<? echo($mandante->get_data("dv_mandante"))?>"/>
+		<td align="right" class="etiqueta_form" width="20">Mandatario:</td><td>&nbsp;&nbsp;&nbsp; <input type="text" grabar="S" name="txtrut_mandante" id="txtrut_mandante" valida="requerido" tipovalida="entero" size="20"  class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" value="<? echo($mandante->get_data("rut_mandante"))?>"/>&nbsp;
+        <input type="text" grabar="S" name="txtrut_d_mandante" id="txtrut_d_mandante" valida="requerido" tipovalida="entero" size="2"   class="input_form_min" value="<? echo($mandante->get_data("dv_mandante"))?>"/>
         </td>
     </tr>
     <tr>
-		<td align="right" class="etiqueta_form" width="20">Monto:</td><td>&nbsp;&nbsp;&nbsp; <input type="text" grabar="S" name="txtmonto" id="txtmonto" valida="requerido" value="<? echo($monto) ?>" tipovalida="texto" size="20"  class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" />
+		<td align="right" class="etiqueta_form" width="20">Monto:</td><td>&nbsp;&nbsp;&nbsp; <input type="text" grabar="S" name="txtmonto" id="txtmonto" valida="requerido" value="<? echo($monto) ?>" tipovalida="moneda" size="20"  class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" />
         </td>
     </tr>
      <tr>
@@ -421,7 +421,7 @@
         </td>
         <td><input type="text" grabar="S" name="txtrol"  value="<? echo($rol) ?>"id="txtrol"  size="20" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" />
         </td>
-        <td><select name="selJuzgadoNro" grabar="S" valida="requerido" tipovalida="texto" id="selJuzgadoNro" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)">
+        <td><select name="selJuzgadoNro" grabar="S"  id="selJuzgadoNro" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)">
      			<option value="0"><? print utf8_encode("") ?></option>
         		<?
 					
@@ -439,7 +439,7 @@
     			?>
 			</select>
         </td>
-        <td><select name="selJComuna" grabar="S" valida="requerido" tipovalida="texto" id="selJComuna" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)">
+        <td><select name="selJComuna" grabar="S"  id="selJComuna" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)">
      			<option value="0"><? print utf8_encode("") ?></option>
         		<?
 				
