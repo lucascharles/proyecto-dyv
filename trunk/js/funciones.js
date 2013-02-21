@@ -4,18 +4,29 @@ function getParametrosArray(arrayInputS)
 {
 	var arrayInput = arrayInputS; 
 	var urlp = "";
+	var val = "";
 		
 	 for(var i=0; i<arrayInput.length; i++)
 	 {	
+	 	val = "";
 	 	if(arrayInput[i].getAttribute('grabar') == "S")
    		{
+			val = arrayInput[i].value;
+			if(arrayInput[i].getAttribute('tipovalida') == "moneda")
+			{
+				if($.trim($(arrayInput[i]).val()) == "")
+				{
+					val = 0;
+				}
+			}
+					
 			if(urlp == "")	
 			{
-				urlp = arrayInput[i].getAttribute('name')+"="+arrayInput[i].value;
+				urlp = arrayInput[i].getAttribute('name')+"="+val;
 			}
 			else
 			{
-				urlp += "&"+arrayInput[i].getAttribute('name')+"="+arrayInput[i].value;
+				urlp += "&"+arrayInput[i].getAttribute('name')+"="+val;
 			}
 		}
 	 }
@@ -32,15 +43,25 @@ function getParametros()
 		
 	 for(var i=0; i<arrayInput.length; i++)
 	 {	
+	 	val = "";
 	 	if(arrayInput[i].getAttribute('grabar') == "S")
    		{
+			val = arrayInput[i].value;
+			if(arrayInput[i].getAttribute('tipovalida') == "moneda")
+			{
+				if($.trim($(arrayInput[i]).val()) == "")
+				{
+					val = 0;
+				}
+			}
+			
 			if(urlp == "")	
 			{
-				urlp = arrayInput[i].getAttribute('name')+"="+arrayInput[i].value;
+				urlp = arrayInput[i].getAttribute('name')+"="+val;
 			}
 			else
 			{
-				urlp += "&"+arrayInput[i].getAttribute('name')+"="+arrayInput[i].value;
+				urlp += "&"+arrayInput[i].getAttribute('name')+"="+val;
 			}
 		}
 	 }
@@ -69,25 +90,26 @@ function limpiarCampos()
 	var arrayInput = document.getElementsByTagName('input');
 	var arraySelect = document.getElementsByTagName('select');
 
+	
 	 for(var i=0; i<arrayInput.length; i++)
 	 {	
 	 	if(arrayInput[i].getAttribute('grabar') == "S")
    		{
+			//alert(arrayInput[i].getAttribute('name')+"("+arrayInput[i].getAttribute("class")+")");
 			arrayInput[i].value = "";
 			var clase = arrayInput[i].getAttribute("class");
 			
-			
-			if(clase == "notFilled")
+			if($.trim(clase) == "notFilled")
 			{
 				$(arrayInput[i]).removeClass(clase);
 				$(arrayInput[i]).addClass('input_form');
 			}
-			if(clase == "notFilled_min")
+			if($.trim(clase) == "notFilled_min")
 			{
 				$(arrayInput[i]).removeClass(clase);
 				$(arrayInput[i]).addClass('input_form_min');
 			}
-			if(clase == "notFilled_medio")
+			if($.trim(clase) == "notFilled_medio")
 			{
 				$(arrayInput[i]).removeClass(clase);
 				$(arrayInput[i]).addClass('input_form_medio');
@@ -100,20 +122,20 @@ function limpiarCampos()
 	 	if(arraySelect[i].getAttribute('grabar') == "S")
    		{
 			arraySelect[i].selectedIndex = 0;
-			var clase = arraySelect[i].getAttribute("class");
+			var clase = $.trim(arraySelect[i].getAttribute("class"));
 			
 			
-			if(clase == "notFilled")
+			if($.trim(clase) == "notFilled")
 			{
 				$(arraySelect[i]).removeClass(clase);
 				$(arraySelect[i]).addClass('input_form');
 			}
-			if(clase == "notFilled_min")
+			if($.trim(clase) == "notFilled_min")
 			{
 				$(arraySelect[i]).removeClass(clase);
 				$(arraySelect[i]).addClass('input_form_min');
 			}
-			if(clase == "notFilled_medio")
+			if($.trim(clase) == "notFilled_medio")
 			{
 				$(arraySelect[i]).removeClass(clase);
 				$(arraySelect[i]).addClass('input_form_medio');
