@@ -35,11 +35,39 @@
 				datos += "&selCausalProtesta="+$("#selCausalProtesta").val();
 				datos += "&selEstadoDoc="+$("#selEstadoDoc").val();
 
+				$.ajax({
+					url: "index.php",
+					type: "GET",
+					data: datos,
+					cache: false,
+					success: function(res)
+					{
+						if($.trim($("#estadoActual").val()) != $.trim($("#estadoNuevo").val()))
+						{
+							if($.trim($("#estadoNuevo").val()) == "DEMANDA")
+							{
+								$("#pagina").load('index.php?controlador=Deudores&accion=deudor_ficha&id='+$("#selDeudor").val()+'&id_doc='+$("#id_documento").val()+'&tipope=A');
+							}
+							else
+							{
+								$("#pagina").load('index.php?controlador=Documentos&accion=admin');	
+							}
+						}
+						else
+						{
+							$("#pagina").load('index.php?controlador=Documentos&accion=admin');
+						}
+					},
+					error: function()
+					{
+						$("#mensaje").text("Ha ocurrido un error y no se ha podido agregar el registro.");
+					}
+				});
 
 //				alert(document.getElementById("selEstadoDoc").options[0].text);
-				
+				/*
 				if(document.getElementById("estadoNuevo").value == "Demanda")
-					{
+				{
 
 					if (confirm("Desea generar o modificar la Ficha del Deudor?")) { 
 						alert("Generar Ficha");
@@ -99,14 +127,12 @@
 					
 				}
 				
-
+*/
 		}
 
-		function cambiarEstado(estado)
+		function cambiarEstado()
 		{
-			document.getElementById("estadoNuevo").value = estado;
-
-//			alert(document.getElementById("estadoNuevo").value ); //.options[0].text);
+			document.getElementById("estadoNuevo").value = document.getElementById('selEstadoDoc').options[document.getElementById('selEstadoDoc').selectedIndex].text;
 		}		
 		
 		function limpiarMensaje()
@@ -117,12 +143,13 @@
 	</script>
 </head>
 <body>
+<?php
+	$datoDoc = &$datosDocumento->items[0];	
+?>
 <form name="frmadmdocumento">
 <input  type="hidden" name="id_documento" id="id_documento" value="<? echo($objDocumento->get_data("id_documento")) ?>"/>
 <input  type="hidden" name="estadoNuevo" id="estadoNuevo" value=""/>
-	<?php
-		$datoDoc = &$datosDocumento->items[0];	
-	?>
+<input  type="hidden" name="estadoActual" id="estadoActual" value="<? echo($datoDoc->get_data("estado")) ?>"/>
 
 <div id="datos" style="">
 <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="titulopantalla">
@@ -187,13 +214,18 @@
         
         <td width="70" align="left" class="etiqueta_form">Estado:</td>
         <td> 
-        	<select name="selEstadoDoc" valida="requerido" tipovalida="texto" id="selEstadoDoc" onchange="cambiarEstado(document.getElementById('selEstadoDoc').options[document.getElementById('selEstadoDoc').selectedIndex].text);" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" >
-     			<option value="<? echo($datoDoc->get_data("id_estado"))?>"> <? echo($datoDoc->get_data("estado")) ?></option>
+        	<select name="selEstadoDoc" valida="requerido" tipovalida="texto" id="selEstadoDoc" onchange="cambiarEstado();" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" >
         		<?
 			        for($j=0; $j<$coleccion_estadoDoc->get_count(); $j++)
 			        {
+						
 			            $datoTmp = &$coleccion_estadoDoc->items[$j];
-			            echo("<option value=".$datoTmp->get_data("id_estado_doc").">".utf8_encode($datoTmp->get_data("estado"))."</option>");           
+						$selected = "";
+						if($datoDoc->get_data("id_estado") == $datoTmp->get_data("id_estado_doc"))
+						{
+							$selected = "selected";
+						}
+			            echo("<option value=".$datoTmp->get_data("id_estado_doc")." ".$selected." >".strtoupper(utf8_encode($datoTmp->get_data("estado")))."</option>");           
 			        }
     			?>
 			</select>
@@ -259,11 +291,13 @@
         
         </td>
         
-        <td width="20" align="left" class="etiqueta_form">Cta. Cte.:</td>
-        <td align="left"><input type="text" name="txtctacte" id="txtctacte" value="<? echo($datoDoc->get_data("cta_cte"))?>"  size="15" onkeyup='mostrar(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/></td>        
+            
     </tr>
     
     <tr>
+    	 <td width="20" align="left" class="etiqueta_form">Cta. Cte.:</td>
+        <td align="left"><input type="text" name="txtctacte" id="txtctacte" value="<? echo($datoDoc->get_data("cta_cte"))?>"  size="15" onkeyup='mostrar(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/></td> 
+        
     	<td width="20" align="left" class="etiqueta_form">Fecha Protesto:</td>
         <td align="left"><input type="text" name="txtfechaprotesto" id="txtfechaprotesto" value="<? echo($datoDoc->get_data("fecha_siniestro"))?>" size="15" onkeyup='mostrar(this)' class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)"/></td>
 		<td width="70" align="left" class="etiqueta_form">Causal Protesto:</td>
