@@ -7,6 +7,7 @@
 	<title></title>
     <script src="js/jquery-1.7.1.min.js" type="text/javascript"></script>
     <script src="js/validacampos.js" type="text/javascript"></script>
+    <script src="js/funciones.js" type="text/javascript"></script>
     <script language="javascript">
 		$(document).ready(function(){
 			
@@ -333,8 +334,8 @@
     				<td align="left" class="etiqueta_form">Nombre</td>
         		</tr>
             	<tr>
-					<td align="left"><input type="text" name="txtrut_mandante" id="txtrut_mandante" size="15" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" />
-    	<input type="text" name="txtdv_mandante" id="txtdv_mandante" size="2"  class="input_form_min" valida="requerido" tipovalida="texto" />
+					<td align="left"><input type="text" name="txtrut_mandante" id="txtrut_mandante" size="15" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="entero" />
+    	<input type="text" name="txtdv_mandante" id="txtdv_mandante" size="2"  class="input_form_min" valida="requerido" tipovalida="entero" />
         			</td>
     				<td align="left"><input type="text" name="txtapellido" id="txtapellido" size="40"  class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto"/>
                     </td>
@@ -359,7 +360,7 @@
                  <tr>
                     <td><input type="text" name="txtcalle" id="txtcalle" size="40" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto"/>
                     </td>
-                    <td><input type="text" name="txtnumero" id="txtnumero" size="10" class="input_form_min" valida="requerido" tipovalida="texto"/>
+                    <td><input type="text" name="txtnumero" id="txtnumero" size="10" class="input_form_min" valida="requerido" tipovalida="entero"/>
                     </td>
                     <td>
                     <input type="text" name="txtpiso" id="txtpiso" size="10"  class="input_form_min" valida="requerido" tipovalida="texto"/>
@@ -386,7 +387,7 @@
                     <td width="70" align="left" class="etiqueta_form">Banco2</td>
                  </tr>
                 <tr>
-                        <td><input type="text" name="txtcuenta_corriente1" id="txtcuenta_corriente1" size="40" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto"/>
+                        <td><input type="text" name="txtcuenta_corriente1" id="txtcuenta_corriente1" size="40" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="entero"/>
                         </td>               
                         <td>
                         <select name="selbanco1" valida="requerido" tipovalida="texto" id="selbanco1" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)">
@@ -400,7 +401,7 @@
 						</select>
 
                         </td>
-                        <td><input type="text" name="txtcuenta_corriente2" id="txtcuenta_corriente2" size="40"  class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto"/>
+                        <td><input type="text" name="txtcuenta_corriente2" id="txtcuenta_corriente2" size="40"  class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="entero"/>
                         </td>
                         <td>
                         <select name="selbanco2" valida="requerido" tipovalida="texto" id="selbanco2" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)">
@@ -448,7 +449,7 @@
                 </tr>
                 <tr>
                 	<td class="etiqueta_form">E-mail</td>
-                    <td><input type="text" name="txtemail" id="txtemail" size="40" valida="requerido" tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtemail" class="msjdato_incomp"></span></td>
+                    <td><input type="text" name="txtemail" id="txtemail" size="40" valida="requerido" tipovalida="mail" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtemail" class="msjdato_incomp"></span></td>
                 </tr>
                 <tr>
                 	<td class="etiqueta_form">Celular</td>
@@ -519,10 +520,10 @@
 				 ?>
                  		<tr>
                         	<td class="etiqueta_form">
-                            <input type="text" turl="S" idmp="<? echo($mdTmp->get_data("id_modo_pago")) ?>" name="txtporcentaje_<? echo($mdTmp->get_data("id_modo_pago")) ?>" id="txtporcentaje_<? echo($mdTmp->get_data("id_modo_pago")) ?>" class="input_form_min">&nbsp;%
+                            <input type="text" turl="S" valida="requerido" tipovalida="moneda" idmp="<? echo($mdTmp->get_data("id_modo_pago")) ?>" name="txtporcentaje_<? echo($mdTmp->get_data("id_modo_pago")) ?>" id="txtporcentaje_<? echo($mdTmp->get_data("id_modo_pago")) ?>" class="input_form_min">&nbsp;%
                             </td>
                             <td class="etiqueta_form">
-                            	<input type="text" turl="S" idmp="<? echo($mdTmp->get_data("id_modo_pago")) ?>" name="txtoperacion_<? echo($mdTmp->get_data("id_modo_pago")) ?>" id="txtoperacion_<? echo($mdTmp->get_data("id_modo_pago")) ?>" class="input_form_min">&nbsp;U.F.
+                            	<input type="text" turl="S" valida="requerido" tipovalida="moneda" idmp="<? echo($mdTmp->get_data("id_modo_pago")) ?>" name="txtoperacion_<? echo($mdTmp->get_data("id_modo_pago")) ?>" id="txtoperacion_<? echo($mdTmp->get_data("id_modo_pago")) ?>" class="input_form_min">&nbsp;U.F.
                             </td>
                             <td class="etiqueta_form" align="left">
                             	<? echo($mdTmp->get_data("modo_pago")) ?>

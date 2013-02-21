@@ -7,7 +7,8 @@
 	<title></title>
     <script src="js/jquery-1.7.1.min.js" type="text/javascript"></script>
     <script src="js/validacampos.js" type="text/javascript"></script>
-
+	<script src="js/funciones.js" type="text/javascript"></script>
+    
     <script language="javascript">
 	
 		
@@ -17,6 +18,11 @@
 			document.getElementById("txtrut").focus();
 			
 		});
+		
+		function limpiarDeudor()
+		{
+			limpiarCampos();
+		}
 		
 		function editarDir()
 		{
@@ -28,7 +34,7 @@
 			var datos = "controlador=Deudores";
 				datos += "&accion=getdirtmp";
 				datos += "&iddir="+$("#id_dir").val();
-				
+				alert(datos);
 				$.ajax({
 					url: "index.php",
 					type: "GET",
@@ -252,7 +258,6 @@
 					type: "GET",
 					data: datos,
 					cache: false,
-
 					success: function(res)
 					{
 						$("#pagina").load('index.php?controlador=Deudores&accion=admin');
@@ -454,8 +459,8 @@
             <table width="100%" align="center" border="0" cellpadding="5" cellspacing="5">    	
                 <tr>
                     <td width="70" align="left"  class="etiqueta_form">R.U.T.:</td>
-                    <td> &nbsp;&nbsp;&nbsp;<input type="text" name="txtrut" id="txtrut" value="<? echo($objDeudor->get_data("rut_deudor")) ?>"  size="40" valida="requerido" tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/>
-                    <input type="text" name="txtrut_d" id="txtrut_d" value="<? echo($objDeudor->get_data("dv_deudor")) ?>"  size="2" valida="requerido" tipovalida="texto" maxlength="1" class="input_form_min" /><span id="msj_error_txtrut" class="msjdato_incomp"></span>
+                    <td> &nbsp;&nbsp;&nbsp;<input type="text" grabar="S" name="txtrut" id="txtrut" value="<? echo($objDeudor->get_data("rut_deudor")) ?>"  size="40" valida="requerido" tipovalida="entero" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/>
+                    <input type="text" grabar="S" name="txtrut_d" id="txtrut_d" value="<? echo($objDeudor->get_data("dv_deudor")) ?>"  size="2" valida="requerido" tipovalida="entero" maxlength="1" class="input_form_min" /><span id="msj_error_txtrut" class="msjdato_incomp"></span>
                     </td>
                 </tr>
                 <tr>
@@ -468,27 +473,27 @@
 						$disabled = "";
 					}
 					?>
-                    &nbsp;&nbsp;&nbsp;<input type="text" disabled="disabled" value="<? echo($objDeudor->get_data("razonsocial")) ?>" name="txtrazonsocial" id="txtrazonsocial"  size="40" valida="requerido" tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtrazonsocial" class="msjdato_incomp"></span>
+                    &nbsp;&nbsp;&nbsp;<input type="text" grabar="S" disabled="disabled" value="<? echo($objDeudor->get_data("razonsocial")) ?>" name="txtrazonsocial" id="txtrazonsocial"  size="40" valida="requerido" tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtrazonsocial" class="msjdato_incomp"></span>
                     </td>
                 </tr>
                 <tr>
                     <td width="150" align="left"  class="etiqueta_form">Primer apellido:</td>
-                    <td> &nbsp;&nbsp;&nbsp;<input type="text" name="txtpapellido" id="txtpapellido" value="<? echo($objDeudor->get_data("primer_apellido")) ?>"  size="40" valida="requerido" tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtpapellido" class="msjdato_incomp"></span>
+                    <td> &nbsp;&nbsp;&nbsp;<input type="text" grabar="S" name="txtpapellido" id="txtpapellido" value="<? echo($objDeudor->get_data("primer_apellido")) ?>"  size="40" valida="requerido" tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtpapellido" class="msjdato_incomp"></span>
                     </td>
                 </tr>
                 <tr>
                     <td width="150" align="left"  class="etiqueta_form">Segundo apellido:</td>
-                    <td> &nbsp;&nbsp;&nbsp;<input type="text" name="txtsapellido" id="txtsapellido" value="<? echo($objDeudor->get_data("segundo_apellido")) ?>"  size="40" valida="requerido" tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtsapellido" class="msjdato_incomp"></span>
+                    <td> &nbsp;&nbsp;&nbsp;<input type="text" grabar="S" name="txtsapellido" id="txtsapellido" value="<? echo($objDeudor->get_data("segundo_apellido")) ?>"  size="40" valida="requerido" tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtsapellido" class="msjdato_incomp"></span>
                     </td>
                 </tr>
                 <tr>
                     <td width="150" align="left"  class="etiqueta_form">Primer nombre:</td>
-                    <td> &nbsp;&nbsp;&nbsp;<input type="text" name="txtpnombre" id="txtpnombre"  value="<? echo($objDeudor->get_data("primer_nombre")) ?>" size="40" valida="requerido" tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtpnombre" class="msjdato_incomp"></span>
+                    <td> &nbsp;&nbsp;&nbsp;<input type="text" grabar="S" name="txtpnombre" id="txtpnombre"  value="<? echo($objDeudor->get_data("primer_nombre")) ?>" size="40" valida="requerido" tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtpnombre" class="msjdato_incomp"></span>
                     </td>
                 </tr>
                 <tr>
                     <td width="150" align="left" class="etiqueta_form">Segundo nombre:</td>
-                    <td> &nbsp;&nbsp;&nbsp;<input type="text" name="txtsnombre" id="txtsnombre" value="<? echo($objDeudor->get_data("segundo_nombre")) ?>"  size="40" valida="requerido" tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtsnombre" class="msjdato_incomp"></span>
+                    <td> &nbsp;&nbsp;&nbsp;<input type="text" grabar="S" name="txtsnombre" id="txtsnombre" value="<? echo($objDeudor->get_data("segundo_nombre")) ?>"  size="40" valida="requerido" tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtsnombre" class="msjdato_incomp"></span>
                     </td>
                 </tr>
             </table>
@@ -529,15 +534,15 @@
                 </tr>
                 <tr>
                 	<td class="etiqueta_form">Celular</td>
-                    <td><input type="text" name="txtcelular" id="txtcelular"  value="<? echo($objDeudor->get_data("celular")) ?>" size="25" valida="requerido" tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtcelular" class="msjdato_incomp"></span></td>
+                    <td><input type="text" grabar="S" name="txtcelular" id="txtcelular"  value="<? echo($objDeudor->get_data("celular")) ?>" size="25" valida="requerido" tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtcelular" class="msjdato_incomp"></span></td>
                 </tr>
                 <tr>
                 	<td class="etiqueta_form">Tel&eacute;fono</td>
-                    <td><input type="text" name="txttelefono" id="txttelefono"  value="<? echo($objDeudor->get_data("telefono_fijo")) ?>" size="25" valida="requerido" tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txttelefono" class="msjdato_incomp"></span></td>
+                    <td><input type="text" grabar="S" name="txttelefono" id="txttelefono"  value="<? echo($objDeudor->get_data("telefono_fijo")) ?>" size="25" valida="requerido" tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txttelefono" class="msjdato_incomp"></span></td>
                 </tr>
                 <tr>
                 	<td class="etiqueta_form">Email</td>
-                    <td><input type="text" name="txtemail" id="txtemail" value="<? echo($objDeudor->get_data("email")) ?>"   size="25" valida="requerido" tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtemail" class="msjdato_incomp"></span></td>
+                    <td><input type="text" grabar="S" name="txtemail" id="txtemail" value="<? echo($objDeudor->get_data("email")) ?>"   size="25" valida="requerido" tipovalida="mail" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtemail" class="msjdato_incomp"></span></td>
                 </tr>
                 <tr>
                 	<td colspan="2" height="25"></td>
@@ -579,7 +584,7 @@
                 </tr>
                 <tr>
                 	<td class="etiqueta_form">N&uacute;mero</td>
-                    <td><input type="text" name="txtnumero" id="txtnumero" size="40" valida="requerido" tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtnumero" class="msjdato_incomp"></span></td>
+                    <td><input type="text" name="txtnumero" id="txtnumero" size="40" valida="requerido" tipovalida="entero" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtnumero" class="msjdato_incomp"></span></td>
                 </tr>
                 <tr>
                 	<td class="etiqueta_form">Piso</td>
@@ -629,7 +634,7 @@
     <tr>
         <td colspan="3" align="center">
         	<input  type="button" name="btngrabar" id="btngrabar" onclick="grabar()"  value="Grabar" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/>&nbsp;
-         	<input  type="button" name="btnlimpiar" id="btnlimpiar" onclick="limpiar()"value="Limpiar" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)' />
+         	<input  type="button" name="btnlimpiar" id="btnlimpiar" onclick="limpiarDeudor()"value="Limpiar" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)' />
             <input  type="button" name="btnsalir" id="btnsalir" onclick="salirAltaDeudor()"value="Cancelar" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)' />
          </td>
     </tr>

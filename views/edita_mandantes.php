@@ -333,8 +333,8 @@
     				<td align="left" class="etiqueta_form">Nombre</td>
         		</tr>
             	<tr>
-					<td align="left"><input type="text" name="txtrut_mandante" id="txtrut_mandante" size="15" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo($objMandantes->get_data("rut_mandante")) ?>" />
-    	<input type="text" name="txtdv_mandante" id="txtdv_mandante" size="2"  class="input_form_min" valida="requerido" tipovalida="texto" value="<? echo($objMandantes->get_data("dv_mandante")) ?>" />
+					<td align="left"><input type="text" name="txtrut_mandante" id="txtrut_mandante" size="15" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="entero" value="<? echo($objMandantes->get_data("rut_mandante")) ?>" />
+    	<input type="text" name="txtdv_mandante" id="txtdv_mandante" size="2"  class="input_form_min" valida="requerido" tipovalida="entero" value="<? echo($objMandantes->get_data("dv_mandante")) ?>" />
         			</td>
     				<td align="left"><input type="text" name="txtapellido" id="txtapellido" size="40"  class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo($objMandantes->get_data("apellido")) ?>"/>
                     </td>
@@ -359,7 +359,7 @@
                  <tr>
                     <td><input type="text" name="txtcalle" id="txtcalle" size="40" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo($objMandantes->get_data("calle")) ?>"/>
                     </td>
-                    <td><input type="text" name="txtnumero" id="txtnumero" size="10" class="input_form_min" valida="requerido" tipovalida="texto" value="<? echo($objMandantes->get_data("numero")) ?>"/>
+                    <td><input type="text" name="txtnumero" id="txtnumero" size="10" class="input_form_min" valida="requerido" tipovalida="entero" value="<? echo($objMandantes->get_data("numero")) ?>"/>
                     </td>
                     <td>
                     <input type="text" name="txtpiso" id="txtpiso" size="10"  class="input_form_min" valida="requerido" tipovalida="texto" value="<? echo($objMandantes->get_data("piso")) ?>"/>
@@ -386,7 +386,7 @@
                     <td width="70" align="left" class="etiqueta_form">Banco2</td>
                  </tr>
                 <tr>
-                        <td><input type="text" name="txtcuenta_corriente1" id="txtcuenta_corriente1" size="40" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo($objMandantes->get_data("cuenta_corriente1")) ?>"/>
+                        <td><input type="text" name="txtcuenta_corriente1" id="txtcuenta_corriente1" size="40" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="entero" value="<? echo($objMandantes->get_data("cuenta_corriente1")) ?>"/>
                         </td>               
                         <td>
                         <select name="selbanco1" valida="requerido" tipovalida="texto" id="selbanco1" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)">
@@ -406,7 +406,7 @@
 						</select>
 
                         </td>
-                        <td><input type="text" name="txtcuenta_corriente2" id="txtcuenta_corriente2" size="40"  class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo($objMandantes->get_data("cuenta_corriente2")) ?>"/>
+                        <td><input type="text" name="txtcuenta_corriente2" id="txtcuenta_corriente2" size="40"  class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="entero" value="<? echo($objMandantes->get_data("cuenta_corriente2")) ?>"/>
                         </td>
                         <td>
                         <select name="selbanco2" valida="requerido" tipovalida="texto" id="selbanco2" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)">
@@ -460,7 +460,7 @@
                 </tr>
                 <tr>
                 	<td class="etiqueta_form">E-mail</td>
-                    <td><input type="text" name="txtemail" id="txtemail" size="40" valida="requerido" tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtemail" class="msjdato_incomp"></span></td>
+                    <td><input type="text" name="txtemail" id="txtemail" size="40" valida="requerido" tipovalida="mail" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtemail" class="msjdato_incomp"></span></td>
                 </tr>
                 <tr>
                 	<td class="etiqueta_form">Celular</td>
