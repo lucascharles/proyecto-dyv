@@ -13,7 +13,6 @@ function trimAll(sString)
 	return sString;
 }
 
-
 function removerClase(obj)
 {
 	if($(obj).val() != "")
@@ -58,6 +57,7 @@ function validarArray(arrayInputS, arraySelectS, mensaje)
 					{
 						if(arrayInput[i].getAttribute('tipovalida') == "texto")
 						{
+							//alert($(arrayInput[i]).val());
 							if(!validatexto($(arrayInput[i]).val()))
 							{
 								resultado = false;
@@ -86,30 +86,52 @@ function validarArray(arrayInputS, arraySelectS, mensaje)
 							resultado = false;
 						}
 					}
+					
+					if(arrayInput[i].getAttribute('tipovalida') == "moneda")
+					{
+						if(!validamoneda($(arrayInput[i]).val()))
+						{
+							resultado = false;
+						}
+					}
+					
+					if(arrayInput[i].getAttribute('tipovalida') == "fecha")
+					{
+						if(!validafecha($(arrayInput[i]).val()))
+						{
+							resultado = false;
+						}
+					}
+					
+					if(arrayInput[i].getAttribute('tipovalida') == "entero")
+					{
+						if(!validaentero($(arrayInput[i]).val()))
+						{
+							resultado = false;
+						}
+					}
+					
 				}
 			}
 			
 			if(resultado == false)
 			{
-				var clase = $(arrayInput[i]).attr("class");// arrayInput[i].getAttribute("class");
-				//alert(arrayInput[4].getAttribute("name")+" | class: "+arrayInput[4].getAttribute("class")+" | clase_ant: "+clase);
-				/*
-				if(i == 4)
-				{
-					alert(arrayInput[i].getAttribute("name")+" | class: "+arrayInput[i].getAttribute("class")+" | clase_ant: "+clase);
-				}
-				*/
+				var clase = $.trim($(arrayInput[i]).attr("class"));
 				$(arrayInput[i]).removeClass(clase);
 				
-				if(clase == "input_form" || clase == "resalta")
+				if(clase == "input_form" || clase == "resalta" || clase == "notFilled")
 				{
 					$(arrayInput[i]).addClass('notFilled');
 				}
-				if(clase == "input_form_min" || clase == "resalta_min")
+				if(clase == "input_form_min" || clase == "resalta_min" || clase == "notFilled_min")
 				{
 					$(arrayInput[i]).addClass('notFilled_min');
 				}
-				if(clase == "input_form_medio" || clase == "resalta_medio")
+				if(clase == "input_form_medio" || clase == "resalta_medio" || clase == "notFilled_medio")
+				{
+					$(arrayInput[i]).addClass('notFilled_medio');
+				}
+				if(clase == "input_form_medio hasDatepicker" || clase == "resalta_medio" || clase == "notFilled_medio")
 				{
 					$(arrayInput[i]).addClass('notFilled_medio');
 				}
@@ -122,9 +144,6 @@ function validarArray(arrayInputS, arraySelectS, mensaje)
 					obj = arrayInput[i];
 					primero = 1;
 				}
-
-				//alert(arrayInput[i].getAttribute("name")+"["+i+"] | class: "+arrayInput[i].getAttribute("class")+" | clase_ant: "+clase);
-
 			}
    		}
   	}
@@ -137,17 +156,12 @@ function validarArray(arrayInputS, arraySelectS, mensaje)
 			 
 			if(arraySelect[i].getAttribute('condicion') != null)
 			{
-				//alert("( con condicion ) name: "+arraySelect[i].name+" / value: "+arraySelect[i].value);
-				//alert("condicion: "+document.getElementById(""+arraySelect[i].getAttribute('condicion')).checked);
-				//alert($(arraySelect[i]).val());
 				if(document.getElementById(""+arraySelect[i].getAttribute('condicion')).checked == true)
 				{
-					//alert("tipovalida: "+arraySelect[i].getAttribute('tipovalida'));
 					if(arraySelect[i].getAttribute('tipovalida') != null)
 					{
 						if(arraySelect[i].getAttribute('tipovalida') == "texto")
 						{
-							//alert("(en el validaddor)name: "+arraySelect[i].name+" / value: "+arraySelect[i].value);
 							if(!validatexto($(arraySelect[i]).val()))
 							{
 								resultado = false;
@@ -162,38 +176,26 @@ function validarArray(arrayInputS, arraySelectS, mensaje)
 				{
 					if(arraySelect[i].getAttribute('tipovalida') == "texto")
 					{
-						//alert("name: "+arraySelect[i].name+" / value: "+arraySelect[i].value);
 						if(!validatexto($(arraySelect[i]).val()))
 						{
-							//alert("si no tiene pasa por aca");
 							resultado = false;
 						}
 					}
-					/*
-					if(arraySelect[i].getAttribute('tipovalida') == "mail")
-					{
-						if(!validamail($(arraySelect[i]).val()))
-						{
-							resultado = false;
-						}
-					}
-					*/
 				}
 			}
-			//alert("resultado: "+resultado);
 			
 			if(resultado == false)
 			{
 				$(arraySelect[i]).removeClass(clase);
-				if(clase == "input_form" || clase == "resalta")
+				if(clase == "input_form" || clase == "resalta" || clase == "notFilled")
 				{
 					$(arraySelect[i]).addClass('notFilled');
 				}
-				if(clase == "input_form_min" || clase == "resalta_min")
+				if(clase == "input_form_min" || clase == "resalta_min" || clase == "notFilled_min")
 				{
 					$(arraySelect[i]).addClass('notFilled_min');
 				}
-				if(clase == "input_form_medio" || clase == "resalta_medio")
+				if(clase == "input_form_medio" || clase == "resalta_medio" || clase == "notFilled_medio")
 				{
 					$(arraySelect[i]).addClass('notFilled_medio');
 				}
@@ -223,23 +225,19 @@ function validarArray(arrayInputS, arraySelectS, mensaje)
 
 function validar(mensaje)
 {
+	
 	var arrayInput = document.getElementsByTagName('input');
 	var arraySelect = document.getElementsByTagName('select');
 	var obj;
 	var primero = 0;
 	var result = true;
 	
-	//alert(arrayInput.length);
 	
 	 for(var i=0; i<arrayInput.length; i++)
 	 {	 
 	 	var resultado = true;
   		 if(arrayInput[i].getAttribute('valida') == "requerido")
    		 {
-			 /*
-			alert("hay para validar");
-			alert("condicion: "+arrayInput[i].getAttribute('condicion')+" / tipovalida: "+arrayInput[i].getAttribute('tipovalida'));
-			*/
 			if(arrayInput[i].getAttribute('condicion') != null)
 			{
 				if(document.getElementById(""+arrayInput[i].getAttribute('condicion')).checked == true)
@@ -262,7 +260,7 @@ function validar(mensaje)
 				{
 					if(arrayInput[i].getAttribute('tipovalida') == "texto")
 					{
-						//alert("valida el texto");
+						
 						if(!validatexto($(arrayInput[i]).val()))
 						{
 							resultado = false;
@@ -276,22 +274,53 @@ function validar(mensaje)
 							resultado = false;
 						}
 					}
+					
+					if(arrayInput[i].getAttribute('tipovalida') == "moneda")
+					{
+						if(!validamoneda($(arrayInput[i]).val()))
+						{
+							resultado = false;
+						}
+					}
+					
+					if(arrayInput[i].getAttribute('tipovalida') == "fecha")
+					{
+						if(!validafecha($(arrayInput[i]).val()))
+						{
+							resultado = false;
+						}
+					}
+					
+					if(arrayInput[i].getAttribute('tipovalida') == "entero")
+					{
+						if(!validaentero($(arrayInput[i]).val()))
+						{
+							resultado = false;
+						}
+					}
+					
 				}
 			}
 			
 			if(resultado == false)
 			{	
-				var clase = arrayInput[i].getAttribute("class");
+				var clase = $.trim(arrayInput[i].getAttribute("class"));
+				
 				$(arrayInput[i]).removeClass(clase);
-				if(clase == "input_form" || clase == "resalta")
+
+				if(clase == "input_form" || clase == "resalta" || clase == "notFilled")
 				{
 					$(arrayInput[i]).addClass('notFilled');
 				}
-				if(clase == "input_form_min" || clase == "resalta_min")
+				if(clase == "input_form_min" || clase == "resalta_min" || clase == "notFilled_min")
 				{
 					$(arrayInput[i]).addClass('notFilled_min');
 				}
-				if(clase == "input_form_medio" || clase == "resalta_medio")
+				if(clase == "input_form_medio" || clase == "resalta_medio" || clase == "notFilled_medio")
+				{
+					$(arrayInput[i]).addClass('notFilled_medio');
+				}
+				if(clase == "input_form_medio hasDatepicker" || clase == "resalta_medio" || clase == "notFilled_medio")
 				{
 					$(arrayInput[i]).addClass('notFilled_medio');
 				}
@@ -316,17 +345,12 @@ function validar(mensaje)
 			 
 			if(arraySelect[i].getAttribute('condicion') != null)
 			{
-				//alert("( con condicion ) name: "+arraySelect[i].name+" / value: "+arraySelect[i].value);
-				//alert("condicion: "+document.getElementById(""+arraySelect[i].getAttribute('condicion')).checked);
-				//alert($(arraySelect[i]).val());
 				if(document.getElementById(""+arraySelect[i].getAttribute('condicion')).checked == true)
 				{
-					//alert("tipovalida: "+arraySelect[i].getAttribute('tipovalida'));
 					if(arraySelect[i].getAttribute('tipovalida') != null)
 					{
 						if(arraySelect[i].getAttribute('tipovalida') == "texto")
 						{
-							//alert("(en el validaddor)name: "+arraySelect[i].name+" / value: "+arraySelect[i].value);
 							if(!validatexto($(arraySelect[i]).val()))
 							{
 								resultado = false;
@@ -341,10 +365,8 @@ function validar(mensaje)
 				{
 					if(arraySelect[i].getAttribute('tipovalida') == "texto")
 					{
-						//alert("name: "+arraySelect[i].name+" / value: "+arraySelect[i].value);
 						if(!validatexto($(arraySelect[i]).val()))
 						{
-							//alert("si no tiene pasa por aca");
 							resultado = false;
 						}
 					}
@@ -358,25 +380,29 @@ function validar(mensaje)
 					}
 				}
 			}
-			//alert("resultado: "+resultado);
 			
 			if(resultado == false)
 			{
-
 				var clase = arraySelect[i].getAttribute("class");
 				$(arraySelect[i]).removeClass(clase);
-				if(clase == "input_form" || clase == "resalta")
+				if(clase == "input_form" || clase == "resalta" || clase == "notFilled")
 				{
 					$(arraySelect[i]).addClass('notFilled');
 				}
-				if(clase == "input_form_min" || clase == "resalta_min")
+				if(clase == "input_form_min" || clase == "resalta_min" || clase == "notFilled_min")
 				{
 					$(arraySelect[i]).addClass('notFilled_min');
 				}
-				if(clase == "input_form_medio" || clase == "resalta_medio")
+				if(clase == "input_form_medio" || clase == "resalta_medio" || clase == "notFilled_medio")
 				{
 					$(arraySelect[i]).addClass('notFilled_medio');
 				}
+				
+				if(clase == "input_form_medio hasDatepicker" || clase == "resalta_medio" || clase == "notFilled_medio")
+				{
+					$(arraySelect[i]).addClass('notFilled_medio');
+				}
+				
 				if(mensaje == "S")
 				{
 					printmensajeval(arraySelect[i]);
@@ -403,7 +429,6 @@ function validar(mensaje)
 
 function validatexto(val)
 {
-	//alert(val);
 	var result = true;
 	
 	if(trimAll(val) == "")
@@ -411,6 +436,12 @@ function validatexto(val)
 		result = false;
 	}
 	return result;
+}
+
+function validamoneda(val)
+{
+	var re=/^[0-9]{1,10}(\.[0-9]{0,2})?$/;
+	return re.test(val);
 }
 
 function validamail(val)
@@ -435,6 +466,88 @@ function validamail(val)
 	
 	return result;
 }
+
+function validafecha(fecha)
+{
+	var result = true;
+    if (fecha != undefined && fecha.value != "" )
+	{
+		if (!/^\d{2}\/\d{2}\/\d{4}$/.test(fecha.value))
+		{
+          result = false;
+        }
+		else
+		{
+			var dia  =  parseInt(fecha.value.substring(0,2),10);
+			var mes  =  parseInt(fecha.value.substring(3,5),10);
+			var anio =  parseInt(fecha.value.substring(6),10);
+		 
+			switch(mes)
+			{
+				case 1:
+				case 3:
+				case 5:
+				case 7:
+				case 8:
+				case 10:
+				case 12:
+					numDias=31;
+					break;
+				case 4: case 6: case 9: case 11:
+					numDias=30;
+					break;
+				case 2:
+					if (fEsAnioBisiesto(anio)){ numDias=29 }else{ numDias=28};
+					break;
+				default:
+					result = false;
+			}
+		
+			if(result)
+			{
+        		if (dia>numDias || dia==0)
+				{
+            		result = false;
+        		}
+			}
+		}    
+    }
+	else
+	{
+		result = false;
+	}
+	return result;
+ }
+	
+function validaentero(val) 
+{
+     var result = true; 
+
+     var re = /^(-)?[0-9]*$/;
+	 if($.trim(val) != "")
+	 {
+     	if (!re.test(val)) 
+	 	{
+        	 result = false;
+     	}
+	 }
+	 else
+	 {
+		 result = false;
+	 }
+	 
+     return result;
+ }
+ 
+function fEsAnioBisiesto(Anio)
+	{
+    	var checkYear = (((Anio % 4 == 0) && (Anio % 100 != 0)) || (Anio % 400 == 0)) ? 1 : 0;
+	
+		if (! checkYear )  
+        	return false;
+    	else 
+        	return true;
+	}
 /*
 (function($){
   $.fn.validator = function(opts){
