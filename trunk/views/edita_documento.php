@@ -5,8 +5,33 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<title></title>
-    <script src="js/jquery-1.7.1.min.js" type="text/javascript"></script>
+   <!-- LIBRERIA PAR CONTROL DE FECHA -->
+    <link rel="stylesheet" media="all" type="text/css" href="css/smoothness/jquery-ui-1.8.17.custom.css" />
+    <style type="text/css"> 
+			/* css for timepicker */	
+			#ui-datepicker-div, .ui-datepicker{ font-size: 80%; }
+			.ui-timepicker-div .ui-widget-header { margin-bottom: 8px; }
+			.ui-timepicker-div dl { text-align: left; }
+			.ui-timepicker-div dl dt { height: 25px; margin-bottom: -25px; }
+			.ui-timepicker-div dl dd { margin: 0 10px 10px 65px; }
+			.ui-timepicker-div td { font-size: 90%; }
+			.ui-tpicker-grid-label { background: none; border: none; margin: 0; padding: 0; }
+	</style>
+    <!--<script src="js/jquery-1.7.1.min.js" type="text/javascript"></script>-->
+    <script src="js/jquery/jquery-1.4.1.min.js" type="text/javascript"></script>
+    <script src="js/validacampos.js" type="text/javascript"></script>
+  	<script src="js/funciones.js" type="text/javascript"></script>
+    
+	<script type="text/javascript" src="js/jquery-ui-1.8.16.custom.min.js"></script>
+	<script type="text/javascript" src="js/jquery-ui-timepicker-addon.js"></script>
+	<script type="text/javascript" src="js/i18n/jquery.ui.datepicker-es.js"></script>
+	<script type="text/javascript" src="js/jquery-ui-sliderAccess.js"></script>
     <script language="javascript">
+		$(document).ready(function(){
+			
+			$("#txtfechaRecibido").datepicker();
+			
+		});
 		function limpiar()
 		{
 			document.getElementById("txtdestipdoc").value = "";
