@@ -38,12 +38,11 @@
 		
 		function grabarMartillero()
 		{
-			/*
 			if(!validar("N"))
 			{
 				return false;
 			}
-			*/			
+					
 			var datos = "controlador=Deudores";
 			
 			if($("#tipoperacion").val() == "A")
@@ -64,8 +63,8 @@
 			}
 		
 			datos += "&"+getParametros();
-			//alert(datos);
-			//return false;
+			alert(datos);
+			return false;
 			$.ajax({
 					url: "index.php",
 					type: "GET",
@@ -133,6 +132,10 @@
 <!--<div id="datos" style="">-->
 <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
     <tr>
+        <td colspan="3" height="5">
+       </td>
+    </tr>   
+    <tr>
     	<td width="40%" valign="top">
         	<table cellpadding="0" cellspacing="2" border="0" align="center" width="100%">
             	<tr>
@@ -145,8 +148,8 @@
                 </tr>
                 <tr>
 					<td align="left" class="etiqueta_form">Rut martilero </td>
-                      <td align="left" ><input type="text" grabar="S" name="txtrut_martilero" id="txtrut_martilero" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo($rut_martilero) ?>"/>&nbsp;
-                      <input type="text" grabar="S" name="txtdv_martillero" id="txtdv_martillero" size="40" class="input_form_min" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo($dv_martillero) ?>"/></td>
+                      <td align="left" ><input type="text" grabar="S" name="txtrut_martilero" id="txtrut_martilero" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="entero" value="<? echo($rut_martilero) ?>"/>&nbsp;
+                      <input type="text" grabar="S" name="txtdv_martillero" id="txtdv_martillero" size="40" class="input_form_min" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="entero" value="<? echo($dv_martillero) ?>"/></td>
                  </tr>   
                  <tr>
 					<td align="left" class="etiqueta_form">Notificaci&oacute;n</td>
@@ -181,7 +184,7 @@
                  </tr>
                  <tr>
 					<td align="left" class="etiqueta_form">Fecha remate</td>
-                    <td align="left" ><input type="text" grabar="S" name="txtfecha_remate" id="txtfecha_remate" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo($fecha_remate) ?>"/></td>
+                    <td align="left" ><input type="text" grabar="S" name="txtfecha_remate" id="txtfecha_remate" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="fecha" value="<? echo($fecha_remate) ?>"/></td>
 
                  </tr>
 
@@ -203,7 +206,7 @@
 			?>
             	<tr>
                 	<td align="left" class="etiqueta_form"><? echo($datoTmp->get_data("gasto")) ?></td>
-                    <td align="left" ><input type="text" grabar="S" name="txtgasto_<? echo($datoTmp->get_data("id_gasto")) ?>" id="txtgasto_<? echo($datoTmp->get_data("id_gasto")) ?>" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo($datoTmp->get_data("importe")) ?>"/></td>
+                    <td align="left" ><input type="text" grabar="S" name="txtgasto_<? echo($datoTmp->get_data("id_gasto")) ?>" id="txtgasto_<? echo($datoTmp->get_data("id_gasto")) ?>" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="moneda" value="<? echo($datoTmp->get_data("importe")) ?>"/></td>
                     <td width="5"></td>
                 </tr>
            <?
