@@ -10,7 +10,7 @@
     <script language="javascript"> 
 		function seleccionado(id)
 		{
-			window.parent.seleccionado(id);
+			window.parent.seleccionado_dir(id);
 		}
 		
 	</script>
@@ -18,27 +18,28 @@
 <body bgcolor="#FFFFFF">
 <table width="100%" cellpadding="2" cellspacing="2" align="center" border="0" bgcolor="#FFFFFF">
 	<tr class="cabecera_listado" >
-    	<th width="15" align="center"></th>
 		<th align="center"><font class="titulolistado">CALLE</font></th>
         <th align="center"><font class="titulolistado">NUMERO</font></th>
         <th align="center"><font class="titulolistado">PISO</font></th>
-        <th align="center"><font class="titulolistado">DEPARTAMENTO</font></th>
+        <th align="center"><font class="titulolistado">DEPTO.</font></th>
         <th align="center"><font class="titulolistado">COMUNA</font></th>
+        <th align="center"><font class="titulolistado">VALIDA?</font></th>
     </tr>
 	<?php
 	
-	for($j=0; $j<$colleccionDeudores->get_count(); $j++) 
+	for($j=0; $j<$colleccionDirecciones->get_count(); $j++) 
 	{
-		$datoTmp = &$colleccionDeudores->items[$j];
+		$datoTmp = &$colleccionDirecciones->items[$j];
 			
 	?>
 	<tr bgcolor="#FFFFFF" >
-    	<td><input type="radio" id="<? echo($datoTmp->get_data("id_direccion")) ?>" name="checktipdoc" value="" onclick="seleccionado(<? echo($datoTmp->get_data("id_direccion")) ?>)"></td>
+    	
         <td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("calle")) ?></td>
 		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("numero")) ?></td>
 		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("piso")) ?></td>
         <td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("depto")) ?></td>
         <td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("comuna")) ?></td>
+        <td align="center" class="dato_lista"><input type="checkbox" id="<? echo($datoTmp->get_data("id_direccion")) ?>" name="checktipdoc" value="" onclick="seleccionado(<? echo($datoTmp->get_data("id_direccion")) ?>)"></td>
 	</tr>
     <tr bgcolor="#FFFFFF" >
     	<td colspan="6" style="border-bottom:solid; border-bottom-width:2px; border-bottom-color:#CCCCCC; "></td>

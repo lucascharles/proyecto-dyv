@@ -1,6 +1,6 @@
 <?php
 	
-	//$db = new mysql_db($config->get('dbhost'), $config->get('dbuser'),  $config->get('dbpass'), $config->get('dbname'), false);
+//	$db = new mysql_db($config->get('dbhost'), $config->get('dbuser'),  $config->get('dbpass'), $config->get('dbname'), false);
 	$db = new mssql_db($config->get('dbhost'), $config->get('dbuser'),  $config->get('dbpass'), $config->get('dbname'), false);
 	
 	
@@ -577,14 +577,18 @@
 			$this->table_name = "Deudores";
 			$this->field_metadata = array(
 					"id_deudor" => array("int"),
-					"rut_deudor" => array("numeric"),
-					"rut_deudor_s" => array("varchar"),
-					"dv_deudor" => array("numeric"),
+					"rut_deudor" => array("varchar"),			
+					"dv_deudor" => array("varchar"),
 					"primer_nombre" => array("varchar"),
 					"segundo_nombre" => array("varchar"),
 					"primer_apellido" => array("varchar"),
 					"segundo_apellido" => array("varchar"),
 					"comentario" => array("varchar"),
+					"celular" => array("varchar"),
+					"telefono_fijo" => array("varchar"),
+					"fax" => array("varchar"),
+					"id_mandante" => array("int"),
+					"tipo" => array("varchar"),
 					"celular" => array("numeric"),
 					"telefono_fijo" => array("numeric"),
 					"fax" => array(" numeric"),
@@ -592,7 +596,7 @@
 					"tipo" => array("char"),
 					"razonsocial" => array("varchar"),
 					"email" => array("varchar"),
-					"activo" => array("char")
+					"activo" => array("varchar")
 				);
 			parent::BusinessObject();
 		}
@@ -904,10 +908,13 @@
 		{
 			$this->table_name = "Estados_x_Gestion";
 			$this->field_metadata = array(
-					"id_gestion" => array("numeric"),
-					"id_estado" => array("numeric"),
+					"id_gestion" => array("int"),
+					"id_estado" => array("int"),
+					"id_mandante" => array("int"),
 					"fecha_gestion" => array("datetime"),
-					"notas" => array("nvarchar")
+					"fecha_prox_gestion" => array("datetime"),
+					"notas" => array("varchar"),
+					"usuario" => array("varchar")
 				);
 			parent::BusinessObject();
 		}
@@ -1321,4 +1328,47 @@
 			parent::SqlSoporte($h, $u, $p);
 		}
 	}
+	
+	
+	class Gestiones extends BusinessObject
+	{
+		function Gestiones()
+		{
+			$this->table_name = "Gestiones";
+			$this->field_metadata = array(
+					"id_gestion" => array("int"),
+					"id_deudor" => array("int"),
+					"id_mandante" => array("int"),
+					"fecha_gestion" => array("datetime"),
+					"nota_gestion" => array("varchar"),
+					"fecha_prox_gestion" => array("datetime"),
+					"activo" => array("varchar"),
+					"usuario_creacion" => array("varchar"),
+					"fecha_creacion"  => array("datetime"),
+					"usuario_modificacion" => array("varchar"),
+					"fecha_modificacion"  => array("datetime")
+				);
+			parent::BusinessObject();
+		}
+	}
+	
+	class GestionesCollection extends BusinessObjectCollection
+	{
+		function GestionesCollection()
+		{
+			parent::BusinessObjectCollection();
+		}
+		
+		function create_singular($row) 
+		{ 
+			$obj = new Gestiones();
+			$obj->load_from_list($row);
+			
+			return $obj;
+		}
+	}
+	
+	
+	
+	
 ?>
