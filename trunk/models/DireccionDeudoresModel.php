@@ -28,6 +28,15 @@ class DireccionDeudoresModel extends ModelBase
 				
 		return $dato;
 	}
+	
+	public function getDireccion($iddir)
+	{
+		$dato = new Direccion_Deudores();
+		$dato->add_filter("id_direccion","=",$iddir);
+		$dato->load();
+				
+		return $dato;
+	}
 
 	public function getListaDireccionesTmp($id_sesion)
 	{
@@ -37,6 +46,16 @@ class DireccionDeudoresModel extends ModelBase
 				
 		return $dato;
 	}
+
+	public function getListaDirecciones($iddeudor)
+	{
+		$dato = new Direccion_DeudoresCollection();
+		$dato->add_filter("id_deudor","=",$iddeudor);
+		$dato->load();
+				
+		return $dato;
+	}
+	
 	
 	public function borrardirtmp($id_sesion)
 	{

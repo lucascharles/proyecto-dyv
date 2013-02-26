@@ -23,11 +23,11 @@
 		<th align="center"><font class="titulolistado">MANDANTE</font></th>
         <th align="center"><font class="titulolistado">RECIBIDO</font></th>
 		<th align="center"><font class="titulolistado">ESTADO</font></th>
-        <th align="center"><font class="titulolistado">NRO. DOC.</font></th>
-        <th align="center"><font class="titulolistado">TIPO DOC.</font></th>
+        <th align="center"><font class="titulolistado">NRO.DOC.</font></th>
+        <th align="center"><font class="titulolistado">TIPO.DOC.</font></th>
 		<th align="center"><font class="titulolistado">MONTO</font></th>
         <th align="center"><font class="titulolistado">BANCO</font></th>
-        <th align="center"><font class="titulolistado">CTA. CTE.</font></th>
+        <th align="center"><font class="titulolistado">CTA.CTE.</font></th>
     </tr>
 	<?php
 	

@@ -1060,5 +1060,25 @@ ORDER BY g.orden ASC ";
 		$dato->save();
 	}
 	
+	public function lista_demandas($iddeudor)
+	{
+		include("config.php");
+
+		$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
+	
+		$sqlpersonal->set_select( " juzgado_numero numero,
+	   								juzgado_comuna juzgado,
+	   								rol rol,
+	   								id_ficha ficha,
+	   								receptor rep,
+	   								ingreso fecha ");
+		$sqlpersonal->set_from( " fichas ");
+	
+		$sqlpersonal->set_where( " id_deudor = ".$iddeudor);
+	
+    	$sqlpersonal->load();
+
+    	return $sqlpersonal;	
+	}
 }
 ?>

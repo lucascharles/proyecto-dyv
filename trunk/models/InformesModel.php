@@ -1,0 +1,69 @@
+<?php
+class InformesModel extends ModelBase
+{
+		
+	public function listar_informe($tipoInforme,$mandante,$tipodoc)
+	{
+		
+		include("config.php");
+
+		$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
+	
+		$sqlpersonal->set_select( " m.rut_mandante rut_mandante, m.dv_mandante dv_mandante, 
+				   de.rut_deudor rut_deudor, de.dv_deudor dv_deudor,
+				   d.numero_siniestro numero_siniestro,
+				   d.fecha_siniestro fecha_siniestro,
+				   ed.estado estado,
+				   d.monto monto,
+				   td.tipo_documento tipo_documento,
+				   b.banco banco,
+				   d.numero_documento numero_documento,
+				   cp.causal causal,
+				   f.id_ficha numero_ficha,
+				   de.primer_nombre primer_nombre,
+				   de.primer_apellido primer_apellido,
+				   f.juzgado_numero juzgado_numero,
+				   f.juzgado_comuna juzgado_comuna,
+				   f.rol rol ");
+		$sqlpersonal->set_from( " documentos d,
+					mandantes m,
+					deudores de,
+					estadodocumentos ed,
+					tipodocumento td,
+					bancos b,
+					causalprotesta cp,
+  				    fichas f ");
+				
+			$where = " d.id_mandatario = m.id_mandante
+					and	  d.id_deudor = de.id_deudor
+					and   d.id_estado_doc = ed.id_estado_doc
+					and   d.id_tipo_doc = td.id_tipo_documento
+					and   d.id_banco = b.id_banco
+					and	  d.id_causa_protesto = cp.id_causal
+					and   d.id_documento = f.id_documento 
+					and   d.id_estado_doc ".$tipoInforme .
+				  " and   m.id_mandante = ". $mandante;
+			
+			if(($fecha_desde != "") && ($fecha_hasta != "")){
+				
+				$where = $where. " and d.fecha_creacion between ".$fecha_desde." and ". $fecha_hasta;
+			}
+			
+			if($tipodoc != ""){
+				
+				$where = $where. " and d.id_tipo_doc = ".$tipodoc;
+			}
+			$sqlpersonal->set_where($where);
+				
+
+			
+
+			
+    	$sqlpersonal->load();
+
+    	return $sqlpersonal;	
+		
+	}
+	
+}
+?>
