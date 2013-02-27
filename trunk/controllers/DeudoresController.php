@@ -536,5 +536,39 @@ class DeudoresController extends ControllerBase
 		$dato = $deudores->quitarMandanteTmp($array["idmandante"],session_id());
 	}
 	
+ 	public function admin_fichas($array)
+    {
+
+		
+		$data['nom_sistema'] = "SISTEMA DyV";
+		
+    	
+		$this->view->show("admin_fichas.php", $data);
+	}
+	
+	public function listar_fichas($array)
+	{
+    	require 'models/DeudoresModel.php';
+		$deudor = new DeudoresModel();
+		$dato = $deudor->getTodasFichas($array["rutdeudor"]);
+				
+		$data['objTodasFichas'] = $dato;
+
+		$this->view->show("lista_fichas.php", $data);
+	}
+	
+		public function editar_ficha($array)
+    {
+		require 'models/DeudoresModel.php';
+		$deudor = new DeudoresModel();
+		$dato = $deudor->getDeudor($array["iddeudor"], session_id());
+		
+		$data['nom_sistema'] = "SISTEMA DyV";
+		$data['objDeudor'] = $dato;
+		
+		
+		$this->view->show("edita_deudores.php", $data);
+		
+    }	
 }
 ?>
