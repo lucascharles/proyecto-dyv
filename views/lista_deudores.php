@@ -6,23 +6,53 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<title></title>
     <link rel="stylesheet" href="css/general.css" type="text/css" />
+     <script src="js/jquery-1.7.1.min.js" type="text/javascript"></script>
     <script language="javascript"> 
 		function seleccionado(id)
 		{
 			window.parent.seleccionado(id);
 		}
 		
+		function verMasRegistros(id)
+		{
+			var datos = "controlador=Deudores&accion=listar_mas_registros";
+			datos += "&rut="+window.parent.document.getElementById("txtrut").value;
+			datos += window.parent.document.getElementById("txtrut_d").value;
+			datos += "&p_ape="+window.parent.document.getElementById("txtpapellido").value;
+			datos += "&s_ape="+window.parent.document.getElementById("txtsapellido").value;
+			datos += "&p_nom="+window.parent.document.getElementById("txtpnombre").value;
+			datos += "&s_nom="+window.parent.document.getElementById("txtsnombre").value;
+			datos += "&id_partida="+id;
+			
+			$.ajax({
+					url: "index.php",
+					type: "GET",
+					data: datos,
+					cache: false,
+					success: function(res)
+					{
+						
+						$("#btnvermas_"+id).hide("slow"); 
+						$("#masdatos_"+id).html(res); 
+						$("#masdatos_"+id).slideDown("slow"); 
+					},
+					error: function()
+					{
+						//alert("Ha ocurrido un error y no se ha podido agregar el registro.");
+					}
+				});
+		}
 	</script>
 </head>
 <body bgcolor="#FFFFFF">
 <table width="100%" cellpadding="2" cellspacing="2" align="center" border="0" bgcolor="#FFFFFF">
 	<tr class="cabecera_listado" >
-    	<th width="15" align="center" height="25"></th>
-		<th align="center"><font class="titulolistado">RUT</font></th>
-        <th align="center"><font class="titulolistado">PRIMER APELLIDO</font></th>
-        <th align="center"><font class="titulolistado">SEGUNDO APELLIDO</font></th>
-        <th align="center"><font class="titulolistado">PRIMER NOMBRE</font></th>
-        <th align="center"><font class="titulolistado">SEGUNDO NOMBRE</font></th>
+    	<th width="3%" align="center" height="25"></th>
+		<th align="center" width="17%"><font class="titulolistado">RUT</font></th>
+        <th align="center" width="20%"><font class="titulolistado">PRIMER APELLIDO</font></th>
+        <th align="center" width="20%"><font class="titulolistado">SEGUNDO APELLIDO</font></th>
+        <th align="center" width="20%"><font class="titulolistado">PRIMER NOMBRE</font></th>
+        <th align="center" width="20%"><font class="titulolistado">SEGUNDO NOMBRE</font></th>
     </tr>
 	<?php
 	
@@ -44,7 +74,21 @@
 	</tr>
 	<?php
 	}
+	
+	$datoTmp = &$colleccionDeudores->items[($colleccionDeudores->get_count()-1)];
+	if($cant_mas > 0)
+	{
+		
 	?>
-</table>
+    <tr bgcolor="#FFFFFF">
+    	<td colspan="6" align="center">
+        <div id='btnvermas_<? echo($datoTmp->get_data("id_deudor")) ?>' onclick="verMasRegistros(<? echo($datoTmp->get_data("id_deudor")) ?>)" style="cursor:pointer;" >Ver mas </div></td>
+	</tr>
+    <?
+    }
+	?>
+    </table>
+	<div  mascom='masdatcom' id="masdatos_<? echo($datoTmp->get_data("id_deudor")) ?>" style="display:none;">
+    </div>
 </body>
 </html>
