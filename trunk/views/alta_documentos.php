@@ -17,7 +17,7 @@
 			.ui-timepicker-div td { font-size: 90%; }
 			.ui-tpicker-grid-label { background: none; border: none; margin: 0; padding: 0; }
 	</style>
-    <!--<script src="js/jquery-1.7.1.min.js" type="text/javascript"></script>-->
+    <script src="js/jquery-1.7.1.min.js" type="text/javascript"></script>
     <script src="js/jquery/jquery-1.4.1.min.js" type="text/javascript"></script>
     <script src="js/validacampos.js" type="text/javascript"></script>
   	<script src="js/funciones.js" type="text/javascript"></script>
@@ -28,13 +28,16 @@
 	<script type="text/javascript" src="js/jquery-ui-sliderAccess.js"></script>
     <script language="javascript">
 		$(document).ready(function(){
-			
+			$('form').validator();
 			$("#txtfechaRecibido").datepicker();
+			$("#txtfechaprotesto").datepicker();
 			
 		});
 		
-		function limpiar()
+		function limpiarDocumentos()
 		{			
+			limpiarCampos();
+			/*
 			document.getElementById("txtdestipdoc").value = "";
 			document.getElementById("selDeudor").value = "";
 			document.getElementById("selMandante").value = "";
@@ -46,6 +49,7 @@
 			document.getElementById("txtctacte").value = "";
 			document.getElementById("txtfechaprotesto").value = "";
 			document.getElementById("selCausalProtesta").value = "";
+			*/
 		}
 		
 		function salir()
@@ -77,6 +81,10 @@
 		
 		function grabar()
 		{		
+			if(!validar("N"))
+			{
+				return false;
+			}
 			
 			if($.trim($("#selDeudor").val()) != "")
 			{
@@ -96,8 +104,6 @@
 				datos += "&txtfechaprotesto="+$("#txtfechaprotesto").val();
 				datos += "&selCausalProtesta="+$("#selCausalProtesta").val();
 				datos += "&selEstadoDoc="+$("#selEstadoDoc").val();
-				
-				
 				
 				$.ajax({
 					url: "index.php",
@@ -128,7 +134,7 @@
 </head>
 <body>
 <form name="frmadmdocumentos">
-<input  type="hidden" name="id_documento" id="id_documento" value=""/>
+<input grabar="S" type="hidden" name="id_documento" id="id_documento" value=""/>
 <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="titulopantalla">
 	<tr>
 		<th align="left" height="30">&nbsp;Alta Documento</th>
@@ -154,7 +160,7 @@
     <tr>
 		<td width="70" align="left" class="etiqueta_form">Deudor:</td>
         <td> 
-        	<select name="selDeudor" valida="requerido" tipovalida="texto" id="selDeudor" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)">
+        	<select name="selDeudor" grabar="S" valida="requerido" tipovalida="texto" id="selDeudor" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)">
      			<option value=""><? print utf8_encode("----Seleccione----") ?></option>
         		<?
 			        for($j=0; $j<$coleccion_deudores->get_count(); $j++)
@@ -169,7 +175,7 @@
 		
 		<td width="70" align="left" class="etiqueta_form">Mandatario:</td>
         <td> 
-        	<select name="selMandante" valida="requerido" tipovalida="texto" id="selMandante" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)">
+        	<select name="selMandante" grabar="S" valida="requerido" tipovalida="texto" id="selMandante" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)">
      			<option value=""><? print utf8_encode("----Seleccione----") ?></option>
         		<?
 			        for($j=0; $j<$coleccion_mandantes->get_count(); $j++)
@@ -191,11 +197,11 @@
     
     <tr>
 		<td width="20" align="left" class="etiqueta_form">Recibido:</td>
-        <td align="left"><input type="text" name="txtfechaRecibido" id="txtfechaRecibido" value="<?php echo date("d/m/Y"); ?>" size="20" onkeyup='mostrar(this)' class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)"/></td>
+        <td align="left"><input type="text" grabar="S" name="txtfechaRecibido" id="txtfechaRecibido" value="<?php echo date("d/m/Y"); ?>" size="20"  valida="requerido" tipovalida="fecha" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)"/></td>
         
         <td width="70" align="left" class="etiqueta_form">Estado:</td>
         <td> 
-        	<select name="selEstadoDoc" valida="requerido" tipovalida="texto" id="selEstadoDoc" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)">
+        	<select name="selEstadoDoc" grabar="S" valida="requerido" tipovalida="texto" id="selEstadoDoc" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)">
      			<option value=""><? print utf8_encode("----Seleccione----") ?></option>
         		<?
 			        for($j=0; $j<$coleccion_estadoDoc->get_count(); $j++)
@@ -237,14 +243,14 @@
  		<td>
         	<table align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
             	<tr>
-					<td width="20" align="left" class="etiqueta_form">Nro Doc.:</td>
-        			<td width="70" align="left" class="etiqueta_form">Tipo Doc.:</td>
+					<td width="20" align="left" class="etiqueta_form">Tipo Doc.:</td>
+        			<td width="70" align="left" class="etiqueta_form">Nro Doc.:</td>
         			<td width="20" align="left" class="etiqueta_form">Monto:</td>       
         			<td width="70" align="left" class="etiqueta_form">Banco:</td>
                 </tr>
                 <tr>
         			<td> 
-                        <select name="selTipoDoc" valida="requerido" tipovalida="texto" id="selTipoDoc" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)">
+                        <select name="selTipoDoc" grabar="S" valida="requerido" tipovalida="texto" id="selTipoDoc" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)">
                             <option value=""><? print utf8_encode("----Seleccione----") ?></option>
                             <?
                                 for($j=0; $j<$coleccion_tipoDoc->get_count(); $j++)
@@ -255,9 +261,10 @@
                             ?>
                         </select>       
         			</td>  
-        			<td align="left"><input type="text" name="txtnrodoc" id="txtnrodoc"  size="20" onkeyup='mostrar(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" /></td>
-        			<td align="left"><input type="text" name="txtmonto" id="txtmonto" value="0" size="15" onkeyup='mostrar(this)' class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" /></td>
-        			<td> <select name="selBancos" valida="requerido" tipovalida="texto" id="selBancos" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)">
+        			<td align="left"><input type="text" grabar="S" name="txtnrodoc" id="txtnrodoc"  size="20" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"  valida="requerido" tipovalida="entero"/></td>
+        			<td align="left"><input type="text" grabar="S" name="txtmonto" id="txtmonto" value="0" size="15" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="moneda" /></td>
+        			<td> 
+                    <select name="selBancos" grabar="S" valida="requerido" tipovalida="texto" id="selBancos" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)">
      			<option value=""><? print utf8_encode("----Seleccione----") ?></option>
         		<?
 			        for($j=0; $j<$coleccion_bancos->get_count(); $j++)
@@ -278,10 +285,10 @@
                 <td width="70" align="left" colspan="2" class="etiqueta_form">Causal Protesto:</td>
         	   </tr>
     			<tr>
-    				<td align="left"><input type="text" name="txtctacte" id="txtctacte"  size="15" onkeyup='mostrar(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/></td>        
-        			<td align="left"><input type="text" name="txtfechaprotesto" id="txtfechaprotesto"  size="15" onkeyup='mostrar(this)' class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)"/></td>
+    				<td align="left"><input type="text" grabar="S" name="txtctacte" id="txtctacte"  size="15" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="entero" /></td>        
+        			<td align="left"><input type="text" grabar="S" name="txtfechaprotesto" id="txtfechaprotesto"  size="15" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="fecha"/></td>
                     <td colspan="2">
-        	<select name="selCausalProtesta" valida="requerido" tipovalida="texto" id="selCausalProtesta" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)">
+        	<select name="selCausalProtesta" grabar="S" valida="requerido" tipovalida="texto" id="selCausalProtesta" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)">
      			<option value=""><? print utf8_encode("----Seleccione----") ?></option>
         		<?
 			        for($j=0; $j<$coleccion_causalProtesta->get_count(); $j++)
@@ -331,7 +338,7 @@
     <tr>
         <td colspan="3" align="center">
         	
-         	<input  type="button" name="btnlimpiar" id="btnlimpiar" onclick="limpiar()" value="Limpiar" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)' />&nbsp;
+         	<input  type="button" name="btnlimpiar" id="btnlimpiar" onclick="limpiarDocumentos()" value="Limpiar" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)' />&nbsp;
             <input  type="button" name="btnsalir" id="btnsalir" onclick="salir()"value="Salir" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)' />
          </td>
     </tr>
