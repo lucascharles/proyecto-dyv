@@ -17,14 +17,14 @@
 			url += "&s_ape="+$("#txtsapellido").val();
 			url += "&p_nom="+$("#txtpnombre").val();
 			url += "&s_nom="+$("#txtsnombre").val();
-			
+			url += "&id_partida=0";
 			document.getElementById("frmlistdeudor").src = url;
 		}
 		
 		function limpiar()
 		{
 			document.getElementById("txtdestipdoc").value = "";
-			var url = "index.php?controlador=TipoDocumento&accion=listar";
+			var url = "index.php?controlador=TipoDocumento&accion=listar&id_partida=0";
 			document.getElementById("frmlistdeudor").src = url;
 		}
 		
@@ -145,7 +145,7 @@
  <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
     <tr>
 		<td colspan="2" width="90%">
-        	<iframe id="frmlistdeudor" src="index.php?controlador=Deudores&accion=listar" width="100%" align="middle" height="220" scrolling="auto" frameborder="0"  style="background-color:#FFFFFF;"></iframe>
+        	<iframe id="frmlistdeudor" src="index.php?controlador=Deudores&accion=listar&id_partida=0" width="100%" align="middle" height="220" scrolling="auto" frameborder="0"  style="background-color:#FFFFFF;"></iframe>
         </td>
         <td width="10%">
         	<div style="position:relative; margin-left:10px;">
