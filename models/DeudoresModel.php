@@ -413,6 +413,7 @@ class DeudoresModel extends ModelBase
 			// graba receptor y devuelve id ficha
 			$resp = $param["id_alta"];
 						
+
 			$val = new Martillero_FichaCollection();
 			$val->add_filter("id_ficha","=",$resp);
 			$val->load();
@@ -660,18 +661,18 @@ class DeudoresModel extends ModelBase
 
 		if($id_ficha <> 0)
 		{
-			$select = " g.id_gasto id_gasto, g.gasto gasto, gf.importe importe, g.rep rep, g.orden"; 
+			$select = " g.id_gasto id_gasto, g.gasto gasto, gf.importe importe, g.rep rep, g.orden orden"; 
 	 		$from = " gastos g, gastos_ficha gf ";
-    		$where = " g.id_gasto = gf.id_gasto and gf.id_ficha = ".$id_ficha." union select g.id_gasto id_gasto, g.gasto gasto, 0 importe, g.rep rep,g.orden 
+    		$where = " g.id_gasto = gf.id_gasto and gf.id_ficha = ".$id_ficha." union select g.id_gasto id_gasto, g.gasto gasto, 0 importe, g.rep rep,g.orden orden
 from gastos g 
 where g.id_gasto not in (select id_gasto from gastos_ficha where id_ficha = ".$id_ficha.")
-ORDER BY g.orden ASC ";
+ORDER BY orden ASC ";
 		}
 		else
 		{
-			$select = " g.id_gasto id_gasto, g.gasto gasto, '' importe, g.rep rep "; 
+			$select = " g.id_gasto id_gasto, g.gasto gasto, '' importe, g.rep rep, g.orden orden "; 
 	 		$from = " gastos g ";
-    		$where = " g.id_gasto > 0 ORDER BY g.orden ASC ";
+    		$where = " g.id_gasto > 0 ORDER BY orden ASC ";
 		}
 		
 		$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
@@ -882,6 +883,7 @@ ORDER BY g.orden ASC ";
 			$dato->add_filter("AND");
 			$dato->add_filter("segundo_nombre","like",trim($s_nom)."%");
 		}
+
 		$dato->load();
 		
 		return $dato;
@@ -953,17 +955,18 @@ ORDER BY g.orden ASC ";
 		
 	}
 	
-	public function getListaDeudores($rut,$p_ape,$s_ape,$p_nom,$s_nom)
+	public function getListaDeudores($rut,$p_ape,$s_ape,$p_nom,$s_nom,$id_partida)
 	{
 		$dato = new DeudoresCollection();
 		$dato->add_filter("activo","=","S");
+		$dato->add_filter("AND");
+		$dato->add_filter("id_deudor",">",$id_partida);
 		
 		if($rut <> "" && $rut <> 0)
 		{
 			$dato->add_filter("AND");
 			$dato->add_filter("rut_deudor_s","like",trim($rut)."%");
 		}
-		
 		
 		if(trim($p_ape) <> "")
 		{
@@ -985,6 +988,7 @@ ORDER BY g.orden ASC ";
 			$dato->add_filter("AND");
 			$dato->add_filter("segundo_nombre","like",trim($s_nom)."%");
 		}
+		$dato->add_top(3);
 		$dato->load();
 		
 		return $dato;
