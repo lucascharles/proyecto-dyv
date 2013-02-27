@@ -45,6 +45,7 @@
 			$this->sql_select = "";
 			$this->sql_where = "";
 			$this->sql_from = "";
+			$this->sql_completo = "";
 			$this->host = $h;
 			$this->user = $u; 
 			$this->pass = $p;
@@ -54,6 +55,11 @@
 		function get_count()
 		{
 			return count($this->items);
+		}
+		
+		function set_sqlcompleto($sql)
+		{
+			$this->sql_completo= $sql;
 		}
 		
 		function set_select($sql_s)
@@ -84,6 +90,39 @@
 			
 			//echo("<br>sql: ".$sql);
 			
+			$select = mssql_query($sql,$this->db_connect_id_s);
+			
+			while($fila=mssql_fetch_array($select))
+			{
+				$datas = new dataSqlSoporte();
+				$arrayaux = array();
+				$col = explode(",",$this->sql_select);
+				
+				for($i = 0; $i<count($col); $i++)
+				{
+					$ascol = explode(" ",trim($col[$i]));
+					if(count($ascol) > 1)
+					{
+						$arrayaux[trim($ascol[1])] = $fila[trim($ascol[1])];
+					}
+					else
+					{
+						$arrayaux[trim($ascol[0])] = $fila[trim($ascol[0])];
+					}
+				}
+				
+				$datas->set_data($arrayaux);
+				
+				$this->items[] = $datas;
+			}
+		}
+		
+		function loadSqlCompleto()
+		{
+
+			$sql = $this->sql_completo;
+			$sql .= ";";
+		
 			$select = mssql_query($sql,$this->db_connect_id_s);
 			
 			while($fila=mssql_fetch_array($select))
@@ -499,7 +538,7 @@
 			if ($sql_fields != "")
 			{
 				$sql = "INSERT INTO " . $data_objects[$this->db_key]->sql_escape_tablename($this->table_name) . " (" . $sql_fields . ") VALUES (" . $sql_values . ");";
-				
+				//echo("<br>sql: ".$sql);
 				$result = $data_objects[$this->db_key]->sql_query($sql);
 				if (!$result) 
 				{
@@ -606,6 +645,8 @@
 		
 		var $inicio = NULL;
 		var $fin = NULL;
+		var $top = NULL;
+		
 		
 		function BusinessObjectCollection() 
 		{
@@ -752,6 +793,20 @@
 			}
 		}
 		
+		function add_top()
+		{		
+			$arg_count = func_num_args();
+			
+			if ($arg_count == 1)
+			{
+				$this->top = func_get_arg(0);
+			}
+			else 
+			{
+				return false;
+			}
+		}
+		
 		function build_select()
 		{
 			global $data_objects;
@@ -881,14 +936,21 @@
 			return true;
 		}
 		
-		function load() 
+		function load() // load collection 
 		{
 			global $data_objects;
 			
 			// If we are loading data, this object is not new.
 			$this->is_new = false;
 			
-			$sql = "SELECT * FROM " . $data_objects[$this->db_key]->sql_escape_tablename($this->table_name);
+			$sql = "SELECT ";
+			
+			if($this->top != NULL)
+			{
+				$sql .= " TOP(" . $this->top . ") ";
+			}
+			
+			$sql .= " * FROM " . $data_objects[$this->db_key]->sql_escape_tablename($this->table_name);
 	
 			// add where clause if any filters where set.
 			$where_sql = $this->build_where_clause();
@@ -1111,7 +1173,7 @@
 			return $sql;
 		}
 		
-		function load() 
+		function load() // experimental
 		{
 			global $data_objects;
 			
@@ -1314,7 +1376,7 @@
 			return $sql;
 		}
 		
-		function load() 
+		function load() // experimental no se usa
 		{
 			global $data_objects;
 			
