@@ -379,14 +379,63 @@ class DeudoresController extends ControllerBase
 		$dir->editarDireccionTmp($array["iddir"], $array["calle"],$array["numero"],$array["piso"],$array["departamento"],$array["comuna"],$array["ciudad"],$array["otros"], session_id());
 	}
 	
+	public function listar_mas_registros($array)
+    {
+		require 'models/DeudoresModel.php';
+		$deudor = new DeudoresModel();
+		$dato = $deudor->getListaDeudores($array["rut"],$array["p_ape"],$array["s_ape"],$array["p_nom"],$array["s_nom"],$array["id_partida"]);	
+		//echo("cant: ".$dato->get_count());
+		$datoTmp = &$dato->items[($dato->get_count()-1)];
+		$datoAux = $deudor->getListaDeudores($array["rut"],$array["p_ape"],$array["s_ape"],$array["p_nom"],$array["s_nom"],$datoTmp->get_data("id_deudor"));
+		
+		
+		$html = "<table width='100%' cellpadding='2' cellspacing='2' align='center' border='0' bgcolor='#FFFFFF'>";
+		
+		for($j=0; $j<$dato->get_count(); $j++) 
+		{
+			$datoTmp = &$dato->items[$j];
+			
+			$html .= "<tr bgcolor='#FFFFFF'>";
+    		$html .= "<td width='3%' align='center' height='25'><input type='radio' id='".$datoTmp->get_data("id_deudor")."' name='checktipdoc' value='' onclick='seleccionado(".$datoTmp->get_data("id_deudor").")'></td>";
+        	$html .= "<td width='17%' align='left' class='dato_lista'>&nbsp;&nbsp;".$datoTmp->get_data("rut_deudor")."</td>";
+			$html .= "<td width='20%' align='left' class='dato_lista'>&nbsp;&nbsp;".$datoTmp->get_data("primer_apellido")."</td>";
+			$html .= "<td width='20%' align='left' class='dato_lista'>&nbsp;&nbsp;".$datoTmp->get_data("segundo_apellido")."</td>";
+        	$html .= "<td width='20%' align='left' class='dato_lista'>&nbsp;&nbsp;".$datoTmp->get_data("primer_nombre")."</td>";
+        	$html .= "<td width='20%' align='left' class='dato_lista'>&nbsp;&nbsp;".$datoTmp->get_data("segundo_nombre")."</td>";
+			$html .= "</tr>";
+			$html .= "<tr bgcolor='#FFFFFF'>";
+    		$html .= "<td colspan='6' style='border-bottom:solid; border-bottom-width:2px; border-bottom-color:#CCCCCC;'></td>";
+			$html .= "</tr>";
+		}
+		
+		$datoTmp = &$dato->items[($dato->get_count()-1)];
+		
+		if($datoAux->get_count() > 0)
+		{
+			$html .= "<tr bgcolor='#FFFFFF'>";
+    		$html .= "<td colspan='6' align='center'>";
+        	$html .= "<div id='btnvermas_".$datoTmp->get_data("id_deudor")."' onclick='verMasRegistros(".$datoTmp->get_data("id_deudor").")' style='cursor:pointer;'>Ver mas </div>";
+			$html .= "</td>";
+			$html .= "</tr>";
+	    }
+	    $html .= "</table>";
+		$html .= "<div  mascom='masdatcom' id='masdatos_".$datoTmp->get_data("id_deudor")."' style='display:none;'>";
+	    $html .= "</div>";
+		
+		echo($html);
+	}
+	
 	public function listar($array)
     {
 		require 'models/DeudoresModel.php';
-		$tipdoc = new DeudoresModel();
-		$dato = $tipdoc->getListaDeudores($array["rut"],$array["p_ape"],$array["s_ape"],$array["p_nom"],$array["s_nom"]);	
-		
+		$deudor = new DeudoresModel();
+		$dato = $deudor->getListaDeudores($array["rut"],$array["p_ape"],$array["s_ape"],$array["p_nom"],$array["s_nom"],$array["id_partida"]);	
+		$datoTmp = &$dato->items[($dato->get_count()-1)];
+		$datoAux = $deudor->getListaDeudores($array["rut"],$array["p_ape"],$array["s_ape"],$array["p_nom"],$array["s_nom"],$datoTmp->get_data("id_deudor"));
+			
 		$data['nom_sistema'] = "SISTEMA DyV";
 		$data['colleccionDeudores'] = $dato;
+		$data['cant_mas'] = $datoAux->get_count();
 		
 		$this->view->show("lista_deudores.php", $data);
 	}   
