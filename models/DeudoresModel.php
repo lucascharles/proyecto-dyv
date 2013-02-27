@@ -1084,5 +1084,34 @@ ORDER BY orden ASC ";
 
     	return $sqlpersonal;	
 	}
+	
+	public function getTodasFichas($rutdeudor)
+	{
+		include("config.php");
+
+		$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
+	
+		$sqlpersonal->set_select( " f.id_ficha id_ficha,
+	   		   d.rut_deudor rut_deudor,d.dv_deudor dv_deudor,
+	           d.primer_nombre d_primer_nombre, d.segundo_nombre d_segundo_nombre,
+	    	   d.primer_apellido d_primer_apellido, d.segundo_apellido d_segundo_apellido,
+	   		   m.rut_mandante rut_mandante,m.dv_mandante dv_mandante,
+	   		   m.nombre nombre,
+	   		   f.ingreso ingreso");
+		$sqlpersonal->set_from(" fichas f, deudores d, mandantes m ");
+		
+		$where = " f.id_deudor = d.id_deudor and f.id_mandante = m.id_mandante  ";
+		if($rutdeudor != "")
+		{
+			$where = $where." and d.rut_deudor = ".$rutdeudor;
+		}
+		$sqlpersonal->set_where($where);
+		
+    	$sqlpersonal->load();
+
+    	return $sqlpersonal;	
+	}
+		
+	
 }
 ?>
