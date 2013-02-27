@@ -57,8 +57,8 @@ function validarArray(arrayInputS, arraySelectS, mensaje)
 					{
 						if(arrayInput[i].getAttribute('tipovalida') == "texto")
 						{
-							//alert($(arrayInput[i]).val());
-							if(!validatexto($(arrayInput[i]).val()))
+
+							if(!validatexto($.trim($(arrayInput[i]).val())))
 							{
 								resultado = false;
 							}
@@ -73,7 +73,7 @@ function validarArray(arrayInputS, arraySelectS, mensaje)
 					if(arrayInput[i].getAttribute('tipovalida') == "texto")
 					{
 						//alert("valida el texto");
-						if(!validatexto($(arrayInput[i]).val()))
+						if(!validatexto($.trim($(arrayInput[i]).val())))
 						{
 							resultado = false;
 						}
@@ -81,7 +81,7 @@ function validarArray(arrayInputS, arraySelectS, mensaje)
 					
 					if(arrayInput[i].getAttribute('tipovalida') == "mail")
 					{
-						if(!validamail($(arrayInput[i]).val()))
+						if(!validamail($.trim($(arrayInput[i]).val())))
 						{
 							resultado = false;
 						}
@@ -89,7 +89,7 @@ function validarArray(arrayInputS, arraySelectS, mensaje)
 					
 					if(arrayInput[i].getAttribute('tipovalida') == "moneda")
 					{
-						if(!validamoneda($(arrayInput[i]).val()))
+						if(!validamoneda($.trim($(arrayInput[i]).val())))
 						{
 							resultado = false;
 						}
@@ -97,7 +97,7 @@ function validarArray(arrayInputS, arraySelectS, mensaje)
 					
 					if(arrayInput[i].getAttribute('tipovalida') == "fecha")
 					{
-						if(!validafecha($(arrayInput[i]).val()))
+						if(!validafecha($.trim($(arrayInput[i]).val())))
 						{
 							resultado = false;
 						}
@@ -105,7 +105,7 @@ function validarArray(arrayInputS, arraySelectS, mensaje)
 					
 					if(arrayInput[i].getAttribute('tipovalida') == "entero")
 					{
-						if(!validaentero($(arrayInput[i]).val()))
+						if(!validaentero($.trim($(arrayInput[i]).val())))
 						{
 							resultado = false;
 						}
@@ -246,7 +246,7 @@ function validar(mensaje)
 					{
 						if(arrayInput[i].getAttribute('tipovalida') == "texto")
 						{
-							if(!validatexto($(arrayInput[i]).val()))
+							if(!validatexto($.trim($(arrayInput[i]).val())))
 							{
 								resultado = false;
 							}
@@ -261,7 +261,7 @@ function validar(mensaje)
 					if(arrayInput[i].getAttribute('tipovalida') == "texto")
 					{
 						
-						if(!validatexto($(arrayInput[i]).val()))
+						if(!validatexto($.trim($(arrayInput[i]).val())))
 						{
 							resultado = false;
 						}
@@ -269,7 +269,7 @@ function validar(mensaje)
 					
 					if(arrayInput[i].getAttribute('tipovalida') == "mail")
 					{
-						if(!validamail($(arrayInput[i]).val()))
+						if(!validamail($.trim($(arrayInput[i]).val())))
 						{
 							resultado = false;
 						}
@@ -277,7 +277,7 @@ function validar(mensaje)
 					
 					if(arrayInput[i].getAttribute('tipovalida') == "moneda")
 					{
-						if(!validamoneda($(arrayInput[i]).val()))
+						if(!validamoneda($.trim($(arrayInput[i]).val())))
 						{
 							resultado = false;
 						}
@@ -285,7 +285,7 @@ function validar(mensaje)
 					
 					if(arrayInput[i].getAttribute('tipovalida') == "fecha")
 					{
-						if(!validafecha($(arrayInput[i]).val()))
+						if(!validafecha($.trim($(arrayInput[i]).val())))
 						{
 							resultado = false;
 						}
@@ -293,7 +293,7 @@ function validar(mensaje)
 					
 					if(arrayInput[i].getAttribute('tipovalida') == "entero")
 					{
-						if(!validaentero($(arrayInput[i]).val()))
+						if(!validaentero($.trim($(arrayInput[i]).val())))
 						{
 							resultado = false;
 						}
@@ -470,17 +470,18 @@ function validamail(val)
 function validafecha(fecha)
 {
 	var result = true;
-    if (fecha != undefined && fecha.value != "" )
+    if (fecha != undefined && fecha != "" )
 	{
-		if (!/^\d{2}\/\d{2}\/\d{4}$/.test(fecha.value))
+		if (!/^\d{2}\/\d{2}\/\d{4}$/.test(fecha))
 		{
+			alert("primer ");
           result = false;
         }
 		else
 		{
-			var dia  =  parseInt(fecha.value.substring(0,2),10);
-			var mes  =  parseInt(fecha.value.substring(3,5),10);
-			var anio =  parseInt(fecha.value.substring(6),10);
+			var dia  =  parseInt(fecha.substring(0,2),10);
+			var mes  =  parseInt(fecha.substring(3,5),10);
+			var anio =  parseInt(fecha.substring(6),10);
 		 
 			switch(mes)
 			{
@@ -572,7 +573,18 @@ function fEsAnioBisiesto(Anio)
     $(this).find(".notFilled").live('keyup', function(){
 		clase = "notFilled";
 		clasep = "resalta";
-		
+
+      if($(this).val()!=""){
+		  
+          $(this).removeClass(clase);
+		  $(this).addClass(clasep);
+		  
+      }
+    });
+	$(this).find(".notFilled").live('change', function(){
+		clase = "notFilled";
+		clasep = "resalta";
+
       if($(this).val()!=""){
 		  
           $(this).removeClass(clase);
