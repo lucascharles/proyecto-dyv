@@ -12,6 +12,7 @@
 			var url = "index.php?controlador=Mandantes&accion=listar&des_int="+document.getElementById("txtrut").value;
 			url += "&desApel1="+document.getElementById("txtPrimerApel").value;
 			url += "&desNomb1="+document.getElementById("txtPrimerNomb").value;
+			url += "&id_partida=0";
 			document.getElementById("frmlistmandantes").src = url;
 		}
 		
@@ -21,7 +22,7 @@
 			document.getElementById("txtPrimerApel").value = "";
 			document.getElementById("txtPrimerNomb").value = "";
 			
-			var url = "index.php?controlador=Mandantes&accion=listar";
+			var url = "index.php?controlador=Mandantes&accion=listar&id_partida=0";
 			document.getElementById("frmlistmandantes").src = url;
 		}
 		
@@ -30,6 +31,7 @@
 			var url = "index.php?controlador=Mandantes&accion=listar&des_int="+document.getElementById("txtrut").value;
 			url += "&desApel1="+document.getElementById("txtPrimerApel").value;
 			url += "&desNomb1="+document.getElementById("txtPrimerNomb").value;
+			url += "&id_partida=0";
 			document.getElementById("frmlistmandantes").src = url;
 		}
 		
@@ -144,8 +146,8 @@
  <div id="datos" style="">
  <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
     <tr>
-		<td colspan="2">
-        	<iframe id="frmlistmandantes" src="index.php?controlador=Mandantes&accion=listar" width="100%" align="middle" height="220" scrolling="auto" frameborder="0"></iframe>
+		<td colspan="2" width="90%">
+        	<iframe id="frmlistmandantes" src="index.php?controlador=Mandantes&accion=listar&id_partida=0" width="100%" align="middle" height="220" scrolling="auto" frameborder="0"></iframe>
         </td>
         <td>
         	<div style="position:relative; margin-left:10px;">
