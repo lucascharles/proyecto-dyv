@@ -126,6 +126,108 @@ class MandantesController extends ControllerBase
 		$this->view->show("lista_mandantes.php", $data);
 	} 
 	
+	public function listar_mas_registros($array)
+    {
+		require 'models/MandantesModel.php';
+		require 'models/BancosModel.php';
+		$mandantes = new MandantesModel();
+		$banco = new BancosModel();
+		
+		$datob = $banco->getListaBancos("");
+		
+		$dato = $mandantes->getListaMandantes($array["des_int"],$array["desApel1"],$array["desNomb1"],$array["id_partida"]);
+		
+		if($dato->get_count() > 0)
+		{
+			$datoTmp = &$dato->items[($dato->get_count()-1)];
+			$datoAux = $mandantes->getListaMandantes($array["des_int"],$array["desApel1"],$array["desNomb1"],$datoTmp->get_data("id_mandante"));
+		}
+			
+		$html = "<table width='100%' cellpadding='2' cellspacing='2' align='center' border='0' bgcolor='#FFFFFF'>";
+		
+		for($j=0; $j<$dato->get_count(); $j++) 
+		{
+			$datoTmp = &$dato->items[$j];
+			
+			$html .= "<tr bgcolor='#FFFFFF'>";
+			$html .= "<td  class='dato_lista'  width='3%'>";
+      
+	        if($array["pantalla"] == "pdeudor")
+	  		{
+	  			$html .= "<input type='button' id='".$datoTmp->get_data("id_mandante")."' name='btnmandante' value='' onclick='selMandDeu(".$datoTmp->get_data("id_mandante").")'>";
+        
+	  		}
+		 	else
+	  		{
+	  			if($array["pantalla"] == "pdeudor_s")
+				{
+	  				$html .= "<input type='button' id='".$datoTmp->get_data("id_mandante")."' name='btnmandante' value='' onclick='quitarMandDeu(".$datoTmp->get_data("id_mandante").")'>";
+			  	}
+				else
+				{
+					$html .= "<input type='radio' id='".$datoTmp->get_data("id_mandante")."' name='checktipdoc' value='' onclick='seleccionado(".$datoTmp->get_data("id_mandante").")'>";
+      			}
+      		}
+      $html .= "</td>";
+      $html .= "<td align='left'  width='17%' class='dato_lista'>".$datoTmp->get_data("rut_mandante")."-".$datoTmp->get_data("dv_mandante")."</td>";
+      $html .= "<td align='left' width='15%' class='dato_lista'>".$datoTmp->get_data("apellido")."</td>";
+      $html .= "<td align='left' width='15%' class='dato_lista'>".$datoTmp->get_data("nombre")."</td>";
+  	  $html .= "<td align='left' width='15%' class='dato_lista'>";
+	  
+	  for($i=0; $i<$datob->get_count(); $i++) 
+	  {
+	  	
+	  	$dbTmp = &$datob->items[$i];
+		if($dbTmp->get_data("id_banco") == $datoTmp->get_data("banco1"))
+		{
+	  		$html .= $dbTmp->get_data("banco");
+			break;
+		}
+	  }
+	  
+      $html .= "</td>";
+      $html .= "<td align='left'  width='10%' class='dato_lista'>".$datoTmp->get_data("cuenta_corriente1")."</td>";
+      $html .= "<td align='left' width='15%'  class='dato_lista'>"; 
+	  for($i=0; $i<$datob->get_count(); $i++) 
+	  {
+	  	$dbTmp = &$datob->items[$i];
+		if($dbTmp->get_data("id_banco") == $datoTmp->get_data("banco2"))
+		{
+	  		$html .= $dbTmp->get_data("banco");
+			break;
+		}
+	  }
+	  
+      $html .= "</td>";
+      $html .= "<td align='left'  width='10%' class='dato_lista'>".$datoTmp->get_data("cuenta_corriente2")."</td>";
+      $html .= "<tr bgcolor='#FFFFFF'>";
+      $html .= "<td colspan='19' style='border-bottom:solid; border-bottom-width:2px; border-bottom-color:#CCCCCC;'></td>";
+	  $html .= "</tr>";
+	
+	}
+	$cant_datos = 0;
+	if($dato->get_count() > 0)
+	{
+		$datoTmp = &$dato->items[($dato->get_count()-1)];
+		$cant_datos = $datoAux->get_count();
+	}
+	if($cant_datos > 0)
+	{
+	    $html .= "<tr bgcolor='#FFFFFF'>";
+    	$html .= "<td colspan='8' align='center'>";
+        $html .= "<div id='btnvermas_".$datoTmp->get_data("id_mandante")."' onclick='verMasRegistros(".$datoTmp->get_data("id_mandante").")' style='cursor:pointer;' >Ver mas </div>";
+		$html .= "</td>";
+		$html .= "</tr>";
+    }
+	$html .= "</table>";
+	if($cant_datos > 0)
+	{
+	$html .= "<div  mascom='masdatcom' id='masdatos_".$datoTmp->get_data("id_mandante")."' style='display:none;'>";
+    $html .= "</div>";
+	}
+	echo($html);
+	}
+	
 	public function listar($array)
     {
 		require 'models/MandantesModel.php';
@@ -133,12 +235,16 @@ class MandantesController extends ControllerBase
 		require 'models/BancosModel.php';
 		$banco = new BancosModel();
 
-		$dato = $mandantes->getListaMandantes($array["des_int"],$array["desApel1"],$array["desNomb1"]);
+		$dato = $mandantes->getListaMandantes($array["des_int"],$array["desApel1"],$array["desNomb1"],$array["id_partida"]);
 		$datob = $banco->getListaBancos("");
-		
+
+		$datoTmp = &$dato->items[($dato->get_count()-1)];
+		$datoAux = $mandantes->getListaMandantes($array["des_int"],$array["desApel1"],$array["desNomb1"],$datoTmp->get_data("id_mandante"));
+
 		$data['nom_sistema'] = "SISTEMA DyV";
 		$data['colleccionMandantes'] = $dato;
 		$data['colleccionBancos'] = $datob;
+		$data['cant_mas'] = $datoAux->get_count();
 		
 		if($array["pantalla"] == "pdeudor")
 		{
