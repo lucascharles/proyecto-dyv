@@ -9,7 +9,12 @@
     <script language="javascript">
 		function mostrar(obj)
 		{
-			var url = "index.php?controlador=Documentos&accion=listar&des_int="+obj.value;
+			var url = "index.php?controlador=Documentos&accion=listar&des_int="+document.getElementById("txtrut").value;
+			url += "&desApel1="+document.getElementById("txtPrimerApel").value;
+			url += "&desApel2="+document.getElementById("txtSegundoApel").value;
+			url += "&desNomb1="+document.getElementById("txtPrimerNomb").value;
+			url += "&desNomb2="+document.getElementById("txtSegundoNomb").value;
+			url += "&id_partida=0";
 			document.getElementById("frmlistdocumentos").src = url;
 		}
 		
@@ -21,7 +26,7 @@
 			document.getElementById("txtPrimerNomb").value = "";
 			document.getElementById("txtSegundoNomb").value = "";
 			
-			var url = "index.php?controlador=Documentos&accion=listar";
+			var url = "index.php?controlador=Documentos&accion=listar&id_partida=0";
 			document.getElementById("frmlistdocumentos").src = url;
 		}
 		
@@ -32,6 +37,7 @@
 			url += "&desApel2="+document.getElementById("txtSegundoApel").value;
 			url += "&desNomb1="+document.getElementById("txtPrimerNomb").value;
 			url += "&desNomb2="+document.getElementById("txtSegundoNomb").value;
+			url += "&id_partida=0";
 			document.getElementById("frmlistdocumentos").src = url;
 		}
 		
@@ -154,7 +160,7 @@
  <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
     <tr>
 		<td colspan="2" width="90%">
-        	<iframe id="frmlistdocumentos" src="index.php?controlador=Documentos&accion=listar" width="100%" align="middle" height="220" scrolling="auto" frameborder="0"></iframe>
+        	<iframe id="frmlistdocumentos" src="index.php?controlador=Documentos&accion=listar&id_partida=0" width="100%" align="middle" height="220" scrolling="auto" frameborder="0"></iframe>
         </td>
         <td width="10%">
         	<div style="position:relative; margin-left:10px;">
