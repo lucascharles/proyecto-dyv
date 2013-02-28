@@ -528,43 +528,72 @@ class DocumentosModel extends ModelBase
 	 
 	}
 	
-	public function getListaDocumentos($des, $idd='')
+	public function getListaDocumentos($des, $idd='',$array)
 	{
 	
-	include("config.php");
-
-	
-	$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
-	
-	$sqlpersonal->set_select(" d.id_documento id_documento, c.banco id_banco, dd.primer_apellido ape1_deudor, dd.segundo_apellido ape2_deudor, 
+		include("config.php");
+		
+		$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
+		$sqlpersonal->set_select(" d.id_documento id_documento, c.banco id_banco, dd.primer_apellido ape1_deudor, dd.segundo_apellido ape2_deudor, 
 							  		dd.primer_nombre nom1_deudor, dd.segundo_nombre nom2_deudor,
 									m.nombre nombre_mandante, ed.estado id_estado_doc, td.tipo_documento id_tipo_doc,
 									d.numero_documento numero_documento,d.fecha_siniestro fecha_siniestro, d.cta_cte cta_cte,d.monto monto"); 
-	  $sqlpersonal->set_from(" documentos d, 
+	  	$sqlpersonal->set_from(" documentos d, 
 	 								bancos c,
 	 								deudores dd,
 	 								mandantes m,
 	 								estadodocumentos ed,
 	 								tipodocumento td");
-    
-	  $where = " d.id_banco = c.id_banco
+	  	$where = " d.id_banco = c.id_banco
 				and  d.id_deudor = dd.id_deudor
 				and m.id_mandante = d.id_mandatario
 				and d.id_estado_doc = ed.id_estado_doc
 				and d.id_tipo_doc = td.id_tipo_documento
 				and d.activo = 'S' ";
-				
-	if($idd > 0 && trim($idd) <> "")
-	{
-		$where .= " and d.id_deudor = ".$idd;
-	  
-	}
+		
+		$where .= " and d.id_documento > ".$array["id_partida"];
+		
+		$sqlpersonal->set_top(1); // PARA SQLSERVER 
+		//$sqlpersonal->set_limit(0,3); // PARA MYSQL
+		
+		if(count($array) > 0)
+		{
+			if(trim($array["des_int"]) <> "")
+			{
+				$where .= " and dd.rut_deudor like '".trim($array["des_int"])."%'";
+			}
+			
+			if(trim($array["desApel1"]) <> "")
+			{
+				$where .= " and dd.primer_apellido like '".trim($array["desApel1"])."%'";
+			}
+			
+			if(trim($array["desApel2"]) <> "")
+			{
+				$where .= " and dd.segundo_apellido like '".trim($array["desApel2"])."%'";
+			}
+			
+			if(trim($array["desNomb1"]) <> "")
+			{
+				$where .= " and dd.primer_nombre like '".trim($array["desNomb1"])."%'";
+			}
+			
+			if(trim($array["desNomb2"]) <> "")
+			{
+				$where .= " and dd.segundo_nombre like '".trim($array["desNomb2"])."%'";
+			}
+		}
+		
+		if($idd > 0 && trim($idd) <> "")
+		{
+			$where .= " and d.id_deudor = ".$idd;
+		}	
 
-	$sqlpersonal->set_where($where);
+		$sqlpersonal->set_where($where);
 	
-    $sqlpersonal->load();
+    	$sqlpersonal->load();
 
-    return $sqlpersonal;	
+    	return $sqlpersonal;	
 	
 	}
 	
@@ -670,18 +699,7 @@ class DocumentosModel extends ModelBase
     	return $dato;
 	}
 
-//	public function getListaTipoDoc($des)
-//	{
-//    	$dato = new TipoDocumentoCollection();
-//    	$dato->add_filter("activo","=","S");
-//    	if(trim($des) <> "")
-//    	{
-//        	$dato->add_filter("AND");
-//        	$dato->add_filter("tipo_documento","like",trim($des)."%");
-//    	}	
-//    	$dato->load();       
-//    	return $dato;
-//	}
+
 	
 	public function getListaCausalProtesta($des)
 	{
