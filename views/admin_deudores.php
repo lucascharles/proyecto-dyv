@@ -30,7 +30,13 @@
 		
 		function buscar()
 		{
-			var url = "index.php?controlador=TipoDocumento&accion=listar&des_int="+document.getElementById("txtdestipdoc").value;
+			var url = "index.php?controlador=Deudores&accion=listar";
+			url += "&rut="+$("#txtrut").val()+$("#txtrut_d").val();
+			url += "&p_ape="+$("#txtpapellido").val();
+			url += "&s_ape="+$("#txtsapellido").val();
+			url += "&p_nom="+$("#txtpnombre").val();
+			url += "&s_nom="+$("#txtsnombre").val();
+			url += "&id_partida=0";
 			document.getElementById("frmlistdeudor").src = url;
 		}
 		
