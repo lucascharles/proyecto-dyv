@@ -196,10 +196,12 @@ class MandantesModel extends ModelBase
 	}
 	
 	
-	public function getListaMandantes($des,$desApel1,$desNomb1)
+	public function getListaMandantes($des,$desApel1,$desNomb1,$id_partida)
 	{
 		$dato = new MandantesCollection();
 		$dato->add_filter("activo","=","S");
+		$dato->add_filter("AND");
+		$dato->add_filter("id_mandante",">",$id_partida);
 		if(trim($des) <> "")
 		{
 			$dato->add_filter("AND");
@@ -216,7 +218,8 @@ class MandantesModel extends ModelBase
 			$dato->add_filter("AND");
 			$dato->add_filter("nombre","like",trim($desNomb1)."%");
 		}		
-		
+		$dato->add_top(3); // PARA SQLSERVER
+		//$dato->add_limit(0, 3); // PARA MYSQL 
 		$dato->load();
 		
 		return $dato;
