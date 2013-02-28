@@ -6,10 +6,38 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<title>MVC - Modelo, Vista, Controlador - Jourmoly</title>
      <link rel="stylesheet" href="css/general.css" type="text/css" />
+     <script src="js/jquery-1.7.1.min.js" type="text/javascript"></script>
     <script language="javascript"> 
 		function seleccionado(id)
 		{
 			window.parent.seleccionado(id);			
+		}
+		
+		function verMasRegistros(id)
+		{
+			var datos = "controlador=Documentos&accion=listar_mas_registros";
+			datos += "&desApel1="+window.parent.document.getElementById("txtPrimerApel").value;
+			datos += "&desApel2="+window.parent.document.getElementById("txtSegundoApel").value;
+			datos += "&desNomb1="+window.parent.document.getElementById("txtPrimerNomb").value;
+			datos += "&desNomb2="+window.parent.document.getElementById("txtSegundoNomb").value;
+			datos += "&id_partida="+id;
+			
+			$.ajax({
+					url: "index.php",
+					type: "GET",
+					data: datos,
+					cache: false,
+					success: function(res)
+					{
+						$("#btnvermas_"+id).hide("slow"); 
+						$("#masdatos_"+id).html(res); 
+						$("#masdatos_"+id).slideDown("slow"); 
+					},
+					error: function()
+					{
+						//alert("Ha ocurrido un error y no se ha podido agregar el registro.");
+					}
+				});
 		}
 		
 	</script>
@@ -17,17 +45,17 @@
 <body>
 <table width="100%" cellpadding="2" cellspacing="2" align="center" border="0" bgcolor="#FFFFFF">
 	<tr class="cabecera_listado" >
-		<th align="center"></th>
-		<th align="center"><font class="titulolistado">CORRELATIVO</font></th>
-        <th align="center"><font class="titulolistado">DEUDOR</font></th>
-		<th align="center"><font class="titulolistado">MANDANTE</font></th>
-        <th align="center"><font class="titulolistado">RECIBIDO</font></th>
-		<th align="center"><font class="titulolistado">ESTADO</font></th>
-        <th align="center"><font class="titulolistado">NRO.DOC.</font></th>
-        <th align="center"><font class="titulolistado">TIPO.DOC.</font></th>
-		<th align="center"><font class="titulolistado">MONTO</font></th>
-        <th align="center"><font class="titulolistado">BANCO</font></th>
-        <th align="center"><font class="titulolistado">CTA.CTE.</font></th>
+		<th align="center" width="3%"></th>
+		<th align="center" width="12%"><font class="titulolistado">CORRELATIVO</font></th>
+        <th align="center" width="10%"><font class="titulolistado">DEUDOR</font></th>
+		<th align="center" width="10%"><font class="titulolistado">MANDANTE</font></th>
+        <th align="center" width="10%"><font class="titulolistado">RECIBIDO</font></th>
+		<th align="center" width="10%"><font class="titulolistado">ESTADO</font></th>
+        <th align="center" width="10%"><font class="titulolistado">NRO. DOC.</font></th>
+        <th align="center" width="9%"><font class="titulolistado">TIPO DOC.</font></th>
+		<th align="center" width="8%"><font class="titulolistado">MONTO</font></th>
+        <th align="center" width="9%"><font class="titulolistado">BANCO</font></th>
+        <th align="center" width="9%"><font class="titulolistado">CTA. CTE.</font></th>
     </tr>
 	<?php
 	
@@ -42,7 +70,7 @@
 		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("id_documento")) ?></td>
 		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("ape1_deudor")." ".$datoTmp->get_data("ape2_deudor").$datoTmp->get_data("nom1_deudor")) ?></td>
 		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("nombre_mandante")) ?></td>
-		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("fecha_siniestro")) ?></td>
+		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo (formatoFecha($datoTmp->get_data("fecha_siniestro"),"dd-mm-yyyy","dd/mm/yyyy")) ?></td>
 		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("id_estado_doc")) ?></td>
 		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("numero_documento")) ?></td>
 		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("id_tipo_doc")) ?></td>
@@ -56,7 +84,19 @@
 	</tr>
 	<?php
 	}
+	$datoTmp = &$colleccionDatosDocumentos->items[($colleccionDatosDocumentos->get_count()-1)];
+	if($cant_mas > 0)
+	{
+	?>
+    <tr bgcolor="#FFFFFF">
+    	<td colspan="11" align="center">
+        <div id='btnvermas_<? echo($datoTmp->get_data("id_documento")) ?>' onclick="verMasRegistros(<? echo($datoTmp->get_data("id_documento")) ?>)" style="cursor:pointer;" >Ver mas </div></td>
+	</tr>
+    <?
+    }
 	?>
 </table>
+<div  mascom='masdatcom' id="masdatos_<? echo($datoTmp->get_data("id_documento")) ?>" style="display:none;">
+    </div>
 </body>
 </html>
