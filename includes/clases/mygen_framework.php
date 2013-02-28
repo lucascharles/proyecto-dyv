@@ -46,6 +46,9 @@
 			$this->sql_where = "";
 			$this->sql_from = "";
 			$this->sql_completo = "";
+			$this->sql_top = 0;
+			$this->sql_limit_i = 0;
+			$this->sql_limit_f = 0;
 			$this->host = $h;
 			$this->user = $u; 
 			$this->pass = $p;
@@ -77,14 +80,43 @@
 			$this->sql_where = $sql_w;
 		}
 		
+		function set_top($sql_t)
+		{
+			$this->sql_top = $sql_t;
+		}
+		
+		function set_limit($sql_i, $sql_f)
+		{
+			$this->sql_limit_i = $sql_i;
+			$this->sql_limit_f = $sql_f;
+		}
+		//$sqlpersonal->set_limit(0,3); // PARA MYSQL
+		
 		function load()
 		{
-
-			$sql = " SELECT ".$this->sql_select;
+			$sql = " SELECT ";
+			if($this->sql_top <> NULL)
+			{
+				$sql .= " TOP(".$this->sql_top.") ";
+			}
+			$sql .= $this->sql_select;
 			$sql .= " FROM ".$this->sql_from;
 			if(trim($this->sql_where) <> "")
 			{
 				$sql .= " WHERE ".$this->sql_where;
+			}
+			if($this->sql_limit_f <> NULL)
+			{
+				$sql .= " LIMIT ";
+				if($this->sql_limit_i <> NULL)
+				{
+					$sql .= $this->sql_limit_i;
+				}
+				else
+				{
+					$sql .= "0";
+				}
+				$sql .= ", ".$this->sql_limit_f;
 			}
 			$sql .= ";";
 			
@@ -167,6 +199,7 @@
 				return utf8_encode($this->datasoporte[$field]);
 			}
 			else
+
 			{
 				return null;
 			}
