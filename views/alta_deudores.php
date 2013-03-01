@@ -654,7 +654,6 @@
     </tr>
 </table> 
   </div>
- <div style="position:relative; margin-top:10px;">
  <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
     <tr>
         <td colspan="3" align="center">
@@ -665,8 +664,6 @@
     </tr>
 </table>
 
-
-</div>
 </form>
 </body>
 </html>

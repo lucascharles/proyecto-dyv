@@ -192,6 +192,7 @@
 			url += accion+"&ident="+$("#ident").val();
 			url += "&tipoperacion="+$("#tipoperacion").val(); 
 			url += "&id_alta="+$("#id_alta").val(); 
+			url += "&id_partida=0"; 
 			
 			document.getElementById("frmsubpantalla").src = url;
 		}
@@ -217,7 +218,7 @@
 	<table cellpadding="10" cellspacing="10" align="center" border="0" width="100%" bgcolor="#FFFFFF">  
     <tr>
     <td>
-	<table width="100%" align="center" border="0" bgcolor="#eee" cellpadding="5" cellspacing="5"> 
+	<table width="100%" align="center" border="0" bgcolor="#fff" cellpadding="5" cellspacing="5"> 
     	<tr>
         	<td height="" align="right">
             	<div onclick="cerrarVentDD()" style="cursor:pointer; font-weight:bold; color:#000099;"> cerrar </div>
@@ -405,9 +406,9 @@
         </td>
         <td><input type="text" grabar="S" name="txtfirma" id="txtfirma"  value="<? echo($firma) ?>" size="20" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" />
         </td>
-        <td><input type="text" grabar="S" name="txtingreso" id="txtingreso"  value="<? echo($ingreso) ?>" size="20" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" />
+        <td><input type="text" grabar="S" name="txtingreso" id="txtingreso"  value="<? echo($ingreso) ?>" size="20" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" />
         </td>
-        <td><input type="text" grabar="S" name="txtprovidencia_1"  value="<? echo($providencia_1) ?>" id="txtprovidencia_1"  size="20" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" />
+        <td><input type="text" grabar="S" name="txtprovidencia_1"  value="<? echo($providencia_1) ?>" id="txtprovidencia_1"  size="20" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" />
         </td>
     </tr>
     <tr>
@@ -421,7 +422,7 @@
         </td>
         <td><input type="text" grabar="S" name="txtrol"  value="<? echo($rol) ?>"id="txtrol"  size="20" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" />
         </td>
-        <td><select name="selJuzgadoNro" grabar="S"  id="selJuzgadoNro" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)">
+        <td><select name="selJuzgadoNro" grabar="S"  id="selJuzgadoNro" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)">
      			<option value="0"><? print utf8_encode("") ?></option>
         		<?
 					
@@ -439,7 +440,7 @@
     			?>
 			</select>
         </td>
-        <td><select name="selJComuna" grabar="S"  id="selJComuna" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)">
+        <td><select name="selJComuna" grabar="S"  id="selJComuna" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)">
      			<option value="0"><? print utf8_encode("") ?></option>
         		<?
 				
