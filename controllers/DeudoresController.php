@@ -28,13 +28,13 @@ class DeudoresController extends ControllerBase
 		
 		if($array["tipoperacion"] == "A")
 		{
-			$dato = $documentos->getListaDocumentos("",$array["ident"]);
+			$dato = $documentos->getListaDocumentos("",$array["ident"],$array);
 		}
 		
 		if($array["tipoperacion"] == "M")
 		{
 			$datodeudor = $deudor->getDeudorFicha($array["ident"]);	
-			$dato = $documentos->getListaDocumentos("",$datodeudor->get_data("id_deudor"));
+			$dato = $documentos->getListaDocumentos("",$datodeudor->get_data("id_deudor"),$array);
 		}
 		
 		$data['nom_sistema'] = "SISTEMA DyV";
@@ -536,7 +536,7 @@ class DeudoresController extends ControllerBase
 		$dato = $deudores->quitarMandanteTmp($array["idmandante"],session_id());
 	}
 	
- 	public function admin_fichas($array)
+	public function admin_fichas($array)
     {
 
 		
@@ -557,7 +557,7 @@ class DeudoresController extends ControllerBase
 		$this->view->show("lista_fichas.php", $data);
 	}
 	
-		public function editar_ficha($array)
+	public function editar_ficha($array)
     {
 		require 'models/DeudoresModel.php';
 		$deudor = new DeudoresModel();
@@ -569,6 +569,6 @@ class DeudoresController extends ControllerBase
 		
 		$this->view->show("edita_deudores.php", $data);
 		
-    }	
+    }
 }
 ?>
