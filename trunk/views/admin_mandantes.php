@@ -94,6 +94,7 @@
         <th></th>
     </tr>
  </table>
+
 <div id="buscador" style="">
 <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
 	 <tr>
@@ -109,17 +110,17 @@
         <table width="100%" align="center" cellpadding="0" cellspacing="0" border="0">
         	<tr>
             	<td align="left" class="etiqueta_form">Apellido</td>
-                <td align="left" class="etiqueta_form">Nombre<!-- Segundo Apellido --></td>
+                <td align="left" class="etiqueta_form">Nombre</td>
                 <td align="left" class="etiqueta_form" width="25%"></td>
-                <td align="left" class="etiqueta_form"  width="25%"s><!-- Segundo Nombre --></td>
+                <td align="left" class="etiqueta_form"  width="25%"s></td>
             </tr>
 		    <tr>
             	<td align="left"><input type="text" name="txtPrimerApel" id="txtPrimerApel"  size="40" onkeyup='mostrar(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" /></td>
                 <td align="left"><input type="text" name="txtPrimerNomb" id="txtPrimerNomb"  size="40" onkeyup='mostrar(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/>
-                <!--<input type="text" name="txtSegundoApel" id="txtSegundoApel"  size="40" onkeyup='mostrar(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/>-->
+                
                 </td>
                 <td align="left"></td>
-                <td align="left"><!--<input type="text" name="txtSegundoNomb" id="txtSegundoNomb"  size="40" onkeyup='mostrar(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/>--></td>
+                <td align="left"></td>
             </tr>
         </table>
         </td>
@@ -143,7 +144,9 @@
     </tr>
  </table>
  </div>
- <div id="datos" style="">
+
+ <div id="datos">
+ 
  <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
     <tr>
 		<td colspan="2" width="90%">
@@ -158,7 +161,7 @@
          </td>
     </tr>
     <tr>
-		<td colspan="3" align="right">
+		<td colspan="3" align="center" height="50" valign="middle">
         
             <input  type="button" name="btnsalir" id="btnsalir" onclick="salir()"  value="salir" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/>
          </td>

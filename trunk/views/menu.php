@@ -6,8 +6,8 @@
         <script src="js/funciones.js" type="text/javascript"></script>
         
 		<!-- ARCHIVOS PARA MENU DESPLEGABLE -->
-		<link rel="stylesheet" type="text/css" href="css/menuheader.css" />
-		<script type="text/javascript" src="js/menuheader.js"></script>
+		<link rel="stylesheet" type="text/css" href="../css/menuheader.css" />
+		<script type="text/javascript" src="../js/menuheader.js"></script>
                 
         <!-- SCRIPT PARA MENU -->
 <script type='text/javascript'>
@@ -200,9 +200,12 @@ background:url(images/selected.png);
 	</head>
 	<body>
     	<? include("cabecera.php") ?>
+        <table width="100%" height="100%" align="left" border="0" cellpadding="0" cellspacing="0" bgcolor="#eeeeee">
+        <tr>
+        	<td valign="top" width="200">
 		<div id="menu">
         
-        <div style="position:relative; margin-top:5px; color:#3278b4; font-family:Verdana, Arial, Helvetica, sans-serif; font-size:18px; font-weight:bold;">
+        <div style="position:relative; margin-top:5px; color:#3278b4; font-family:Verdana, Arial, Helvetica, sans-serif; font-size:18px; font-weight:bold; width:200px;">
         <table width="100%" border="0" cellpadding="10" cellspacing="10" align="center" bgcolor="#E4E4E4">
         	<tr>
             	<td align="center" style="color:#3278b4; font-family:Verdana, Arial, Helvetica, sans-serif; font-size:18px; font-weight:bold;">
@@ -231,9 +234,15 @@ background:url(images/selected.png);
 		?>
         </div> 
 		</div>
-        <div id="contenedor" style="position:relative; margin-top:0px; margin-left:230px; height:85%; border: 5px solid #DDD; padding: 10px; border-bottom:0px;">
-        	<div id="pagina"  style="position:relative; margin-top:0px; margin-left:0px; height:85%;">
-            </div>
-        </div>
+        </td>
+        <td  valign="top">
+        	<div id="contenedor" style="position:relative; margin-top:0px; margin-left:5px; height:85%; border: 5px solid #DDD; padding: 10px; border-bottom:0px; border-left-width:0px; border-top-width:0px;">
+        
+        		<div id="pagina"  style="position:relative; margin-top:0px; margin-left:0px; height:85%;">
+           		</div>
+        	</div>
+        </td>
+       </tr>
+      </table>
 	</body>
 </html>

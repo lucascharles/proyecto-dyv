@@ -47,14 +47,18 @@
 		
 	</script>
 </head>
-<body id="datos">
+<body  bgcolor="#cccccc">
 <form name="frmcargamasiva" action="<?php echo $accion_form ?>" method="post" enctype="multipart/form-data" >
 <input type="hidden" name="controlador" id="controlador" value="<? echo($controler) ?>" />
 <input type="hidden" name="accion" id="accion" value="<? echo($action) ?>" />
+<table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" bgcolor="#CCCCCC">
+<tr>
+<td align="center">
+<!--<div id="datos">-->
 <table width="100%" align="center" border="0" cellpadding="10" cellspacing="10" >
 	 <tr>
 		<td width="70" align="left" class="etiqueta_form">Archivo:</td>
-        <td align="left">&nbsp;&nbsp;&nbsp; <input type="file" name="txtarchivo" id="txtarchivo"  size="40"  class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto"/></td>
+        <td align="left">&nbsp;&nbsp;&nbsp; <input type="file" name="txtarchivo" id="txtarchivo" size="50" class="input_form_file" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto"/></td>
         <td align="center"> </td>
     </tr>
     <tr>
@@ -70,8 +74,10 @@
     </tr>
  </table>
 
-
- 
+<!--</div>-->
+ </td>
+ </tr>
+ </table>
 </form>
 </body>
 </html>
