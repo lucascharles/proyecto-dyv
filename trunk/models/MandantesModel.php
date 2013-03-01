@@ -196,7 +196,7 @@ class MandantesModel extends ModelBase
 	}
 	
 	
-	public function getListaMandantes($des,$desApel1,$desNomb1,$id_partida)
+	public function getListaMandantes($des,$desApel1,$desNomb1,$id_partida='0')
 	{
 		$dato = new MandantesCollection();
 		$dato->add_filter("activo","=","S");
