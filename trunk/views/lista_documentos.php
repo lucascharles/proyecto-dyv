@@ -13,13 +13,24 @@
 			window.parent.seleccionado(id);			
 		}
 		
-		function verMasRegistros(id)
+		function verMasRegistros(id, pantalla)
 		{
+			
 			var datos = "controlador=Documentos&accion=listar_mas_registros";
-			datos += "&desApel1="+window.parent.document.getElementById("txtPrimerApel").value;
-			datos += "&desApel2="+window.parent.document.getElementById("txtSegundoApel").value;
-			datos += "&desNomb1="+window.parent.document.getElementById("txtPrimerNomb").value;
-			datos += "&desNomb2="+window.parent.document.getElementById("txtSegundoNomb").value;
+			if(pantalla == "ALTA")
+			{
+				datos = "controlador=Documentos&accion=listar_mas_registros_nuevos";
+				datos += "&idedeudor="+window.parent.document.getElementById("selDeudor").value;
+			}
+			
+			if(pantalla == "ADMIN")
+			{
+				datos += "&desApel1="+window.parent.document.getElementById("txtPrimerApel").value;
+				datos += "&desApel2="+window.parent.document.getElementById("txtSegundoApel").value;
+				datos += "&desNomb1="+window.parent.document.getElementById("txtPrimerNomb").value;
+				datos += "&desNomb2="+window.parent.document.getElementById("txtSegundoNomb").value;
+			}
+			
 			datos += "&id_partida="+id;
 			
 			$.ajax({
@@ -85,18 +96,32 @@
 	<?php
 	}
 	$datoTmp = &$colleccionDatosDocumentos->items[($colleccionDatosDocumentos->get_count()-1)];
+	//echo("<br> cant: ".$cant_mas);
 	if($cant_mas > 0)
 	{
+		$pantalla = "ADMIN";
+		if($pantalla == "alta")
+		{
+			$pantalla = "ALTA";
+		}
+		
 	?>
     <tr bgcolor="#FFFFFF">
     	<td colspan="11" align="center">
-        <div id='btnvermas_<? echo($datoTmp->get_data("id_documento")) ?>' onclick="verMasRegistros(<? echo($datoTmp->get_data("id_documento")) ?>)" style="cursor:pointer;" >Ver mas </div></td>
+        <div id='btnvermas_<? echo($datoTmp->get_data("id_documento")) ?>' onclick="verMasRegistros(<? echo($datoTmp->get_data("id_documento")) ?>,'<? echo($pantalla) ?>')" style="cursor:pointer;" >Ver mas </div></td>
 	</tr>
     <?
     }
 	?>
 </table>
+<?
+	if($cant_mas > 0)
+	{
+?>
 <div  mascom='masdatcom' id="masdatos_<? echo($datoTmp->get_data("id_documento")) ?>" style="display:none;">
     </div>
+<?
+	}
+?>
 </body>
 </html>
