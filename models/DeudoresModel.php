@@ -1098,7 +1098,7 @@ ORDER BY orden ASC ";
 	   		   m.rut_mandante rut_mandante,m.dv_mandante dv_mandante,
 	   		   m.nombre nombre,
 	   		   f.ingreso ingreso");
-		$sqlpersonal->set_from(" fichas f, deudores d, mandantes m ");
+		$sqlpersonal->set_from(" ficha f, deudores d, mandantes m ");
 		
 		$where = " f.id_deudor = d.id_deudor and f.id_mandante = m.id_mandante  ";
 		if($rutdeudor != "")
@@ -1111,7 +1111,5 @@ ORDER BY orden ASC ";
 
     	return $sqlpersonal;	
 	}
-		
-	
 }
 ?>
