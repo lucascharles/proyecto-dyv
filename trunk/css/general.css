@@ -8,7 +8,8 @@ body{
 	margin: 0;
 	font-family: Verdana;
 	color: #444;
-	background: #EEE;
+	/*background: #EEE;*/
+	text-align:left;
 }
 
 .titulopantalla
@@ -21,9 +22,6 @@ body{
 
 
 #menu{
-	position:absolute;
-	margin-left:0px;
-	margin: 0px auto;
 	border: 5px solid #DDD;
 	border-bottom:0px;
 	padding: 10px;
@@ -33,7 +31,16 @@ body{
 	-moz-box-shadow: 1px 1px 7px #111;
     -webkit-box-shadow: 1px 1px 7px #111;
     box-shadow: 1px 1px 7px #111;
+	/* IE 8 */
+    -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#111111')";
+	filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#111111');
 	z-index:999;
+/*
+	position:absolute;
+	margin-left:100px;
+	margin: 0px auto;
+	
+	*/
 }
 
 #alerta{
@@ -102,13 +109,17 @@ input{
 
 #buscador
 {
-	border:solid; border-width:1px; border-color:#999999; padding:10px;
+	border:solid; border-width:1px; border-color:#999999; padding:10px;position:relative;
 	background-color:#ccc;
+	width:100%;
+	overflow:hidden;
 }
 #datos
 {
-	border:solid; border-width:2px; border-color:#999999; padding:10px; position:relative; margin-top:10px;
+	border:solid; border-width:2px; border-color:#999999; padding:0px; position:relative; margin-top:10px;
 	background-color:#ccc;
+	width:100%;
+	overflow:hidden;
 }
 
 #formsoporte
@@ -217,6 +228,15 @@ input{
 	height:23px;
 	width:190px;
 }
+.input_form_file
+{
+	border: solid;
+	border-width:1px;
+	border-color:#3278b4;
+	background:#ffffff;
+	height:23px;
+	width:350px;
+}
 .input_form_medio
 {
 	border: solid;
@@ -226,6 +246,7 @@ input{
 	height:23px;
 	width:100px;
 }
+
 .input_form_min
 {
 	border: solid;
@@ -253,6 +274,9 @@ input{
 	-moz-box-shadow: 1px 1px 3px #111;
     -webkit-box-shadow: 1px 1px 3px #111;
     box-shadow: 1px 1px 3px #111;
+	/* IE 8 */
+    -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#111111')";
+	filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#111111');
 }
 .boton_form_brillante
 {
