@@ -22,8 +22,8 @@ class InformesModel extends ModelBase
 				   f.id_ficha numero_ficha,
 				   de.primer_nombre primer_nombre,
 				   de.primer_apellido primer_apellido,
-				   f.juzgado_numero juzgado_numero,
-				   f.juzgado_comuna juzgado_comuna,
+				   j.descripcion juzgado_numero ,
+				   jc.descripcion juzgado_comuna,
 				   f.rol rol ");
 		$sqlpersonal->set_from( " documentos d,
 					mandantes m,
@@ -32,7 +32,9 @@ class InformesModel extends ModelBase
 					tipodocumento td,
 					bancos b,
 					causalprotesta cp,
-  				    fichas f ");
+  				    ficha f,
+					juzgado j,
+					juzgadocomuna jc ");
 				
 			$where = " d.id_mandatario = m.id_mandante
 					and	  d.id_deudor = de.id_deudor
@@ -41,6 +43,8 @@ class InformesModel extends ModelBase
 					and   d.id_banco = b.id_banco
 					and	  d.id_causa_protesto = cp.id_causal
 					and   d.id_documento = f.id_documento 
+					and   f.id_juzgado = j.id_juzgado
+					and   f.id_juzgado_comuna = jc.id_juzgado_comuna
 					and   d.id_estado_doc ".$tipoInforme .
 				  " and   m.id_mandante = ". $mandante;
 			
