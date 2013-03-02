@@ -40,7 +40,7 @@
 			document.getElementById("frmlistdeudor").src = url;
 		}
 		
-		function seleccionado(id)
+		function seleccionadoDeudor(id)
 		{
 			document.getElementById("id_deudor").value = id;
 		}
@@ -103,7 +103,7 @@
 <div id="buscador" style="">
 <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
 	 <tr>
-		<td width="" align="left" class="etiqueta_form">R.U.T.:&nbsp;&nbsp;&nbsp; <input type="text" name="txtrut" id="txtrut"  size="20" onkeyup='mostrar(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" />&nbsp;<input type="text" name="txtrut_d" id="txtrut_d"  size="2" onkeyup='mostrar(this)'  class="input_form_min"/></td>
+		<td width="" align="left" class="etiqueta_form">R.U.T.:&nbsp;&nbsp;&nbsp; <input type="text" name="txtrut_d" id="txtrut_d"  size="20" onkeyup='mostrar(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" />&nbsp;<input type="text" name="txtrut_dv" id="txtrut_dv"  size="2" onkeyup='mostrar(this)'  class="input_form_min"/></td>
         <td align="left"></td>
         <td> 
         </td>
