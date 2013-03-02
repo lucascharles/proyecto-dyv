@@ -6,18 +6,18 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<title></title>
     <link rel="stylesheet" href="css/general.css" type="text/css" />
-     <script src="js/jquery-1.7.1.min.js" type="text/javascript"></script>
+    <script src="js/jquery-1.7.1.min.js" type="text/javascript"></script>
     <script language="javascript"> 
 		function seleccionado(id)
 		{
-			window.parent.seleccionado(id);
+			window.parent.seleccionadoDeudor(id);
 		}
 		
 		function verMasRegistros(id)
 		{
 			var datos = "controlador=Deudores&accion=listar_mas_registros";
-			datos += "&rut="+window.parent.document.getElementById("txtrut").value;
-			datos += window.parent.document.getElementById("txtrut_d").value;
+			datos += "&rut="+window.parent.document.getElementById("txtrut_d").value;
+			datos += window.parent.document.getElementById("txtrut_dv").value;
 			datos += "&p_ape="+window.parent.document.getElementById("txtpapellido").value;
 			datos += "&s_ape="+window.parent.document.getElementById("txtsapellido").value;
 			datos += "&p_nom="+window.parent.document.getElementById("txtpnombre").value;
