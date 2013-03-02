@@ -34,27 +34,123 @@
 			
 		});
 		
+		function ventanaBusqueda(op)
+		{
+			if(op == "M")
+			{
+				$("#selecMandante").slideDown(1000);	
+				document.getElementById("txtrut_m").focus();
+			}
+			
+			if(op == "D")
+			{
+				$("#selecDeudor").slideDown(1000);	
+				document.getElementById("txtrut_d").focus();
+			}
+			
+		}
+		
+		function validarRut(tipo)
+		{
+			var datos = "";
+			var rut = "";
+			var dv = "";
+			
+			if(tipo == "D")
+			{
+				if($.trim($("#txtrut_deudor").val()) == "" || $.trim($("#txtdv_deudor").val()) == "")
+				{
+					return false;
+				}
+				
+				if(!validaentero($.trim($("#txtrut_deudor").val())))
+				{
+					return false;
+				}
+				if(!validaentero($.trim($("#txtdv_deudor").val())))
+				{
+					return false;
+				}
+				
+				datos = "controlador=Deudores";
+				rut = $("#txtrut_deudor").val();
+				dv = $("#txtdv_deudor").val();
+			}
+			if(tipo == "M")
+			{
+				if($.trim($("#txtrut_mandante").val()) == "" || $.trim($("#txtdv_mandante").val()) == "")
+				{
+					return false;
+				}
+				if(!validaentero($.trim($("#txtrut_mandante").val())))
+				{
+					return false;
+				}
+				if(!validaentero($.trim($("#txtdv_mandante").val())))
+				{
+					return false;
+				}
+				datos = "controlador=Mandantes";
+				rut = $("#txtrut_mandante").val();
+				dv = $("#txtdv_mandante").val();
+			}
+				
+			datos += "&accion=validarrut";
+			datos += "&tipoval=EXISTE";
+			datos += "&rut="+rut;
+			datos += "&dv="+dv;
+				
+			$.ajax({
+					url: "index.php",
+					type: "GET",
+					data: datos,
+					cache: false,
+					success: function(res)
+					{		
+						if(res == 0)
+						{
+							var mensaje = "";
+							
+							if(tipo == "D")
+							{
+								document.getElementById("txtdv_deudor").focus();
+								mensaje = "El rut ingresado para el deudor es incorrecto.";
+							}
+							if(tipo == "M")
+							{
+								document.getElementById("txtdv_mandante").focus();
+								mensaje = "El rut ingresado para el mandante es incorrecto.";
+							}
+							$("#mensaje").text(mensaje);
+							$("#mensaje").show("slow");
+							setTimeout("limpiarMensaje()",3000);
+						}
+						else 
+						{
+							if(tipo == "D")
+							{
+								$("#id_deudor").val(res);
+							}
+							if(tipo == "M")
+							{
+								$("#id_mandante").val(res);
+							}
+						}
+					},
+					error: function()
+					{
+						$("#mensaje").text("Ha ocurrido un error y no se ha podido agregar el registro.");
+					}
+				});
+		}
+		
 		function limpiarDocumentos()
 		{			
 			limpiarCampos();
-			/*
-			document.getElementById("txtdestipdoc").value = "";
-			document.getElementById("selDeudor").value = "";
-			document.getElementById("selMandante").value = "";
-			document.getElementById("txtfechaRecibido").value = "";
-			document.getElementById("txtnrodoc").value = "";
-			document.getElementById("selTipoDoc").value = "";
-			document.getElementById("txtmonto").value = "";
-			document.getElementById("selBancos").value = "";
-			document.getElementById("txtctacte").value = "";
-			document.getElementById("txtfechaprotesto").value = "";
-			document.getElementById("selCausalProtesta").value = "";
-			*/
 		}
 		
 		function salir()
 		{
-			
 			$("#pagina").load('views/admin_documentos.php');
 		}
 
@@ -62,6 +158,83 @@
 		function seleccionado(id)
 		{
 			document.getElementById("id_documento").value = id;
+		}
+		
+		function seleccionadoMandante(id)
+		{
+			document.getElementById("id_mandante").value = id;
+			buscarDatosMandante(id);
+			cerrarVentMand();
+		}
+		
+		function seleccionadoDeudor(id)
+		{
+			document.getElementById("id_mandante").value = id;
+			buscarDatosDeudor(id);
+			cerrarVentDeudor();
+		}
+		
+		function buscarDatosMandante(id)
+		{
+			var datos = "controlador=Mandantes";
+			datos += "&accion=getDatosMandante";
+			datos += "&id_mandante="+id;
+				
+			$.ajax({
+					url: "index.php",
+					type: "GET",
+					data: datos,
+					cache: false,
+					dataType: "json",
+					success: function(res)
+					{		
+						$("#txtrut_mandante").val(res[0]);
+						$("#txtdv_mandante").val(res[1]);
+						
+					},
+					error: function()
+					{
+						$("#mensaje").text("Ha ocurrido un error y no se ha podido agregar el registro.");
+					}
+				});
+		}
+		
+		function buscarDatosDeudor(id)
+		{
+			var datos = "controlador=Deudores";
+			datos += "&accion=getDatosDeudor";
+			datos += "&id_deudor="+id;
+				
+			$.ajax({
+					url: "index.php",
+					type: "GET",
+					data: datos,
+					cache: false,
+					dataType: "json",
+					success: function(res)
+					{		
+						$("#txtrut_deudor").val(res[0]);
+						$("#txtdv_deudor").val(res[1]);
+						
+					},
+					error: function()
+					{
+						$("#mensaje").text("Ha ocurrido un error y no se ha podido agregar el registro.");
+					}
+				});
+		}
+		
+		function cerrarVentMand()
+		{
+			$("#selecMandante").slideUp(1000);
+			//document.getElementById("frmtipocom").src = "";
+		}
+		
+		
+		function cerrarVentDeudor()
+		{
+			$("#selecDeudor").slideUp(1000);
+			//document.getElementById("frmtipocom").src = "";
 		}
 		
 		function eliminar()
@@ -93,8 +266,8 @@
 				var datos = "controlador=Documentos";
 				
 				datos += "&accion=grabar";
-				datos += "&deudor="+$("#selDeudor").val();
-				datos += "&mandante="+$("#selMandante").val();
+				datos += "&deudor="+$("#id_deudor").val();
+				datos += "&mandante="+$("#id_mandante").val();
 				datos += "&txtfechaRecibido="+$("#txtfechaRecibido").val();
 				datos += "&txtnrodoc="+$("#txtnrodoc").val();
 				datos += "&selTipoDoc="+$("#selTipoDoc").val();
@@ -129,12 +302,186 @@
 			$("#mensaje").text("");
 		}
 
+		function mostrar(obj)
+		{
+			var url = "index.php?controlador=Mandantes&accion=listar";
+			url += "&des_int="+$("#txtrut_m").val();
+			url += "&desApel1="+$("#txtPrimerApel").val();
+			url += "&desApel2="+$("#txtsapellido_m").val();
+			url += "&desNomb1="+$("#txtPrimerNomb").val();
+			url += "&desNomb2="+$("#txtsnombre_m").val();
+			url += "&id_partida=0";
+			
+			document.getElementById("frmmandantes").src = url;
+		}
+		
+		function mostrarDeudor(obj)
+		{
+			var url = "index.php?controlador=Deudores&accion=listar";
+			url += "&rut="+$("#txtrut_d").val()+$("#txtrut_dv").val();
+			url += "&p_ape="+$("#txtpapellido").val();
+			url += "&s_ape="+$("#txtsapellido").val();
+			url += "&p_nom="+$("#txtpnombre").val();
+			url += "&s_nom="+$("#txtsnombre").val();
+			url += "&id_partida=0";
+			document.getElementById("frmlistdeudor").src = url;
+		}
+		
 
 	</script>
 </head>
 <body>
+<div id="selecMandante" style="position:absolute; margin-left:20px; width:95%; margin-top:30px; display:none; z-index:9999;">
+	<table cellpadding="10" cellspacing="10" align="center" border="0" width="100%" bgcolor="#FFFFFF">  
+    <tr>
+    <td>
+	<table width="100%" align="center" border="0" bgcolor="#eee" cellpadding="5" cellspacing="5"> 
+    	<tr>
+        	<td height="" align="right">
+            	<div onclick="cerrarVentMand()" style="cursor:pointer; font-weight:bold; color:#000099;"> cerrar </div>
+            </td>
+        </tr>
+        <tr>
+        <th align="left">Seleccionar Mandantes</th>
+        </tr>
+        <tr>
+        <td height="10"> </td>
+        </tr>
+        <tr>
+        	<td height="">
+            	<table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
+                	<tr> 
+                        
+                       <td width="" colspan="4" align="left" class="etiqueta_form">Rut:&nbsp;&nbsp; <input type="text" name="txtrut_m" id="txtrut_m"  size="40" onkeyup='mostrar(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" /></td>
+                     </tr>
+                     <tr>
+                        
+                        <td width="" align="left" height="15"></td>
+                      
+                    </tr>
+                	<tr>
+                        
+                        <td width="" align="left" class="etiqueta_form">Primer Apellido:</td>
+                        <td width="" align="left" class="etiqueta_form">Segundo Apellido:</td>
+                        <td width="" align="left" class="etiqueta_form">Primer Nombre:</td>
+                        <td width="70" align="left" class="etiqueta_form">Segundo Nombre:</td>
+                    </tr>
+                    
+                    <tr> 
+                        
+                        
+                        <td align="left"><input type="text" name="txtPrimerApel" id="txtPrimerApel"  size="40" onkeyup='mostrar(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/></td>
+                        <td align="left"><input type="text" name="txtsapellido_m" id="txtsapellido_m"  size="40" onkeyup='mostrar(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/></td>  
+                        <td align="left"><input type="text" name="txtPrimerNomb" id="txtPrimerNomb"  size="40" onkeyup='mostrar(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" /></td>
+                        <td align="left"><input type="text" name="txtsnombre_m" id="txtsnombre_m"  size="40" onkeyup='mostrar(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/></td>
+                    </tr>
+
+                </table>
+            </td>
+        </tr>
+        <tr>
+        	<td height="15">
+            
+            </td>
+        </tr>
+        <tr>
+        <th align="left">Mandantes disponibles</th>
+        </tr>
+    	<tr>
+        	<td height="">
+            	
+	             <div id="datos" style="">
+            	<iframe id="frmmandantes" src="index.php?controlador=Mandantes&accion=listar&id_partida=0" scrolling="auto" frameborder="0" width="100%" height="100%"></iframe>
+                </div>
+            </td>
+       </tr>
+        <tr>
+        	<td height="15">
+            
+            </td>
+        </tr>
+    </table>
+    </td>
+</tr>
+</table>
+</div>
+<div id="selecDeudor" style="position:absolute; margin-left:20px; width:95%; margin-top:30px; display:none; z-index:9999;">
+	<table cellpadding="10" cellspacing="10" align="center" border="0" width="100%" bgcolor="#FFFFFF">  
+    <tr>
+    <td>
+	<table width="100%" align="center" border="0" bgcolor="#eee" cellpadding="5" cellspacing="5"> 
+    	<tr>
+        	<td height="" align="right">
+            	<div onclick="cerrarVentDeudor()" style="cursor:pointer; font-weight:bold; color:#000099;"> cerrar </div>
+            </td>
+        </tr>
+        <tr>
+        <th align="left">Seleccionar Deudor</th>
+        </tr>
+        <tr>
+        <td height="10"> </td>
+        </tr>
+        <tr>
+        	<td height="">
+            	<table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
+                	<tr> 
+                        
+                       <td width="" colspan="4" align="left" class="etiqueta_form">Rut:&nbsp;&nbsp; <input type="text" name="txtrut_d" id="txtrut_d"  size="20" onkeyup='mostrar(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" />&nbsp;<input type="text" name="txtrut_dv" id="txtrut_dv"  size="2" onkeyup='mostrarDeudor(this)'  class="input_form_min"/></td>
+                     </tr>
+                     <tr>
+                        
+                        <td width="" align="left" height="15"></td>
+                      
+                    </tr>
+                	<tr>
+                        
+                        <td width="" align="left" class="etiqueta_form">Primer Apellido:</td>
+                        <td width="" align="left" class="etiqueta_form">Segundo Apellido:</td>
+                        <td width="" align="left" class="etiqueta_form">Primer Nombre:</td>
+                        <td width="70" align="left" class="etiqueta_form">Segundo Nombre:</td>
+                    </tr>
+                    
+                    <tr>                       
+                        <td align="left"> <input type="text" name="txtpapellido" id="txtpapellido" value="" size="20" onkeyup='mostrarDeudor(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/></td>
+                        <td align="left"><input type="text" name="txtsapellido" id="txtsapellido" value="" size="20" onkeyup='mostrarDeudor(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/></td>  
+                        <td align="left"><input type="text" name="txtpnombre" id="txtpnombre" value="" size="20" onkeyup='mostrarDeudor(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/></td>
+                        <td align="left"><input type="text" name="txtsnombre" id="txtsnombre" value="" size="20" onkeyup='mostrarDeudor(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/></td>
+                    </tr>
+
+                </table>
+            </td>
+        </tr>
+        <tr>
+        	<td height="15">
+            
+            </td>
+        </tr>
+        <tr>
+        <th align="left">Deudores disponibles</th>
+        </tr>
+    	<tr>
+        	<td height="">
+            	
+	             <div id="datos" style="">
+            	<iframe id="frmlistdeudor" src="index.php?controlador=Deudores&accion=listar&id_partida=0" scrolling="auto" frameborder="0" width="100%" height="100%"></iframe>
+                </div>
+            </td>
+       </tr>
+        <tr>
+        	<td height="15">
+            
+            </td>
+        </tr>
+    </table>
+    </td>
+</tr>
+</table>
+</div>
 <form name="frmadmdocumentos">
 <input grabar="S" type="hidden" name="id_documento" id="id_documento" value=""/>
+<input grabar="S" type="hidden" name="id_mandante" id="id_mandante" value=""/>
+<input grabar="S" type="hidden" name="id_deudor" id="id_deudor" value=""/>
+
 <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="titulopantalla">
 	<tr>
 		<th align="left" height="30">&nbsp;Alta Documento</th>
@@ -157,35 +504,41 @@
 
 <div id="datos" style="">
 <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" size="20">
+	 <tr>
+        <td colspan="4" height="5">
+
+         </td>
+    </tr> 
     <tr>
-		<td width="70" align="left" class="etiqueta_form">Deudor:</td>
+		<td width="70" align="left" class="etiqueta_form">&nbsp;Deudor:</td>
         <td> 
-        	<select name="selDeudor" grabar="S" valida="requerido" tipovalida="texto" id="selDeudor" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)">
-     			<option value=""><? print utf8_encode("----Seleccione----") ?></option>
-        		<?
-			        for($j=0; $j<$coleccion_deudores->get_count(); $j++)
-			        {
-			            $datoTmp = &$coleccion_deudores->items[$j];
-			            echo("<option value=".$datoTmp->get_data("id_deudor").">".utf8_encode($datoTmp->get_data("rut_deudor")."-".$datoTmp->get_data("dv_deudor"))."</option>");           
-			        }
-    			?>
-			</select>
-        
+        	<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+            	<tr>
+                	<td width="240">
+						<input type="text" name="txtrut_deudor" id="txtrut_deudor" class="input_form" />&nbsp;
+	            		<input type="text" name="txtdv_deudor" id="txtdv_deudor" class="input_form_min" onblur="validarRut('D')" />&nbsp;
+                    </td>
+                	<td align="left">
+			            <img src="images/buscar.png" title="Buscar Deudor" style="cursor:pointer" onclick="ventanaBusqueda('D')"/>
+                    </td>
+                </tr>
+             </table>
         </td>
 		
 		<td width="70" align="left" class="etiqueta_form">Mandatario:</td>
         <td> 
-        	<select name="selMandante" grabar="S" valida="requerido" tipovalida="texto" id="selMandante" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)">
-     			<option value=""><? print utf8_encode("----Seleccione----") ?></option>
-        		<?
-			        for($j=0; $j<$coleccion_mandantes->get_count(); $j++)
-			        {
-			            $datoTmp = &$coleccion_mandantes->items[$j];
-			            echo("<option value=".$datoTmp->get_data("id_mandante").">".utf8_encode($datoTmp->get_data("rut_mandante")."-".$datoTmp->get_data("dv_mandante"))."</option>");           
-			        }
-    			?>
-			</select>
-        
+        	<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+            	<tr>
+                	<td width="240">
+						<input type="text" name="txtrut_mandante" id="txtrut_mandante" class="input_form" />&nbsp;
+            			<input type="text" name="txtdv_mandante" id="txtdv_mandante" class="input_form_min" onblur="validarRut('M')" />
+                    </td>
+                	<td align="left">
+			            <img src="images/buscar.png" title="Buscar Mandante" style="cursor:pointer" onclick="ventanaBusqueda('M')" />
+                    </td>
+                </tr>
+             </table>
+        	
         </td>       
         
     </tr>
@@ -196,7 +549,7 @@
     </tr>   
     
     <tr>
-		<td width="20" align="left" class="etiqueta_form">Recibido:</td>
+		<td width="20" align="left" class="etiqueta_form">&nbsp;Recibido:</td>
         <td align="left"><input type="text" grabar="S" name="txtfechaRecibido" id="txtfechaRecibido" value="<?php echo date("d/m/Y"); ?>" size="20"  valida="requerido" tipovalida="fecha" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)"/></td>
         
         <td width="70" align="left" class="etiqueta_form">Estado:</td>
@@ -215,11 +568,15 @@
         </td>  
                 
     </tr>
-        
+         <tr>
+        <td colspan="4" height="5">
+
+         </td>
+    </tr> 
     
     <tr>
         <td colspan="4">
-        	<span id="mensaje" style="display:none"></span>
+        	<span id="mensaje" style="display:none" ></span>
          </td>
     </tr>   
  </table>
@@ -316,7 +673,7 @@
  <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
     <tr>
 		<td colspan="2" width="90%">
-        	<iframe id="frmlistdocumentos" src="index.php?controlador=Documentos&accion=listarNuevos" width="100%" align="middle" height="220" scrolling="auto" frameborder="0"></iframe>
+        	<iframe id="frmlistdocumentos" src="index.php?controlador=Documentos&accion=listarNuevos&id_partida=0" width="100%" align="middle" height="220" scrolling="auto" frameborder="0"></iframe>
         </td>
         <td width="10%">
         	<div style="position:relative; margin-left:10px;">
