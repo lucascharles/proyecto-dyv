@@ -9,7 +9,7 @@
     <script language="javascript">
 		function mostrar(obj)
 		{
-			var url = "index.php?controlador=Mandantes&accion=listar&des_int="+document.getElementById("txtrut").value;
+			var url = "index.php?controlador=Mandantes&accion=listar&des_int="+document.getElementById("txtrut_m").value;
 			url += "&desApel1="+document.getElementById("txtPrimerApel").value;
 			url += "&desNomb1="+document.getElementById("txtPrimerNomb").value;
 			url += "&id_partida=0";
@@ -18,7 +18,7 @@
 		
 		function limpiar()
 		{
-			document.getElementById("txtrut").value = "";
+			document.getElementById("txtrut_m").value = "";
 			document.getElementById("txtPrimerApel").value = "";
 			document.getElementById("txtPrimerNomb").value = "";
 			
@@ -28,14 +28,14 @@
 		
 		function buscar()
 		{
-			var url = "index.php?controlador=Mandantes&accion=listar&des_int="+document.getElementById("txtrut").value;
+			var url = "index.php?controlador=Mandantes&accion=listar&des_int="+document.getElementById("txtrut_m").value;
 			url += "&desApel1="+document.getElementById("txtPrimerApel").value;
 			url += "&desNomb1="+document.getElementById("txtPrimerNomb").value;
 			url += "&id_partida=0";
 			document.getElementById("frmlistmandantes").src = url;
 		}
 		
-		function seleccionado(id)
+		function seleccionadoMandante(id)
 		{
 			document.getElementById("id_mandantes").value = id;
 		}
@@ -99,7 +99,7 @@
 <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
 	 <tr>
 		<td width="20" align="left"  class="etiqueta_form">Rut:</td>
-        <td align="left">&nbsp; <input type="text" name="txtrut" id="txtrut"  size="40" onkeyup='mostrar(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/></td>
+        <td align="left">&nbsp; <input type="text" name="txtrut_m" id="txtrut_m"  size="40" onkeyup='mostrar(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/></td>
         <td></td>
      </tr>
       <tr>
