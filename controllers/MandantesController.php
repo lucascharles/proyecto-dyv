@@ -252,6 +252,27 @@ class MandantesController extends ControllerBase
 		}
 		$this->view->show("lista_mandantes.php", $data);
 	}    
-  
+	
+	public function validarrut($array)
+    {
+		require 'models/MandantesModel.php';
+		$mandante = new MandantesModel();
+		$resp = $mandante->valRutMandante($array);
+		
+		echo($resp);
+    }  
+	
+	public function getDatosMandante($array)
+	{
+		require 'models/MandantesModel.php';
+		$mandante = new MandantesModel();
+		$arrayr = array();
+		
+		$dato = $mandante->getMandanteDatos($array["id_mandante"]);
+		$arrayr[] = $dato->get_data("rut_mandante");
+		$arrayr[] = $dato->get_data("dv_mandante");
+		
+		echo(json_encode($arrayr));		
+	}
 }
 ?>
