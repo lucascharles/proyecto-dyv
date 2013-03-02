@@ -378,10 +378,11 @@
 		{
 			var url = "index.php?controlador=Mandantes&accion=listar&pantalla=pdeudor";
 			url += "&des_int="+$("#txtrut_m").val();
-			url += "&desApel1="+$("#txtpapellido_m").val();
+			url += "&desApel1="+$("#txtPrimerApel").val();
 			url += "&desApel2="+$("#txtsapellido_m").val();
-			url += "&desNomb1="+$("#txtpnombre_m").val();
+			url += "&desNomb1="+$("#txtPrimerNomb").val();
 			url += "&desNomb2="+$("#txtsnombre_m").val();
+			url += "&id_partida=0";
 			
 			document.getElementById("frmmandantes").src = url;
 		}
@@ -430,9 +431,9 @@
                     <tr> 
                         
                         
-                        <td align="left"><input type="text" name="txtpapellido_m" id="txtpapellido_m"  size="40" onkeyup='mostrar(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/></td>
+                        <td align="left"><input type="text" name="txtPrimerApel" id="txtPrimerApel"  size="40" onkeyup='mostrar(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/></td>
                         <td align="left"><input type="text" name="txtsapellido_m" id="txtsapellido_m"  size="40" onkeyup='mostrar(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/></td>  
-                        <td align="left"><input type="text" name="txtpnombre_m" id="txtpnombre_m"  size="40" onkeyup='mostrar(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" /></td>
+                        <td align="left"><input type="text" name="txtPrimerNomb" id="txtPrimerNomb"  size="40" onkeyup='mostrar(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" /></td>
                         <td align="left"><input type="text" name="txtsnombre_m" id="txtsnombre_m"  size="40" onkeyup='mostrar(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/></td>
                     </tr>
 
@@ -451,7 +452,7 @@
         	<td height="">
             	
 	             <div id="datos" style="">
-            	<iframe id="frmmandantes" src="index.php?controlador=Mandantes&accion=listar&pantalla=pdeudor" scrolling="no" frameborder="0" width="100%" height="100%"></iframe>
+            	<iframe id="frmmandantes" src="index.php?controlador=Mandantes&accion=listar&pantalla=pdeudor&id_partida=0" scrolling="auto" frameborder="0" width="100%" height="100%"></iframe>
                 </div>
             </td>
        </tr>
@@ -467,7 +468,7 @@
         	<td height="">
              
 	             <div id="datos" style="">
-            	<iframe id="frmmandantes_d" src="index.php?controlador=Deudores&accion=listar_mand_sesion&pantalla=pdeudor_s" scrolling="no" frameborder="0" width="100%" height="100%"></iframe>
+            	<iframe id="frmmandantes_d" src="index.php?controlador=Deudores&accion=listar_mand_sesion&pantalla=pdeudor_s" scrolling="auto" frameborder="0" width="100%" height="100%"></iframe>
                 </div>
             </td>
         </tr>
