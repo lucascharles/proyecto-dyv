@@ -11,10 +11,11 @@
 		function verMasRegistros(id)
 		{
 			var datos = "controlador=Mandantes&accion=listar_mas_registros";
-			datos += "&des_int="+window.parent.document.getElementById("txtrut").value;
+			datos += "&des_int="+window.parent.document.getElementById("txtrut_m").value;
 			datos += "&desApel1="+window.parent.document.getElementById("txtPrimerApel").value;
 			datos += "&desNomb1="+window.parent.document.getElementById("txtPrimerNomb").value;
 			datos += "&id_partida="+id;
+			datos += "&pantalla="+document.getElementById("pantalla").value;
 			
 			$.ajax({
 					url: "index.php",
@@ -36,7 +37,7 @@
 		
 		function seleccionado(id)
 		{
-			window.parent.seleccionado(id);
+			window.parent.seleccionadoMandante(id);
 		}
 		
 		function selMandDeu(id)
@@ -71,6 +72,7 @@
 	?>
 	<tr bgcolor="#FFFFFF">
       <td  class="dato_lista">
+      <input type="hidden" name="pantalla" id="pantalla" value="<? echo($pantalla) ?>" />
       <?
 	 
       if($pantalla == "pdeudor")
