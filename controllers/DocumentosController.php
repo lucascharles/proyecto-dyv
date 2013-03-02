@@ -46,8 +46,8 @@ class DocumentosController extends ControllerBase
     {
 		require 'models/DocumentosModel.php';
 		$documentos = new DocumentosModel();
-		$data['coleccion_mandantes'] = $documentos->getListaMandantes("");
-		$data['coleccion_deudores'] = $documentos->getListaDeudores("");
+		//$data['coleccion_mandantes'] = $documentos->getListaMandantes("");
+		//$data['coleccion_deudores'] = $documentos->getListaDeudores("");
 		$data['coleccion_estadoDoc'] = $documentos->getListaEstadoDoc("");
 		$data['coleccion_bancos'] = $documentos->getListaBancos("");
 		$data['coleccion_tipoDoc'] = $documentos->getListaTipoDoc("");
@@ -85,14 +85,28 @@ class DocumentosController extends ControllerBase
 		require 'models/DocumentosModel.php';
 		$documentos = new DocumentosModel();
 			
-		$dato = $documentos->getListaDocumentos("",$array["ident"]);
-		$datoDoc = $documentos->getDatoDeudor($array["iddeudor"]);
+		//$dato = $documentos->getListaDocumentos("",$array["ident"],$array);
+		//$datoTmp = &$dato->items[($dato->get_count()-1)];
+		
+		$datoDoc = $documentos->getDatoDeudor($array["iddeudor"],$array);
+		//echo("<br>cant: ".$datoDoc->get_count());
+		if($datoDoc->get_count() > 0)
+		{
+			$datoTmp = &$datoDoc->items[($datoDoc->get_count()-1)];
+			$array["id_partida"] = $datoTmp->get_data("id_documento");
+		}
+		else
+		{
+			$array["id_partida"] = 0;
+		}
+		$datoAux = $documentos->getDatoDeudor($array["iddeudor"],$array);
 		
 		$data['nom_sistema'] = "SISTEMA DyV";
-		$data['colleccionDocumentos'] = $dato;
+		//$data['colleccionDocumentos'] = $dato;
 		$data['colleccionDatosDocumentos'] = $datoDoc;
-		
-		$this->view->show("lista_documentos.php", $data);
+		$data['cant_mas'] = $datoAux->get_count();
+		$data['pantalla'] = "alta";
+		$this->view->show("lista_documentos.php", $data);	
 	}  
 	
 	public function listar_mas_registros($array)
