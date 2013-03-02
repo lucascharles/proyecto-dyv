@@ -568,7 +568,28 @@ class DeudoresController extends ControllerBase
 		
 		
 		$this->view->show("edita_deudores.php", $data);
-		
     }
+	
+	public function validarrut($array)
+    {
+		require 'models/DeudoresModel.php';
+		$deudor = new DeudoresModel();
+		$resp = $deudor->valRutDeudor($array);
+		
+		echo($resp);
+    }
+	
+	public function getDatosDeudor($array)
+	{
+		require 'models/DeudoresModel.php';
+		$deudor = new DeudoresModel();
+		$arrayr = array();
+		
+		$dato = $deudor->getDeudorDatos($array["id_deudor"]);
+		$arrayr[] = $dato->get_data("rut_deudor");
+		$arrayr[] = $dato->get_data("dv_deudor");
+		
+		echo(json_encode($arrayr));		
+	}
 }
 ?>
