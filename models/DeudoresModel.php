@@ -1111,5 +1111,28 @@ ORDER BY orden ASC ";
 
     	return $sqlpersonal;	
 	}
+	
+	public function valRutDeudor($array)
+    {
+		$resp = 0; 
+		
+		if($array["tipoval"] == "EXISTE")
+		{
+			$dato = new Deudores();
+			$dato->add_filter("activo","=","S");
+			$dato->add_filter("AND");
+			$dato->add_filter("rut_deudor","=",$array["rut"]);
+			$dato->add_filter("AND");
+			$dato->add_filter("dv_deudor","=",$array["dv"]);
+			$dato->load();
+			
+			if(!is_null($dato->get_data("id_deudor")))
+			{
+				$resp = $dato->get_data("id_deudor");
+			}
+		}
+		
+		echo($resp);
+    }
 }
 ?>
