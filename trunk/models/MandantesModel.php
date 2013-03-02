@@ -246,5 +246,27 @@ class MandantesModel extends ModelBase
 		return $dato;
 	}
 	
+	public function valRutMandante($array)
+    {
+		$resp = 0; 
+		
+		if($array["tipoval"] == "EXISTE")
+		{
+			$dato = new Mandantes();
+			$dato->add_filter("activo","=","S");
+			$dato->add_filter("AND");
+			$dato->add_filter("rut_mandante","=",$array["rut"]);
+			$dato->add_filter("AND");
+			$dato->add_filter("dv_mandante","=",$array["dv"]);
+			$dato->load();
+			
+			if(!is_null($dato->get_data("id_mandante")))
+			{
+				$resp = $dato->get_data("id_mandante");
+			}
+		}
+		
+		echo($resp);
+    }
 }
 ?>
