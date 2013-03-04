@@ -88,7 +88,14 @@
     }
 	?>
     </table>
+	  <?
+    if($cant_mas > 0)
+	{
+	?>
 	<div  mascom='masdatcom' id="masdatos_<? echo($datoTmp->get_data("id_deudor")) ?>" style="display:none;">
     </div>
+    <?
+    }
+	?>
 </body>
 </html>
