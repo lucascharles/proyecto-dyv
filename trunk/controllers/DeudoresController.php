@@ -384,9 +384,12 @@ class DeudoresController extends ControllerBase
 		require 'models/DeudoresModel.php';
 		$deudor = new DeudoresModel();
 		$dato = $deudor->getListaDeudores($array["rut"],$array["p_ape"],$array["s_ape"],$array["p_nom"],$array["s_nom"],$array["id_partida"]);	
-		//echo("cant: ".$dato->get_count());
-		$datoTmp = &$dato->items[($dato->get_count()-1)];
-		$datoAux = $deudor->getListaDeudores($array["rut"],$array["p_ape"],$array["s_ape"],$array["p_nom"],$array["s_nom"],$datoTmp->get_data("id_deudor"));
+		
+		if($dato->get_count() > 0)
+		{
+			$datoTmp = &$dato->items[($dato->get_count()-1)];
+			$datoAux = $deudor->getListaDeudores($array["rut"],$array["p_ape"],$array["s_ape"],$array["p_nom"],$array["s_nom"],$datoTmp->get_data("id_deudor"));
+		}
 		
 		
 		$html = "<table width='100%' cellpadding='2' cellspacing='2' align='center' border='0' bgcolor='#FFFFFF'>";
@@ -408,9 +411,14 @@ class DeudoresController extends ControllerBase
 			$html .= "</tr>";
 		}
 		
-		$datoTmp = &$dato->items[($dato->get_count()-1)];
+		$cant_datos = 0;
+		if($dato->get_count() > 0)
+		{
+			$datoTmp = &$dato->items[($dato->get_count()-1)];
+			$cant_datos = $datoAux->get_count();
+		}
 		
-		if($datoAux->get_count() > 0)
+		if($cant_datos > 0)
 		{
 			$html .= "<tr bgcolor='#FFFFFF'>";
     		$html .= "<td colspan='6' align='center'>";
@@ -418,9 +426,13 @@ class DeudoresController extends ControllerBase
 			$html .= "</td>";
 			$html .= "</tr>";
 	    }
-	    $html .= "</table>";
-		$html .= "<div  mascom='masdatcom' id='masdatos_".$datoTmp->get_data("id_deudor")."' style='display:none;'>";
-	    $html .= "</div>";
+		
+		if($cant_datos > 0)
+		{
+	    	$html .= "</table>";
+			$html .= "<div  mascom='masdatcom' id='masdatos_".$datoTmp->get_data("id_deudor")."' style='display:none;'>";
+		    $html .= "</div>";
+		}
 		
 		echo($html);
 	}
@@ -430,12 +442,19 @@ class DeudoresController extends ControllerBase
 		require 'models/DeudoresModel.php';
 		$deudor = new DeudoresModel();
 		$dato = $deudor->getListaDeudores($array["rut"],$array["p_ape"],$array["s_ape"],$array["p_nom"],$array["s_nom"],$array["id_partida"]);	
-		$datoTmp = &$dato->items[($dato->get_count()-1)];
-		$datoAux = $deudor->getListaDeudores($array["rut"],$array["p_ape"],$array["s_ape"],$array["p_nom"],$array["s_nom"],$datoTmp->get_data("id_deudor"));
+		
+		$cant_datos = 0;
+		if($dato->get_count() > 0)
+		{
+			$datoTmp = &$dato->items[($dato->get_count()-1)];
+			$datoAux = $deudor->getListaDeudores($array["rut"],$array["p_ape"],$array["s_ape"],$array["p_nom"],$array["s_nom"],$datoTmp->get_data("id_deudor"));	
+			$cant_datos = $datoAux->get_count();
+		}
+
 			
 		$data['nom_sistema'] = "SISTEMA DyV";
 		$data['colleccionDeudores'] = $dato;
-		$data['cant_mas'] = $datoAux->get_count();
+		$data['cant_mas'] = $cant_datos;
 		
 		$this->view->show("lista_deudores.php", $data);
 	}   
