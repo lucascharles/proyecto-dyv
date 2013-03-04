@@ -238,13 +238,18 @@ class MandantesController extends ControllerBase
 		$dato = $mandantes->getListaMandantes($array["des_int"],$array["desApel1"],$array["desNomb1"],$array["id_partida"]);
 		$datob = $banco->getListaBancos("");
 
-		$datoTmp = &$dato->items[($dato->get_count()-1)];
-		$datoAux = $mandantes->getListaMandantes($array["des_int"],$array["desApel1"],$array["desNomb1"],$datoTmp->get_data("id_mandante"));
+		$cant_datos = 0;
+		if($dato->get_count() > 0)
+		{
+			$datoTmp = &$dato->items[($dato->get_count()-1)];
+			$datoAux = $mandantes->getListaMandantes($array["des_int"],$array["desApel1"],$array["desNomb1"],$datoTmp->get_data("id_mandante"));
+			$cant_datos = $datoAux->get_count();
+		}
 
 		$data['nom_sistema'] = "SISTEMA DyV";
 		$data['colleccionMandantes'] = $dato;
 		$data['colleccionBancos'] = $datob;
-		$data['cant_mas'] = $datoAux->get_count();
+		$data['cant_mas'] = $cant_datos;
 		
 		if($array["pantalla"] == "pdeudor")
 		{
