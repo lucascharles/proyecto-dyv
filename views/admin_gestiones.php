@@ -53,7 +53,19 @@
 <body>
 <form name="frmadmgestiones">
 <input  type="hidden" name="id_gestion" id="id_gestion" value=""/>
+<table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="titulopantalla">
+	<tr>
+		<th align="left" height="30">&nbsp;Gestiones</th>
+        <th></th>
+        <th></th>
+    </tr>
+ </table>
 <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
+<tr>
+		<th align="left" height="20"></th>
+        <th></th>
+        <th></th>
+    </tr>
 	<tr>
 		<th align="left">Busqueda</th>
         <th></th>
@@ -64,12 +76,14 @@
 <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
 	 
 	 <tr>
-		<td align="right" class="etiqueta_form" width="20">Rut Mandante:</td><td>&nbsp;&nbsp;&nbsp;<input type="text" name="txtrutmandante" id="txtrutmandante"  size="40" onkeyup='mostrar(this)' /> &nbsp;
+		<td align="right" class="etiqueta_form" width="20">Rut Mandante:</td>
+        <td>&nbsp;&nbsp;&nbsp;<input type="text" name="txtrutmandante" id="txtrutmandante"  onkeyup='mostrar(this)' class="input_form"  onFocus="resaltar(this)" onBlur="noresaltar(this)" /> &nbsp;
         </td>
-        <td align="right" class="etiqueta_form" width="20">Rut Deudor:</td><td>&nbsp;&nbsp;&nbsp;<input type="text" name="txtrutdeudor" id="txtrutdeudor"  size="40" onkeyup='mostrar(this)' /> &nbsp;
+        <td align="right" class="etiqueta_form" width="20">Rut Deudor:</td>
+        <td>&nbsp;&nbsp;&nbsp;<input type="text" name="txtrutdeudor" id="txtrutdeudor"  size="40" onkeyup='mostrar(this)' class="input_form"  onFocus="resaltar(this)" onBlur="noresaltar(this)"/> &nbsp;
         </td>
-        <td> <input  type="button" name="btnbuscar" id="btnbuscar" onclick="buscar()"  value="Buscar" class="boton_form" />&nbsp;
-         	 <input  type="button" name="btnlimpiar" id="btnlimpiar" value="Limpiar" class="boton_form" onclick="limpiar()"/>
+        <td> <input  type="button" name="btnbuscar" id="btnbuscar" onclick="buscar()"  value="Buscar" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/>&nbsp;
+         	 <input  type="button" name="btnlimpiar" id="btnlimpiar" value="Limpiar" class="boton_form" onclick="limpiar()" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/>
         </td>
     </tr>
  </table>
@@ -82,14 +96,18 @@
         </td>
         <td>
         	<div style="position:relative; margin-left:10px;">
-            <input  type="button" name="btngestionar" id="btngestionar" onclick="gestionar()"  class="boton_form" value="Gestionar" style=""/>
+            <input  type="button" name="btngestionar" id="btngestionar" onclick="gestionar()"  class="boton_form" value="Gestionar" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/>
             </div>
          </td>
     </tr>
     <tr>
 		<td colspan="3" align="right">
-        
-            <input  type="button" name="btnsalir" id="btnsalir" onclick="salir()" class="boton_form" value="salir" style="width:50px;"/>
+         <input  type="button" name="btnsalir" id="btnsalir" onclick="salir()" class="boton_form" value="salir" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)' />&nbsp;&nbsp;&nbsp;
+         </td>
+    </tr>
+    <tr>
+		<td colspan="3" align="right" height="10">
+         
          </td>
     </tr>
 </table>
