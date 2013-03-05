@@ -528,7 +528,7 @@ class DocumentosModel extends ModelBase
 	 
 	}
 	
-	public function getListaDocumentos($des, $idd='',$array)
+	public function getListaDocumentos($des, $idd='',$array='')
 	{
 	
 		include("config.php");
@@ -553,7 +553,7 @@ class DocumentosModel extends ModelBase
 		
 		$where .= " and d.id_documento > ".$array["id_partida"];
 		
-		$sqlpersonal->set_top(1); // PARA SQLSERVER 
+		$sqlpersonal->set_top(10); // PARA SQLSERVER 
 		//$sqlpersonal->set_limit(0,3); // PARA MYSQL
 		
 		if(count($array) > 0)
@@ -714,7 +714,7 @@ class DocumentosModel extends ModelBase
     	return $dato;
 	}
 	
-	public function getDatoDeudor($iddeudor)
+	public function getDatoDeudor($iddeudor, $array='')
 	{
 	
 		include("config.php");
@@ -737,13 +737,16 @@ class DocumentosModel extends ModelBase
 		 								estadodocumentos ed,
 		 								tipodocumento td");
 	    
-		  $sqlpersonal->set_where(" d.id_banco = c.id_banco
+		  $where = " d.id_banco = c.id_banco
 									and  d.id_deudor = dd.id_deudor
 									and m.id_mandante = d.id_mandatario
 									and d.id_estado_doc = ed.id_estado_doc
 									and d.id_tipo_doc = td.id_tipo_documento
 									and d.activo = 'S'
-									and d.id_deudor = ".$var_id);
+									and d.id_deudor = ".$var_id;
+		$where .= " and d.id_documento > ".$array["id_partida"];
+									
+		$sqlpersonal->set_where($where);
 		
 	    $sqlpersonal->load();
 	
