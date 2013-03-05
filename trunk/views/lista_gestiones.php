@@ -47,7 +47,7 @@
         
 	</tr>
     <tr bgcolor="#FFFFFF" >
-    	<td colspan="6" style="border-bottom:solid; border-bottom-width:2px; border-bottom-color:#CCCCCC; "></td>
+    	<td colspan="9" style="border-bottom:solid; border-bottom-width:2px; border-bottom-color:#CCCCCC; "></td>
 	</tr>
 	<?php
 	}
