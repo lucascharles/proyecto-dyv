@@ -164,7 +164,7 @@ class GestionesController extends ControllerBase
 		require 'models/DocumentosModel.php';
 		$documentos = new DocumentosModel();
 			
-		$dato = $documentos->getListaDocumentos($array["iddeudor"]);
+		$dato = $documentos->getListaDocumentos("", $array["iddeudor"],$array);
 		
 		$data['nom_sistema'] = "SISTEMA DyV";
 		$data['colleccionDatosDocumentos'] = $dato;
