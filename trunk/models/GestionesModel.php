@@ -91,7 +91,7 @@ class GestionesModel extends ModelBase
 	   						   m.rut_mandante rut_mandante,
 	   						   m.dv_mandante dv_mandante,
 	   						   eg.fecha_gestion fecha_gestion,
-	   						   eg.fecha_prox_gestion fecha_prox_gestion,
+	   						   g.fecha_prox_gestion fecha_prox_gestion,
 	   						   ed.estado estado,
 	   						   eg.notas notas,
 	   						   eg.usuario usuario "); 
