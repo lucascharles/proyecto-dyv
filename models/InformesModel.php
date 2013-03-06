@@ -2,7 +2,7 @@
 class InformesModel extends ModelBase
 {
 		
-	public function listar_informe($tipoInforme,$mandante,$tipodoc)
+	public function listar_informe($tipoInforme,$mandante,$tipodoc, $iddocs='')
 	{
 		
 		include("config.php");
@@ -57,13 +57,16 @@ class InformesModel extends ModelBase
 				
 				$where = $where. " and d.id_tipo_doc = ".$tipodoc;
 			}
+			
+			if($iddocs != "")
+			{
+				$where = $where. " and d.id_documento in (".$iddocs.")";
+			}
+			
 			$sqlpersonal->set_where($where);
 				
-
 			
-
-			
-    	$sqlpersonal->load();
+    		$sqlpersonal->load();
 
     	return $sqlpersonal;	
 		
