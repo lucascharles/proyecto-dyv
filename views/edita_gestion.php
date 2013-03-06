@@ -404,7 +404,7 @@
     <tr>
 		<td align="center" class="etiqueta_form">Gestion</td>
         <td> 
-        	<select name="selGestion" valida="requerido" tipovalida="texto" id="selGestion" onchange="validarUsuario()" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)">
+        	<select name="selGestion" valida="requerido" tipovalida="texto" id="selGestion" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)">
      			<option value=""> ----Seleccione----</option>
         		<?
 			        for($j=0; $j<$coleccionEstadoGestion->get_count(); $j++)
