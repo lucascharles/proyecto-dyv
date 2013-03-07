@@ -1,14 +1,43 @@
 <?php
 	
-//	$db = new mysql_db($config->get('dbhost'), $config->get('dbuser'),  $config->get('dbpass'), $config->get('dbname'), false);
+// $db = new mysql_db($config->get('dbhost'), $config->get('dbuser'),  $config->get('dbpass'), $config->get('dbname'), false);
 	$db = new mssql_db($config->get('dbhost'), $config->get('dbuser'),  $config->get('dbpass'), $config->get('dbname'), false);
 	
 	
 	add_database($db, $db_name);
 	//add_database($db, $config->get('dbname'));
 	
-	
 	// CLASES MODELO DE NEGOCIO
+	class OpcionPermisoTmp extends BusinessObject
+	{
+		function OpcionPermisoTmp()
+		{
+			$this->table_name = "OpcionPermisoTmp";
+			$this->field_metadata = array(
+					"id" => array("int"),
+					"id_opcionmenu" => array("int"),
+					"id_sesion" => array("varchar")
+				);
+			parent::BusinessObject();
+		}
+	}
+	
+	class OpcionPermisoTmpCollection extends BusinessObjectCollection
+	{
+		function OpcionPermisoTmpCollection()
+		{
+			parent::BusinessObjectCollection();
+		}
+		
+		function create_singular($row) 
+		{ 
+			$obj = new OpcionPermisoTmp();
+			$obj->load_from_list($row);
+			
+			return $obj;
+		}
+	}
+	
 	class Juzgado extends BusinessObject
 	{
 		function Juzgado()
@@ -308,6 +337,7 @@
 			$this->field_metadata = array(
 				"id" => array("int"),
 				"id_gasto" => array("int"),
+
 				"id_martillero" => array("int"),
 				"id_ficha" => array("int"),
 				"importe" => array("decimal")
@@ -577,18 +607,14 @@
 			$this->table_name = "Deudores";
 			$this->field_metadata = array(
 					"id_deudor" => array("int"),
-					"rut_deudor" => array("varchar"),			
-					"dv_deudor" => array("varchar"),
+					"rut_deudor" => array("numeric"),
+					"rut_deudor_s" => array("varchar"),
+					"dv_deudor" => array("numeric"),
 					"primer_nombre" => array("varchar"),
 					"segundo_nombre" => array("varchar"),
 					"primer_apellido" => array("varchar"),
 					"segundo_apellido" => array("varchar"),
 					"comentario" => array("varchar"),
-					"celular" => array("varchar"),
-					"telefono_fijo" => array("varchar"),
-					"fax" => array("varchar"),
-					"id_mandante" => array("int"),
-					"tipo" => array("varchar"),
 					"celular" => array("numeric"),
 					"telefono_fijo" => array("numeric"),
 					"fax" => array(" numeric"),
@@ -596,7 +622,7 @@
 					"tipo" => array("char"),
 					"razonsocial" => array("varchar"),
 					"email" => array("varchar"),
-					"activo" => array("varchar")
+					"activo" => array("char")
 				);
 			parent::BusinessObject();
 		}
@@ -1255,6 +1281,37 @@
 		}
 	}
 	
+	class Usuario_permisoTmp extends BusinessObject
+	{
+		function Usuario_permisoTmp()
+		{
+			$this->table_name = "Usuario_permisoTmp";
+			$this->field_metadata = array(
+					"id" => array("int"),
+					"id_permiso" => array("int"),
+					"id_usuario" => array("varchar"),
+					"id_sesion" => array("varchar")
+				);
+			parent::BusinessObject();
+		}
+	}
+	
+	class Usuario_permisoTmpCollection extends BusinessObjectCollection
+	{
+		function Usuario_permisoTmpCollection()
+		{
+			parent::BusinessObjectCollection();
+		}
+		
+		function create_singular($row) 
+		{ 
+			$obj = new Usuario_permisoTmp();
+			$obj->load_from_list($row);
+			
+			return $obj;
+		}
+	}
+	
 	// CLASES SOPORTE PROCESOS 
 	 
 	class LogError extends BusinessObject
@@ -1319,7 +1376,6 @@
 		}
 	}
 	
-	
 	// CLASES SOPORTE SQL 
 	class SqlPersonalizado extends SqlSoporte
 	{
@@ -1328,7 +1384,6 @@
 			parent::SqlSoporte($h, $u, $p);
 		}
 	}
-	
 	
 	class Gestiones extends BusinessObject
 	{
@@ -1367,8 +1422,6 @@
 			return $obj;
 		}
 	}
-	
-	
 	
 	
 ?>
