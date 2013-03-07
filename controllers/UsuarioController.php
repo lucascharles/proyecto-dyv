@@ -24,6 +24,19 @@ class UsuarioController extends ControllerBase
 		$usuario->cambiarClave($array["nueva"], $_SESSION["idusuario"]);
 	}
 	
+	public function datos_usuario($array)
+	{
+		require 'models/UsuarioModel.php';
+		$usuario = new UsuarioModel();
+		$dato = $usuario->getDatosUsuario($array);
+		
+		$resp = array();
+		$resp[] = $dato->get_data("nom_usuario");
+		$resp[] = $dato->get_data("ape_usuario");
+		
+		echo(json_encode($resp));
+		
+	}
 
 }
 ?>
