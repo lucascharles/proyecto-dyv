@@ -118,5 +118,14 @@ class UsuarioModel extends ModelBase
 		return $resp;
 
 	}
+	
+	public function getDatosUsuario($array)
+	{
+		$dato = new Usuarios();
+		$dato->add_filter("id_usuario","=",$array["idusuario"]);
+		$dato->load();
+		
+		return $dato;
+	}
 }
 ?>
