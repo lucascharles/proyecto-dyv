@@ -510,6 +510,7 @@ class DocumentosModel extends ModelBase
       $dato->set_data("numero_documento",$array["txtnrodoc"]);
       $dato->set_data("id_tipo_doc",$array["selTipoDoc"]);
       $dato->set_data("id_estado_doc",$array["selEstadoDoc"]);
+      $dato->set_data("id_estado_doc","PENDIENTE DE ENVIAR CARTA"); //por defecto se crean en estado 'PENDIENTE DE ENVIAR CARTA'
       $dato->set_data("monto",$array["txtmonto"]);
       $dato->set_data("id_banco",$array["selBancos"]);
       $dato->set_data("cta_cte",$array["txtctacte"]);
@@ -525,7 +526,37 @@ class DocumentosModel extends ModelBase
       $dato->set_data("usuario_modificacion",$array["usuario_modificacion"]);
       $dato->set_data("activo","S");		
 	  $dato->save();
-	 
+	  
+	  $dato2 = new GestionesCollection();
+      $dato2->add_filter("id_deudor","=",$array["deudor"]);
+      $dato2->add_filter("id_mandante","=",$array["mandante"]);
+      $dato2->add_filter("activo","=","S");
+	  $dato2->load();
+	  if($dato2->get_count() == 0)
+	  {
+	  	
+	  	$fechaHoy = date("Y-m-d");
+		$dias = 5;
+
+		$calculoHoy = strtotime("$fechaHoy +0 days");
+		$calculoFuturo = strtotime("$fechaHoy +$dias days");
+	  	
+	  	
+	  	$dato3 = new Gestiones();
+	  	$dato3->set_data("id_deudor",$array["deudor"]);
+      	$dato3->set_data("id_mandante",$array["mandante"]);
+      	$dato3->set_data("fecha_gestion",date("d/m/Y H:i:s"));
+      	$dato3->set_data("nota_gestion","Inicia Gestion");
+      	$dato3->set_data("fecha_prox_gestion",$calculoFuturo);
+      	$dato3->set_data("activo",$array["mandante"]);
+      	$dato3->set_data("usuario_modificacion",$_SESSION["idusuario"]);
+      	$dato3->set_data("fecha_modificacion",date("d/m/Y H:i:s"));
+      	$dato3->set_data("usuario_creacion",$_SESSION["idusuario"]);
+      	$dato3->set_data("fecha_creacion",date("d/m/Y H:i:s"));      	
+      	$dato3->set_data("estado","GESTION");
+      	$dato3->save();
+	  }
+	  
 	}
 	
 	public function getListaDocumentos($des, $idd='',$array='')
@@ -553,8 +584,8 @@ class DocumentosModel extends ModelBase
 		
 		$where .= " and d.id_documento > ".$array["id_partida"];
 		
-		$sqlpersonal->set_top(10); // PARA SQLSERVER 
-		//$sqlpersonal->set_limit(0,3); // PARA MYSQL
+//		$sqlpersonal->set_top(10); // PARA SQLSERVER 
+		$sqlpersonal->set_limit(0,10); // PARA MYSQL
 		
 		if(count($array) > 0)
 		{

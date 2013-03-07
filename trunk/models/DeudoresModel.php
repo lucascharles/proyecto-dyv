@@ -988,7 +988,9 @@ ORDER BY orden ASC ";
 			$dato->add_filter("AND");
 			$dato->add_filter("segundo_nombre","like",trim($s_nom)."%");
 		}
-		$dato->add_top(3);
+
+		$dato->add_top(3);      //es para sqlserver
+//		$dato->add_limit(0,15);  //es para mysql
 		$dato->load();
 		
 		return $dato;

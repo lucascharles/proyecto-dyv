@@ -6,10 +6,20 @@ class GestionesController extends ControllerBase
     {
 		$data['nom_sistema'] = "SISTEMA DyV";
 		$data['accion_form'] = "";
+		$data['tipoGestion'] = "D";
 		
 		$this->view->show("admin_gestiones.php", $data);
 	}
 
+	public function admin_grales($array)
+    {
+		$data['nom_sistema'] = "SISTEMA DyV";
+		$data['accion_form'] = "";
+		$data['tipoGestion'] = "";
+		
+		$this->view->show("admin_gestiones.php", $data);
+	}
+	
 	public function gestionar($array)
     {
 		require 'models/GestionesModel.php';
@@ -60,8 +70,8 @@ class GestionesController extends ControllerBase
     {
 		require 'models/GestionesModel.php';
 		$gestiones = new GestionesModel();
-		$dato = $gestiones->getListaGestiones($array["des_int"]);
-
+//		$dato = $gestiones->getListaGestiones($array["des_int"]);
+		$dato = $gestiones->getListaGestiones($array["tipoGestion"]);
 		
 		$data['nom_sistema'] = "SISTEMA DyV";
 		$data['colleccionGestiones'] = $dato;
@@ -170,6 +180,19 @@ class GestionesController extends ControllerBase
 		$data['colleccionDatosDocumentos'] = $dato;
 		
 		$this->view->show("lista_documentos.php", $data);
-	}  
+	}
+
+	public function getMandantesDeudor($array)
+    {
+		require 'models/GestionesModel.php';
+		$gestiones = new GestionesModel();
+		$dato = $gestiones->getListaGestiones($array["iddeudor"]);
+		
+		$data['nom_sistema'] = "SISTEMA DyV";
+		$data['colleccionMandantesDeudor'] = $dato;
+		
+		$this->view->show("lista_mandantesDeudor.php", $data);
+	}    
+	
 }
 ?>

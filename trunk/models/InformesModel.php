@@ -33,8 +33,8 @@ class InformesModel extends ModelBase
 					bancos b,
 					causalprotesta cp,
   				    ficha f,
-					juzgado j,
-					juzgadocomuna jc ");
+  				    juzgado j,
+  				    juzgadocomuna jc ");
 				
 			$where = " d.id_mandatario = m.id_mandante
 					and	  d.id_deudor = de.id_deudor
@@ -42,6 +42,9 @@ class InformesModel extends ModelBase
 					and   d.id_tipo_doc = td.id_tipo_documento
 					and   d.id_banco = b.id_banco
 					and	  d.id_causa_protesto = cp.id_causal
+					and   d.id_deudor = f.id_deudor
+					and	  f.id_juzgado = j.id_juzgado
+					and   f.id_juzgado_comuna = jc.id_juzgado_comuna 
 					and   d.id_documento = f.id_documento 
 					and   f.id_juzgado = j.id_juzgado
 					and   f.id_juzgado_comuna = jc.id_juzgado_comuna

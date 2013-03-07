@@ -10,7 +10,7 @@ class InformesController extends ControllerBase
 		
 				
 		$mandantes = new MandantesModel();
-		$dato = $mandantes->getListaMandantes("","","");
+		$dato = $mandantes->getListaMandantes("","","",0);
 		
 		$documentos = new DocumentosModel();	
 		$dataTipoDoc = $documentos->getListaTipoDoc("");
