@@ -10,6 +10,7 @@
 		function seleccionado(id)
 		{
 			window.parent.seleccionado(id);
+			window.parent.seleccionado_gestion(id);
 		}
 		
 	</script>

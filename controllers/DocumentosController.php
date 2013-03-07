@@ -24,12 +24,18 @@ class DocumentosController extends ControllerBase
 	public function editar($array)
     {
 		require 'models/DocumentosModel.php';
-		$documentos = new DocumentosModel();
+		require 'models/MandantesModel.php';
+		require 'models/DeudoresModel.php';
+		$documentos = new DocumentosModel();		
+		$mandantes = new MandantesModel();
+		$deudores = new DeudoresModel();
 		
 		$data['objDocumento'] = $documentos->getDocumento($array["id_documento"]);
 		$data['datosDocumento'] = $documentos->getDatoDocumento($array["id_documento"]);
-		$data['coleccion_mandantes'] = $documentos->getListaMandantes("");
-		$data['coleccion_deudores'] = $documentos->getListaDeudores("");
+//		$data['coleccion_mandantes'] = $documentos->getListaMandantes("");
+		$data['coleccion_mandantes'] = $mandantes->getListaMandantes("","","",0);
+//		$data['coleccion_deudores'] = $documentos->getListaDeudores("");
+		$data['coleccion_deudores'] = $deudores->getListaDeudores("","","","","",0);
 		$data['coleccion_estadoDoc'] = $documentos->getListaEstadoDoc("");
 		$data['coleccion_bancos'] = $documentos->getListaBancos("");
 		$data['coleccion_tipoDoc'] = $documentos->getListaTipoDoc("");

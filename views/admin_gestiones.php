@@ -92,7 +92,7 @@
  <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
     <tr>
 		<td colspan="2">
-        	<iframe id="frmlistgestiones" src="index.php?controlador=Gestiones&accion=listar" width="100%" align="middle" height="220" scrolling="auto" frameborder="0"></iframe>
+        	<iframe id="frmlistgestiones" src="index.php?controlador=Gestiones&accion=listar&tipoGestion=<? $var = &$tipoGestion; echo($var); ?>" width="100%" align="middle" height="220" scrolling="auto" frameborder="0"></iframe>
         </td>
         <td>
         	<div style="position:relative; margin-left:10px;">

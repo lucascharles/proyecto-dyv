@@ -25,20 +25,18 @@ class GestionesModel extends ModelBase
 					  g.fecha_prox_gestion fecha_prox_gestion,
 					  g.estado estado ");
 	$sqlpersonal->set_from( " gestiones g, deudores d, mandantes m ");
-	
-	if($des != ""){
-	
-		$sqlpersonal->set_where( " g.id_deudor = d.id_deudor
-									and	g.id_mandante = m.id_mandante
-									and g.activo = 'S'
-									and g.id_deudor = " . $des);
+
+	$where = " g.id_deudor = d.id_deudor
+	  	   and g.id_mandante = m.id_mandante
+		   and g.activo = 'S' ";
+		
+	if($des == "D"){
+		
+		$cond=" and g.fecha_gestion between '".date('Y-m-d'). "' and '".date('Y-m-d')." 23:59'";
+		$where = $where . $cond;
 	}
-	else
-	{
-		$sqlpersonal->set_where( " g.id_deudor = d.id_deudor
-									and	g.id_mandante = m.id_mandante
-									and g.activo = 'S' ");
-	}
+	
+	$sqlpersonal->set_where( $where );
 	
     $sqlpersonal->load();
 
@@ -95,7 +93,7 @@ class GestionesModel extends ModelBase
 	   						   ed.estado estado,
 	   						   eg.notas notas,
 	   						   eg.usuario usuario "); 
-	  $sqlpersonal->set_from(" Estados_x_Gestion eg, Gestiones g, mandantes m, deudores d, EstadoDocumentos ed ");
+	  $sqlpersonal->set_from(" estados_x_gestion eg, gestiones g, mandantes m, deudores d, estadodocumentos ed ");
 	  $sqlpersonal->set_where(" eg.id_gestion = g.id_gestion
 								and	  g.id_mandante = m.id_mandante
 								and	  g.id_deudor = d.id_deudor
@@ -215,6 +213,32 @@ class GestionesModel extends ModelBase
 	    return $sqlpersonal;
 	}
 	
+	public function getMandantesDeudor($iddeudor)
+	{
 	
+	include("config.php");
+
+	
+	$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
+	
+	$sqlpersonal->set_select(" m.rut_mandante rut_mandante, 
+	   						   m.dv_mandante dv_mandante,
+	   						   m.nombre nombre,
+	   						   m.email email,
+	   						   m.telefono1 tel1,
+	   						   m.telefono2 tel2,
+	   						   m.fax fax "); 
+	  $sqlpersonal->set_from(" mandantes m ");
+	  $sqlpersonal->set_where(" id_mandante in(
+												select distinct d.id_mandatario
+												from documentos d
+												where d.activo = 'S'
+												and d.id_deudor = ".$iddeudor.")"); 
+	
+    $sqlpersonal->load();
+
+    return $sqlpersonal;
+
+	}
 }
 ?>
