@@ -98,6 +98,18 @@
 	</script>
 </head>
 <body>
+<?
+		$fechaHoy = date("Y-m-d");
+		$dias = 7;
+
+		$calculoHoy = strtotime("$fechaHoy +0 days");
+		$calculoFuturo = strtotime("$fechaHoy +$dias days");
+		$fechaDesde = date("Y-m-d", $calculoHoy);
+		$fechaHasta = date("Y-m-d", $calculoFuturo);
+		$fechaDesde = formatoFecha($fechaDesde, "yyyy-mm-dd", "dd/mm/yyyy");
+		$fechaHasta = formatoFecha($fechaHasta, "yyyy-mm-dd", "dd/mm/yyyy");
+	
+?>
 <form name="frmadmdocumentos">
 <input  type="hidden" name="id_documento" id="id_documento" value=""/>
 
@@ -119,10 +131,10 @@
 <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
 	 <tr>
 		<td width="20" align="left" class="etiqueta_form">Desde:</td>
-        <td align="left">&nbsp; <input type="text" name="txtdesde" id="txtdesde"  size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" /></td>
+        <td align="left">&nbsp; <input type="text" name="txtdesde" id="txtdesde" value="<? echo($fechaDesde) ?>"  size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" /></td>
         
         <td width="40" align="left" class="etiqueta_form">Hasta:</td>
-        <td align="left">&nbsp;<input type="text" name="txthasta" id="txthasta"  size="40"  class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)"/></td>
+        <td align="left">&nbsp;<input type="text" name="txthasta" id="txthasta"  value="<? echo($fechaHasta) ?>" size="40"  class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)"/></td>
      </tr>
 	<tr>      
         <td align="right" colspan="4"> 
