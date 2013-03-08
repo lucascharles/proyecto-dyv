@@ -81,6 +81,7 @@
 						//alert(res);
 						window.parent.pasarIdFicha(res);
 						$("#id_alta").val(res);
+						window.parent.mensajeConfirmacion("Los datos Martillero se guardaron con éxito");
 					},
 					error: function()
 					{
