@@ -239,7 +239,6 @@
 		
 		function eliminar()
 		{
-			alert("eliminar");
 					
 			if(document.getElementById("id_documento").value == "")
 			{
@@ -335,7 +334,7 @@
 	<table cellpadding="10" cellspacing="10" align="center" border="0" width="100%" bgcolor="#FFFFFF">  
     <tr>
     <td>
-	<table width="100%" align="center" border="0" bgcolor="#eee" cellpadding="5" cellspacing="5"> 
+	<table width="100%" align="center" border="0" bgcolor="#eeeeee" cellpadding="5" cellspacing="5"> 
     	<tr>
         	<td height="" align="right">
             	<div onclick="cerrarVentMand()" style="cursor:pointer; font-weight:bold; color:#000099;"> cerrar </div>
@@ -409,7 +408,7 @@
 	<table cellpadding="10" cellspacing="10" align="center" border="0" width="100%" bgcolor="#FFFFFF">  
     <tr>
     <td>
-	<table width="100%" align="center" border="0" bgcolor="#eee" cellpadding="5" cellspacing="5"> 
+	<table width="100%" align="center" border="0" bgcolor="#eeeeee" cellpadding="5" cellspacing="5"> 
     	<tr>
         	<td height="" align="right">
             	<div onclick="cerrarVentDeudor()" style="cursor:pointer; font-weight:bold; color:#000099;"> cerrar </div>
