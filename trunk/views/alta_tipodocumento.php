@@ -7,6 +7,7 @@
 	<title></title>
     <script src="js/jquery-1.7.1.min.js" type="text/javascript"></script>
     <script src="js/validacampos.js" type="text/javascript"></script>
+    <script src="js/funcionesgral.js" type="text/javascript"></script>
 
     <script language="javascript">
 		$(document).ready(function(){

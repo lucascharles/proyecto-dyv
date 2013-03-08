@@ -5,7 +5,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<title></title>
-
+	<script src="js/funcionesgral.js" type="text/javascript"></script>
     <script language="javascript">
 		function mostrar(obj)
 		{

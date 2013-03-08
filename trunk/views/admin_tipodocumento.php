@@ -5,8 +5,9 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<title></title>
-
+	<script src="js/funcionesgral.js" type="text/javascript"></script>
     <script language="javascript">
+	
 		function mostrar(obj)
 		{
 			var url = "index.php?controlador=TipoDocumento&accion=listar&des_int="+obj.value;
@@ -62,10 +63,12 @@
 			var id = document.getElementById("id_tip_doc").value;
 			$("#pagina").load('index.php?controlador=TipoDocumento&accion=editar&idtipdoc='+id);
 		}
+		
+		
 	</script>
 </head>
 <body>
-<form name="frmadmtipdoc">
+<form name="frmadmtipdoc" action=""  onKeyPress="return disableEnterKey(event)">
 <input  type="hidden" name="id_tip_doc" id="id_tip_doc" value=""/>
 <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
 	<tr>
