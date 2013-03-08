@@ -1,4 +1,9 @@
 <?php
+	function conDecimales($valor, $decimales=2)
+	{
+		return number_format($valor,$decimales,'.',',');
+	}
+
 	function getUltimoId($obj, $clave)
 	{
 		$id = 0;
