@@ -211,6 +211,13 @@
 			$("#datos_deudor").slideUp(1000);
 		}
 		
+		function mensajeConfirmacion(mensaje)
+		{
+				$("#mensaje").text(mensaje);
+				$("#mensaje").slideDown();
+				setTimeout("$('#mensaje').text('')",3000);
+		}
+		
 	</script>
 </head>
 <body>
@@ -228,14 +235,14 @@
         <th align="left">Datos Deudor</th>
         </tr>
         <tr>
-        <td height="10"> </td>
+        <td height="10" bgcolor="#999999"> </td>
         </tr>
         <tr>
         	<td height="">
-            	<table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
-                	<tr>
+            	<table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" >
+                	<tr bgcolor="#F7F7F7">
                     	<td width="50%">
-                    	  <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
+                    	  <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" style="position:relative; margin-left:10px;">
                           	<tr>
                         		<td width="110" align="left" class="etiqueta_form">Primer Apellido:</td>
                                 <td align="left">&nbsp;&nbsp;<? echo($deudor->get_data("primer_apellido")) ?></td>
@@ -275,11 +282,11 @@
                         <td width="100" height="15" align="left" colspan="2" class="etiqueta_form" valign="top"> </td>
                      </tr>
 					<tr> 
-                        <td width="100" align="left" colspan="2" class="etiqueta_form" valign="top"> Direcci&oacute;n:</td>
+                        <td width="100" align="left" colspan="2" class="etiqueta_form" valign="top"><font style="position:relative; margin-left:10px;">Direcci&oacute;n:</font></td>
                      </tr>
-                     <tr>
+                     <tr bgcolor="#F7F7F7">
                         <td width="" align="left" class="" colspan="2">
-                           <table width="100%" align="left" border="0" cellpadding="0" cellspacing="0" style="position:relative; margin-left:20px;">
+                           <table width="100%" align="left" border="0" cellpadding="0" cellspacing="0" style="position:relative; margin-left:10px;">
                          		<tr>
                                 	<td width="50" align="right" class="etiqueta_form">Calle</td><td align="left">&nbsp;&nbsp;<? echo($direccion->get_data("calle")) ?></td>
                                 </tr>
@@ -379,7 +386,7 @@
         </td>
     </tr>
     <tr>
-		<td align="right" class="etiqueta_form" width="20">Monto:</td><td>&nbsp;&nbsp;&nbsp; <input type="text" grabar="S" name="txtmonto" id="txtmonto" valida="requerido" value="<? echo($monto) ?>" tipovalida="moneda" size="20"  class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" />
+		<td align="right" class="etiqueta_form" width="20">Monto:</td><td>&nbsp;&nbsp;&nbsp; <input type="text" grabar="S" name="txtmonto" id="txtmonto" valida="requerido" value="<? echo(conDecimales($monto)) ?>" tipovalida="moneda" size="20"  class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" />
         </td>
     </tr>
      <tr>
