@@ -31,17 +31,21 @@ class DocumentosModel extends ModelBase
 		$error = $_FILES['archivo']['error'];
 		
 		$error_upload = "";
+		
 		// VALIDACIONES DE TIPO DE ARCHIVO
-		if (($nombre_archivo != NULL && $nombre_archivo != "") && strpos($tipo_archivo, "application/vnd.ms-excel") <> false) 
+		if($nombre_archivo != NULL && $nombre_archivo != "") 
 		{
-			if($error_upload == "")
+			if($tipo_archivo <> "application/vnd.ms-excel")
 			{
-				$error_upload = "TYPE";
+				if($error_upload == "")
+				{
+					$error_upload = "TYPE";
+				}
 			}
 		}
 		
 		// VALIDACION TAMAÑO DE ARCHIVO
-		if (($nombre_archivo != NULL && $nombre_archivo != "") && $tamano_archivo> $max_size) 
+		if (($nombre_archivo != NULL && $nombre_archivo != "") && $tamano_archivo > $max_size) 
 		{
 			if($error_upload == "")
 			{
@@ -509,8 +513,7 @@ class DocumentosModel extends ModelBase
       $dato->set_data("fecha_siniestro",$array["txtfechaRecibido"]);
       $dato->set_data("numero_documento",$array["txtnrodoc"]);
       $dato->set_data("id_tipo_doc",$array["selTipoDoc"]);
-      $dato->set_data("id_estado_doc",$array["selEstadoDoc"]);
-      $dato->set_data("id_estado_doc","PENDIENTE DE ENVIAR CARTA"); //por defecto se crean en estado 'PENDIENTE DE ENVIAR CARTA'
+      $dato->set_data("id_estado_doc",999); //por defecto se crean en estado 'PENDIENTE DE ENVIAR CARTA'
       $dato->set_data("monto",$array["txtmonto"]);
       $dato->set_data("id_banco",$array["selBancos"]);
       $dato->set_data("cta_cte",$array["txtctacte"]);
@@ -556,7 +559,7 @@ class DocumentosModel extends ModelBase
       	$dato3->set_data("estado","GESTION");
       	$dato3->save();
 	  }
-	  
+	 
 	}
 	
 	public function getListaDocumentos($des, $idd='',$array='')
@@ -584,8 +587,8 @@ class DocumentosModel extends ModelBase
 		
 		$where .= " and d.id_documento > ".$array["id_partida"];
 		
-//		$sqlpersonal->set_top(10); // PARA SQLSERVER 
-		$sqlpersonal->set_limit(0,10); // PARA MYSQL
+		$sqlpersonal->set_top(10); // PARA SQLSERVER 
+		//$sqlpersonal->set_limit(0,3); // PARA MYSQL
 		
 		if(count($array) > 0)
 		{
