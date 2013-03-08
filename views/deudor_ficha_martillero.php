@@ -63,8 +63,8 @@
 			}
 		
 			datos += "&"+getParametros();
-			alert(datos);
-			return false;
+			// alert(datos);
+			//return false;
 			$.ajax({
 					url: "index.php",
 					type: "GET",
@@ -75,6 +75,7 @@
 						//alert(res);
 						window.parent.pasarIdFicha(res);
 						$("#id_alta").val(res);
+						window.parent.mensajeConfirmacion("Los datos Martillero se guardaron con éxito");
 					},
 					error: function()
 					{
@@ -206,7 +207,7 @@
 			?>
             	<tr>
                 	<td align="left" class="etiqueta_form"><? echo($datoTmp->get_data("gasto")) ?></td>
-                    <td align="left" ><input type="text" grabar="S" name="txtgasto_<? echo($datoTmp->get_data("id_gasto")) ?>" id="txtgasto_<? echo($datoTmp->get_data("id_gasto")) ?>" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="moneda" value="<? echo($datoTmp->get_data("importe")) ?>"/></td>
+                    <td align="left" ><input type="text" grabar="S" name="txtgasto_<? echo($datoTmp->get_data("id_gasto")) ?>" id="txtgasto_<? echo($datoTmp->get_data("id_gasto")) ?>" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="moneda" value="<? echo(conDecimales($datoTmp->get_data("importe"))) ?>"/></td>
                     <td width="5"></td>
                 </tr>
            <?

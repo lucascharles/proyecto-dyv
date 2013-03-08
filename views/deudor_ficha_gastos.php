@@ -15,8 +15,6 @@
  <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="titulopantalla">
 	<tr>
 		<th align="left" height="30">&nbsp;Gastos</th>
-        <th></th>
-        <th></th>
     </tr>
  </table>
 <!--<div id="datos" style="">-->
@@ -45,7 +43,7 @@
                 	<td align="left" class="etiqueta_form"><? echo($datoTmp->get_data("gasto")) ?></td>
                     </tr>
                     <tr>
-                    <td align="left" ><input type="text" disabled name="txtgasto_<? echo($datoTmp->get_data("id_gasto")) ?>" id="txtgasto_<? echo($datoTmp->get_data("id_gasto")) ?>" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo($datoTmp->get_data("importe")) ?>"/>
+                    <td align="left" ><input type="text" disabled name="txtgasto_<? echo($datoTmp->get_data("id_gasto")) ?>" id="txtgasto_<? echo($datoTmp->get_data("id_gasto")) ?>" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo(conDecimales($datoTmp->get_data("importe"))) ?>"/>
                     </td>
                     </tr>
              	</table>   
@@ -73,7 +71,7 @@
                 	<tr>
                     <td align="left" >
                     
-                    <input type="text" disabled name="txtgasto_<? echo($datoTmp->get_data("id_gasto")) ?>" id="txtgasto_<? echo($datoTmp->get_data("id_gasto")) ?>" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo($datoTmp->get_data("importe")) ?>"/>
+                    <input type="text" disabled name="txtgasto_<? echo($datoTmp->get_data("id_gasto")) ?>" id="txtgasto_<? echo($datoTmp->get_data("id_gasto")) ?>" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo(conDecimales($datoTmp->get_data("importe"))) ?>"/>
                     
                     	
 					
@@ -104,7 +102,7 @@
                 	<tr>
                     <td align="left" >
                     
-                    <input type="text" disabled name="txtgasto_<? echo($datoTmp->get_data("id_gasto")) ?>" id="txtgasto_<? echo($datoTmp->get_data("gasto")) ?>" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo($datoTmp->get_data("importe")) ?>"/>
+                    <input type="text" disabled name="txtgasto_<? echo($datoTmp->get_data("id_gasto")) ?>" id="txtgasto_<? echo($datoTmp->get_data("gasto")) ?>" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo(conDecimales($datoTmp->get_data("importe"))) ?>"/>
                     
                     	
 					
@@ -130,7 +128,7 @@
                 	for($i=0; $i<count($totales); $i++)
 					{
 				?>
-                <td><? echo($totales[$i]) ?></td>
+                <td><? echo(conDecimales($totales[$i])) ?></td>
                 <?
 					}
 				?>

@@ -44,7 +44,6 @@
 		
 			datos += "&"+getParametros();
 			
-			return false;
 			$.ajax({
 					url: "index.php",
 					type: "GET",
@@ -55,10 +54,12 @@
 						//alert(res);
 						window.parent.pasarIdFicha(res);
 						$("#id_alta").val(res);
+						window.parent.mensajeConfirmacion("Los datos Consignación se guardaron con éxito");
 					},
 					error: function()
 					{
 						$("#mensaje").text("Ha ocurrido un error y no se ha podido agregar el registro.");
+						$("#mensaje").slideDown();
 						setTimeout("$('#mensaje').text('')",3000);
 					}
 				});
@@ -195,28 +196,28 @@
         	<table cellpadding="0" cellspacing="2" border="0" align="center" width="100%"  style="position:relative; margin-left:5px;">
             	<tr>
                 	<td align="left" class="etiqueta_form">Monto consignaci&oacute;n</td>
-                    <td align="left" ><input type="text" grabar="S" name="txtmonto_consignacion" id="txtmonto_consignacion" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="moneda" value="<? echo($monto_consignacion) ?>"/></td>
+                    <td align="left" ><input type="text" grabar="S" name="txtmonto_consignacion" id="txtmonto_consignacion" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="moneda" value="<? echo(conDecimales($monto_consignacion)) ?>"/></td>
                 </tr>
                 <tr>
 					<td align="left" class="etiqueta_form">Monto 1</td>
-                    <td align="left" ><input type="text" grabar="S" name="txtmonto_1" id="txtmonto_1" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="moneda" value="<? echo($monto_1) ?>"/></td>
+                    <td align="left" ><input type="text" grabar="S" name="txtmonto_1" id="txtmonto_1" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="moneda" value="<? echo(conDecimales($monto_1)) ?>"/></td>
                 </tr>
                 <tr>
 					<td align="left" class="etiqueta_form">Monto 2</td>
-                      <td align="left" ><input type="text" grabar="S" name="txtmonto_2" id="txtmonto_2" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="moneda" value="<? echo($monto_2) ?>"/></td>
+                      <td align="left" ><input type="text" grabar="S" name="txtmonto_2" id="txtmonto_2" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="moneda" value="<? echo(conDecimales($monto_2)) ?>"/></td>
                  </tr>   
                  <tr>
 					<td align="left" class="etiqueta_form">Monto 3</td>
-                    <td align="left" ><input type="text" grabar="S" name="txtmonto_3" id="txtmonto_3" size="40" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo($monto_3) ?>"/></td>
+                    <td align="left" ><input type="text" grabar="S" name="txtmonto_3" id="txtmonto_3" size="40" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo(conDecimales($monto_3)) ?>"/></td>
                  </tr>
                  <tr>
 					<td align="left" class="etiqueta_form">Monto 4</td>
-                    <td align="left" ><input type="text" grabar="S" name="txtmonto_4" id="txtmonto_4" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="moneda" value="<? echo($monto_4) ?>"/></td>
+                    <td align="left" ><input type="text" grabar="S" name="txtmonto_4" id="txtmonto_4" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="moneda" value="<? echo(conDecimales($monto_4)) ?>"/></td>
 
                  </tr>
                  <tr>
 					<td align="left" class="etiqueta_form">Pago DyV</td>
-                    <td align="left" ><input type="text" grabar="S" name="txtpago_dyv" id="txtpago_dyv" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="moneda" value="<? echo($pago_dyv) ?>"/></td>
+                    <td align="left" ><input type="text" grabar="S" name="txtpago_dyv" id="txtpago_dyv" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="moneda" value="<? echo(conDecimales($pago_dyv)) ?>"/></td>
                  </tr> 
                  <tr>
 					<td align="left" class="etiqueta_form">Providencia 1</td>
@@ -255,7 +256,7 @@
 			?>
             	<tr>
                 	<td align="left" class="etiqueta_form"><? echo($datoTmp->get_data("gasto")) ?></td>
-                    <td align="left" ><input type="text"  grabar="S" name="txtgasto_<? echo($datoTmp->get_data("id_gasto")) ?>" id="txtgasto_<? echo($datoTmp->get_data("gasto")) ?>" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="moneda" value="<? echo($datoTmp->get_data("importe")) ?>"/></td>
+                    <td align="left" ><input type="text"  grabar="S" name="txtgasto_<? echo($datoTmp->get_data("id_gasto")) ?>" id="txtgasto_<? echo($datoTmp->get_data("gasto")) ?>" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="moneda" value="<? echo(conDecimales($datoTmp->get_data("importe"))) ?>"/></td>
                     <td width="5"></td>
                 </tr>
            <?
