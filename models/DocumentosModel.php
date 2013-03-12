@@ -550,7 +550,7 @@ class DocumentosModel extends ModelBase
       	$dato3->set_data("id_mandante",$array["mandante"]);
       	$dato3->set_data("fecha_gestion",date("d/m/Y H:i:s"));
       	$dato3->set_data("nota_gestion","Inicia Gestion");
-      	$dato3->set_data("fecha_prox_gestion",$calculoFuturo);
+      	$dato3->set_data("fecha_prox_gestion",date("d/m/Y", $calculoFuturo););
       	$dato3->set_data("activo",$array["mandante"]);
       	$dato3->set_data("usuario_modificacion",$_SESSION["idusuario"]);
       	$dato3->set_data("fecha_modificacion",date("d/m/Y H:i:s"));
@@ -840,7 +840,7 @@ class DocumentosModel extends ModelBase
 
     return $sqlpersonal;
 	}
-			
+		
 	
 	public function getTotalMontoDoc($idd='')
 	{
@@ -869,6 +869,6 @@ class DocumentosModel extends ModelBase
 
     	return $sqlpersonal;	
 	
-	}	
+	}
 }
 ?>
