@@ -117,11 +117,15 @@ class MandantesController extends ControllerBase
     {
 	
 		require 'models/MandantesModel.php';
+		require 'models/BancosModel.php';
+		$banco = new BancosModel();
 		$mandantes = new MandantesModel();
 		$dato = $mandantes->bajaMandantes($array["idmandantes"]);
+		$datob = $banco->getListaBancos("");
 		
 		$data['nom_sistema'] = "SISTEMA DyV";
 		$data['colleccionMandantes'] = $dato;
+		$data['colleccionBancos'] = $datob;
 		
 		$this->view->show("lista_mandantes.php", $data);
 	} 
@@ -132,6 +136,7 @@ class MandantesController extends ControllerBase
 		require 'models/BancosModel.php';
 		$mandantes = new MandantesModel();
 		$banco = new BancosModel();
+
 		
 		$datob = $banco->getListaBancos("");
 		
