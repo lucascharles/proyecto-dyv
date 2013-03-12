@@ -220,8 +220,8 @@ class MandantesModel extends ModelBase
 			$dato->add_filter("AND");
 			$dato->add_filter("nombre","like",trim($desNomb1)."%");
 		}		
-		$dato->add_top(3); // PARA SQLSERVER
-//		$dato->add_limit(0, 10); // PARA MYSQL 
+//		$dato->add_top(3); // PARA SQLSERVER
+		$dato->add_limit(0, 10); // PARA MYSQL 
 		$dato->load();
 		
 		return $dato;

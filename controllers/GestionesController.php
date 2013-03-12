@@ -186,7 +186,7 @@ class GestionesController extends ControllerBase
     {
 		require 'models/GestionesModel.php';
 		$gestiones = new GestionesModel();
-		$dato = $gestiones->getListaGestiones($array["iddeudor"]);
+		$dato = $gestiones->getMandantesDeudor($array["iddeudor"]);
 		
 		$data['nom_sistema'] = "SISTEMA DyV";
 		$data['colleccionMandantesDeudor'] = $dato;
