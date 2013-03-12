@@ -109,19 +109,22 @@
 		<td colspan="3"> 
         <table width="100%" align="center" cellpadding="0" cellspacing="0" border="0">
         	<tr>
-            	<td align="left" class="etiqueta_form">Apellido</td>
-                <td align="left" class="etiqueta_form">Nombre</td>
-                <td align="left" class="etiqueta_form" width="25%"></td>
-                <td align="left" class="etiqueta_form"  width="25%"s></td>
+<!--            	<td align="left" class="etiqueta_form">Apellido</td>-->
+<!--                <td align="left" class="etiqueta_form">Nombre</td>-->
+<!--                <td align="left" class="etiqueta_form" width="25%"></td>-->
+<!--                <td align="left" class="etiqueta_form"  width="25%"s></td>-->
+            	<td width="20" align="left"  class="etiqueta_form">Razon Social:</td>
+            	<td align="left">&nbsp; <input type="text" name="txtPrimerApel" id="txtPrimerApel"  size="120" onkeyup='mostrar(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/></td>
+
             </tr>
-		    <tr>
-            	<td align="left"><input type="text" name="txtPrimerApel" id="txtPrimerApel"  size="40" onkeyup='mostrar(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" /></td>
-                <td align="left"><input type="text" name="txtPrimerNomb" id="txtPrimerNomb"  size="40" onkeyup='mostrar(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/>
-                
-                </td>
-                <td align="left"></td>
-                <td align="left"></td>
-            </tr>
+<!--		    <tr>-->
+<!--            	<td align="left"><input type="text" name="txtPrimerApel" id="txtPrimerApel"  size="40" onkeyup='mostrar(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" /></td>-->
+<!--                <td align="left"><input type="text" name="txtPrimerNomb" id="txtPrimerNomb"  size="40" onkeyup='mostrar(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/>-->
+<!--                -->
+<!--                </td>-->
+<!--                <td align="left"></td>-->
+<!--                <td align="left"></td>-->
+<!--            </tr>-->
         </table>
         </td>
         </tr>
