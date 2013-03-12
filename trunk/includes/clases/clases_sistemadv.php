@@ -112,7 +112,7 @@
 					"monto" => array("decimal"),
 					"abogado" => array("varchar"),
 					"firma" => array("varchar"),
-					"ingreso" => array("varchar"),
+					"ingreso" => array("datetime"),
 					"providencia" => array("varchar"),
 					"distribucion_corte" => array("datetime"),
 					"rol" => array("varchar"),
@@ -337,7 +337,6 @@
 			$this->field_metadata = array(
 				"id" => array("int"),
 				"id_gasto" => array("int"),
-
 				"id_martillero" => array("int"),
 				"id_ficha" => array("int"),
 				"importe" => array("decimal")
