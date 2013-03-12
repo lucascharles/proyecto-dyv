@@ -32,9 +32,7 @@ class DocumentosController extends ControllerBase
 		
 		$data['objDocumento'] = $documentos->getDocumento($array["id_documento"]);
 		$data['datosDocumento'] = $documentos->getDatoDocumento($array["id_documento"]);
-//		$data['coleccion_mandantes'] = $documentos->getListaMandantes("");
 		$data['coleccion_mandantes'] = $mandantes->getListaMandantes("","","",0);
-//		$data['coleccion_deudores'] = $documentos->getListaDeudores("");
 		$data['coleccion_deudores'] = $deudores->getListaDeudores("","","","","",0);
 		$data['coleccion_estadoDoc'] = $documentos->getListaEstadoDoc("");
 		$data['coleccion_bancos'] = $documentos->getListaBancos("");
@@ -43,7 +41,6 @@ class DocumentosController extends ControllerBase
 		    
     	$data['nom_sistema'] = "SISTEMA DyV";
 		$data['accion_form'] = "";
-		
 		
 		$this->view->show("edita_documento.php", $data);
 	}
@@ -175,14 +172,19 @@ class DocumentosController extends ControllerBase
 		$documentos = new DocumentosModel();
 			
 		$dato = $documentos->getListaDocumentos("","",$array);
-		$datoTmp = &$dato->items[($dato->get_count()-1)];
+
+		$cant_datos = 0;
+		if($dato->get_count() > 0)
+		{
+			$datoTmp = &$dato->items[($dato->get_count()-1)];
+			$array["id_partida"] = $datoTmp->get_data("id_documento");
+			$datoAux = $documentos->getListaDocumentos("","",$array);
+			$cant_datos = $datoAux->get_count();
+		}
 		
-		$array["id_partida"] = $datoTmp->get_data("id_documento");
-		$datoAux = $documentos->getListaDocumentos("","",$array);
-	
 		$data['nom_sistema'] = "SISTEMA DyV";
 		$data['colleccionDatosDocumentos'] = $dato;
-		$data['cant_mas'] = $datoAux->get_count();
+		$data['cant_mas'] = $cant_datos = 0;
 		
 		$this->view->show("lista_documentos.php", $data);
 	}    
