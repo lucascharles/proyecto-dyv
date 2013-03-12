@@ -149,6 +149,8 @@ class MandantesModel extends ModelBase
 		$dato->set_data("banco1",$array["banco1"]);
 		$dato->set_data("cuenta_corriente2",$array["cuenta_corriente2"]);
 		$dato->set_data("banco2",$array["banco2"]);
+		$dato->set_data("telefono1",$array["telefono1"]);
+		$dato->set_data("telefono2",$array["telefono2"]);
 	  	$dato->set_data("activo","S");
 	 	$dato->save();
 			
