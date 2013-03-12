@@ -9,7 +9,7 @@ CREATE TABLE [dbo].[Ficha](
 	[monto] [decimal](10, 2) NULL,
 	[abogado] [varchar](100) COLLATE Modern_Spanish_CI_AS NULL,
 	[firma] [varchar](100) COLLATE Modern_Spanish_CI_AS NULL,
-	[ingreso] [varchar](100) COLLATE Modern_Spanish_CI_AS NULL,
+	[ingreso] [datetime] NULL,
 	[providencia] [varchar](100) COLLATE Modern_Spanish_CI_AS NULL,
 	[distribucion_corte] [datetime] NULL,
 	[rol] [varchar](100) COLLATE Modern_Spanish_CI_AS NULL,
