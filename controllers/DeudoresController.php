@@ -37,8 +37,28 @@ class DeudoresController extends ControllerBase
 			$dato = $documentos->getListaDocumentos("",$datodeudor->get_data("id_deudor"),$array);
 		}
 		
+		$cant_datos = 0;
+		if($dato->get_count() > 0)
+		{
+			if($array["tipoperacion"] == "A")
+			{
+				$iddeudor = $array["ident"];
+			}
+			
+			if($array["tipoperacion"] == "M")
+			{
+				$iddeudor = $datodeudor->get_data("id_deudor");
+			}
+			
+			$datoTmp = &$dato->items[($dato->get_count()-1)];
+			$array["id_partida"] = $datoTmp->get_data("id_documento");
+			$datoAux = $documentos->getListaDocumentos("",$iddeudor,$array);	
+			$cant_datos = $datoAux->get_count();
+		}
+		
 		$data['nom_sistema'] = "SISTEMA DyV";
 		$data['colleccionDoc'] = $dato;
+		$data['cant_mas'] = $cant_datos;
 		
 		$this->view->show("deudor_ficha_documentos.php", $data);
 	}
@@ -609,6 +629,114 @@ class DeudoresController extends ControllerBase
 		$arrayr[] = $dato->get_data("dv_deudor");
 		
 		echo(json_encode($arrayr));		
+	}
+	
+	public function listar_mas_fichadoc($array)
+    {
+		require 'models/DocumentosModel.php';
+		require 'models/DeudoresModel.php';
+		$deudor = new DeudoresModel();
+		$documentos = new DocumentosModel();
+		
+		if($array["tipoperacion"] == "A")
+		{
+			$dato = $documentos->getListaDocumentos("",$array["ident"],$array);
+		}
+		
+		if($array["tipoperacion"] == "M")
+		{
+			$datodeudor = $deudor->getDeudorFicha($array["ident"]);	
+			$dato = $documentos->getListaDocumentos("",$datodeudor->get_data("id_deudor"),$array);
+		}
+		
+		$cant_datos = 0;
+		if($dato->get_count() > 0)
+		{
+			if($array["tipoperacion"] == "A")
+			{
+				$iddeudor = $array["ident"];
+			}
+			
+			if($array["tipoperacion"] == "M")
+			{
+				$iddeudor = $datodeudor->get_data("id_deudor");
+			}
+			
+			$datoTmp = &$dato->items[($dato->get_count()-1)];
+			$array["id_partida"] = $datoTmp->get_data("id_documento");
+			$datoAux = $documentos->getListaDocumentos("",$iddeudor,$array);	
+			$cant_datos = $datoAux->get_count();
+		}
+		
+		$html = "<table width='100%' cellpadding='2' cellspacing='2' align='center' border='0' bgcolor='#FFFFFF'>";
+		
+		for($j=0; $j<$dato->get_count(); $j++) 
+		{
+			$datoTmp = &$dato->items[$j];
+			
+			$html .= "<tr bgcolor='#FFFFFF'>";
+			$html .= "	<td width='2%'></td>";		
+			$html .= "	<td align='left' width='17%' class='dato_lista'>&nbsp;&nbsp;".$datoTmp->get_data("id_documento")."</td>";
+			$html .= "	<td align='left' width='10%' class='dato_lista'>&nbsp;&nbsp;".$datoTmp->get_data("ape1_deudor")." ".$datoTmp->get_data("ape2_deudor").$datoTmp->get_data("nom1_deudor")."</td>";
+			$html .= "	<td align='left' width='10%' class='dato_lista'>&nbsp;&nbsp;".$datoTmp->get_data("nombre_mandante")."</td>";
+			$html .= "	<td align='left' width='10%' class='dato_lista'>&nbsp;&nbsp;".formatoFecha($datoTmp->get_data("fecha_siniestro"),"dd-mm-yyyy","dd/mm/yyyy")."</td>";
+			$html .= "	<td align='left' width='10%' class='dato_lista'>&nbsp;&nbsp;".$datoTmp->get_data("id_estado_doc")."</td>";
+			$html .= "	<td align='left' width='10%' class='dato_lista'>&nbsp;&nbsp;".$datoTmp->get_data("numero_documento")."</td>";
+			$html .= "	<td align='left' width='8%' class='dato_lista'>&nbsp;&nbsp;".$datoTmp->get_data("id_tipo_doc")."</td>";
+			$html .= "	<td align='left' width='5%' class='dato_lista'>&nbsp;&nbsp;".$datoTmp->get_data("monto")."</td>";
+			$html .= "	<td align='left' width='10%' class='dato_lista'>&nbsp;&nbsp;".$datoTmp->get_data("id_banco")."</td>";
+			$html .= "	<td align='left' width='8%' class='dato_lista'>&nbsp;&nbsp;".$datoTmp->get_data("cta_cte")."</td>";
+			$html .= "</tr>";
+            $html .= "<tr bgcolor='#FFFFFF'>";
+            $html .= "  <td colspan='11' style='border-bottom:solid; border-bottom-width:2px; border-bottom-color:#CCCCCC;'></td>";
+            $html .= "</tr>";
+		}
+	
+		if($cant_datos > 0)
+		{
+			$datoTmp = &$dato->items[($dato->get_count()-1)];
+		}
+		
+		if($cant_datos > 0)
+		{
+			$html .= "<tr bgcolor='#FFFFFF'>";
+    		$html .= "<td colspan='11' align='center'>";
+        	$html .= "<div id='btnvermas_".$datoTmp->get_data("id_documento")."' onclick='verMasRegistros(".$datoTmp->get_data("id_documento").")' style='cursor:pointer;'>Ver mas </div>";
+			$html .= "</td>";
+			$html .= "</tr>";
+	    }
+		
+		if($cant_datos > 0)
+		{
+	    	$html .= "</table>";
+			$html .= "<div  mascom='masdatcom' id='masdatos_".$datoTmp->get_data("id_documento")."' style='display:none;'>";
+		    $html .= "</div>";
+		}
+		
+		echo($html);
+	}
+	
+	public function buscar_total($array)
+    {
+		require 'models/DocumentosModel.php';
+		require 'models/DeudoresModel.php';
+		$deudor = new DeudoresModel();
+		$documentos = new DocumentosModel();
+		
+		if($array["tipoperacion"] == "A")
+		{
+			$dato = $documentos->getTotalMontoDoc($array["ident"]);
+		}
+		
+		if($array["tipoperacion"] == "M")
+		{
+			$datodeudor = $deudor->getDeudorFicha($array["ident"]);	
+			$dato = $documentos->getTotalMontoDoc($datodeudor->get_data("id_deudor"));
+		}
+		
+		$datoTmp = &$dato->items[($dato->get_count()-1)];
+		$imp_total = $datoTmp->get_data("monto");
+		echo($imp_total);
 	}
 }
 ?>
