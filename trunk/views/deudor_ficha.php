@@ -31,6 +31,7 @@
 			
   			$('form').validator();
 			$("#txtdist_corte").datepicker();
+			$("#txtingreso").datepicker();
 			recolectarBasura();
 			
 		});
@@ -342,7 +343,7 @@
 	$monto = ($tipoperacion == "M") ? $ficha->get_data("monto") : "";
 	$abogado = ($tipoperacion == "M") ? $ficha->get_data("abogado") : "";
 	$firma = ($tipoperacion == "M") ? $ficha->get_data("firma") : "";
-	$ingreso = ($tipoperacion == "M") ? $ficha->get_data("ingreso") : "";
+	$ingreso = ($tipoperacion == "M") ? formatoFecha($ficha->get_data("ingreso"),"dd-mm-yyyy","dd/mm/yyyy") : "";
 	$providencia_1 = ($tipoperacion == "M") ? $ficha->get_data("providencia") : "";
 	$dist_corte = ($tipoperacion == "M") ? formatoFecha($ficha->get_data("distribucion_corte"),"dd-mm-yyyy","dd/mm/yyyy") : "";
 	$rol = ($tipoperacion == "M") ? $ficha->get_data("rol") : "";
