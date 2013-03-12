@@ -840,6 +840,35 @@ class DocumentosModel extends ModelBase
 
     return $sqlpersonal;
 	}
+			
+	
+	public function getTotalMontoDoc($idd='')
+	{
+	
+		include("config.php");
 		
+		$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
+		$sqlpersonal->set_select(" SUM(d.monto) monto"); 
+	  	$sqlpersonal->set_from(" documentos d, 
+	 								bancos c,
+	 								deudores dd,
+	 								mandantes m,
+	 								estadodocumentos ed,
+	 								tipodocumento td");
+	  	$where = " d.id_banco = c.id_banco
+				and  d.id_deudor = dd.id_deudor
+				and m.id_mandante = d.id_mandatario
+				and d.id_estado_doc = ed.id_estado_doc
+				and d.id_tipo_doc = td.id_tipo_documento
+				and d.activo = 'S' ";
+		$where .= " and d.id_deudor = ".$idd;
+
+		$sqlpersonal->set_where($where);
+	
+    	$sqlpersonal->load();
+
+    	return $sqlpersonal;	
+	
+	}	
 }
 ?>
