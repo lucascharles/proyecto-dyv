@@ -115,12 +115,20 @@ class DocumentosModel extends ModelBase
 					// no existe mandante
 					$mandante = new Mandantes();
 					$mandante->add_filter("rut_mandante","=",trim(substr($arraydatos[0],0,-1)));
-					$mandante->add_filter("AND");
-					$mandante->add_filter("dv_mandante","=",trim(substr($arraydatos[0],-1)));
+//					$mandante->add_filter("AND");
+//					$mandante->add_filter("dv_mandante","=","'".trim(substr($arraydatos[0],-1))."'");
 					$mandante->load();
 					if(is_null($mandante->get_data("id_mandante")))
 					{
-						$error_rutmandante[] = 4;
+						
+						//crear Mandante nuevo
+					  	$mandante_new = new Mandantes();
+						$mandante_new->set_data("rut_mandante",trim(substr($arraydatos[0],0,-1)));
+						$mandante_new->set_data("dv_mandante",trim(substr($arraydatos[0],-1)));
+					  	$mandante_new->set_data("activo","S");
+					 	$mandante_new->save();
+//					 	$error_rutmandante[] = 4;
+						$mandante->load();
 					}
 					
 					
@@ -146,12 +154,44 @@ class DocumentosModel extends ModelBase
 					// no existe deudor
 					$deudor = new Deudores();
 					$deudor->add_filter("rut_deudor","=",trim(substr($arraydatos[1],0,-1)));
-					$deudor->add_filter("AND");
-					$deudor->add_filter("dv_deudor","=",trim(substr($arraydatos[1],-1)));
+//					$deudor->add_filter("AND");
+//					$deudor->add_filter("dv_deudor","=","'".trim(substr($arraydatos[1],-1))."'");
 					$deudor->load();
 					if(is_null($deudor->get_data("id_deudor")))
 					{
-						$error_rutdeudor[] = 8;
+						//se crea el deudor nuevo
+						$deudor_new = new Deudores();
+						$deudor_new->set_data("rut_deudor",trim(substr($arraydatos[1],0,-1)));
+						$deudor_new->set_data("dv_deudor","'".trim(substr($arraydatos[1],-1))."'");
+					  	$deudor_new->set_data("activo","S");
+					 	$deudor_new->save();
+
+					 	//vuelve a consultar el deudor para recuperar datos
+					 	$deudor->load();
+					 	
+					 	//se calcula fecha para la proxima gestion
+					 	$fechaHoy = date("Y-m-d");
+						$dias = 5;
+						$calculoHoy = strtotime("$fechaHoy +0 days");
+						$calculoFuturo = strtotime("$fechaHoy +$dias days");
+
+					 	//se crea el registro de gestion para el deudor						
+					 	$datoG = new Gestiones();
+					  	$datoG->set_data("id_deudor",$deudor->get_data("id_deudor"));
+				      	$datoG->set_data("id_mandante",$mandante->get_data("id_mandante"));
+				      	$datoG->set_data("fecha_gestion",date("Y-m-d"));
+				      	$datoG->set_data("nota_gestion","Inicia Gestion");
+				      	$datoG->set_data("fecha_prox_gestion",date("Y-m-d", $calculoFuturo));
+				      	$datoG->set_data("activo","S");
+				      	$datoG->set_data("usuario_modificacion",$_SESSION["idusuario"]);
+				      	$datoG->set_data("fecha_modificacion",date("Y-m-d"));
+				      	$datoG->set_data("usuario_creacion",$_SESSION["idusuario"]);
+				      	$datoG->set_data("fecha_creacion",date("Y-m-d"));      	
+				      	$datoG->set_data("estado","GESTION");
+				      	$datoG->save();
+					 	
+					 	
+					 	
 					}
 					
 										
@@ -196,29 +236,41 @@ class DocumentosModel extends ModelBase
 					{
 						$error_banco[] = 14;
 						//echo("<br>ERROR banco 2 ");
+						$banco_default = 0;
 					}
 					
 					// no existe banco
 					$banco = new Bancos();
 					$banco->add_filter("codigo","=",trim($arraydatos[4]));
 					$banco->load();
+					$banco_default = $banco->get_data("id_banco");
 					if(is_null($banco->get_data("id_banco")))
 					{
 						//echo("<br>ERROR banco 7 ");
 						$error_banco[] = 15;
+						$banco_default = 0;
 					}
 
 					// VALIDACION NUMERO DOCUMENTO
 					// cero
 					if((int)$arraydatos[5] == 0)
 					{
-						$error_nrodocumento[] = 16;					
+						$nrodocumento = NULL;					
 					}
+					else
+					{
+						$nrodocumento =trim($arraydatos[5]);
+					}
+					
 					
 					// vacio
 					if(trim($arraydatos[5]) == "")
 					{
-						$error_nrodocumento[] = 17;
+						$nrodocumento = NULL;
+					}
+					else
+					{
+						$nrodocumento =trim($arraydatos[5]);
 					}
 					
 					// valor no numerico
@@ -226,56 +278,50 @@ class DocumentosModel extends ModelBase
 					{
 						$error_nrodocumento[] = 18;
 					}
-
-				// VALIDACION CUENTA CORRIENTE
+					
+				// VALIDACION CUENTA CORRIENTE, puede no existir la cuenta 
 					// cero
 					if((int)$arraydatos[6] == 0)
 					{
-						$error_ctacte[] = 19;
+						$cta_cte = NULL;
 					}
+					else
+					{
+						$cta_cte =trim($arraydatos[6]);
+					}
+					
 					
 					// vacio
 					if(trim($arraydatos[6]) == "")
 					{
-						$error_ctacte[] = 20;
+						$cta_cte = NULL;
 					}
-					
-					// valor numerico
-					if(false)
+					else
 					{
-						$error_ctacte[] = 21;
+						$cta_cte =trim($arraydatos[6]);
 					}
 					
 					if(count($error_rutmandante) == 0 && 
-						count($error_rutdeudor) == 0 && 
-						count($error_monto) == 0 && 
-						count($error_tipodocumento) == 0 && 
-						count($error_banco) == 0 && 
-						count($error_nrodocumento) == 0 && 
-						count($error_ctacte) == 0)
+						count($error_rutdeudor) == 0 )
 					{	
 						// GUARDAR DOCUMENTO
 						$datodoc = new Documentos();
-						$datodoc->set_data("id_estado_doc",1); // pendiente (hay que parametrizar)
+						$datodoc->set_data("id_estado_doc",999); // pendiente de enviar carta(hay que parametrizar)
 						$datodoc->set_data("id_tipo_doc",$tipodoc->get_data("id_tipo_documento"));
-						// $datodoc->set_data("id_causa_protesto",);
-						$datodoc->set_data("id_banco",$banco->get_data("id_banco"));				
+						$datodoc->set_data("id_banco",$banco_default);				
 						$datodoc->set_data("id_mandatario",$mandante->get_data("id_mandante"));						
 						$datodoc->set_data("id_deudor",$deudor->get_data("id_deudor"));
-						$datodoc->set_data("numero_documento",trim($arraydatos[5]));
-						// "numero_siniestro" => array("int"),
-						// "fecha_protesto" => array("datetime"),
-						// "fecha_siniestro" => array("datetime"),
+						$datodoc->set_data("numero_documento",$nrodocumento);
 						$datodoc->set_data("monto",trim($arraydatos[2]));
-						$datodoc->set_data("cta_cte",trim($arraydatos[6]));
-						// "gastos_protesto" => array("int"),
-						//"ns" => array("int"),
-						$datodoc->set_data("fecha_creacion",date("d/m/Y H:i:s"));
+						$datodoc->set_data("cta_cte",$cta_cte);
+						$datodoc->set_data("fecha_siniestro",date("Y-m-d"));
+						$datodoc->set_data("activo","S");
+						$datodoc->set_data("fecha_creacion",date("Y-m-d"));
 						$datodoc->set_data("usuario_creacion",$id_usuario);
-						//"fecha_modificacion" => array("datetime"),
-						//"usuario_modificacion" => array("varchar")
+						
 						$datodoc->save();
-
+						
+						
 					}
 					else
 					{
@@ -368,6 +414,7 @@ class DocumentosModel extends ModelBase
 
 		}
 		fclose ( $fp );
+		
 		}// fin if sin error upload
 		else
 		{
@@ -551,7 +598,7 @@ class DocumentosModel extends ModelBase
       	$dato3->set_data("fecha_gestion",date("d/m/Y H:i:s"));
       	$dato3->set_data("nota_gestion","Inicia Gestion");
       	$dato3->set_data("fecha_prox_gestion",date("d/m/Y", $calculoFuturo));
-      	$dato3->set_data("activo",$array["mandante"]);
+      	$dato3->set_data("activo","S");
       	$dato3->set_data("usuario_modificacion",$_SESSION["idusuario"]);
       	$dato3->set_data("fecha_modificacion",date("d/m/Y H:i:s"));
       	$dato3->set_data("usuario_creacion",$_SESSION["idusuario"]);
@@ -587,8 +634,8 @@ class DocumentosModel extends ModelBase
 		
 		$where .= " and d.id_documento > ".$array["id_partida"];
 		
-		$sqlpersonal->set_top(10); // PARA SQLSERVER 
-		//$sqlpersonal->set_limit(0,3); // PARA MYSQL
+//		$sqlpersonal->set_top(10); // PARA SQLSERVER 
+		$sqlpersonal->set_limit(0,10); // PARA MYSQL
 		
 		if(count($array) > 0)
 		{

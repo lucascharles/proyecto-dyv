@@ -226,8 +226,7 @@ class GestionesModel extends ModelBase
 	   						   m.nombre nombre,
 	   						   m.email email,
 	   						   m.telefono1 tel1,
-	   						   m.telefono2 tel2,
-	   						   m.fax fax "); 
+	   						   m.telefono2 tel2 "); 
 	  $sqlpersonal->set_from(" mandantes m ");
 	  $sqlpersonal->set_where(" id_mandante in(
 												select distinct d.id_mandatario

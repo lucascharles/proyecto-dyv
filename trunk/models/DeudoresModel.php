@@ -965,7 +965,7 @@ ORDER BY orden ASC ";
 		if($rut <> "" && $rut <> 0)
 		{
 			$dato->add_filter("AND");
-			$dato->add_filter("rut_deudor_s","like",trim($rut)."%");
+			$dato->add_filter("rut_deudor","like",trim($rut)."%");
 		}
 		
 		if(trim($p_ape) <> "")
@@ -989,8 +989,8 @@ ORDER BY orden ASC ";
 			$dato->add_filter("segundo_nombre","like",trim($s_nom)."%");
 		}
 
-		$dato->add_top(3);      //es para sqlserver
-//		$dato->add_limit(0,15);  //es para mysql
+//		$dato->add_top(3);      //es para sqlserver
+		$dato->add_limit(0,15);  //es para mysql
 		$dato->load();
 		
 		return $dato;
