@@ -6,20 +6,9 @@
 	<link rel="stylesheet" href="css/general.css" type="text/css" />
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<title></title>
+    <script src="js/funciones.js" type="text/javascript"></script>
     <script language="javascript">
-
-
-		function mostrar(obj)
-		{
-			var url = "index.php?controlador=Deudores&accion=listar";
-			url += "&rut="+$("#txtrut").val()+$("#txtrut_d").val();
-			url += "&p_ape="+$("#txtpapellido").val();
-			url += "&s_ape="+$("#txtsapellido").val();
-			url += "&p_nom="+$("#txtpnombre").val();
-			url += "&s_nom="+$("#txtsnombre").val();
-			url += "&id_partida=0";
-			document.getElementById("frmlistdeudor").src = url;
-		}
+	
 		
 		function limpiar()
 		{
@@ -103,7 +92,7 @@
 <div id="buscador" style="">
 <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
 	 <tr>
-		<td width="" align="left" class="etiqueta_form">R.U.T.:&nbsp;&nbsp;&nbsp; <input type="text" name="txtrut_d" id="txtrut_d"  size="20" onkeyup='mostrar(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" />&nbsp;<input type="text" name="txtrut_dv" id="txtrut_dv"  size="2" onkeyup='mostrar(this)'  class="input_form_min"/></td>
+		<td width="" align="left" class="etiqueta_form">R.U.T.:&nbsp;&nbsp;&nbsp; <input type="text" name="txtrut_d" id="txtrut_d"  size="20" onkeyup='mostrar(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this); generadvrut('txtrut_d','txtrut_dv')" />&nbsp;<input type="text" name="txtrut_dv" id="txtrut_dv"  size="2" onkeyup='mostrar(this)'  class="input_form_min" disabled="disabled"/></td>
         <td align="left"></td>
         <td> 
         </td>
@@ -168,7 +157,11 @@
     <tr>
 		<td colspan="3" align="right">
         
-            <input  type="button" name="btnsalir" id="btnsalir" onclick="salir()"  value="salir" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/>
+            <input  type="button" name="btnsalir" id="btnsalir" onclick="salir()"  value="salir" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/>&nbsp;&nbsp;
+         </td>
+    </tr>
+    <tr>
+		<td colspan="3" align="right" height="10">
          </td>
     </tr>
 </table>
