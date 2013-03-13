@@ -333,8 +333,8 @@
     				<td align="left" class="etiqueta_form">Nombre</td>
         		</tr>
             	<tr>
-					<td align="left"><input type="text" name="txtrut_mandante" id="txtrut_mandante" size="15" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="entero" value="<? echo($objMandantes->get_data("rut_mandante")) ?>" />
-    	<input type="text" name="txtdv_mandante" id="txtdv_mandante" size="2"  class="input_form_min" valida="requerido" tipovalida="entero" value="<? echo($objMandantes->get_data("dv_mandante")) ?>" />
+					<td align="left"><input type="text" name="txtrut_mandante" id="txtrut_mandante" size="15" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this); generadvrut('txtrut_mandante','txtdv_mandante')" valida="requerido" tipovalida="entero" value="<? echo($objMandantes->get_data("rut_mandante")) ?>" />
+    	<input type="text" name="txtdv_mandante" id="txtdv_mandante" size="2"  class="input_form_min" valida="requerido" tipovalida="texto" value="<? echo($objMandantes->get_data("dv_mandante")) ?>" />
         			</td>
     				<td align="left"><input type="text" name="txtapellido" id="txtapellido" size="40"  class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo($objMandantes->get_data("apellido")) ?>"/>
                     </td>
