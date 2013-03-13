@@ -377,13 +377,13 @@
 <div id="datos" style="">
 	<table width="100%" align="center" border="0" cellpadding="2" cellspacing="2">
 	 <tr>
-		<td align="right" class="etiqueta_form" width="10">Deudor:</td><td>&nbsp;&nbsp;&nbsp; <input type="text" grabar="S" name="txtrut_deudor" id="txtrut_deudor"  valida="requerido" tipovalida="entero" size="20"  class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" value="<? echo($deudor->get_data("rut_deudor")) ?>" />&nbsp;
-        <input type="text" grabar="S" name="txtrut_d_deudor" id="txtrut_d_deudor" valida="requerido" tipovalida="entero" size="2"   class="input_form_min" value="<? echo($deudor->get_data("dv_deudor"))?>"/>&nbsp;&nbsp; <input  type="button" name="btnDatosDeudor" id="btnDatosDeudor" onClick="verDatosDeudor()"  value="Ver Deudor" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/>
+		<td align="right" class="etiqueta_form" width="10">Deudor:</td><td>&nbsp;&nbsp;&nbsp; <input type="text" grabar="S" name="txtrut_deudor" id="txtrut_deudor"  valida="requerido" tipovalida="entero" size="20"  class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this); generadvrut('txtrut_deudor','txtrut_d_deudor')" value="<? echo($deudor->get_data("rut_deudor")) ?>" />&nbsp;
+        <input type="text" grabar="S" name="txtrut_d_deudor" id="txtrut_d_deudor" valida="requerido" tipovalida="entero" size="2"   class="input_form_min" value="<? echo($deudor->get_data("dv_deudor"))?>" disabled="disabled"/>&nbsp;&nbsp; <input  type="button" name="btnDatosDeudor" id="btnDatosDeudor" onClick="verDatosDeudor()"  value="Ver Deudor" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/>
         </td>
     </tr>
     <tr>
-		<td align="right" class="etiqueta_form" width="20">Mandatario:</td><td>&nbsp;&nbsp;&nbsp; <input type="text" grabar="S" name="txtrut_mandante" id="txtrut_mandante" valida="requerido" tipovalida="entero" size="20"  class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" value="<? echo($mandante->get_data("rut_mandante"))?>"/>&nbsp;
-        <input type="text" grabar="S" name="txtrut_d_mandante" id="txtrut_d_mandante" valida="requerido" tipovalida="entero" size="2"   class="input_form_min" value="<? echo($mandante->get_data("dv_mandante"))?>"/>
+		<td align="right" class="etiqueta_form" width="20">Mandatario:</td><td>&nbsp;&nbsp;&nbsp; <input type="text" grabar="S" name="txtrut_mandante" id="txtrut_mandante" valida="requerido" tipovalida="entero" size="20"  class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this); generadvrut('txtrut_mandante','txtrut_d_mandante')" value="<? echo($mandante->get_data("rut_mandante"))?>"/>&nbsp;
+        <input type="text" grabar="S" name="txtrut_d_mandante" id="txtrut_d_mandante" valida="requerido" tipovalida="entero" size="2"   class="input_form_min" value="<? echo($mandante->get_data("dv_mandante"))?>" disabled="disabled"/>
         </td>
     </tr>
     <tr>
