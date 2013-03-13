@@ -147,27 +147,104 @@
 		{
 			document.getElementById("iddireccion").value = id;
 		}
-
-		function seleccionado_gestion(id)
+		
+		function validarRut(tipo)
 		{
-			document.getElementById("idficha").value = id;
-		}
-
-		function verFicha(idFicha)
-		{
-			idFicha=1;
-			if(idFicha == "")
+			var datos = "";
+			var rut = "";
+			var dv = "";
+			
+			if(tipo == "D")
 			{
-				return false;
+				if($.trim($("#txtrut_deudor").val()) == "" || $.trim($("#txtdv_deudor").val()) == "")
+				{
+					return false;
+				}
+				
+				if(!validaentero($.trim($("#txtrut_deudor").val())))
+				{
+					return false;
+				}
+				if(!validaentero($.trim($("#txtdv_deudor").val())))
+				{
+					return false;
+				}
+				
+				datos = "controlador=Deudores";
+				rut = $("#txtrut_deudor").val();
+				dv = $("#txtdv_deudor").val();
 			}
-			alert('index.php?controlador=Deudores&accion=deudor_ficha&id='+idFicha+'&tipope=M');	
-			$("#pagina").load('index.php?controlador=Deudores&accion=deudor_ficha&id='+idFicha+'&tipope=M');
+			if(tipo == "M")
+			{
+				if($.trim($("#txtrut_mandante").val()) == "" || $.trim($("#txtdv_mandante").val()) == "")
+				{
+					return false;
+				}
+				if(!validaentero($.trim($("#txtrut_mandante").val())))
+				{
+					return false;
+				}
+				if(!validaentero($.trim($("#txtdv_mandante").val())))
+				{
+					return false;
+				}
+				datos = "controlador=Mandantes";
+				rut = $("#txtrut_mandante").val();
+				dv = $("#txtdv_mandante").val();
+			}
+				
+			datos += "&accion=validarrut";
+			datos += "&tipoval=EXISTE";
+			datos += "&rut="+rut;
+			datos += "&dv="+dv;
+				
+			$.ajax({
+					url: "index.php",
+					type: "GET",
+					data: datos,
+					cache: false,
+					success: function(res)
+					{		
+						if(res == 0)
+						{
+							var mensaje = "";
+							
+							if(tipo == "D")
+							{
+								document.getElementById("txtdv_deudor").focus();
+								mensaje = "El rut ingresado para el deudor es incorrecto.";
+							}
+							if(tipo == "M")
+							{
+								document.getElementById("txtdv_mandante").focus();
+								mensaje = "El rut ingresado para el mandante es incorrecto.";
+							}
+							$("#mensaje").text(mensaje);
+							$("#mensaje").show("slow");
+							setTimeout("limpiarMensaje()",3000);
+						}
+						else 
+						{
+							if(tipo == "D")
+							{
+								$("#id_deudor").val(res);
+							}
+							if(tipo == "M")
+							{
+								$("#id_mandante").val(res);
+							}
+						}
+					},
+					error: function()
+					{
+						$("#mensaje").text("Ha ocurrido un error y no se ha podido agregar el registro.");
+					}
+				});
 		}
 		
 	</script>
 </head>
 <body>
-<input  type=hidden name="idficha" id="idficha" value="" />
 <div id="selecMandante" style="position:absolute; margin-left:20px; width:95%; margin-top:60%; display:none; z-index:9999;">
 	<table cellpadding="10" cellspacing="10" align="center" border="0" width="100%" bgcolor="#FFFFFF">  
     <tr>
@@ -333,45 +410,20 @@
         				<iframe id="frmlistdocumentos" src="index.php?controlador=Gestiones&accion=listarDocumentos&iddeudor=<? echo($objGestion->get_data("id_deudor")) ?>&id_partida=0" frameborder="0" align="middle" width="100%" height="120" scrolling="auto"></iframe>
         
         </td>
+        <td align="center" width="100">
+					<input  type="button" name="btnLiquidacion" id="btnLiquidacion" onclick="verLiquidacion()" class="boton_form" value="Liquidaci&oacute;n" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)' />
+			
+        </td>
     </tr>
 </table>
 
 </div>
 
 <div id="datos" style="">
-<table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="titulopantalla">
-	<tr>
-		<th align="left" height="30">&nbsp;Mandatarios</th>
-        <th></th>
-        <th></th>
-    </tr>
- </table>
- <table width="100%" height="120" align="center" border="0" cellpadding="0" cellspacing="0">
-    <tr>
-    	<td colspan="2" height="5" >
-        </td>
-     </tr>
-    <tr>
-    	<td align="right" valign="top" >
-        	<iframe id="frmlistmandantes" src="index.php?controlador=Gestiones&accion=getMandantesDeudor&iddeudor=<? echo($objGestion->get_data("id_deudor")) ?>" frameborder="0" align="middle" width="100%" height="120" scrolling="auto"></iframe>
-        </td>
-        
-        <td align="center" width="100">
-					<input  type="button" name="btnLiquidacion" id="btnLiquidacion" onclick="verLiquidacion()" class="boton_form" value="Liquidaci&oacute;n" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)' />
-			
-        </td>
-        
-    </tr>
- </table>
-
-</div>
-
-
-<div id="datos" style="">
 
 <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="titulopantalla">
 	<tr>
-		<th align="left" height="30">&nbsp;Direcciones del Deudor</th>
+		<th align="center" height="30">&nbsp;Direcciones</th>
         <th></th>
         <th align="center" ></th>
         <th></th>
@@ -387,11 +439,6 @@
         <td width="100" >
         	&nbsp;
          <input  type="button" name="btngrabardir" id="btngrabardir" onclick="grabarDir()" class="boton_form" value="Grabar" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)' />
-        </td>
-        
-        <td width="100" >
-        	&nbsp;
-         <input  type="button" name="btnAddDir" id="btnAddDir" onclick="addDir()" class="boton_form" value="Agregar" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)' />
         </td>
 	</tr>
 </table>
@@ -416,12 +463,6 @@
 		<td >
             	<iframe id="frmdemandas" src="index.php?controlador=Gestiones&accion=listar_demandas&iddeudor=<? echo($objGestion->get_data("id_deudor")) ?>" frameborder="0" align="middle" width="80%" height="120" scrolling="auto"></iframe>
         </td>
-        
-        <td width="100" >
-        	&nbsp;
-         <input  type="button" name="btnFicha" id="btnFicha" onclick="verFicha()" class="boton_form" value="Ficha" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)' />
-        </td>
-        
 	</tr>
 </table>
 </div>
@@ -481,8 +522,8 @@
         	<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
             	<tr>
                 	<td width="240">
-						<input type="text" name="txtrut_mandante" id="txtrut_mandante" class="input_form" />&nbsp;
-            			<input type="text" name="txtdv_mandante" id="txtdv_mandante" class="input_form_min" onblur="validarRut('M')" />
+						<input type="text" name="txtrut_mandante" id="txtrut_mandante" class="input_form" onblur=" generadvrut('txtrut_mandante','txtdv_mandante'); validarRut('M')"  />&nbsp;
+            			<input type="text" name="txtdv_mandante" id="txtdv_mandante" class="input_form_min" onblur="" disabled="disabled" />
                     </td>
                 	<td align="left">
 			            <img src="images/buscar.png" title="Buscar Mandante" style="cursor:pointer" onclick="ventanaBusqueda()" />
