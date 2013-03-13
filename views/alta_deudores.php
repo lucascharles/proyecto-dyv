@@ -506,8 +506,8 @@
             <table width="100%" align="center" border="0" cellpadding="5" cellspacing="5">    	
                 <tr>
                     <td width="70" align="left" class="etiqueta_form">R.U.T.:</td>
-                    <td> &nbsp;&nbsp;&nbsp;<input type="text" grabar="S" name="txtrut" id="txtrut"  size="40" valida="requerido" tipovalida="entero" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" />
-                    <input type="text" grabar="S" name="txtrut_d" id="txtrut_d"  size="2" valida="requerido" tipovalida="entero" maxlength="1" class="input_form_min" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtrut" class="msjdato_incomp"></span>
+                    <td> &nbsp;&nbsp;&nbsp;<input type="text" grabar="S" name="txtrut" id="txtrut"  size="40" valida="requerido" tipovalida="entero" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this); generadvrut('txtrut','txtrut_d')" />
+                    <input type="text" grabar="S" name="txtrut_d" id="txtrut_d"  size="2" valida="requerido" tipovalida="texto" maxlength="1" class="input_form_min" onFocus="resaltar(this)" onBlur="noresaltar(this)" disabled="disabled"/><span id="msj_error_txtrut" class="msjdato_incomp"></span>
                     </td>
                 </tr>
                 <tr>
