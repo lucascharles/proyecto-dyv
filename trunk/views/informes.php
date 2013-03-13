@@ -6,6 +6,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<title></title>
 	<script src="js/jquery-1.7.1.min.js" type="text/javascript"></script>
+     <script src="js/validacampos.js" type="text/javascript"></script>
     <script language="javascript">
 		function buscarDatosMandante(id)
 		{
@@ -91,29 +92,104 @@
 				url = url+"&tipoDoc="+document.getElementById("selTipoDoc").value
 			document.getElementById("frmlistinforme").src = url;
 		}
-/*
-		function marcartodo()
-		{
 
-			var url = "index.php?controlador=Informes&accion=marcar&tipoInforme="+document.getElementById("selTipoInforme").value+"&idmandante="+document.getElementById("id_mandante").value;
-			url = url+"&tipoDoc="+document.getElementById("selTipoDoc").value
-			document.getElementById("frmlistinforme").src = url;
-		}
-
-		function desmarcartodo()
+		function salirInformes()
 		{
-
-			var url = "index.php?controlador=Informes&accion=listar&tipoInforme="+document.getElementById("selTipoInforme").value+"&idmandante="+document.getElementById("id_mandante").value;
-			url = url+"&tipoDoc="+document.getElementById("selTipoDoc").value
-			document.getElementById("frmlistinforme").src = url;
+			$("#pagina").load('views/default.php');
 		}
-*/
-		
-		function salir()
+		function validarRut(tipo)
 		{
-			$("#pagina").load('views/defaultl.php');
+			var datos = "";
+			var rut = "";
+			var dv = "";
+			
+			if(tipo == "D")
+			{
+				if($.trim($("#txtrut_deudor").val()) == "" || $.trim($("#txtdv_deudor").val()) == "")
+				{
+					return false;
+				}
+				
+				if(!validaentero($.trim($("#txtrut_deudor").val())))
+				{
+					return false;
+				}
+				if(!validaentero($.trim($("#txtdv_deudor").val())))
+				{
+					return false;
+				}
+				
+				datos = "controlador=Deudores";
+				rut = $("#txtrut_deudor").val();
+				dv = $("#txtdv_deudor").val();
+			}
+			if(tipo == "M")
+			{
+				if($.trim($("#txtrut_mandante").val()) == "" || $.trim($("#txtdv_mandante").val()) == "")
+				{
+					return false;
+				}
+				if(!validaentero($.trim($("#txtrut_mandante").val())))
+				{
+					return false;
+				}
+				if(!validaentero($.trim($("#txtdv_mandante").val())))
+				{
+					return false;
+				}
+				datos = "controlador=Mandantes";
+				rut = $("#txtrut_mandante").val();
+				dv = $("#txtdv_mandante").val();
+			}
+				
+			datos += "&accion=validarrut";
+			datos += "&tipoval=EXISTE";
+			datos += "&rut="+rut;
+			datos += "&dv="+dv;
+				
+			$.ajax({
+					url: "index.php",
+					type: "GET",
+					data: datos,
+					cache: false,
+					success: function(res)
+					{		
+						if(res == 0)
+						{
+							var mensaje = "";
+							
+							if(tipo == "D")
+							{
+								document.getElementById("txtdv_deudor").focus();
+								mensaje = "El rut ingresado para el deudor es incorrecto.";
+							}
+							if(tipo == "M")
+							{
+								document.getElementById("txtdv_mandante").focus();
+								mensaje = "El rut ingresado para el mandante es incorrecto.";
+							}
+							$("#mensaje").text(mensaje);
+							$("#mensaje").show("slow");
+							setTimeout("limpiarMensaje()",3000);
+						}
+						else 
+						{
+							if(tipo == "D")
+							{
+								$("#id_deudor").val(res);
+							}
+							if(tipo == "M")
+							{
+								$("#id_mandante").val(res);
+							}
+						}
+					},
+					error: function()
+					{
+						$("#mensaje").text("Ha ocurrido un error y no se ha podido agregar el registro.");
+					}
+				});
 		}
-		
 	</script>
 </head>
 <body>
@@ -225,8 +301,8 @@
         	<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
             	<tr>
                 	<td width="240">
-						<input type="text" name="txtrut_mandante" id="txtrut_mandante" class="input_form" />&nbsp;
-            			<input type="text" name="txtdv_mandante" id="txtdv_mandante" class="input_form_min" onblur="validarRut('M')" />
+						<input type="text" name="txtrut_mandante" id="txtrut_mandante" class="input_form" onblur="; generadvrut('txtrut_mandante','txtdv_mandante'); validarRut('M') " />&nbsp;
+            			<input type="text" name="txtdv_mandante" id="txtdv_mandante" class="input_form_min" onblur="" disabled="disabled" />
                     </td>
                 	<td align="left">
 			            <img src="images/buscar.png" title="Buscar Mandante" style="cursor:pointer" onclick="ventanaBusqueda()" />
@@ -281,7 +357,7 @@
     <tr>
 		<td colspan="3" align="right">
         
-            <input  type="button" name="btnsalir" id="btnsalir" onclick="salir()"  value="salir" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/>&nbsp;&nbsp;
+            <input  type="button" name="btnsalir" id="btnsalir" onclick="salirInformes()"  value="salir" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/>&nbsp;&nbsp;
          </td>
     </tr>
      <tr>
