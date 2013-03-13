@@ -249,24 +249,34 @@ function salirSistema()
 function cambiarClave()
 {
 		$("#pagina").load('index.php?controlador=Usuario&accion=cambia_clave');
-		/*
-	var datos = "controlador=Usuario";
-	datos += "&accion=cambia_clave";
-				
-	$.ajax({
-					url: "index.php",
-					type: "GET",
-					data: datos,
-					cache: false,
-					success: function(res)
-					{
-						$("#pagina").load('index.php?controlador=Deudores&accion=alta');
-					},
-					error: function()
-					{
-						$("#mensaje").text("Ha ocurrido un error y no se ha podido agregar el registro.");
-						setTimeout("$('#mensaje').text('')",3000);
-					}
-				});
-	*/
 }
+
+function generadvrut(id1, id2)
+		{
+			var ruti = document.getElementById(id1).value;
+			if (ruti.length<7)
+			{
+				document.getElementById(id2).value = "";
+			    return(false)
+			}
+			 
+			nu=ruti.toString();
+
+  			cnt=0;
+  			suma=0;
+  			for (i=nu.length-1; i>=0; i--)
+  			{
+    			dig=nu.substr(i,1);
+    			fc=cnt+2;
+    			suma += parseInt(dig)*fc;
+    			cnt=(cnt+1) % 6;
+   			}
+  			
+			dvok=11-(suma%11);
+			
+  			if (dvok==11) dvokstr="0";
+  			if (dvok==10) dvokstr="K";
+  			if ((dvok!=11) && (dvok!=10)) dvokstr=""+dvok;
+ 		
+			document.getElementById(id2).value = dvokstr;
+		}
