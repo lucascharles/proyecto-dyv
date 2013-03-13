@@ -608,7 +608,7 @@
 					"id_deudor" => array("int"),
 					"rut_deudor" => array("numeric"),
 					"rut_deudor_s" => array("varchar"),
-					"dv_deudor" => array("varchar"),
+					"dv_deudor" => array("char"),
 					"primer_nombre" => array("varchar"),
 					"segundo_nombre" => array("varchar"),
 					"primer_apellido" => array("varchar"),
