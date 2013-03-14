@@ -46,7 +46,7 @@ class GestionesController extends ControllerBase
 		$deudaMandante = $montoMandante->get_data("monto");
 		
 		$dato = $gestiones->getGestion($array["idgestion"]);
-		$datoEg = $estges->getListaEstadoDoc(""); 
+		$datoEg = $estges->getListaEstadoGestion(""); 
 		$datoM = $gestiones->getListaMandantes($array["iddeudor"]);
 		
 		
