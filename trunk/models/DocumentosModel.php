@@ -187,9 +187,8 @@ class DocumentosModel extends ModelBase
 				      	$datoG->set_data("fecha_modificacion",date("Y-m-d"));
 				      	$datoG->set_data("usuario_creacion",$_SESSION["idusuario"]);
 				      	$datoG->set_data("fecha_creacion",date("Y-m-d"));      	
-				      	$datoG->set_data("estado","GESTION");
+				      	$datoG->set_data("estado","PENDIENTE DE ENVIAR CARTA");
 				      	$datoG->save();
-					 	
 					 	
 					 	
 					}
@@ -634,8 +633,8 @@ class DocumentosModel extends ModelBase
 		
 		$where .= " and d.id_documento > ".$array["id_partida"];
 		
-//		$sqlpersonal->set_top(10); // PARA SQLSERVER 
-		$sqlpersonal->set_limit(0,10); // PARA MYSQL
+		$sqlpersonal->set_top(10); // PARA SQLSERVER 
+//		$sqlpersonal->set_limit(0,10); // PARA MYSQL
 		
 		if(count($array) > 0)
 		{
@@ -763,6 +762,13 @@ class DocumentosModel extends ModelBase
         	$dato->add_filter("AND");
         	$dato->add_filter("id_estado_doc","=",trim($des));
     	}	
+    	$dato->load();       
+    	return $dato;
+	}
+	
+	public function getListaEstadoGestion($des)
+	{
+    	$dato = new EstadosGestionCollection();
     	$dato->load();       
     	return $dato;
 	}
