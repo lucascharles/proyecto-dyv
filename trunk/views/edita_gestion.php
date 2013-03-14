@@ -535,7 +535,7 @@
         <td> <input type="text" name="txtfechaproxgestion" id="txtfechaproxgestion" value="<?php echo formatoFecha(date("d-m-Y H:i"),"dd-mm-yyyy","dd/mm/yyyy") ?>" class="input_form_medio" valida="requerido" tipovalida="texto" onFocus="resaltar(this)" onBlur="noresaltar(this)"/>
         </td>
         <td align="center" class="etiqueta_form">Usuario</td>
-        <td> <input type="text" name="txtusuario" id="txtusuario" value="" class="input_form_medio" valida="requerido" tipovalida="texto" onFocus="resaltar(this)" onBlur="noresaltar(this)"/></td>
+        <td> <input type="text" name="txtusuario" id="txtusuario" disabled="disabled" value="<?php echo($_SESSION["idusuario"])?>" class="input_form_medio" valida="requerido" tipovalida="texto" onFocus="resaltar(this)" onBlur="noresaltar(this)"/></td>
     </tr>   
     <tr>
         <td colspan="6" height="5">
