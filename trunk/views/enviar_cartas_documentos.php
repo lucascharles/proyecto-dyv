@@ -161,8 +161,12 @@
     <tr>
 		<td colspan="3" align="right">
         
-            <input  type="button" name="btnsalir" id="btnsalir" onclick="salir()"  value="salir" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/>
+            <input  type="button" name="btnsalir" id="btnsalir" onclick="salir()"  value="salir" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/>&nbsp;&nbsp;
          </td>
+    </tr>
+     <tr>
+		<td colspan="3" height="10">
+        </td>
     </tr>
 </table>
 </form>
