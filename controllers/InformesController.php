@@ -156,5 +156,38 @@ class InformesController extends ControllerBase
 		$this->view->show("lista_informes.php", $data);
 	}
 	
+	public function generarPdf($array)
+    {
+		require 'models/InformesModel.php';
+				
+		$informe = new InformesModel();
+		if($array['tipoInforme'] == "Judicial")
+		{
+			$tipoInforme= " in (7) ";
+		}else{
+			$tipoInforme= " not in (7,2) "; //demanda-recuperado
+		}
+			
+		if($array['idmandante'] == ""){
+			$idmandante = 0;
+		}else{
+			$idmandante = $array['idmandante'];
+		}
+		
+    	if($array['tipoDoc'] == ""){
+			$idtipodoc = 0;
+		}else{
+			$idtipodoc = $array['tipoDoc'];
+		}
+		
+		$dato = $informe->listar_informe($tipoInforme,$idmandante,$idtipodoc, $array['iddocs']);
+
+		$data['nom_sistema'] = "SISTEMA DyV";
+		$data['accion_form'] = "";
+		$data['colleccionInformes'] = $dato;
+		
+		$this->view->show("lista_informes_pdf.php", $data);
+	}
+	
 }
 ?>
