@@ -66,6 +66,39 @@
 				window.location = url;
 		}
 		
+		function generarPdf()
+		{
+			var arrayInput = document.getElementsByTagName('input');
+	        var arrayID = new Array();
+    	    var j = 0;
+		
+	 		for(var i=0; i<arrayInput.length; i++)
+	 		{
+  				if(arrayInput[i].type == "checkbox")
+   				{
+                	if((arrayInput[i].name == "chkMarcar")&&(arrayInput[i].checked == true))
+            	 	{
+                		arrayID[j] = arrayInput[i].value ;
+                    	j = j+1;
+                 	}
+    			}	
+   			}        
+
+			if(j == 0)
+			{
+				return false;
+			}
+			var array_str = arrayID.toString();
+		
+			var url = "index.php?controlador=Informes&accion=generarPdf&tipoInforme=";
+				url += window.parent.document.getElementById("selTipoInforme").value
+				url += "&idmandante="+window.parent.document.getElementById("id_mandante").value;
+				url += "&tipoDoc="+window.parent.document.getElementById("selTipoDoc").value
+				url += "&iddocs="+array_str;
+				
+				window.location = url;
+		}
+		
 	</script>
 </head>
 <body bgcolor="#FFFFFF">
@@ -80,7 +113,7 @@ if($marcar == "S")
 	$checked = "checked";
 }
 ?>
-<div id="datos" style="">
+<div style=" border-width:2px; border-color:#999999;">
 
 <table width="100%" cellpadding="2" cellspacing="2" align="center" border="0" bgcolor="#FFFFFF">
 <tr class="">
@@ -100,7 +133,18 @@ if($marcar == "S")
                 	</td>
         		</tr>
             </table>
+            <table width="150" align="left" border="0" cellpadding="0"  cellspacing="0" onclick="generarPdf()" style="cursor:pointer; " title="Generar Excel">
+            	<tr>
+                	<td width="30">
+        <img src="images/pdf.gif" />
+        			</td>
+                    <td align="left" class="etiqueta_form">
+        		&nbsp;Generar Pdf
+                	</td>
+        		</tr>
+            </table>
         </th>
+        
     </tr>
     <tr class="">
     	<th align="right" colspan="19" height="5" class="cabecera_listado">
@@ -137,8 +181,11 @@ if($marcar == "S")
 	?>
 	<tr bgcolor="#FFFFFF" >
 	<?php 
-		if($marcar == "S"){ ?>
-    	<td align="left" class="dato_lista">&nbsp;&nbsp;<input type="checkbox"  name="chkMarcar" checked="checked" id="<? echo($datoTmp->get_data("id_documento")) ?>" name="checkinforme" value="<? echo($datoTmp->get_data("id_documento")) ?>" onclick=""></td>
+		if($marcar == "S")
+		{ 
+		?>
+    	<td align="left" class="dato_lista">&nbsp;&nbsp;
+        <input type="checkbox"  name="chkMarcar" checked="checked" id="<? echo($datoTmp->get_data("id_documento")) ?>" name="checkinforme" value="<? echo($datoTmp->get_data("id_documento")) ?>" onclick=""></td>
    	<?php }else{ ?>
    		<td align="left" class="dato_lista">&nbsp;&nbsp;<input type="checkbox" name="chkMarcar" id="<? echo($datoTmp->get_data("id_documento")) ?>" name="checkinforme" value="" onclick=""></td>
    	<?php } ?>
@@ -160,6 +207,9 @@ if($marcar == "S")
         <td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("rol")) ?></td>
         <td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ("comentario") ?></td>
         <td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ("sugerencia") ?></td>
+	</tr>
+    <tr bgcolor="#FFFFFF" >
+    	<td colspan="19" style="border-bottom:solid; border-bottom-width:2px; border-bottom-color:#CCCCCC; "></td>
 	</tr>
 	<?php
 	}
