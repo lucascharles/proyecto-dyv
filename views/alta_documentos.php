@@ -425,7 +425,7 @@
             	<table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
                 	<tr> 
                         
-                       <td width="" colspan="4" align="left" class="etiqueta_form">Rut:&nbsp;&nbsp; <input type="text" name="txtrut_d" id="txtrut_d"  size="20" onkeyup='mostrarDeudor(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" />&nbsp;<input type="text" name="txtrut_dv" id="txtrut_dv"  size="2" onkeyup='mostrarDeudor(this)'  class="input_form_min"/></td>
+                       <td width="" colspan="4" align="left" class="etiqueta_form">Rut:&nbsp;&nbsp; <input type="text" name="txtrut_d" id="txtrut_d"  size="20" onkeyup='mostrarDeudor(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this); generadvrut('txtrut_d','txtrut_dv')" />&nbsp;<input type="text" name="txtrut_dv" id="txtrut_dv"  size="2" onkeyup='mostrarDeudor(this)'  class="input_form_min" disabled="disabled"/></td>
                      </tr>
                      <tr>
                         
@@ -514,8 +514,8 @@
         	<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
             	<tr>
                 	<td width="240">
-						<input type="text" name="txtrut_deudor" id="txtrut_deudor" class="input_form" />&nbsp;
-	            		<input type="text" name="txtdv_deudor" id="txtdv_deudor" class="input_form_min" onblur="validarRut('D')" />&nbsp;
+						<input type="text" name="txtrut_deudor" id="txtrut_deudor" class="input_form" onblur=" generadvrut('txtrut_deudor','txtdv_deudor'); validarRut('D')" />&nbsp;
+	            		<input type="text" name="txtdv_deudor" id="txtdv_deudor" class="input_form_min" onblur="" disabled="disabled" />&nbsp;
                     </td>
                 	<td align="left">
 			            <img src="images/buscar.png" title="Buscar Deudor" style="cursor:pointer" onclick="ventanaBusqueda('D')"/>
@@ -529,8 +529,8 @@
         	<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
             	<tr>
                 	<td width="240">
-						<input type="text" name="txtrut_mandante" id="txtrut_mandante" class="input_form" />&nbsp;
-            			<input type="text" name="txtdv_mandante" id="txtdv_mandante" class="input_form_min" onblur="validarRut('M')" />
+						<input type="text" name="txtrut_mandante" id="txtrut_mandante" class="input_form" onblur=" generadvrut('txtrut_mandante','txtdv_mandante'); validarRut('M')" />&nbsp;
+            			<input type="text" name="txtdv_mandante" id="txtdv_mandante" class="input_form_min" onblur="" disabled="disabled" />
                     </td>
                 	<td align="left">
 			            <img src="images/buscar.png" title="Buscar Mandante" style="cursor:pointer" onclick="ventanaBusqueda('M')" />
@@ -597,6 +597,7 @@
 <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
  <tr>
  		<td>
+
         	<table align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
             	<tr>
 					<td width="20" align="left" class="etiqueta_form">Tipo Doc.:</td>
