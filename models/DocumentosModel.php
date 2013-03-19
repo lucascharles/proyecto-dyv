@@ -80,7 +80,7 @@ class DocumentosModel extends ModelBase
 		{ 
 			foreach($data as $row) 
 			{
-				//echo "Campo ".$i.": ".$row."<br>"; 
+//				echo "Campo ".$i.": ".$row."<br>"; 
 				if($i>0)
 				{
 					$arraydatos = explode(";",$row);
@@ -91,17 +91,19 @@ class DocumentosModel extends ModelBase
 					$error_tipodocumento = array();
 					$error_banco = array();
 					$error_nrodocumento = array();
-					$error_ctacte = array();
+					$error_fax = array();
+					$error_telefono_casa = array();
+					$error_telefono_cel = array();
 				
 					// VALIDACION RUT MANDANTE
 					// cero
-					if((int)$arraydatos[0] == 0)
+					if((int)$arraydatos[14] == 0)
 					{
 						$error_rutmandante[] = 1;					
 					}
 					
 					// vacio
-					if(trim($arraydatos[0]) == "")
+					if(trim($arraydatos[14]) == "")
 					{
 						$error_rutmandante[] = 2;
 					}
@@ -114,33 +116,32 @@ class DocumentosModel extends ModelBase
 				
 					// no existe mandante
 					$mandante = new Mandantes();
-					$mandante->add_filter("rut_mandante","=",trim(substr($arraydatos[0],0,-1)));
-//					$mandante->add_filter("AND");
-//					$mandante->add_filter("dv_mandante","=","'".trim(substr($arraydatos[0],-1))."'");
+					$mandante->add_filter("rut_mandante","=",trim(substr($arraydatos[14],0,-1)));
 					$mandante->load();
 					if(is_null($mandante->get_data("id_mandante")))
 					{
 						
 						//crear Mandante nuevo
 					  	$mandante_new = new Mandantes();
-						$mandante_new->set_data("rut_mandante",trim(substr($arraydatos[0],0,-1)));
-						$mandante_new->set_data("dv_mandante",trim(substr($arraydatos[0],-1)));
+						$mandante_new->set_data("rut_mandante",trim(substr($arraydatos[14],0,-1)));
+						$mandante_new->set_data("dv_mandante",trim(substr($arraydatos[14],-1)));
 					  	$mandante_new->set_data("activo","S");
 					 	$mandante_new->save();
 //					 	$error_rutmandante[] = 4;
 						$mandante->load();
+						
 					}
-					
+					$idMandante = $mandante->get_data("id_mandante");
 					
 					// VALIDACION RUT DEUDOR
 					// cero
-					if((int)$arraydatos[1] == 0)
+					if((int)$arraydatos[0] == 0)
 					{
 						$error_rutdeudor[] = 5;
 					}
 					
 					// vacio
-					if(trim($arraydatos[1]) == "")
+					if(trim($arraydatos[0]) == "")
 					{
 						$error_rutdeudor[] = 6;
 					}
@@ -151,96 +152,164 @@ class DocumentosModel extends ModelBase
 						$error_rutdeudor[] = 7;
 					}
 					
+					//valida Telefono casa deudor
+					if($arraydatos[10] == 0 || trim($arraydatos[10]) == "" )
+					{
+						$error_telefono_casa[] = 1;
+						$telefono_casa = NULL;					
+					}
+					else
+					{
+						$telefono_casa = $arraydatos[10]; 
+					}
+					
+					//valida Telefono celular deudor
+					if($arraydatos[11] == 0 || trim($arraydatos[11]) == "" )
+					{
+						$error_celular[] = 1;
+						$telefono_cel = NULL;					
+					}
+					else
+					{
+						$telefono_cel = $arraydatos[11]; 
+					}
+					
+					//valida Telefono fax deudor
+					if($arraydatos[12] == 0 || trim($arraydatos[12]) == "" )
+					{
+						$error_fax[] = 1;
+						$fax = NULL;					
+					}
+					else
+					{
+						$fax = $arraydatos[12];
+					}
+					
+					
 					// no existe deudor
 					$deudor = new Deudores();
-					$deudor->add_filter("rut_deudor","=",trim(substr($arraydatos[1],0,-1)));
-//					$deudor->add_filter("AND");
-//					$deudor->add_filter("dv_deudor","=","'".trim(substr($arraydatos[1],-1))."'");
+					$deudor->add_filter("rut_deudor","=",trim(substr($arraydatos[0],0,-1)));
 					$deudor->load();
 					if(is_null($deudor->get_data("id_deudor")))
 					{
 						//se crea el deudor nuevo
 						$deudor_new = new Deudores();
-						$deudor_new->set_data("rut_deudor",trim(substr($arraydatos[1],0,-1)));
-						$deudor_new->set_data("dv_deudor","'".trim(substr($arraydatos[1],-1))."'");
-					  	$deudor_new->set_data("activo","S");
+						$deudor_new->set_data("rut_deudor",trim(substr($arraydatos[0],0,-1)));
+						$deudor_new->set_data("dv_deudor","'".trim(substr($arraydatos[0],-1))."'");
+					  	$deudor_new->set_data("primer_apellido",trim($arraydatos[1]));
+					  	$deudor_new->set_data("segundo_apellido",trim($arraydatos[2]));
+						$deudor_new->set_data("primer_nombre",trim($arraydatos[3]));
+					  	$deudor_new->set_data("segundo_nombre",trim($arraydatos[4]));
+					  	$deudor_new->set_data("celular",trim($arraydatos[11]));
+					  	$deudor_new->set_data("telefono_fijo",$telefono_casa);
+					  	$deudor_new->set_data("fax",$fax);
+					  	$deudor_new->set_data("id_mandante",$mandante->get_data("id_mandante"));
+						$deudor_new->set_data("activo","S");
 					 	$deudor_new->save();
-
+						
 					 	//vuelve a consultar el deudor para recuperar datos
 					 	$deudor->load();
+					 	$idDeudor = $deudor->get_data("id_deudor");
 					 	
-					 	//se calcula fecha para la proxima gestion
-					 	$fechaHoy = date("Y-m-d");
-						$dias = 5;
-						$calculoHoy = strtotime("$fechaHoy +0 days");
-						$calculoFuturo = strtotime("$fechaHoy +$dias days");
+					 	//registra direccion del deudor
+					 	$dirdeu = new Direccion_Deudores();
+						$dirdeu->set_data("id_deudor",$deudor->get_data("id_deudor"));
+						$dirdeu->set_data("calle", trim($arraydatos[5]));
+						$dirdeu->set_data("numero", trim($arraydatos[6]));
+						$dirdeu->set_data("depto", trim($arraydatos[7]));
+						$dirdeu->set_data("comuna", trim($arraydatos[8]));
+						$dirdeu->set_data("ciudad", trim($arraydatos[9]));
+						$dirdeu->save();
+					 	
+					 	//asocia deudor con mandante si no existe la relacion
+					 	
+						$DM = new Deudor_Mandante();
+						$DM->add_filter("id_deudor","=",$deudor->get_data("id_deudor"));
+						$DM->add_filter("AND");
+						$DM->add_filter("id_mandante","=",$mandante->get_data("id_mandante"));
+						$DM->load();
 
-					 	//se crea el registro de gestion para el deudor						
-					 	$datoG = new Gestiones();
-					  	$datoG->set_data("id_deudor",$deudor->get_data("id_deudor"));
-				      	$datoG->set_data("id_mandante",$mandante->get_data("id_mandante"));
-				      	$datoG->set_data("fecha_gestion",date("Y-m-d"));
-				      	$datoG->set_data("nota_gestion","Inicia Gestion");
-				      	$datoG->set_data("fecha_prox_gestion",date("Y-m-d", $calculoFuturo));
-				      	$datoG->set_data("activo","S");
-				      	$datoG->set_data("usuario_modificacion",$_SESSION["idusuario"]);
-				      	$datoG->set_data("fecha_modificacion",date("Y-m-d"));
-				      	$datoG->set_data("usuario_creacion",$_SESSION["idusuario"]);
-				      	$datoG->set_data("fecha_creacion",date("Y-m-d"));      	
-				      	$datoG->set_data("estado","PENDIENTE DE ENVIAR CARTA");
-				      	$datoG->save();
+						if(is_null($DM->get_data("id"))){
+						 	$deu_mand = new Deudor_Mandante();
+							$deu_mand->set_data("id_deudor", $deudor->get_data("id_deudor"));
+							$deu_mand->set_data("id_mandante", $mandante->get_data("id_mandante"));
+							$deu_mand->save();
+						}
+					 }
+					 
+					$idDeudor = $deudor->get_data("id_deudor");
 					 	
+				 	//se calcula fecha para la proxima gestion
+				 	$fechaHoy = date("Y-m-d");
+					$dias = 5;
+					$calculoHoy = strtotime("$fechaHoy +0 days");
+					$calculoFuturo = strtotime("$fechaHoy +$dias days");
+
+				 	//se crea el registro de gestion para el deudor						
+				 	$datoG = new Gestiones();
+				  	$datoG->set_data("id_deudor",$deudor->get_data("id_deudor"));
+			      	$datoG->set_data("id_mandante",$mandante->get_data("id_mandante"));
+			      	$datoG->set_data("fecha_gestion",date("Y-m-d"));
+			      	$datoG->set_data("nota_gestion","Inicia Gestion");
+			      	$datoG->set_data("fecha_prox_gestion",date("Y-m-d", $calculoFuturo));
+			      	$datoG->set_data("activo","S");
+			      	$datoG->set_data("usuario_modificacion",$_SESSION["idusuario"]);
+			      	$datoG->set_data("fecha_modificacion",date("Y-m-d"));
+			      	$datoG->set_data("usuario_creacion",$_SESSION["idusuario"]);
+			      	$datoG->set_data("fecha_creacion",date("Y-m-d"));      	
+			      	$datoG->set_data("estado","PENDIENTE DE ENVIAR CARTA");
+			      	$datoG->save();
 					 	
-					}
-					
-										
 					// VALIDACION IMPORTE
-					// cero
-					if((int)$arraydatos[2] == 0)
-					{
-						$error_monto[] = 9;
-					}
-					
 					// vacio
-					if(trim($arraydatos[2]) == "")
+					if(trim($arraydatos[15]) == "")
 					{
 						$error_monto[] = 10;
+						$monto_doc = 0;
 					}
-					
+					else
+					{
+						$monto_doc = $arraydatos[15];
+					}
 					// valor no numerico
 					if(false)
 					{
 						$error_monto[] = 11;
+						$monto_doc = 0;
 					}
 					
 					// VALIDACION TIPO DOCUMENTO
 					// vacio
-					if(trim($arraydatos[3]) == "")
+					if(trim($arraydatos[17]) == "")
 					{
 						$error_tipodocumento[] = 12;
 					}
 					
 					// no existe tipo documento
 					$tipodoc = new TipoDocumento();
-					$tipodoc->add_filter("tipo_documento","=",strtoupper(trim($arraydatos[3])));
+					$tipodoc->add_filter("tipo_documento","=",strtoupper(trim($arraydatos[18])));
 					$tipodoc->load();
 					if(is_null($tipodoc->get_data("id_tipo_documento")))
 					{
 						$error_tipodocumento[] = 13;
+						$idTipoDoc = 6; //Tipo de Doc = OTRO (6)
+					}
+					else
+					{
+						$idTipoDoc = $tipodoc->get_data("id_tipo_documento");
 					}
 					
 					// VALIDACION BANCO				
 					// vacio
-					if(trim($arraydatos[4]) == "")
+					if(trim($arraydatos[18]) == "")
 					{
 						$error_banco[] = 14;
-						//echo("<br>ERROR banco 2 ");
 						$banco_default = 0;
 					}
 					
 					// no existe banco
 					$banco = new Bancos();
-					$banco->add_filter("codigo","=",trim($arraydatos[4]));
+					$banco->add_filter("codigo","=",trim($arraydatos[19]));
 					$banco->load();
 					$banco_default = $banco->get_data("id_banco");
 					if(is_null($banco->get_data("id_banco")))
@@ -252,24 +321,24 @@ class DocumentosModel extends ModelBase
 
 					// VALIDACION NUMERO DOCUMENTO
 					// cero
-					if((int)$arraydatos[5] == 0)
+					if((int)$arraydatos[19] == 0)
 					{
 						$nrodocumento = NULL;					
 					}
 					else
 					{
-						$nrodocumento =trim($arraydatos[5]);
+						$nrodocumento =trim($arraydatos[19]);
 					}
 					
 					
 					// vacio
-					if(trim($arraydatos[5]) == "")
+					if(trim($arraydatos[19]) == "")
 					{
 						$nrodocumento = NULL;
 					}
 					else
 					{
-						$nrodocumento =trim($arraydatos[5]);
+						$nrodocumento =trim($arraydatos[19]);
 					}
 					
 					// valor no numerico
@@ -280,24 +349,54 @@ class DocumentosModel extends ModelBase
 					
 				// VALIDACION CUENTA CORRIENTE, puede no existir la cuenta 
 					// cero
-					if((int)$arraydatos[6] == 0)
+					if((int)$arraydatos[20] == 0)
 					{
 						$cta_cte = NULL;
 					}
 					else
 					{
-						$cta_cte =trim($arraydatos[6]);
+						$cta_cte =trim($arraydatos[20]);
 					}
 					
 					
 					// vacio
-					if(trim($arraydatos[6]) == "")
+					if(trim($arraydatos[20]) == "")
 					{
 						$cta_cte = NULL;
 					}
 					else
 					{
-						$cta_cte =trim($arraydatos[6]);
+						$cta_cte =trim($arraydatos[20]);
+					}
+					
+					//Validacion de fecha de protesto
+					
+					if(trim($arraydatos[21]) != "")
+					{
+						$fecha_protesto =trim($arraydatos[21]);
+					}
+					
+					//Validacion de causal de protesto
+					if(trim($arraydatos[22]) == "")
+					{
+						$causal_protesto = 13;
+					}
+					else
+					{
+						$datoCausal = new CausalProtesta();
+				        $datoCausal->add_filter("causal","like",trim($arraydatos[22])."%");
+				    	$datoCausal->load();
+						$causal_protesto = $datoCausal->get_data("id_causal");
+					}
+
+					//Validacion de gatos de protesto
+					if(trim($arraydatos[23]) == "")
+					{
+						$gastos_protesto = 0;
+					}
+					else
+					{
+						$gasto_protesto =trim($arraydatos[23]);
 					}
 					
 					if(count($error_rutmandante) == 0 && 
@@ -306,14 +405,17 @@ class DocumentosModel extends ModelBase
 						// GUARDAR DOCUMENTO
 						$datodoc = new Documentos();
 						$datodoc->set_data("id_estado_doc",999); // pendiente de enviar carta(hay que parametrizar)
-						$datodoc->set_data("id_tipo_doc",$tipodoc->get_data("id_tipo_documento"));
+						$datodoc->set_data("id_tipo_doc",$idTipoDoc);
 						$datodoc->set_data("id_banco",$banco_default);				
-						$datodoc->set_data("id_mandatario",$mandante->get_data("id_mandante"));						
-						$datodoc->set_data("id_deudor",$deudor->get_data("id_deudor"));
+						$datodoc->set_data("id_mandatario",$idMandante);						
+						$datodoc->set_data("id_deudor",$idDeudor);
 						$datodoc->set_data("numero_documento",$nrodocumento);
-						$datodoc->set_data("monto",trim($arraydatos[2]));
+						$datodoc->set_data("monto",$monto_doc);
 						$datodoc->set_data("cta_cte",$cta_cte);
 						$datodoc->set_data("fecha_siniestro",date("Y-m-d"));
+						$datodoc->set_data("fecha_protesto",$fecha_protesto);
+						$datodoc->set_data("id_causa_protesto",$causal_protesto);
+						$datodoc->set_data("gastos_protesto",$gasto_protesto);
 						$datodoc->set_data("activo","S");
 						$datodoc->set_data("fecha_creacion",date("Y-m-d"));
 						$datodoc->set_data("usuario_creacion",$id_usuario);
@@ -405,13 +507,11 @@ class DocumentosModel extends ModelBase
 							$log_e->save();
 						}
 					}
-				
-				}
+				}//If i>0
 				$i = $i + 1;
-				
-			}
+			}//Foreach
+		}//While
 
-		}
 		fclose ( $fp );
 		
 		}// fin if sin error upload
@@ -633,8 +733,8 @@ class DocumentosModel extends ModelBase
 		
 		$where .= " and d.id_documento > ".$array["id_partida"];
 		
-		$sqlpersonal->set_top(10); // PARA SQLSERVER 
-//		$sqlpersonal->set_limit(0,10); // PARA MYSQL
+//		$sqlpersonal->set_top(10); // PARA SQLSERVER 
+		$sqlpersonal->set_limit(0,10); // PARA MYSQL
 		
 		if(count($array) > 0)
 		{
