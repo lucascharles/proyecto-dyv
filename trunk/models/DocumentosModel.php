@@ -1023,5 +1023,114 @@ class DocumentosModel extends ModelBase
     	return $sqlpersonal;	
 	
 	}
+	
+	
+	public function generarCartaPdf($listaIdDocs)
+	{
+
+		require_once('fpdf/fpdf.php');
+		require_once('FPDI/fpdf_tpl.php');
+		require_once('FPDI/fpdi.php');
+   
+		$pdf = new FPDI();
+		$pagecount = $pdf->setSourceFile('views/templateCarta.pdf');
+		$tplIdx = $pdf->importPage(1); 
+	
+		//ordena los datos por deudor para generar carta
+		$docCartas = new Documentos();
+		$listaDoc = $this->getDocEnviar($listaIdDocs);
+		$idDeudorAnt = 0;
+		$delta = 5;
+		for($i=0; $i<$listaDoc->get_count(); $i++) 
+		  {
+		  	$deudorTmp = &$listaDoc->items[$i];
+		  	 
+			if($idDeudorAnt != $deudorTmp->get_data("id_deudor"))
+			{
+				//identifica el deudor para nueva carta
+				$idDeudorAnt = $deudorTmp->get_data("id_deudor");	
+
+				//nueva carta pdf para un deudor
+				$pdf->AddPage();
+				$pdf->useTemplate($tplIdx); 
+				$pdf->SetFont('Arial'); 
+				$pdf->SetTextColor(255,0,0); 
+				
+				//datos cabecera de la carta
+				$direccionDyV = 'Direccion del deudor';
+				$fechaActual = date('d-m-Y');
+				$nombreDeudor = 'Pepe Perez';
+				$direccionDeudor = 'Av. providencia 1121 of.6';
+				$mandante = "Empresa X";
+				
+				$pdf->SetXY(10, 50); 
+				$pdf->Write(0, $direccionDyV); 
+				$pdf->SetXY(10, 55); 
+				$pdf->Write(0, $fechaActual);
+				$pdf->SetXY(10, 60); 
+				$pdf->Write(0, $nombreDeudor);
+				$pdf->SetXY(10, 65); 
+				$pdf->Write(0, $direccionDeudor);
+				$pdf->SetXY(10, 70); 
+				$pdf->Write(0, $mandante);
+				$pdf->SetXY(10, 75); 
+				$pdf->Write(0, "Nos ha encargado la cobranza de los siguientes documentos:");
+				$pdf->SetXY(10, 80); 
+				$pdf->Write(0, "Rut: ".$rutDeudor);
+			}
+			$pdf->SetXY(10, 90+$delta); 
+			$pdf->Write(0, $deudorTmp->get_data("tipo_documento")." N°:".$deudorTmp->get_data("numero_documento")
+							." ".$deudorTmp->get_data("estado")." Protestado el:".$deudorTmp->get_data("fecha_protesto")
+							." por ".$deudorTmp->get_data("monto"));
+		  }
+		
+		$rutDeudor = '55555-2';
+		
+		
+		//obtiene
+		
+		$pdf->Output("carta_".$rutDeudor.".pdf","D");
+		
+		return 0;
+		
+	}
+
+	public function getDocEnviar($array)
+	{
+		include("config.php");
+
+		$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
+	
+		$sqlpersonal->set_select(" d.id_deudor id_deudor,
+									dd.rut_deudor rut_deudor,
+									dd.dv_deudor dv_deudor,
+									dd.primer_nombre primer_nombre_deudor,
+									dd.segundo_nombre segundo_nombre_deudor,
+									dd.primer_apellido primer_apellido_deudor,
+									dd.segundo_apellido segundo_apellido_deudor,
+									dds.calle calle,
+									dds.numero numero,
+									dds.piso piso,
+									dds.depto depto,
+									dds.comuna comuna,
+									dds.ciudad ciudad,
+									m.nombre nombre_mandante,
+									m.apellido apellido_mandante,
+									d.id_documento id_documento, td.tipo_documento tipo_documento,
+									d.numero_documento numero_documento,ed.estado estado,d.fecha_protesto fecha_protesto, d.monto monto "); 
+	  	$sqlpersonal->set_from(" documentos d ,tipodocumento td, estadodocumentos ed,
+        						 mandantes m, deudores dd, direccion_deudores dds ");
+      	$sqlpersonal->set_where(" d.id_tipo_doc = td.id_tipo_documento
+							and   d.id_estado_doc = ed.id_estado_doc
+							and   d.id_deudor = dd.id_deudor
+							and   d.id_mandatario = m.id_mandante
+							and   dd.id_deudor = dds.id_deudor
+							and   d.id_documento in ".$array.
+							" order by id_deudor ");
+	
+    	$sqlpersonal->load();
+
+    	return $sqlpersonal;	
+	}
 }
 ?>

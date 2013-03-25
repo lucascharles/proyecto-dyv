@@ -136,6 +136,10 @@
         <td width="40" align="left" class="etiqueta_form">Hasta:</td>
         <td align="left">&nbsp;<input type="text" name="txthasta" id="txthasta"  value="<? echo($fechaHasta) ?>" size="40"  class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)"/></td>
      </tr>
+     <tr>
+		<td width="20" align="left" class="etiqueta_form">Rut Deudor:</td>
+        <td align="left">&nbsp; <input type="text" name="txtrut" id="txtrut" value=""  size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" /></td>
+     </tr>
 	<tr>      
         <td align="right" colspan="4"> 
         <input type="button" name="btnmarcar" id="btnmarcar" onclick="marcar()"  value="Marcar" onclick="marcar()" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/>&nbsp;

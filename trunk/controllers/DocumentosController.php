@@ -222,22 +222,50 @@ class DocumentosController extends ControllerBase
 	{
 		require 'models/DocumentosModel.php';
 		$documentos = new DocumentosModel();
+		$docCartas = new DocumentosModel();
 		
+
+		$listaIdDocs = " ( ";
 		for ($i = 1; $i <= count($array); $i++) {
-    		$datotmp = $documentos->generarCarta($array["arr".$i]);
-    		
+			//cambia estado de los documentos a carta enviada
+			$datotmp = $documentos->generarCarta($array["arr".$i]);
+			
+    		//genera lista de Ids para generar cartas
+    		$listaIdDocs = $listaIdDocs . $array["arr".$i];
+    		if($array["arr".$i+1] != ""){
+    			$listaIdDocs = $listaIdDocs . ",";
+    		}
 		}
+		$listaIdDocs =  $listaIdDocs . $array["arr".$i]. " ) ";
 		
+		$docCartas = new DocumentosModel();
+		$listaDoc = $docCartas->getDocEnviar($listaIdDocs);
 		
-		
-		$dato = $documentos->getListaDocumentosCartas("");		
 		$data['nom_sistema'] = "SISTEMA DyV";
+		$data['accion_form'] = "";
+		$data['colleccionDocumentos'] = $listaDoc;
+		$this->view->show("carta_pdf.php", $data);
+		
+		//refresca la pagina
+		$dato = $documentos->getListaDocumentosCartas("");		
+//		$data['nom_sistema'] = "SISTEMA DyV";
 		$data['colleccionCartasDocumentos'] = $dato;
 		$data['iddocumento'] = $iddoc;
 		
-		
 		$this->view->show("lista_cartas_documentos.php", $data);	
 	}
+	
+	
+	public function generarCartaPdf($array)
+    {
+		require 'models/InformesModel.php';
+				
+		$data['nom_sistema'] = "SISTEMA DyV";
+		$data['accion_form'] = "";
+		
+		$this->view->show("carta_pdf.php", $data);
+	}
+	
 	
 	public function marcardocs($array)
     {
