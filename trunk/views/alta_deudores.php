@@ -5,6 +5,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<title></title>
+    <link rel="stylesheet" href="css/general.css" type="text/css" />
     <script src="js/jquery-1.7.1.min.js" type="text/javascript"></script>
     <script src="js/validacampos.js" type="text/javascript"></script>
 	<script src="js/funciones.js" type="text/javascript"></script>
@@ -227,7 +228,14 @@
 		
 		function salirAltaDeudor()
 		{
-			$("#pagina").load('views/admin_deudores.php');
+			if($("#origen_l").val() == "D")
+			{
+				window.parent.cerrarVentCargaDeudor();
+			}
+			else
+			{
+				$("#pagina").load('views/admin_deudores.php');
+			}
 		}
 		
 		function grabarAltaDeudor()
@@ -303,7 +311,15 @@
 					cache: false,
 					success: function(res)
 					{
-						$("#pagina").load('index.php?controlador=Deudores&accion=admin');
+						if($("#origen_l").val() == "D")
+						{
+							window.parent.seteoAltaDeudor($("#txtrut").val(), $("#txtrut_d").val());
+							window.parent.cerrarVentCargaDeudor();
+						}
+						else
+						{
+							$("#pagina").load('index.php?controlador=Deudores&accion=admin');
+						}
 					},
 					error: function()
 					{
@@ -480,6 +496,8 @@
 <form name="frmadmtipdoc">
 <input  type="hidden" name="id_dir" id="id_dir" value=""/>
 <input  type="hidden" name="tipo" id="tipo" value=""/>
+<input  type="hidden" name="origen_l" id="origen_l" value="<? echo($origen_l); ?>"/>
+
 <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="titulopantalla">
 	<tr>
 		<th align="left" height="30">&nbsp;Alta Deudores</th>
