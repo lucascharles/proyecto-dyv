@@ -50,6 +50,12 @@
 			
 		}
 		
+		function ventanaAltaDeudor()
+		{
+			$("#cargaDeudor").slideDown(1000);	
+			document.getElementById("frmdeudor").src = "index.php?controlador=Deudores&accion=alta&origen_l=D";
+		}
+		
 		function validarRut(tipo)
 		{
 			var datos = "";
@@ -235,6 +241,18 @@
 		{
 			$("#selecDeudor").slideUp(1000);
 			//document.getElementById("frmtipocom").src = "";
+		}
+		
+		function cerrarVentCargaDeudor()
+		{
+			$("#cargaDeudor").slideUp(1000);
+			//document.getElementById("frmtipocom").src = "";
+		}
+		
+		function seteoAltaDeudor(rut, rut_d)
+		{
+			$("#txtrut_deudor").val(rut);
+			$("#txtdv_deudor").val(rut_d);
 		}
 		
 		function eliminar()
@@ -476,6 +494,29 @@
 </tr>
 </table>
 </div>
+
+<div id="cargaDeudor" style="position:absolute; margin-left:20px; width:80%; margin-top:30px; height:600px; display:none; z-index:9999;">
+	<table cellpadding="10" cellspacing="10" align="center" border="0" width="100%" bgcolor="#FFFFFF">  
+    <tr>
+    <td>
+	<table width="100%" align="center" border="0" bgcolor="#eeeeee" cellpadding="5" cellspacing="5"> 
+    	<tr>
+        	<td height="" align="right">
+            	<div onclick="cerrarVentCargaDeudor()" style="cursor:pointer; font-weight:bold; color:#000099;"> cerrar </div>
+            </td>
+        </tr>
+    	<tr>
+        	<td height="700">	
+	             <div id="datos" style="">
+            	<iframe id="frmdeudor" src="" scrolling="no" frameborder="0" width="100%" height="700"></iframe>
+                </div>
+            </td>
+       </tr>
+    </table>
+    </td>
+</tr>
+</table>
+</div>
 <form name="frmadmdocumentos">
 <input grabar="S" type="hidden" name="id_documento" id="id_documento" value=""/>
 <input grabar="S" type="hidden" name="id_mandante" id="id_mandante" value=""/>
@@ -519,7 +560,7 @@
                     </td>
                 	<td align="left">
 			            <img src="images/buscar.png" title="Buscar Deudor" style="cursor:pointer" onclick="ventanaBusqueda('D')"/>
-                    </td>
+                        <img src="images/agregar.png" title="Alta Deudor" style="cursor:pointer" onclick="ventanaAltaDeudor()"/>                    </td>
                 </tr>
              </table>
         </td>
