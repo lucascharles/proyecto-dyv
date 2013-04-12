@@ -510,6 +510,8 @@ class DeudoresController extends ControllerBase
 		$data['nom_sistema'] = "SISTEMA DyV";
 		$data['accion_form'] = "";
 		
+		$data["origen_l"] = $array["origen_l"];
+		
 		$this->view->show("alta_deudores.php", $data);
 	}
 	
