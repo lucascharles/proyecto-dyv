@@ -27,10 +27,10 @@
 	<script type="text/javascript" src="js/i18n/jquery.ui.datepicker-es.js"></script>
 	<script type="text/javascript" src="js/jquery-ui-sliderAccess.js"></script>
     <script language="javascript">
-		$(document).ready(function(){
-			$("#txtdesde").datepicker();	
-			$("#txthasta").datepicker();	
-		});
+//		$(document).ready(function(){
+//			$("#txtdesde").datepicker();	
+//			$("#txthasta").datepicker();	
+//		});
 	</script>
 
     <script language="javascript">
@@ -39,7 +39,7 @@
     
 		function mostrar(obj)
 		{
-			var url = "index.php?controlador=Documentos&accion=listar&des_int="+obj.value;
+			var url = "index.php?controlador=Documentos&accion=listarcartas&rutdeudor="+obj.value;
 			document.getElementById("frmlistdocumentos").src = url;
 		}
 		
@@ -47,6 +47,7 @@
 		{
 			document.getElementById("txtdesde").value = "";
 			document.getElementById("txthasta").value = "";
+			document.getElementById("txtrut").value = "";
 		}
 		
 		function buscar()
@@ -131,19 +132,21 @@
 <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
 	 <tr>
 		<td width="20" align="left" class="etiqueta_form">Desde:</td>
-        <td align="left">&nbsp; <input type="text" name="txtdesde" id="txtdesde" value="<? echo($fechaDesde) ?>"  size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" /></td>
+<!--        <td align="left">&nbsp; <input type="text" name="txtdesde" id="txtdesde" value="<? echo($fechaDesde) ?>"  size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" /></td>-->
+		<td align="left">&nbsp; <input type="text" name="txtdesde" id="txtdesde" value="0"  size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" /></td>        
         
         <td width="40" align="left" class="etiqueta_form">Hasta:</td>
-        <td align="left">&nbsp;<input type="text" name="txthasta" id="txthasta"  value="<? echo($fechaHasta) ?>" size="40"  class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)"/></td>
+<!--        <td align="left">&nbsp;<input type="text" name="txthasta" id="txthasta"  value="<? echo($fechaHasta) ?>" size="40"  class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)"/></td>-->
+		<td align="left">&nbsp;<input type="text" name="txthasta" id="txthasta"  value="0" size="40"  class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)"/></td>
      </tr>
      <tr>
 		<td width="20" align="left" class="etiqueta_form">Rut Deudor:</td>
-        <td align="left">&nbsp; <input type="text" name="txtrut" id="txtrut" value=""  size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" /></td>
+        <td align="left">&nbsp; <input type="text" name="txtrut" id="txtrut" value=""  size="40" class="input_form_medio" onkeyup='mostrar(this)' onFocus="resaltar(this)" onBlur="noresaltar(this)" /></td>
      </tr>
 	<tr>      
         <td align="right" colspan="4"> 
         <input type="button" name="btnmarcar" id="btnmarcar" onclick="marcar()"  value="Marcar" onclick="marcar()" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/>&nbsp;
-         <input  type="button" name="btnenviar" id="btnenviar" onclick="enviar()"  value="Enviar" onclick="enviar()" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/>&nbsp;
+         <input  type="button" name="btnenviar" id="btnenviar" onclick="enviar()"  value="Generar" onclick="enviar()" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/>&nbsp;
           <input  type="button" name="btnlimpiar" id="btnlimpiar" value="Limpiar" onclick="limpiar()" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/></td>
     </tr>
     <tr>

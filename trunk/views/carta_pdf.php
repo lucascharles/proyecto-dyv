@@ -15,20 +15,52 @@
 	  {
 	  	$deudorTmp = &$colleccionDocumentos->items[$i];
 		//datos cabecera de la carta
-		$direccionDyV = 'Av. Providencia 1116 Piso 25 Santiago';
-		$fechaActual = date('d-m-Y');
+		$direccionStgoDyV = '11 DE SEPTIEMBRE 1881 of. 2502   PROVIDENCIA - SANTIAGO';
+		$direccionValpaDyV = '11 DE SEPTIEMBRE 1881 of. 2502   PROVIDENCIA - SANTIAGO';
+		
+		
+//		$fechaActual = date('dd-mm-YY');
+		$week_days = array ("Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado");  
+    	$months = array ("", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre");  
+    	$year_now = date ("Y");  
+    	$month_now = date ("n");  
+    	$day_now = date ("j");  
+    	$week_day_now = date ("w");  
+    	$fechaActual = $week_days[$week_day_now] . ", " . $day_now . " de " . $months[$month_now] . " de " . $year_now;   
+		
+		
+		
 		$nombreDeudor = $deudorTmp->get_data("primer_apellido_deudor")." ".$deudorTmp->get_data("segundo_apellido_deudor")." ".
 						$deudorTmp->get_data("primer_nombre_deudor")." ".$deudorTmp->get_data("segundo_nombre_deudor");
 		$direccionDeudor = $deudorTmp->get_data("calle")." ".$deudorTmp->get_data("numero")." ".$deudorTmp->get_data("piso") 
-							." ".$deudorTmp->get_data("depto")." ".$deudorTmp->get_data("comuna")." ".$deudorTmp->get_data("ciudad");		
+							." ".$deudorTmp->get_data("depto");		
+		
+		$comunaDeudor = $deudorTmp->get_data("comuna");		
+		$ciudadDeudor = $deudorTmp->get_data("ciudad");
+		
 		$mandante = $deudorTmp->get_data("nombre_mandante")." ".$deudorTmp->get_data("apellido_mandante");
-	  	$rutDeudor = $deudorTmp->get_data("rut_deudor")."-".$deudorTmp->get_data("dv_deudor");
+	  	$rutDeudor =   number_format($deudorTmp->get_data("rut_deudor"), 0, '', '.')."-".$deudorTmp->get_data("dv_deudor");
 		
 		//detalle de la carta
 		$tipoDoc = $deudorTmp->get_data("tipo_documento");
 		$numDoc = $deudorTmp->get_data("numero_documento");
-		$estadoDoc = $deudorTmp->get_data("estado");
-		$fechaProtDoc = $deudorTmp->get_data("fecha_protesto");
+		$estadoDoc = 'NO PAGADO';//$deudorTmp->get_data("estado");
+		
+		if($deudorTmp->get_data("fecha_protesto") != ""){
+			$fechaProtDoc = $deudorTmp->get_data("fecha_protesto");
+		}
+		else
+		{
+			if($deudorTmp->get_data("fecha_siniestro") != ""){
+				$fechaProtDoc = $deudorTmp->get_data("fecha_siniestro");
+			}
+			else
+			{
+				$fechaProtDoc = $deudorTmp->get_data("fecha_creacion");
+			}
+		}
+		$fecha2 = date("d/m/Y",strtotime($fechaProtDoc));
+
 		$montoDoc = $deudorTmp->get_data("monto");
 		
 	  	
@@ -40,33 +72,49 @@
 				//nueva carta pdf para un deudor
 				$pdf->AddPage();
 				$pdf->useTemplate($tplIdx); 
-				$pdf->SetFont('Arial'); 
+				$pdf->SetFont('Arial',I,9); 
 				$pdf->SetTextColor(0,0,0); 
 				
 				
-				$pdf->SetXY(10, 45); 
-				$pdf->Write(0, $direccionDyV); 
-				$pdf->SetXY(10, 55); 
-				$pdf->Write(0, $fechaActual);
+//				$pdf->SetXY(10, 45); 
+//				$pdf->Write(0, $direccionStgoDyV); 
+//				$pdf->SetXY(10, 55);
+//				$pdf->Write(0, $direccionValpaDyV); 
 				$pdf->SetXY(10, 60); 
-				$pdf->Write(0, $nombreDeudor);
-				$pdf->SetXY(10, 65); 
-				$pdf->Write(0, $direccionDeudor);
+				$pdf->Write(0, $fechaActual);
+
+				$pdf->SetFont('Arial',B,10); 
 				$pdf->SetXY(10, 70); 
-				$pdf->Write(0, $mandante);
+				$pdf->Write(0, "Señor(a)(es):");
+				$pdf->SetXY(10, 75); 
+				$pdf->Write(0, utf8_decode($nombreDeudor));
+				
+				$pdf->SetFont('Arial',I,9);
 				$pdf->SetXY(10, 80); 
-				$pdf->Write(0, "Nos ha encargado la cobranza de los siguientes documentos:");
+				$pdf->Write(0, utf8_decode($direccionDeudor));
 				$pdf->SetXY(10, 85); 
+				$pdf->Write(0, utf8_decode($comunaDeudor));
+				$pdf->SetXY(10, 90); 
+				$pdf->Write(0, utf8_decode($ciudadDeudor));
+				$pdf->SetXY(10, 105); 
 				$pdf->Write(0, "Rut: ".$rutDeudor);
+				$pdf->SetXY(10, 110); 
+				$pdf->Line( 10, 110, 200, 110);
+				
+				$pdf->SetXY(10, 120); 
+				$pdf->Write(0, utf8_decode($mandante));
+				$pdf->SetXY(10, 125); 
+				$pdf->Write(0, "Nos ha encargado la cobranza de los siguientes documentos:");
+				
 			}
-			$pdf->SetXY(10, 95+$delta); 
+			$pdf->SetXY(10, 130+$delta); 
 			$pdf->Write(0, $tipoDoc." N°: ".$numDoc
-							." ".$estadoDoc."    Protestado el: ".$fechaProtDoc
-							." por $".$montoDoc);
+							." ".$estadoDoc."    Protestado el: ".$fecha2  
+							." por $". number_format($montoDoc, 0, '', '.'));
 		
 		  }
 		
-		$pdf->Output("carta_".$rutDeudor.".pdf","D");
+		$pdf->Output("carta_deudores.pdf","D");
 		
 		
 ?>
