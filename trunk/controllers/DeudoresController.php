@@ -740,5 +740,25 @@ class DeudoresController extends ControllerBase
 		$imp_total = $datoTmp->get_data("monto");
 		echo($imp_total);
 	}
+	
+	public function admin_liquidaciones($array)
+    {
+		$data['nom_sistema'] = "SISTEMA DyV";
+		$data['accion_form'] = "";
+		
+		$this->view->show("admin_liquidaciones.php", $data);
+	}
+	
+	public function listar_liquidaciones($array)
+    {
+		require 'models/DeudoresModel.php';
+		$deudores = new DeudoresModel();
+		$dato = $deudores->getTodasLiquidaciones($array["rutdeudor"]);
+				
+		$data['colleccionLiquidaciones'] = $dato;
+
+		$this->view->show("lista_liquidaciones.php", $data);
+	}
+	
 }
 ?>
