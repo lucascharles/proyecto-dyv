@@ -116,6 +116,7 @@ class DocumentosModel extends ModelBase
 				
 					// no existe mandante
 					$mandante = new Mandantes();
+//					echo("rut_mandante".$arraydatos[14]);
 					$mandante->add_filter("rut_mandante","=",trim(substr($arraydatos[14],0,-1)));
 					$mandante->load();
 					if(is_null($mandante->get_data("id_mandante")))
@@ -200,7 +201,7 @@ class DocumentosModel extends ModelBase
 					  	$deudor_new->set_data("segundo_apellido",trim($arraydatos[2]));
 						$deudor_new->set_data("primer_nombre",trim($arraydatos[3]));
 					  	$deudor_new->set_data("segundo_nombre",trim($arraydatos[4]));
-					  	$deudor_new->set_data("celular",trim($arraydatos[11]));
+					  	$deudor_new->set_data("celular",$telefono_cel);
 					  	$deudor_new->set_data("telefono_fijo",$telefono_casa);
 					  	$deudor_new->set_data("fax",$fax);
 					  	$deudor_new->set_data("id_mandante",$mandante->get_data("id_mandante"));
@@ -371,32 +372,32 @@ class DocumentosModel extends ModelBase
 					
 					//Validacion de fecha de protesto
 					
-					if(trim($arraydatos[21]) != "")
+					if(trim($arraydatos[22]) != "")
 					{
-						$fecha_protesto =trim($arraydatos[21]);
+						$fecha_protesto =trim($arraydatos[22]);
 					}
 					
 					//Validacion de causal de protesto
-					if(trim($arraydatos[22]) == "")
+					if(trim($arraydatos[23]) == "")
 					{
 						$causal_protesto = 13;
 					}
 					else
 					{
 						$datoCausal = new CausalProtesta();
-				        $datoCausal->add_filter("causal","like",trim($arraydatos[22])."%");
+				        $datoCausal->add_filter("causal","like",trim($arraydatos[23])."%");
 				    	$datoCausal->load();
 						$causal_protesto = $datoCausal->get_data("id_causal");
 					}
 
 					//Validacion de gatos de protesto
-					if(trim($arraydatos[23]) == "")
+					if(trim($arraydatos[24]) == "")
 					{
 						$gastos_protesto = 0;
 					}
 					else
 					{
-						$gasto_protesto =trim($arraydatos[23]);
+						$gasto_protesto =trim($arraydatos[24]);
 					}
 					
 					if(count($error_rutmandante) == 0 && 
@@ -413,7 +414,11 @@ class DocumentosModel extends ModelBase
 						$datodoc->set_data("monto",$monto_doc);
 						$datodoc->set_data("cta_cte",$cta_cte);
 						$datodoc->set_data("fecha_siniestro",date("Y-m-d"));
-						$datodoc->set_data("fecha_protesto",$fecha_protesto);
+						
+						$date = new DateTime($fecha_protesto);
+						$fechaProtesto = $date->format('Y-m-d'); 
+						$datodoc->set_data("fecha_protesto",$fechaProtesto);
+
 						$datodoc->set_data("id_causa_protesto",$causal_protesto);
 						$datodoc->set_data("gastos_protesto",$gasto_protesto);
 						$datodoc->set_data("activo","S");
@@ -777,7 +782,7 @@ class DocumentosModel extends ModelBase
 	
 	}
 	
-	public function getListaDocumentosCartas($des)
+	public function getListaDocumentosCartas($array)
 	{
 	
 	include("config.php");
@@ -785,24 +790,33 @@ class DocumentosModel extends ModelBase
 	
 	$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
 	
-	$sqlpersonal->set_select(" d.id_documento id_documento, c.banco id_banco, dd.primer_apellido ape1_deudor, dd.segundo_apellido ape2_deudor, 
-							  		dd.primer_nombre nom1_deudor, dd.segundo_nombre nom2_deudor,
+	$sqlselect = "d.id_documento id_documento, c.banco id_banco, dd.primer_apellido ape1_deudor, dd.segundo_apellido ape2_deudor, 
+							  		dd.primer_nombre nom1_deudor, dd.segundo_nombre nom2_deudor,dd.rut_deudor rut_deudor, dd.dv_deudor dv_deudor,
 									m.nombre nombre_mandante, ed.estado id_estado_doc, td.tipo_documento id_tipo_doc,
-									d.numero_documento numero_documento,d.fecha_siniestro fecha_siniestro, d.cta_cte cta_cte,d.monto monto"); 
-	  $sqlpersonal->set_from(" documentos d, 
+									d.numero_documento numero_documento,d.fecha_siniestro fecha_siniestro, d.cta_cte cta_cte,d.monto monto";
+	$sqlfrom = " documentos d, 
 	 								bancos c,
 	 								deudores dd,
 	 								mandantes m,
 	 								estadodocumentos ed,
-	 								tipodocumento td");
-    
-	  $sqlpersonal->set_where(" d.id_banco = c.id_banco
+	 								tipodocumento td ";
+	$sqlwhere = " d.id_banco = c.id_banco
 								and  d.id_deudor = dd.id_deudor
 								and m.id_mandante = d.id_mandatario
 								and d.id_estado_doc = ed.id_estado_doc
 								and d.id_tipo_doc = td.id_tipo_documento
-								and d.activo = 'S'
-								and upper(ed.estado) like 'PENDIENTE DE ENVIAR CARTA%'  ");
+								and d.activo = 'S'							
+								and upper(ed.estado) like 'PENDIENTE DE ENVIAR CARTA%' ";
+	if($array["rutdeudor"] != ""){
+		$sqlwhere = $sqlwhere. "and dd.rut_deudor like '".$array["rutdeudor"]."%'";
+	}
+	
+	$sqlwhere = $sqlwhere . " order by d.id_documento asc ";
+	
+	
+	$sqlpersonal->set_select($sqlselect ); 
+	$sqlpersonal->set_from($sqlfrom);
+	$sqlpersonal->set_where($sqlwhere);
 	
     $sqlpersonal->load();
 
@@ -1117,7 +1131,11 @@ class DocumentosModel extends ModelBase
 									m.nombre nombre_mandante,
 									m.apellido apellido_mandante,
 									d.id_documento id_documento, td.tipo_documento tipo_documento,
-									d.numero_documento numero_documento,ed.estado estado,d.fecha_protesto fecha_protesto, d.monto monto "); 
+									d.numero_documento numero_documento,ed.estado estado,
+									d.fecha_protesto fecha_protesto,
+									d.fecha_siniestro fecha_siniestro,
+									d.fecha_creacion fecha_creacion, 
+									d.monto monto "); 
 	  	$sqlpersonal->set_from(" documentos d ,tipodocumento td, estadodocumentos ed,
         						 mandantes m, deudores dd, direccion_deudores dds ");
       	$sqlpersonal->set_where(" d.id_tipo_doc = td.id_tipo_documento

@@ -31,6 +31,7 @@
 	<tr class="cabecera_listado">
 		<th align="center"></th>
 		<th align="center"><font class="titulolistado">CORRELATIVO</font></th>
+		<th align="center"><font class="titulolistado">RUT DEUDOR</font></th>
         <th align="center"><font class="titulolistado">DEUDOR</font></th>
 		<th align="center"><font class="titulolistado">MANDANTE</font></th>
         <th align="center"><font class="titulolistado">RECIBIDO</font></th>
@@ -67,6 +68,7 @@
 		?>
 		
 		<td align="center"><?php echo ($datoTmp->get_data("id_documento")) ?></td>
+		<td align="left"><?php echo ($datoTmp->get_data("rut_deudor")."-".$datoTmp->get_data("dv_deudor")) ?></td>
 		<td align="left"><?php echo ($datoTmp->get_data("ape1_deudor")." ".$datoTmp->get_data("ape2_deudor").$datoTmp->get_data("nom1_deudor")) ?></td>
 		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("nombre_mandante")) ?></td>
 		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("fecha_siniestro")) ?></td>

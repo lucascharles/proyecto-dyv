@@ -159,37 +159,26 @@
 			$(document.getElementById("btnGastos")).removeClass('boton_form_brillante');
 			$(document.getElementById("btnGastos")).addClass('boton_form');
 		
-			if(opt == "DOCUMENTOS")
+			if(opt == "SIMULACION")
 			{
-				accion = "ficha_documentos";
-				document.getElementById("btnDocumentos").setAttribute("seleccionado","S");
-				$(document.getElementById("btnDocumentos")).addClass('boton_form_brillante');
+				accion = "liquidacion_simulacion";
+				document.getElementById("btnSimulacion").setAttribute("seleccionado","S");
+				$(document.getElementById("btnSimulacion")).addClass('boton_form_brillante');
 				
 			}
-			if(opt == "RECEPTOR")
+			if(opt == "CARTA")
 			{
-				accion = "ficha_receptor";
-				document.getElementById("btnReceptor").setAttribute("seleccionado","S");
-				$(document.getElementById("btnReceptor")).addClass('boton_form_brillante');
+				accion = "liquidacion_carta";
+				document.getElementById("btnCarta").setAttribute("seleccionado","S");
+				$(document.getElementById("btnCarta")).addClass('boton_form_brillante');
 			}
-			if(opt == "MARTILLERO")
+			if(opt == "CALCULADORA")
 			{
-				accion = "ficha_martillero";
-				document.getElementById("btnMartillero").setAttribute("seleccionado","S");
-				$(document.getElementById("btnMartillero")).addClass('boton_form_brillante');
+				accion = "liquidacion_calculadora";
+				document.getElementById("btnCalculadora").setAttribute("seleccionado","S");
+				$(document.getElementById("btnCalculadora")).addClass('boton_form_brillante');
 			}
-			if(opt == "CONSIGNACION")
-			{
-				accion = "ficha_consignacion";
-				document.getElementById("btnConsignacion").setAttribute("seleccionado","S");
-				$(document.getElementById("btnConsignacion")).addClass('boton_form_brillante');
-			}
-			if(opt == "GASTOS")
-			{
-				accion = "ficha_gastos";
-				document.getElementById("btnGastos").setAttribute("seleccionado","S");
-				$(document.getElementById("btnGastos")).addClass('boton_form_brillante');
-			}
+			
 			url += accion+"&ident="+$("#ident").val();
 			url += "&tipoperacion="+$("#tipoperacion").val(); 
 			url += "&id_alta="+$("#id_alta").val(); 
@@ -352,7 +341,7 @@
 	$id_alta = ($tipoperacion == "M") ? $ficha->get_data("id_ficha") : "";
 	
 ?>
-<form name="frmadmtipdoc">
+<form name="frmdeudorliquidacion">
 <input  type="hidden" name="ident" id="ident" value="<? echo($ident) ?>" grabar="S"/>
 <input  type="hidden" name="tipoperacion" id="tipoperacion" value="<? echo($tipoperacion) ?>" grabar="S"/>
 <input  type="hidden" grabar="S" name="id_alta" id="id_alta" value="<? echo($id_alta) ?>" />
@@ -397,91 +386,6 @@
    </table>
 </div>
 
-<div id="datos" style="">
-	<table width="100%" align="center" border="0" cellpadding="2" cellspacing="2">
-     
-	 <tr>
-		<td align="left" class="etiqueta_form">Abogado</td>
-        <td align="left" class="etiqueta_form">Firma</td>
-        <td align="left" class="etiqueta_form">Ingreso</td>
-        <td align="left" class="etiqueta_form">Providencia_1</td>
-    </tr>
-    <tr>
-        <td><input type="text" grabar="S" name="txtabogado"  value="<? echo($abogado) ?>" id="txtabogado"  size="20" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" />
-        </td>
-        <td><input type="text" grabar="S" name="txtfirma" id="txtfirma"  value="<? echo($firma) ?>" size="20" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" />
-        </td>
-        <td><input type="text" grabar="S" name="txtingreso" id="txtingreso"  value="<? echo($ingreso) ?>" size="20" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" />
-        </td>
-        <td><input type="text" grabar="S" name="txtprovidencia_1"  value="<? echo($providencia_1) ?>" id="txtprovidencia_1"  size="20" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" />
-        </td>
-    </tr>
-    <tr>
-		<td align="left" class="etiqueta_form">Distribuci&oacute;n Corte</td>
-        <td align="left" class="etiqueta_form">Rol</td>
-        <td align="left" class="etiqueta_form">Juzgado Nro.</td>
-        <td align="left" class="etiqueta_form">J. Comuna</td>
-    </tr>
-    <tr>
-        <td><input type="text" grabar="S" name="txtdist_corte" value="<? echo($dist_corte) ?>" id="txtdist_corte"  size="20" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" />
-        </td>
-        <td><input type="text" grabar="S" name="txtrol"  value="<? echo($rol) ?>"id="txtrol"  size="20" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" />
-        </td>
-        <td><select name="selJuzgadoNro" grabar="S"  id="selJuzgadoNro" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)">
-     			<option value="0"><? print utf8_encode("") ?></option>
-        		<?
-					
-			        for($j=0; $j<$coleccion_juzgado->get_count(); $j++)
-			        {
-						$selected = "";
-			            $datoTmp = &$coleccion_juzgado->items[$j];
-						if($datoTmp->get_data("id_juzgado") == $juzgadoNro)
-						{
-							$selected = "selected";
-						}
-			            echo("<option value=".$datoTmp->get_data("id_juzgado")." ".$selected.">".utf8_encode($datoTmp->get_data("descripcion"))."</option>");           
-			        }
-					
-    			?>
-			</select>
-        </td>
-        <td><select name="selJComuna" grabar="S"  id="selJComuna" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)">
-     			<option value="0"><? print utf8_encode("") ?></option>
-        		<?
-				
-			        for($j=0; $j<$coleccion_jcomuna->get_count(); $j++)
-			        {
-						$selected = "";
-						
-			            $datoTmp = &$coleccion_jcomuna->items[$j];
-						if($datoTmp->get_data("id_juzgado_comuna") == $jComuna)
-						{
-							$selected = "selected";
-						}
-						
-			            echo("<option value=".$datoTmp->get_data("id_juzgado_comuna")." ".$selected.">".utf8_encode($datoTmp->get_data("descripcion"))."</option>");           
-			        }
-					
-    			?>
-			</select>
-        </td>
-    </tr>
-    
-    <tr>
-		<td colspan="4" height="10"> </td>
-    </tr>
-    <tr>
-		<td colspan="4" align="right"> 
-        <input  type="button" name="btngrabar" id="btngrabar" onClick="grabarFichaDeudor()"  value="Confirmar" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/>&nbsp;
-         	<input  type="button" name="btncancelar" id="btncancelar" onClick="cancelarFichaDeudor()"value="Cancelar" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/>&nbsp;
-        </td>
-    </tr>
-    
-     <tr>
-		<td colspan="4" height="15" align="left"><span id="mensaje" style="display:none"></span> </td>
-    </tr>
-   </table>
-</div>
 
  <div id="datos" style="">
  <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
@@ -489,20 +393,14 @@
 		<td colspan="3">
         	<table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
             	<tr>
-                	<td class="boton_form_brillante" seleccionado="S" id="btnDocumentos" onMouseOver='overClassBotonMenu(this)' onMouseOut='outClassBotonMenu(this)' onclick="cargarPantalla('DOCUMENTOS')">
-                    	Documentos
+                	<td class="boton_form_brillante" seleccionado="S" id="btnSimulacion" onMouseOver='overClassBotonMenu(this)' onMouseOut='outClassBotonMenu(this)' onclick="cargarPantalla('SIMULACION')">
+                    	Simulación
                     </td>
-                    <td class="boton_form" id="btnReceptor" onMouseOver='overClassBotonMenu(this)' onMouseOut='outClassBotonMenu(this)' onclick="cargarPantalla('RECEPTOR')">
-                    	Receptor
+                    <td class="boton_form" id="btnCarta" onMouseOver='overClassBotonMenu(this)' onMouseOut='outClassBotonMenu(this)' onclick="cargarPantalla('CARTA')">
+                    	Carta
                     </td>
-                    <td class="boton_form" id="btnMartillero" onMouseOver='overClassBotonMenu(this)' onMouseOut='outClassBotonMenu(this)' onclick="cargarPantalla('MARTILLERO')">
-                    	Martillero
-                    </td>
-                    <td class="boton_form" id="btnConsignacion" onMouseOver='overClassBotonMenu(this)' onMouseOut='outClassBotonMenu(this)' onclick="cargarPantalla('CONSIGNACION')">
-                    	Consignaci&oacute;n
-                    </td>
-                    <td class="boton_form"  id="btnGastos" onMouseOver='overClassBotonMenu(this)' onMouseOut='outClassBotonMenu(this)' onclick="cargarPantalla('GASTOS')">
-                    	Gastos
+                    <td class="boton_form" id="btnCalculadora" onMouseOver='overClassBotonMenu(this)' onMouseOut='outClassBotonMenu(this)' onclick="cargarPantalla('CALCULADORA')">
+                    	Calculadora de Préstamos
                     </td>
                 </tr>
             </table>
