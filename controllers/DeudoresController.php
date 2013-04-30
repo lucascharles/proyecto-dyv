@@ -751,14 +751,61 @@ class DeudoresController extends ControllerBase
 	
 	public function listar_liquidaciones($array)
     {
-		require 'models/DeudoresModel.php';
-		$deudores = new DeudoresModel();
-		$dato = $deudores->getTodasLiquidaciones($array["rutdeudor"]);
+		require 'models/LiquidacionesModel.php';
+		$liquidaciones = new LiquidacionesModel();
+		$dato = $liquidaciones->getTodasLiquidaciones($array["rutdeudor"]);
 				
 		$data['colleccionLiquidaciones'] = $dato;
 
 		$this->view->show("lista_liquidaciones.php", $data);
 	}
 	
+	public function nueva_liquidacion($array)
+    {
+		require 'models/DeudoresModel.php';
+		require 'models/MandantesModel.php';
+		require 'models/JuzgadoModel.php';
+		require 'models/JuzgadoComunaModel.php';
+		require 'models/DocumentosModel.php';
+		require 'models/DireccionDeudoresModel.php';
+		
+		$deudor = new DeudoresModel();
+		$mandate = new MandantesModel();
+		$juzgado = new JuzgadoModel();
+		$jcomuna = new JuzgadoComunaModel();
+		$documentos = new DocumentosModel();
+		$direcciones = new DireccionDeudoresModel();
+		
+		$data['nom_sistema'] = "SISTEMA DyV";
+		$data['ident'] = $array["id"];
+		$data['tipoperacion'] = $array["tipope"];
+//		$data['coleccion_juzgado'] = $juzgado->getListaJuzgados();
+//		$data['coleccion_jcomuna'] = $jcomuna->getListaJuzgadosComuna();
+		
+//		if($array["tipope"] == "M")
+//		{
+//			$datodeudor = $deudor->getDeudorFicha($array["id"]);
+//			$data['ficha'] = $deudor->getDatosFicha($array["id"]);		
+//		}	
+		
+//		if($array["tipope"] == "A")
+//		{
+			$datodeudor = $deudor->getDeudorDatos($array["id"]);	
+//		}	
+		
+		$datomandante = $mandate->getMandanteDatos($datodeudor->get_data("id_mandante"));
+
+		$datodocumento = $documentos->getDatoDocumento($array["id_doc"]);
+		
+		$datodir = $direcciones->getDirActualDeudor($datodeudor->get_data("id_deudor"));
+		
+		$data['deudor'] = $datodeudor;
+		$data['mandante'] = $datomandante;
+		$data['documento'] = $datodocumento;
+		$data['direccion'] = $datodir;
+		
+		
+		$this->view->show("deudor_liquidacion.php", $data);
+	}
 }
 ?>
