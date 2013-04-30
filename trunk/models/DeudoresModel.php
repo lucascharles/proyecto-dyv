@@ -1138,13 +1138,6 @@ ORDER BY orden ASC ";
     }
 
 
-	public function getTodasLiquidaciones($id_liquidaciones)
-	{
-		$dato = new Liquidaciones();
-		$dato->add_filter("id_liquidacion ","in",$id_liquidaciones);
-		$dato->load();
-		
-		return $dato;
-	}
+	
 }
 ?>

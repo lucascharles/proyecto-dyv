@@ -5,7 +5,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<title></title>
-	<!-- LIBRERIA PAR CONTROL DE FECHA -->
+    <!-- LIBRERIA PAR CONTROL DE FECHA -->
     <link rel="stylesheet" media="all" type="text/css" href="css/smoothness/jquery-ui-1.8.17.custom.css" />
     <style type="text/css"> 
 			/* css for timepicker */	
@@ -28,283 +28,372 @@
 	<script type="text/javascript" src="js/jquery-ui-sliderAccess.js"></script>
     <script language="javascript">
 		$(document).ready(function(){
-			
-  			$('form').validator();
-			$("#txtdist_corte").datepicker();
-			$("#txtingreso").datepicker();
-			recolectarBasura();
+			$('form').validator();
+			$("#txtfechaRecibido").datepicker();
+			$("#txtfechaprotesto").datepicker();
 			
 		});
 		
-		function recolectarBasura()
+		function ventanaBusqueda(op)
 		{
-			var datos = "controlador=Deudores";
-			datos += "&accion=recolectarBasura";
-
-			$.ajax({
-					url: "index.php",
-					type: "POST",
-					data: datos,
-					cache: false,
-					success: function(res)
-					{
-						
-					},
-					error: function()
-					{
-						$("#mensaje").text("Ha ocurrido un error y no se ha podido agregar el registro.");
-						setTimeout("$('#mensaje').text('')",3000);
-						
-					}
-				});
+			if(op == "M")
+			{
+				$("#selecMandante").slideDown(1000);	
+				document.getElementById("txtrut_m").focus();
+			}
+			
+			if(op == "D")
+			{
+				$("#selecDeudor").slideDown(1000);	
+				document.getElementById("txtrut_d").focus();
+			}
+			
 		}
 		
-		function grabarFichaDeudor()
+		function validarRut(tipo)
 		{
-			var arrayin = new Array(5);
+			var datos = "";
+			var rut = "";
+			var dv = "";
 			
-			arrayin[0] = document.getElementById("txtrut_deudor");
-			arrayin[1] = document.getElementById("txtrut_d_deudor");
-			arrayin[2] = document.getElementById("txtrut_mandante");
-			arrayin[3] = document.getElementById("txtrut_d_mandante");
-			arrayin[4] = document.getElementById("txtmonto");
-			arrayin[5] = document.getElementById("txtabogado");
-			arrayin[6] = document.getElementById("txtfirma");
-			arrayin[7] = document.getElementById("txtingreso");
-			arrayin[8] = document.getElementById("txtprovidencia_1");
-			arrayin[9] = document.getElementById("txtdist_corte");
-			arrayin[10] = document.getElementById("txtrol");
-			arrayin[11] = document.getElementById("selJuzgadoNro");
-			arrayin[12] = document.getElementById("selJComuna");
-			arrayin[13] = document.getElementById("ident");
-			arrayin[14] = document.getElementById("tipoperacion");
-			arrayin[15] = document.getElementById("id_alta");
-			arrayin[16] = document.getElementById("id_doc");
-			
-			var arraySel = new Array();
-		
-			if(!validarArray(arrayin, arraySel,"N"))
+			if(tipo == "D")
 			{
-				return false;
+				if($.trim($("#txtrut_deudor").val()) == "" || $.trim($("#txtdv_deudor").val()) == "")
+				{
+					return false;
+				}
+				
+				if(!validaentero($.trim($("#txtrut_deudor").val())))
+				{
+					return false;
+				}
+				if(!validaentero($.trim($("#txtdv_deudor").val())))
+				{
+					return false;
+				}
+				
+				datos = "controlador=Deudores";
+				rut = $("#txtrut_deudor").val();
+				dv = $("#txtdv_deudor").val();
 			}
-
-			var datos = "controlador=Deudores";
-			if($("#tipoperacion").val() == "A")
+			if(tipo == "M")
 			{
-				datos += "&accion=grabarfichadeudor";
+				if($.trim($("#txtrut_mandante").val()) == "" || $.trim($("#txtdv_mandante").val()) == "")
+				{
+					return false;
+				}
+				if(!validaentero($.trim($("#txtrut_mandante").val())))
+				{
+					return false;
+				}
+				if(!validaentero($.trim($("#txtdv_mandante").val())))
+				{
+					return false;
+				}
+				datos = "controlador=Mandantes";
+				rut = $("#txtrut_mandante").val();
+				dv = $("#txtdv_mandante").val();
 			}
-			if($("#tipoperacion").val() == "M")
-			{
-				datos += "&accion=modificarfichadeudor";
-			}
-			datos += "&"+getParametrosArray(arrayin);
-			//alert(datos);
-			//return false;
+				
+			datos += "&accion=validarrut";
+			datos += "&tipoval=EXISTE";
+			datos += "&rut="+rut;
+			datos += "&dv="+dv;
+				
 			$.ajax({
 					url: "index.php",
 					type: "GET",
 					data: datos,
 					cache: false,
 					success: function(res)
-					{
-						$("#pagina").load('views/default.php');
-						/*
-						$("#mensaje").text("Los datos de la ficha se han guardado con Ã©xito.");
-						setTimeout("$('#mensaje').text('')",3000);
-						$("#id_alta").val(res);
-						*/
+					{		
+						if(res == 0)
+						{
+							var mensaje = "";
+							
+							if(tipo == "D")
+							{
+								document.getElementById("txtdv_deudor").focus();
+								mensaje = "El rut ingresado para el deudor es incorrecto.";
+							}
+							if(tipo == "M")
+							{
+								document.getElementById("txtdv_mandante").focus();
+								mensaje = "El rut ingresado para el mandante es incorrecto.";
+							}
+							$("#mensaje").text(mensaje);
+							$("#mensaje").show("slow");
+							setTimeout("limpiarMensaje()",3000);
+						}
+						else 
+						{
+							if(tipo == "D")
+							{
+								$("#id_deudor").val(res);
+							}
+							if(tipo == "M")
+							{
+								$("#id_mandante").val(res);
+							}
+						}
 					},
 					error: function()
 					{
 						$("#mensaje").text("Ha ocurrido un error y no se ha podido agregar el registro.");
-						setTimeout("$('#mensaje').text('')",3000);
-						
 					}
 				});
 		}
 		
-		
-			
-		function cancelarFichaDeudor()
-		{
-			$("#pagina").load('views/default.php');
+		function limpiarDocumentos()
+		{			
+			limpiarCampos();
 		}
 		
-		$(document).ready(function() 
+		function salir()
 		{
-			cargarPantalla("DOCUMENTOS");
-		});
-		
-		function cargarPantalla(opt)
+			$("#pagina").load('views/admin_documentos.php');
+		}
+
+
+		function seleccionado(id)
 		{
-			var url = "index.php?controlador=Deudores&accion=";
-			var accion = "";
-			document.getElementById("btnDocumentos").setAttribute("seleccionado","");
-			$(document.getElementById("btnDocumentos")).removeClass('boton_form_brillante');
-			$(document.getElementById("btnDocumentos")).addClass('boton_form');
-			
-			document.getElementById("btnReceptor").setAttribute("seleccionado","");
-			$(document.getElementById("btnReceptor")).removeClass('boton_form_brillante');
-			$(document.getElementById("btnReceptor")).addClass('boton_form');
-			
-			document.getElementById("btnMartillero").setAttribute("seleccionado","");
-			$(document.getElementById("btnMartillero")).removeClass('boton_form_brillante');
-			$(document.getElementById("btnMartillero")).addClass('boton_form');
-			
-			document.getElementById("btnConsignacion").setAttribute("seleccionado","");
-			$(document.getElementById("btnConsignacion")).removeClass('boton_form_brillante');
-			$(document.getElementById("btnConsignacion")).addClass('boton_form');
-			
-			document.getElementById("btnGastos").setAttribute("seleccionado","");
-			$(document.getElementById("btnGastos")).removeClass('boton_form_brillante');
-			$(document.getElementById("btnGastos")).addClass('boton_form');
+			document.getElementById("id_documento").value = id;
+		}
 		
-			if(opt == "SIMULACION")
-			{
-				accion = "liquidacion_simulacion";
-				document.getElementById("btnSimulacion").setAttribute("seleccionado","S");
-				$(document.getElementById("btnSimulacion")).addClass('boton_form_brillante');
+		function seleccionadoMandante(id)
+		{
+			document.getElementById("id_mandante").value = id;
+			buscarDatosMandante(id);
+			cerrarVentMand();
+		}
+		
+		function seleccionadoDeudor(id)
+		{
+			document.getElementById("id_mandante").value = id;
+			buscarDatosDeudor(id);
+			cerrarVentDeudor();
+		}
+		
+		function buscarDatosMandante(id)
+		{
+			var datos = "controlador=Mandantes";
+			datos += "&accion=getDatosMandante";
+			datos += "&id_mandante="+id;
 				
-			}
-			if(opt == "CARTA")
+			$.ajax({
+					url: "index.php",
+					type: "GET",
+					data: datos,
+					cache: false,
+					dataType: "json",
+					success: function(res)
+					{		
+						$("#txtrut_mandante").val(res[0]);
+						$("#txtdv_mandante").val(res[1]);
+						
+					},
+					error: function()
+					{
+						$("#mensaje").text("Ha ocurrido un error y no se ha podido agregar el registro.");
+					}
+				});
+		}
+		
+		function buscarDatosDeudor(id)
+		{
+			var datos = "controlador=Deudores";
+			datos += "&accion=getDatosDeudor";
+			datos += "&id_deudor="+id;
+				
+			$.ajax({
+					url: "index.php",
+					type: "GET",
+					data: datos,
+					cache: false,
+					dataType: "json",
+					success: function(res)
+					{		
+						$("#txtrut_deudor").val(res[0]);
+						$("#txtdv_deudor").val(res[1]);
+						
+					},
+					error: function()
+					{
+						$("#mensaje").text("Ha ocurrido un error y no se ha podido agregar el registro.");
+					}
+				});
+		}
+		
+		function cerrarVentMand()
+		{
+			$("#selecMandante").slideUp(1000);
+			//document.getElementById("frmtipocom").src = "";
+		}
+		
+		
+		function cerrarVentDeudor()
+		{
+			$("#selecDeudor").slideUp(1000);
+			//document.getElementById("frmtipocom").src = "";
+		}
+		
+		function eliminar()
+		{
+					
+			if(document.getElementById("id_documento").value == "")
 			{
-				accion = "liquidacion_carta";
-				document.getElementById("btnCarta").setAttribute("seleccionado","S");
-				$(document.getElementById("btnCarta")).addClass('boton_form_brillante');
-			}
-			if(opt == "CALCULADORA")
-			{
-				accion = "liquidacion_calculadora";
-				document.getElementById("btnCalculadora").setAttribute("seleccionado","S");
-				$(document.getElementById("btnCalculadora")).addClass('boton_form_brillante');
+				return false;
 			}
 			
-			url += accion+"&ident="+$("#ident").val();
-			url += "&tipoperacion="+$("#tipoperacion").val(); 
-			url += "&id_alta="+$("#id_alta").val(); 
-			url += "&id_partida=0"; 
+			var id = document.getElementById("id_documento").value;
+			var url = "index.php?controlador=Documentos&accion=eliminar&iddocumentos="+id;
 			
-			document.getElementById("frmsubpantalla").src = url;
+			document.getElementById("frmlistdocumentos").src = url;
 		}
 		
-		function pasarIdFicha(id)
-		{
-			$("#id_alta").val(id); 
+		function grabar()
+		{		
+			if(!validar("N"))
+			{
+				return false;
+			}
+			
+			if($.trim($("#selDeudor").val()) != "")
+			{
+				var id = document.getElementById("selDeudor").value;
+				
+				var datos = "controlador=Documentos";
+				
+				datos += "&accion=grabar";
+				datos += "&deudor="+$("#id_deudor").val();
+				datos += "&mandante="+$("#id_mandante").val();
+				datos += "&txtfechaRecibido="+$("#txtfechaRecibido").val();
+				datos += "&txtnrodoc="+$("#txtnrodoc").val();
+				datos += "&selTipoDoc="+$("#selTipoDoc").val();
+				datos += "&txtmonto="+$("#txtmonto").val();
+				datos += "&selBancos="+$("#selBancos").val();
+				datos += "&txtctacte="+$("#txtctacte").val();
+				datos += "&txtfechaprotesto="+$("#txtfechaprotesto").val();
+				datos += "&selCausalProtesta="+$("#selCausalProtesta").val();
+				datos += "&selEstadoDoc="+$("#selEstadoDoc").val();
+				
+				$.ajax({
+					url: "index.php",
+					type: "GET",
+					data: datos,
+					cache: false,
+					success: function(res)
+					{						
+
+						document.getElementById("frmlistdocumentos").src="index.php?controlador=Documentos&accion=listarNuevos&iddeudor="+id;
+					},
+					error: function()
+					{
+						$("#mensaje").text("Ha ocurrido un error y no se ha podido agregar el registro.");
+					}
+				});
+			}
 		}
 		
-		function verDatosDeudor()
+		function limpiarMensaje()
 		{
-			$("#datos_deudor").slideDown(1000);	
+			$("#mensaje").hide("slow");
+			$("#mensaje").text("");
 		}
-		function cerrarVentDD()
+
+		function mostrar(obj)
 		{
-			$("#datos_deudor").slideUp(1000);
+			var url = "index.php?controlador=Mandantes&accion=listar";
+			url += "&des_int="+$("#txtrut_m").val();
+			url += "&desApel1="+$("#txtPrimerApel").val();
+			url += "&desApel2="+$("#txtsapellido_m").val();
+			url += "&desNomb1="+$("#txtPrimerNomb").val();
+			url += "&desNomb2="+$("#txtsnombre_m").val();
+			url += "&id_partida=0";
+			
+			document.getElementById("frmmandantes").src = url;
 		}
 		
-		function mensajeConfirmacion(mensaje)
+		function mostrarDeudor(obj)
 		{
-				$("#mensaje").text(mensaje);
-				$("#mensaje").slideDown();
-				setTimeout("$('#mensaje').text('')",3000);
+			var url = "index.php?controlador=Deudores&accion=listar";
+			url += "&rut="+$("#txtrut_d").val()+$("#txtrut_dv").val();
+			url += "&p_ape="+$("#txtpapellido").val();
+			url += "&s_ape="+$("#txtsapellido").val();
+			url += "&p_nom="+$("#txtpnombre").val();
+			url += "&s_nom="+$("#txtsnombre").val();
+			url += "&id_partida=0";
+			document.getElementById("frmlistdeudor").src = url;
 		}
 		
+
 	</script>
 </head>
 <body>
-<div id="datos_deudor" style="position:absolute; margin-left:20px; width:95%; margin-top:30px; display:none; z-index:9999;">
+<div id="selecMandante" style="position:absolute; margin-left:20px; width:95%; margin-top:30px; display:none; z-index:9999;">
 	<table cellpadding="10" cellspacing="10" align="center" border="0" width="100%" bgcolor="#FFFFFF">  
     <tr>
     <td>
 	<table width="100%" align="center" border="0" bgcolor="#eeeeee" cellpadding="5" cellspacing="5"> 
     	<tr>
         	<td height="" align="right">
-            	<div onclick="cerrarVentDD()" style="cursor:pointer; font-weight:bold; color:#000099;"> cerrar </div>
+            	<div onclick="cerrarVentMand()" style="cursor:pointer; font-weight:bold; color:#000099;"> cerrar </div>
             </td>
         </tr>
         <tr>
-        <th align="left">Datos Deudor</th>
+        <th align="left">Seleccionar Mandantes</th>
         </tr>
         <tr>
-        <td height="10" bgcolor="#999999"> </td>
+        <td height="10"> </td>
         </tr>
         <tr>
         	<td height="">
-            	<table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" >
-                	<tr bgcolor="#F7F7F7">
-                    	<td width="50%">
-                    	  <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" style="position:relative; margin-left:10px;">
-                          	<tr>
-                        		<td width="110" align="left" class="etiqueta_form">Primer Apellido:</td>
-                                <td align="left">&nbsp;&nbsp;<? echo($deudor->get_data("primer_apellido")) ?></td>
-                             </tr>
-                            <tr>
-                        		<td width="" align="left" class="etiqueta_form">Segundo Apellido:</td>
-                                <td align="left">&nbsp;&nbsp;<? echo($deudor->get_data("segundo_apellido")) ?></td>
-                            </tr>
-                            <tr>
-                        		<td width="" align="left" class="etiqueta_form">Primer Nombre:</td>
-                                <td align="left">&nbsp;&nbsp;<? echo($deudor->get_data("primer_nombre")) ?></td>
-                            </tr>
-                            <tr>
-                        		<td width="" align="left" class="etiqueta_form">Segundo Nombre:</td>
-                                <td align="left">&nbsp;&nbsp;<? echo($deudor->get_data("segundo_nombre")) ?></td>
-                        	</tr>
-                          </table>
-                        </td>
-						<td valign="top">
-                    	  <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
-                          	<tr>
-                                <td width="110" align="left" class="etiqueta_form">Celular:</td>
-                                <td align="left">&nbsp;&nbsp;<? echo($deudor->get_data("celular")) ?></td>
-                             </tr>
-                             <tr>
-                                <td width="" align="left" class="etiqueta_form">Tel&eacute;fono fijo:</td>
-                                <td align="left">&nbsp;&nbsp;<? echo($deudor->get_data("telefono_fijo")) ?></td>
-                             </tr>
-                             <tr>
-                                <td width="" align="left" class="etiqueta_form">Fax:</td>
-                                <td align="left">&nbsp;&nbsp;<? echo($deudor->get_data("fax")) ?></td>
-                             </tr>
-                           </table>
-                        </td>
+            	<table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
+                	<tr> 
+                        
+                       <td width="" colspan="4" align="left" class="etiqueta_form">Rut:&nbsp;&nbsp; <input type="text" name="txtrut_m" id="txtrut_m"  size="40" onkeyup='mostrar(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" /></td>
+                     </tr>
+                     <tr>
+                        
+                        <td width="" align="left" height="15"></td>
+                      
                     </tr>
-					<tr> 
-                        <td width="100" height="15" align="left" colspan="2" class="etiqueta_form" valign="top"> </td>
-                     </tr>
-					<tr> 
-                        <td width="100" align="left" colspan="2" class="etiqueta_form" valign="top"><font style="position:relative; margin-left:10px;">Direcci&oacute;n:</font></td>
-                     </tr>
-                     <tr bgcolor="#F7F7F7">
-                        <td width="" align="left" class="" colspan="2">
-                           <table width="100%" align="left" border="0" cellpadding="0" cellspacing="0" style="position:relative; margin-left:10px;">
-                         		<tr>
-                                	<td width="50" align="right" class="etiqueta_form">Calle</td><td align="left">&nbsp;&nbsp;<? echo($direccion->get_data("calle")) ?></td>
-                                </tr>
-                                <tr>
-                                    <td align="right" class="etiqueta_form">N&uacute;mero</td><td align="left">&nbsp;&nbsp;<? echo($direccion->get_data("numero")) ?></td>
-                                 </tr>
-                                <tr>
-                        			<td align="right" class="etiqueta_form">Piso</td><td align="left">&nbsp;&nbsp;<? echo($direccion->get_data("piso")) ?></td>
-                                 </tr>
-                                <tr>
-                        			<td align="right" class="etiqueta_form">Depto</td><td align="left">&nbsp;&nbsp;<? echo($direccion->get_data("depto")) ?></td>
-                                 </tr>
-                                <tr>
-                        			<td align="right" class="etiqueta_form">Comuna</td><td align="left">&nbsp;&nbsp;<? echo($direccion->get_data("comuna")) ?></td>
-                                 </tr>
-                                <tr>
-                        			<td align="right" class="etiqueta_form">Ciudad</td><td align="left">&nbsp;&nbsp;<? echo($direccion->get_data("ciudad")) ?></td>
-                                 </tr>
-                                <tr>
-                        			<td align="right" class="etiqueta_form">Otros</td><td align="left">&nbsp;&nbsp;<? echo($direccion->get_data("otros")) ?></td>
-                                </tr>
-                            </table>
-                        </td>
+                	<tr>
+                        
+                        <td width="" align="left" class="etiqueta_form">Primer Apellido:</td>
+                        <td width="" align="left" class="etiqueta_form">Segundo Apellido:</td>
+                        <td width="" align="left" class="etiqueta_form">Primer Nombre:</td>
+                        <td width="70" align="left" class="etiqueta_form">Segundo Nombre:</td>
                     </tr>
                     
+                    <tr> 
+                        
+                        
+                        <td align="left"><input type="text" name="txtPrimerApel" id="txtPrimerApel"  size="40" onkeyup='mostrar(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/></td>
+                        <td align="left"><input type="text" name="txtsapellido_m" id="txtsapellido_m"  size="40" onkeyup='mostrar(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/></td>  
+                        <td align="left"><input type="text" name="txtPrimerNomb" id="txtPrimerNomb"  size="40" onkeyup='mostrar(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" /></td>
+                        <td align="left"><input type="text" name="txtsnombre_m" id="txtsnombre_m"  size="40" onkeyup='mostrar(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/></td>
+                    </tr>
+
                 </table>
             </td>
         </tr>
+        <tr>
+        	<td height="15">
+            
+            </td>
+        </tr>
+        <tr>
+        <th align="left">Mandantes disponibles</th>
+        </tr>
+    	<tr>
+        	<td height="">
+            	
+	             <div id="datos" style="">
+            	<iframe id="frmmandantes" src="index.php?controlador=Mandantes&accion=listar&id_partida=0" scrolling="auto" frameborder="0" width="100%" height="100%"></iframe>
+                </div>
+            </td>
+       </tr>
         <tr>
         	<td height="15">
             
@@ -315,78 +404,148 @@
 </tr>
 </table>
 </div>
-<?
-	$nro = ""; 
-	$monto = "";
-	$id = 0;
-		
-    for($j=0; $j<$documento->get_count(); $j++) 
-	{
-		$datoTmp = &$documento->items[$j];
-		$nro = $datoTmp->get_data("numero_documento");
-		$monto = $datoTmp->get_data("monto");
-		$id = $datoTmp->get_data("id_documento");
-		break;
-	}
+<div id="selecDeudor" style="position:absolute; margin-left:20px; width:95%; margin-top:30px; display:none; z-index:9999;">
+	<table cellpadding="10" cellspacing="10" align="center" border="0" width="100%" bgcolor="#FFFFFF">  
+    <tr>
+    <td>
+	<table width="100%" align="center" border="0" bgcolor="#eeeeee" cellpadding="5" cellspacing="5"> 
+    	<tr>
+        	<td height="" align="right">
+            	<div onclick="cerrarVentDeudor()" style="cursor:pointer; font-weight:bold; color:#000099;"> cerrar </div>
+            </td>
+        </tr>
+        <tr>
+        <th align="left">Seleccionar Deudor</th>
+        </tr>
+        <tr>
+        <td height="10"> </td>
+        </tr>
+        <tr>
+        	<td height="">
+            	<table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
+                	<tr> 
+                        
+                       <td width="" colspan="4" align="left" class="etiqueta_form">Rut:&nbsp;&nbsp; <input type="text" name="txtrut_d" id="txtrut_d"  size="20" onkeyup='mostrarDeudor(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this); generadvrut('txtrut_d','txtrut_dv')" />&nbsp;<input type="text" name="txtrut_dv" id="txtrut_dv"  size="2" onkeyup='mostrarDeudor(this)'  class="input_form_min" disabled="disabled"/></td>
+                     </tr>
+                     <tr>
+                        
+                        <td width="" align="left" height="15"></td>
+                      
+                    </tr>
+                	<tr>
+                        
+                        <td width="" align="left" class="etiqueta_form">Primer Apellido:</td>
+                        <td width="" align="left" class="etiqueta_form">Segundo Apellido:</td>
+                        <td width="" align="left" class="etiqueta_form">Primer Nombre:</td>
+                        <td width="70" align="left" class="etiqueta_form">Segundo Nombre:</td>
+                    </tr>
+                    
+                    <tr>                       
+                        <td align="left"> <input type="text" name="txtpapellido" id="txtpapellido" value="" size="20" onkeyup='mostrarDeudor(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/></td>
+                        <td align="left"><input type="text" name="txtsapellido" id="txtsapellido" value="" size="20" onkeyup='mostrarDeudor(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/></td>  
+                        <td align="left"><input type="text" name="txtpnombre" id="txtpnombre" value="" size="20" onkeyup='mostrarDeudor(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/></td>
+                        <td align="left"><input type="text" name="txtsnombre" id="txtsnombre" value="" size="20" onkeyup='mostrarDeudor(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/></td>
+                    </tr>
 
-	$monto = ($tipoperacion == "M") ? $ficha->get_data("monto") : "";
-	$abogado = ($tipoperacion == "M") ? $ficha->get_data("abogado") : "";
-	$firma = ($tipoperacion == "M") ? $ficha->get_data("firma") : "";
-	$ingreso = ($tipoperacion == "M") ? formatoFecha($ficha->get_data("ingreso"),"dd-mm-yyyy","dd/mm/yyyy") : "";
-	$providencia_1 = ($tipoperacion == "M") ? $ficha->get_data("providencia") : "";
-	$dist_corte = ($tipoperacion == "M") ? formatoFecha($ficha->get_data("distribucion_corte"),"dd-mm-yyyy","dd/mm/yyyy") : "";
-	$rol = ($tipoperacion == "M") ? $ficha->get_data("rol") : "";
-	$juzgadoNro = ($tipoperacion == "M") ? $ficha->get_data("id_juzgado") : "";
-	$jComuna = ($tipoperacion == "M") ? $ficha->get_data("id_juzgado_comuna") : "";
-	$id_alta = ($tipoperacion == "M") ? $ficha->get_data("id_ficha") : "";
-	
-?>
-<form name="frmdeudorliquidacion">
-<input  type="hidden" name="ident" id="ident" value="<? echo($ident) ?>" grabar="S"/>
-<input  type="hidden" name="tipoperacion" id="tipoperacion" value="<? echo($tipoperacion) ?>" grabar="S"/>
-<input  type="hidden" grabar="S" name="id_alta" id="id_alta" value="<? echo($id_alta) ?>" />
-<input  type="hidden" grabar="S" name="id_doc" id="id_doc" value="<? echo($id) ?>" />
+                </table>
+            </td>
+        </tr>
+        <tr>
+        	<td height="15">
+            
+            </td>
+        </tr>
+        <tr>
+        <th align="left">Deudores disponibles</th>
+        </tr>
+    	<tr>
+        	<td height="">
+            	
+	             <div id="datos" style="">
+            	<iframe id="frmlistdeudor" src="index.php?controlador=Deudores&accion=listar&id_partida=0" scrolling="auto" frameborder="0" width="100%" height="100%"></iframe>
+                </div>
+            </td>
+       </tr>
+        <tr>
+        	<td height="15">
+            
+            </td>
+        </tr>
+    </table>
+    </td>
+</tr>
+</table>
+</div>
+<form name="frmadmdocumentos">
+<input grabar="S" type="hidden" name="id_documento" id="id_documento" value=""/>
+<input grabar="S" type="hidden" name="id_mandante" id="id_mandante" value=""/>
+<input grabar="S" type="hidden" name="id_deudor" id="id_deudor" value=""/>
 
-
-  <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="titulopantalla">
+<table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="titulopantalla">
 	<tr>
-		<th align="left" height="30">&nbsp;Liquidacion Deudor</th>
+		<th align="left" height="30">&nbsp;Nueva Liquidacion</th>
         <th></th>
         <th></th>
     </tr>
  </table>
-
- <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" >
-	<tr>
+<table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
+<tr>
 		<th align="left" height="20"></th>
         <th></th>
         <th></th>
     </tr>
+	<tr>
+		<th align="left">Deudor</th>
+        <th></th>
+        <th></th>
+    </tr>
  </table>
+
 <div id="datos" style="">
-	<table width="100%" align="center" border="0" cellpadding="2" cellspacing="2">
+<table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" size="20">
 	 <tr>
-		<td align="right" class="etiqueta_form" width="10">Deudor:</td><td>&nbsp;&nbsp;&nbsp; <input type="text" grabar="S" name="txtrut_deudor" id="txtrut_deudor"  valida="requerido" tipovalida="entero" size="20"  class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this); generadvrut('txtrut_deudor','txtrut_d_deudor')" value="<? echo($deudor->get_data("rut_deudor")) ?>" />&nbsp;
-        <input type="text" grabar="S" name="txtrut_d_deudor" id="txtrut_d_deudor" valida="requerido" tipovalida="entero" size="2"   class="input_form_min" value="<? echo($deudor->get_data("dv_deudor"))?>" disabled="disabled"/>&nbsp;&nbsp; <input  type="button" name="btnDatosDeudor" id="btnDatosDeudor" onClick="verDatosDeudor()"  value="Ver Deudor" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/>
-        </td>
-    </tr>
+        <td colspan="4" height="5">
+
+         </td>
+    </tr> 
     <tr>
-		<td align="right" class="etiqueta_form" width="20">Mandatario:</td><td>&nbsp;&nbsp;&nbsp; <input type="text" grabar="S" name="txtrut_mandante" id="txtrut_mandante" valida="requerido" tipovalida="entero" size="20"  class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this); generadvrut('txtrut_mandante','txtrut_d_mandante')" value="<? echo($mandante->get_data("rut_mandante"))?>"/>&nbsp;
-        <input type="text" grabar="S" name="txtrut_d_mandante" id="txtrut_d_mandante" valida="requerido" tipovalida="entero" size="2"   class="input_form_min" value="<? echo($mandante->get_data("dv_mandante"))?>" disabled="disabled"/>
+		<td width="70" align="left" class="etiqueta_form">&nbsp;Deudor:</td>
+        <td> 
+        	<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+            	<tr>
+                	<td width="240">
+						<input type="text" name="txtrut_deudor" id="txtrut_deudor" class="input_form" onblur=" generadvrut('txtrut_deudor','txtdv_deudor'); validarRut('D')" />&nbsp;
+	            		<input type="text" name="txtdv_deudor" id="txtdv_deudor" class="input_form_min" onblur="" disabled="disabled" />&nbsp;
+                    </td>
+                	<td align="left">
+			            <img src="images/buscar.png" title="Buscar Deudor" style="cursor:pointer" onclick="ventanaBusqueda('D')"/>
+                    </td>
+                </tr>
+             </table>
         </td>
+		
     </tr>
-    <tr>
-		<td align="right" class="etiqueta_form" width="20">Deuda Neta:</td><td>&nbsp;&nbsp;&nbsp; <input type="text" grabar="S" name="txtmonto" id="txtmonto" valida="requerido" value="<? echo(conDecimales($monto)) ?>" tipovalida="moneda" size="20"  class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" />
-        </td>
-    </tr>
+     <tr>
+        <td colspan="4" height="10">
+
+         </td>
+    </tr>   
+    
+         <tr>
+        <td colspan="4" height="5">
+
+         </td>
+    </tr> 
     
     <tr>
-		<td height="5"> </td>
-    </tr>
-   </table>
-</div>
-
-
+        <td colspan="4">
+        	<span id="mensaje" style="display:none" ></span>
+         </td>
+    </tr>   
+ </table>
+ </div>
+ 
+ 
  <div id="datos" style="">
  <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
  	<tr>
@@ -394,13 +553,13 @@
         	<table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
             	<tr>
                 	<td class="boton_form_brillante" seleccionado="S" id="btnSimulacion" onMouseOver='overClassBotonMenu(this)' onMouseOut='outClassBotonMenu(this)' onclick="cargarPantalla('SIMULACION')">
-                    	Simulación
+                    	Simulacion
                     </td>
                     <td class="boton_form" id="btnCarta" onMouseOver='overClassBotonMenu(this)' onMouseOut='outClassBotonMenu(this)' onclick="cargarPantalla('CARTA')">
                     	Carta
                     </td>
                     <td class="boton_form" id="btnCalculadora" onMouseOver='overClassBotonMenu(this)' onMouseOut='outClassBotonMenu(this)' onclick="cargarPantalla('CALCULADORA')">
-                    	Calculadora de Préstamos
+                    	Calculadora de Prestamos
                     </td>
                 </tr>
             </table>

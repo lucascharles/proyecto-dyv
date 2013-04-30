@@ -51,6 +51,10 @@
 			$("#pagina").load('index.php?controlador=Deudores&accion=deudor_liquidacion&id='+id+'&tipope=M');
 		}
 
+		function nuevaliquidacion()
+		{
+			$("#pagina").load('index.php?controlador=Deudores&accion=nueva_liquidacion');
+		}
 		
 	</script>
 </head>
@@ -97,8 +101,12 @@
         </td>
         <td width="10%">
         	<div style="position:relative; margin-left:10px;">
-            <input  type="button" name="btnmodificar" id="btnmodificar" onclick="liquidacion()"  value="Liquidacion" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/><br />
+            <input  type="button" name="btnmodificar" id="btnmodificar" onclick="liquidacion()"  value="Ver/Modificar" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/><br />
             </div>
+        	<div style="position:relative; margin-left:10px;">
+            <input  type="button" name="btnnuevo" id="btnnuevo" onclick="nuevaliquidacion()"  value="Nueva" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/><br />
+            </div>
+
          </td>
     </tr>
     <tr>
