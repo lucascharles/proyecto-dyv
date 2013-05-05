@@ -779,19 +779,7 @@ class DeudoresController extends ControllerBase
 		$data['nom_sistema'] = "SISTEMA DyV";
 		$data['ident'] = $array["id"];
 		$data['tipoperacion'] = $array["tipope"];
-//		$data['coleccion_juzgado'] = $juzgado->getListaJuzgados();
-//		$data['coleccion_jcomuna'] = $jcomuna->getListaJuzgadosComuna();
-		
-//		if($array["tipope"] == "M")
-//		{
-//			$datodeudor = $deudor->getDeudorFicha($array["id"]);
-//			$data['ficha'] = $deudor->getDatosFicha($array["id"]);		
-//		}	
-		
-//		if($array["tipope"] == "A")
-//		{
-			$datodeudor = $deudor->getDeudorDatos($array["id"]);	
-//		}	
+		$datodeudor = $deudor->getDeudorDatos($array["id"]);	
 		
 		$datomandante = $mandate->getMandanteDatos($datodeudor->get_data("id_mandante"));
 
@@ -806,6 +794,47 @@ class DeudoresController extends ControllerBase
 		
 		
 		$this->view->show("deudor_liquidacion.php", $data);
+	}
+	
+	
+	public function liquidacion_simulacion($array)
+	{
+		require 'models/DocumentosModel.php';
+		$documentos = new DocumentosModel();
+
+		$dato = $documentos->getDocLiquidar(1);  //$array["id_deudor"]
+		
+		$data['nom_sistema'] = "SISTEMA DyV";
+		$data['colleccionDoc'] = $dato;
+		
+		$this->view->show("deudor_liquidacion_documentos.php", $data);
+	}
+	
+	
+	public function liquidacion_carta($array)
+	{
+		require 'models/DocumentosModel.php';
+		$documentos = new DocumentosModel();
+
+		$dato = $documentos->getDocLiquidar(1);  //$array["id_deudor"]
+		
+		$data['nom_sistema'] = "SISTEMA DyV";
+		$data['colleccionDoc'] = $dato;
+		
+		$this->view->show("deudor_liquidacion_carta.php", $data);
+	}
+	
+	public function liquidacion_calculadora($array)
+	{
+		require 'models/DocumentosModel.php';
+		$documentos = new DocumentosModel();
+
+		$dato = $documentos->getDocLiquidar(1);  //$array["id_deudor"]
+		
+		$data['nom_sistema'] = "SISTEMA DyV";
+		$data['colleccionDoc'] = $dato;
+		
+		$this->view->show("deudor_liquidacion_calculadora.php", $data);
 	}
 }
 ?>
