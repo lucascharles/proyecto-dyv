@@ -722,7 +722,7 @@ class DocumentosModel extends ModelBase
 		$sqlpersonal->set_select(" d.id_documento id_documento, c.banco id_banco, dd.primer_apellido ape1_deudor, dd.segundo_apellido ape2_deudor, 
 							  		dd.primer_nombre nom1_deudor, dd.segundo_nombre nom2_deudor,
 									m.nombre nombre_mandante, ed.estado id_estado_doc, td.tipo_documento id_tipo_doc,
-									d.numero_documento numero_documento,d.fecha_siniestro fecha_siniestro, d.cta_cte cta_cte,d.monto monto"); 
+									d.numero_documento numero_documento,d.fecha_protesto fecha_siniestro, d.cta_cte cta_cte,d.monto monto"); 
 	  	$sqlpersonal->set_from(" documentos d, 
 	 								bancos c,
 	 								deudores dd,
@@ -1150,5 +1150,16 @@ class DocumentosModel extends ModelBase
 
     	return $sqlpersonal;	
 	}
+	
+	public function getDocLiquidar($id_deudor)
+	{
+		$dato = new DocumentosCollection();
+		$dato->add_filter("id_deudor","=",$id_deudor);
+		$dato->load();
+		
+		return $dato;
+	}
+	
+	
 }
 ?>
