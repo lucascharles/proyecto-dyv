@@ -325,85 +325,52 @@
 			url += "&id_partida=0";
 			document.getElementById("frmlistdeudor").src = url;
 		}
+
+		function cargarPantalla(opt)
+		{
+			var url = "index.php?controlador=Deudores&accion=";
+			var accion = "";
+			document.getElementById("btnSimulacion").setAttribute("seleccionado","");
+			$(document.getElementById("btnSimulacion")).removeClass('boton_form_brillante');
+			$(document.getElementById("btnSimulacion")).addClass('boton_form');
+			
+			document.getElementById("btnCarta").setAttribute("seleccionado","");
+			$(document.getElementById("btnCarta")).removeClass('boton_form_brillante');
+			$(document.getElementById("btnCarta")).addClass('boton_form');
+			
+			document.getElementById("btnCalculadora").setAttribute("seleccionado","");
+			$(document.getElementById("btnCalculadora")).removeClass('boton_form_brillante');
+			$(document.getElementById("btnCalculadora")).addClass('boton_form');
+			
+			if(opt == "SIMULACION")
+			{
+				accion = "liquidacion_simulacion";
+				document.getElementById("btnSimulacion").setAttribute("seleccionado","S");
+				$(document.getElementById("btnSimulacion")).addClass('boton_form_brillante');
+			}
+			if(opt == "CARTA")
+			{
+				accion = "liquidacion_carta";
+				document.getElementById("btnCarta").setAttribute("seleccionado","S");
+				$(document.getElementById("btnCarta")).addClass('boton_form_brillante');
+			}
+			if(opt == "CALCULADORA")
+			{
+				accion = "liquidacion_calculadora";
+				document.getElementById("btnCalculadora").setAttribute("seleccionado","S");
+				$(document.getElementById("btnCalculadora")).addClass('boton_form_brillante');
+			}
+
+			url += accion+"&iddeudor="+$("#id_deudor").val();
+			url += "&tipoperacion="+$("#tipoperacion").val(); 
+			
+			document.getElementById("frmsubpantalla").src = url;
+		}
 		
 
 	</script>
 </head>
 <body>
-<div id="selecMandante" style="position:absolute; margin-left:20px; width:95%; margin-top:30px; display:none; z-index:9999;">
-	<table cellpadding="10" cellspacing="10" align="center" border="0" width="100%" bgcolor="#FFFFFF">  
-    <tr>
-    <td>
-	<table width="100%" align="center" border="0" bgcolor="#eeeeee" cellpadding="5" cellspacing="5"> 
-    	<tr>
-        	<td height="" align="right">
-            	<div onclick="cerrarVentMand()" style="cursor:pointer; font-weight:bold; color:#000099;"> cerrar </div>
-            </td>
-        </tr>
-        <tr>
-        <th align="left">Seleccionar Mandantes</th>
-        </tr>
-        <tr>
-        <td height="10"> </td>
-        </tr>
-        <tr>
-        	<td height="">
-            	<table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
-                	<tr> 
-                        
-                       <td width="" colspan="4" align="left" class="etiqueta_form">Rut:&nbsp;&nbsp; <input type="text" name="txtrut_m" id="txtrut_m"  size="40" onkeyup='mostrar(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" /></td>
-                     </tr>
-                     <tr>
-                        
-                        <td width="" align="left" height="15"></td>
-                      
-                    </tr>
-                	<tr>
-                        
-                        <td width="" align="left" class="etiqueta_form">Primer Apellido:</td>
-                        <td width="" align="left" class="etiqueta_form">Segundo Apellido:</td>
-                        <td width="" align="left" class="etiqueta_form">Primer Nombre:</td>
-                        <td width="70" align="left" class="etiqueta_form">Segundo Nombre:</td>
-                    </tr>
-                    
-                    <tr> 
-                        
-                        
-                        <td align="left"><input type="text" name="txtPrimerApel" id="txtPrimerApel"  size="40" onkeyup='mostrar(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/></td>
-                        <td align="left"><input type="text" name="txtsapellido_m" id="txtsapellido_m"  size="40" onkeyup='mostrar(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/></td>  
-                        <td align="left"><input type="text" name="txtPrimerNomb" id="txtPrimerNomb"  size="40" onkeyup='mostrar(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" /></td>
-                        <td align="left"><input type="text" name="txtsnombre_m" id="txtsnombre_m"  size="40" onkeyup='mostrar(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/></td>
-                    </tr>
-
-                </table>
-            </td>
-        </tr>
-        <tr>
-        	<td height="15">
-            
-            </td>
-        </tr>
-        <tr>
-        <th align="left">Mandantes disponibles</th>
-        </tr>
-    	<tr>
-        	<td height="">
-            	
-	             <div id="datos" style="">
-            	<iframe id="frmmandantes" src="index.php?controlador=Mandantes&accion=listar&id_partida=0" scrolling="auto" frameborder="0" width="100%" height="100%"></iframe>
-                </div>
-            </td>
-       </tr>
-        <tr>
-        	<td height="15">
-            
-            </td>
-        </tr>
-    </table>
-    </td>
-</tr>
-</table>
-</div>
 <div id="selecDeudor" style="position:absolute; margin-left:20px; width:95%; margin-top:30px; display:none; z-index:9999;">
 	<table cellpadding="10" cellspacing="10" align="center" border="0" width="100%" bgcolor="#FFFFFF">  
     <tr>
@@ -572,7 +539,7 @@
     </tr>
     <tr>
 		<td colspan="3">
-        	<iframe id="frmsubpantalla" src="" width="100%" align="middle" height="300" scrolling="auto" frameborder="0"></iframe>
+        	<iframe id="frmsubpantalla" src="" width="100%" align="middle" height="400" scrolling="auto" frameborder="0"></iframe>
         </td>
     </tr>
 
