@@ -12,7 +12,7 @@
 	{
 		function OpcionPermisoTmp()
 		{
-			$this->table_name = "OpcionPermisoTmp";
+			$this->table_name = "opcionpermisotmp";
 			$this->field_metadata = array(
 					"id" => array("int"),
 					"id_opcionmenu" => array("int"),
@@ -42,7 +42,7 @@
 	{
 		function Juzgado()
 		{
-			$this->table_name = "Juzgado";
+			$this->table_name = "juzgado";
 			$this->field_metadata = array(
 					"id_juzgado" => array("int"),
 					"descripcion" => array("varchar"),
@@ -73,7 +73,7 @@
 	{
 		function JuzgadoComuna()
 		{
-			$this->table_name = "JuzgadoComuna";
+			$this->table_name = "juzgadocomuna";
 			$this->field_metadata = array(
 					"id_juzgado" => array("int"),
 					"descripcion" => array("varchar"),
@@ -103,7 +103,7 @@
 	{
 		function Ficha()
 		{
-			$this->table_name = "Ficha";
+			$this->table_name = "ficha";
 			$this->field_metadata = array(
 					"id_ficha" => array("int"),
 					"id_deudor" => array("int"),
@@ -139,11 +139,14 @@
 		}
 	}
 
+	
+	
+	
 	class Documento_Ficha extends BusinessObject
 	{
 		function Documento_Ficha()
 		{
-			$this->table_name = "Documento_Ficha";
+			$this->table_name = "documento_ficha";
 			$this->field_metadata = array(
 					"id" => array("int"),
 					"id_ficha" => array("int"),
@@ -173,7 +176,7 @@
 	{
 		function Receptor_Ficha()
 		{
-			$this->table_name = "Receptor_Ficha";
+			$this->table_name = "receptor_ficha";
 			$this->field_metadata = array(
 				"id_receptor" => array("int"),
 				"id_ficha" => array("int"),
@@ -230,7 +233,7 @@
 	{
 		function Gastos_Receptor_Ficha()
 		{
-			$this->table_name = "Gastos_Receptor_Ficha";
+			$this->table_name = "gastos_receptor_ficha";
 			$this->field_metadata = array(
 				"id" => array("int"),
 				"id_gasto" => array("int"),
@@ -262,7 +265,7 @@
 	{
 		function Gastos()
 		{
-			$this->table_name = "Gastos";
+			$this->table_name = "gastos";
 			$this->field_metadata = array(
 				"id_gasto" => array("int"),
 				"gasto" => array("varchar"),
@@ -293,7 +296,7 @@
 	{
 		function Martillero_Ficha()
 		{
-			$this->table_name = "Martillero_Ficha";
+			$this->table_name = "martillero_ficha";
 			$this->field_metadata = array(
 				"id_martillero" => array("int"),
 				"id_ficha" => array("int"),
@@ -333,7 +336,7 @@
 	{
 		function Gastos_Martillero_Ficha()
 		{
-			$this->table_name = "Gastos_Martillero_Ficha";
+			$this->table_name = "gastos_martillero_ficha";
 			$this->field_metadata = array(
 				"id" => array("int"),
 				"id_gasto" => array("int"),
@@ -365,7 +368,7 @@
 	{
 		function Consignacion_Ficha()
 		{
-			$this->table_name = "Consignacion_Ficha";
+			$this->table_name = "consignacion_ficha";
 			$this->field_metadata = array(			
 				"id_consignacion" => array("int"),
 				"id_ficha" => array("int"),
@@ -418,7 +421,7 @@
 	{
 		function Gastos_Consignacion_Ficha()
 		{
-			$this->table_name = "Gastos_Consignacion_Ficha";
+			$this->table_name = "gastos_consignacion_ficha";
 			$this->field_metadata = array(			
 				"id" => array("int"),
 				"id_consignacion" => array("int"),
@@ -450,7 +453,7 @@
 	{
 		function Gastos_Ficha()
 		{
-			$this->table_name = "Gastos_Ficha";
+			$this->table_name = "gastos_ficha";
 			$this->field_metadata = array(						
 				"id_ficha" => array("int"),
 				"id_gasto" => array("int"),
@@ -480,7 +483,7 @@
 	{
 		function ErrorCarga()
 		{
-			$this->table_name = "ErrorCarga";
+			$this->table_name = "errorcarga";
 			$this->field_metadata = array(
 					"id" => array("int"),
 					"error" => array("varchar")
@@ -509,7 +512,7 @@
 	{
 		function MandanteModoPago()
 		{
-			$this->table_name = "MandanteModoPago";
+			$this->table_name = "mandantemodopago";
 			$this->field_metadata = array(
 					"id" => array("int"),
 					"id_mandante" => array("int"),
@@ -542,7 +545,7 @@
 	{
 		function Bancos()
 		{
-			$this->table_name = "Bancos";
+			$this->table_name = "bancos";
 			$this->field_metadata = array(
 					"id_banco" => array("int"),
 					"banco" => array("varchar"),
@@ -573,7 +576,7 @@
 	{
 		function CausalProtesta()
 		{
-			$this->table_name = "CausalProtesta";
+			$this->table_name = "causalprotesta";
 			$this->field_metadata = array(
 					"id_causal" => array("int"),
 					"causal" => array("varchar"),
@@ -603,12 +606,12 @@
 	{
 		function Deudores()
 		{
-			$this->table_name = "Deudores";
+			$this->table_name = "deudores";
 			$this->field_metadata = array(
 					"id_deudor" => array("int"),
 					"rut_deudor" => array("numeric"),
 					"rut_deudor_s" => array("varchar"),
-					"dv_deudor" => array("char"),
+					"dv_deudor" => array("varchar"),
 					"primer_nombre" => array("varchar"),
 					"segundo_nombre" => array("varchar"),
 					"primer_apellido" => array("varchar"),
@@ -647,7 +650,7 @@
 	{
 		function Deudor_Mandante()
 		{
-			$this->table_name = "Deudor_Mandante";
+			$this->table_name = "deudor_mandante";
 			$this->field_metadata = array(
 					"id" => array("int"),
 					"id_deudor" => array("int"),
@@ -677,7 +680,7 @@
 	{
 		function Deudor_MandanteTmp()
 		{
-			$this->table_name = "Deudor_MandanteTmp";
+			$this->table_name = "deudor_mandantetmp";
 			$this->field_metadata = array(
 					"id" => array("int"),
 					"id_sesion" => array("varchar"),
@@ -707,7 +710,7 @@
 	{
 		function Direccion_Deudores()
 		{
-			$this->table_name = "Direccion_Deudores";
+			$this->table_name = "direccion_deudores";
 			$this->field_metadata = array(
 					"id_direccion" => array("int"), 
 					"id_deudor" => array("int"),
@@ -744,7 +747,7 @@
 	{
 		function Contacto_MandantesTmp()
 		{
-			$this->table_name = "Contacto_Mandantes_Tmp";
+			$this->table_name = "contacto_mandantes_tmp";
 			$this->field_metadata = array(
 					"id_contacto" => array("int"), 
 					"id_mandante" => array("int"),
@@ -780,7 +783,7 @@
 	{
 		function Contacto_Mandantes()
 		{
-			$this->table_name = "Contacto_Mandantes";
+			$this->table_name = "contacto_mandantes";
 			$this->field_metadata = array(
 					"id_contacto" => array("int"), 
 					"id_mandante" => array("int"),
@@ -815,7 +818,7 @@
 	{
 		function Direccion_DeudoresTmp()
 		{
-			$this->table_name = "Direccion_Deudores_tmp";
+			$this->table_name = "direccion_deudores_tmp";
 			$this->field_metadata = array(
 					"id_direccion" => array("int"), 
 					"id_deudor" => array("int"),
@@ -853,7 +856,7 @@
 	{
 		function Documentos()
 		{
-			$this->table_name = "Documentos";
+			$this->table_name = "documentos";
 			$this->field_metadata = array(
 					"id_documento" => array("int"),
 					"id_estado_doc" => array("int"),
@@ -874,7 +877,7 @@
 					"usuario_creacion" => array("varchar"),
 					"fecha_modificacion" => array("datetime"),
 					"usuario_modificacion" => array("varchar"),
-					"activo" => array("char")
+					"activo" => array("varchar")
 				);
 			parent::BusinessObject();
 		}
@@ -900,7 +903,7 @@
 	{
 		function EstadoDocumentos()
 		{
-			$this->table_name = "EstadoDocumentos";
+			$this->table_name = "estadodocumentos";
 			$this->field_metadata = array(
 					"id_estado_doc" => array("int"),
 					"estado" => array("varchar"),
@@ -931,7 +934,7 @@
 	{
 		function Estados_x_Gestion()
 		{
-			$this->table_name = "Estados_x_Gestion";
+			$this->table_name = "estados_x_gestion";
 			$this->field_metadata = array(
 					"id_gestion" => array("int"),
 					"id_estado" => array("int"),
@@ -965,7 +968,7 @@
 	{
 		function EstadosGestion()
 		{
-			$this->table_name = "EstadosGestion";
+			$this->table_name = "estadosgestion";
 			$this->field_metadata = array(
 					"id_estado" => array("numeric"),
 					"estado" => array("nvarchar")
@@ -994,7 +997,7 @@
 	{
 		function Mandantes()
 		{
-			$this->table_name = "Mandantes";
+			$this->table_name = "mandantes";
 			$this->field_metadata = array(
 					"id_mandante" => array("int"),
 					"rut_mandante" => array("numeric"),
@@ -1039,7 +1042,7 @@
 	{
 		function ModoPago()
 		{
-			$this->table_name = "ModoPago";
+			$this->table_name = "modopago";
 			$this->field_metadata = array(
 					"id_modo_pago" => array("int"),
 					"modo_pago" => array("varchar"),
@@ -1069,7 +1072,7 @@
 	{
 		function TipoDocumento()
 		{
-			$this->table_name = "TipoDocumento";
+			$this->table_name = "tipodocumento";
 			$this->field_metadata = array(
 					"id_tipo_documento" => array("int"),
 					"tipo_documento" => array("varchar"),
@@ -1100,7 +1103,7 @@
 	{
 		function Usuarios()
 		{
-			$this->table_name = "Usuarios";
+			$this->table_name = "usuarios";
 			$this->field_metadata = array(
 					"id" => array("int"),
 					"id_usuario" => array("varchar"),
@@ -1134,7 +1137,7 @@
 	{
 		function Modulo()
 		{
-			$this->table_name = "Modulo";
+			$this->table_name = "modulo";
 			$this->field_metadata = array(
 					"id" => array("int"),
 					"nombre" => array("varchar")
@@ -1163,7 +1166,7 @@
 	{
 		function Opcionmenu()
 		{
-			$this->table_name = "Opcionmenu";
+			$this->table_name = "opcionmenu";
 			$this->field_metadata = array(
 					"id" => array("int"),
 					"nombre" => array("varchar"),
@@ -1195,7 +1198,7 @@
 	{
 		function Permiso()
 		{
-			$this->table_name = "Permiso";
+			$this->table_name = "permiso";
 			$this->field_metadata = array(
 					"id" => array("int"),
 					"nombre" => array("varchar")
@@ -1224,7 +1227,7 @@
 	{
 		function Opcion_permiso()
 		{
-			$this->table_name = "Opcion_permiso";
+			$this->table_name = "opcion_permiso";
 			$this->field_metadata = array(
 					"id" => array("int"),
 					"id_permiso" => array("int"),
@@ -1254,7 +1257,7 @@
 	{
 		function Usuario_permiso()
 		{
-			$this->table_name = "Usuario_permiso";
+			$this->table_name = "usuario_permiso";
 			$this->field_metadata = array(
 					"id" => array("int"),
 					"id_permiso" => array("int"),
@@ -1284,7 +1287,7 @@
 	{
 		function Usuario_permisoTmp()
 		{
-			$this->table_name = "Usuario_permisoTmp";
+			$this->table_name = "usuario_permisotmp";
 			$this->field_metadata = array(
 					"id" => array("int"),
 					"id_permiso" => array("int"),
@@ -1317,7 +1320,7 @@
 	{
 		function LogError()
 		{
-			$this->table_name = "LogError";
+			$this->table_name = "logerror";
 			$this->field_metadata = array(
 					"id" => array("int"),
 					"id_usuario" => array("varchar"),
@@ -1347,7 +1350,7 @@
 	{
 		function Det_LogError_CargaMasiva()
 		{
-			$this->table_name = "Det_LogError_CargaMasiva";
+			$this->table_name = "det_logerror_cargamasiva";
 			$this->field_metadata = array(
 					"id" => array("int"),
 					"id_logerror" => array("int"),
@@ -1388,7 +1391,7 @@
 	{
 		function Gestiones()
 		{
-			$this->table_name = "Gestiones";
+			$this->table_name = "gestiones";
 			$this->field_metadata = array(
 					"id_gestion" => array("int"),
 					"id_deudor" => array("int"),
@@ -1421,6 +1424,44 @@
 			return $obj;
 		}
 	}
+	
+	class Liquidaciones extends BusinessObject
+	{
+		function Liquidaciones()
+		{
+			$this->table_name = "liquidaciones";
+			$this->field_metadata = array(
+					"id_liquidacion" => array("int"),
+					"id_deudor" => array("int"),
+					"id_mandante" => array("int"),
+					"interes" => array("decimal"),
+					"valor_uf" => array("decimal"),
+					"fecha_simulacion" => array("date"),
+					"fecha_creacion" => array("date"),
+					"usuario_creacion" => array("varchar"),
+					"fecha_modificacion" => array("date"),
+					"usuario_modificacion" => array("varchar"),
+							);
+			parent::BusinessObject();
+		}
+	}
+	
+	class LiquidacionesCollection extends BusinessObjectCollection
+	{
+		function LiquidacionesCollection()
+		{
+			parent::BusinessObjectCollection();
+		}
+		
+		function create_singular($row) 
+		{ 
+			$obj = new Liquidaciones();
+			$obj->load_from_list($row);
+			
+			return $obj;
+		}
+	}
+	
 	
 	
 ?>
