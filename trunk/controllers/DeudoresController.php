@@ -836,5 +836,19 @@ class DeudoresController extends ControllerBase
 		
 		$this->view->show("deudor_liquidacion_calculadora.php", $data);
 	}
+	
+	public function calcular($array)
+	{
+		require 'models/DocumentosModel.php';
+		$documentos = new DocumentosModel();
+
+		$dato = $documentos->getDocLiquidar(1);  //$array["id_deudor"]
+		
+		$data['nom_sistema'] = "SISTEMA DyV";
+		$data['colleccionDoc'] = $dato;
+		
+		$this->view->show("lista_liquidaciones_calculos.php", $data);
+	}
+	
 }
 ?>
