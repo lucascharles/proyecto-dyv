@@ -303,6 +303,15 @@
 			$("#id_con").val(id);
 			
 		}
+
+		function calcular()
+		{									
+			var fini = document.getElementById("txtfechainicial").value;
+			var cuotas = document.getElementById("txtnumpagos").value;
+			var url = "index.php?controlador=Deudores&accion=calcular&finicial="+fini+"&cuotas="+cuotas;
+			
+			document.getElementById("frmcalculos").src = url;
+		}
 		
 	</script>
 </head>
@@ -339,6 +348,11 @@
 					<td align="left"><input type="text" name="txtcuotas" id="txtcuotas" size="15" class="input_form" onFocus="resaltar(this)" valida="requerido" tipovalida="entero" />
         			</td>        			
         		</tr>
+				<tr>	
+					<td align="left" class="etiqueta_form">Fecha Inicial&nbsp;&nbsp;&nbsp;&nbsp;</td>
+					<td align="left"><input type="text" name="txtfechainicial" id="txtfechainicial" size="15" class="input_form" onFocus="resaltar(this)" valida="requerido" tipovalida="entero" />
+        			</td>        			
+        		</tr>
         		<tr>
 					<td align="left" class="etiqueta_form">Pago Mensual&nbsp;&nbsp;&nbsp;&nbsp;</td>
 					<td align="left"><input type="text" name="txtpagomensual" id="txtpagomensual" size="15" class="input_form" onFocus="resaltar(this)" valida="requerido" tipovalida="entero" />
@@ -359,6 +373,11 @@
 					<td align="left"><input type="text" name="txtcostoprestamo" id="txtcostoprestamo" size="15" class="input_form" onFocus="resaltar(this)" valida="requerido" tipovalida="entero" />
         			</td>        			
         		</tr>
+        		<tr>	
+					<td align="left" class="etiqueta_form">
+        				<input  type="button" name="btncalcular" id="btncalcular" onclick="calcular()"  value="Calcular" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/>
+        			</td>
+        		</tr>
              </table>
         </td>
     </tr>		
@@ -367,9 +386,17 @@
         	<span id="mensaje" style="display:none"></span>
          </td>
     </tr>    
+    
+     <tr>
+		<td colspan="3">
+        	<iframe id="frmcalculos" src="" width="100%" align="middle" height="400" scrolling="auto" frameborder="0"></iframe>
+        </td>
+    </tr>
+    
  </table>
  </div>
-  <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
+ 
+ <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
  <tr>
 		<th align="left" height="20"></th>
         <th></th>

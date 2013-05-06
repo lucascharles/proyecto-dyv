@@ -366,7 +366,7 @@
 			
 			document.getElementById("frmsubpantalla").src = url;
 		}
-		
+
 
 	</script>
 </head>
