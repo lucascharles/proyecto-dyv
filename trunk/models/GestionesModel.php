@@ -28,13 +28,14 @@ class GestionesModel extends ModelBase
 
 	$where = " g.id_deudor = d.id_deudor
 	  	   and g.id_mandante = m.id_mandante
-		   and g.activo = 'S' ";
+		   and g.activo = 'S' 
+		   ORDER by fecha_prox_gestion desc ";
 		
-	if($des == "D"){
+	//if($des == "D"){
 		
-		$cond=" and g.fecha_gestion between '".date('Y-m-d'). "' and '".date('Y-m-d')." 23:59'";
-		$where = $where . $cond;
-	}
+	//	$cond=" and g.fecha_gestion between '".date('Y-m-d'). "' and '".date('Y-m-d')." 23:59'";
+	//	$where = $where . $cond;
+	//}
 	
 	$sqlpersonal->set_where( $where );
 	
@@ -155,6 +156,8 @@ class GestionesModel extends ModelBase
 								   d.segundo_apellido segundo_apellido,
 								   d.primer_nombre primer_nombre,
 								   d.segundo_nombre segundo_nombre,
+								   d.celular celular,
+								   d.telefono_fijo telefono_fijo,
 								   m.rut_mandante rut_mandante,
 								   m.dv_mandante dv_mandante,
 								   m.nombre nombre_mandante "); 

@@ -1153,11 +1153,28 @@ class DocumentosModel extends ModelBase
 	
 	public function getDocLiquidar($id_deudor)
 	{
-		$dato = new DocumentosCollection();
-		$dato->add_filter("id_deudor","=",$id_deudor);
-		$dato->load();
-		
-		return $dato;
+		include("config.php");
+
+		$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
+	
+		$sqlpersonal->set_select(" d.id_deudor id_deudor,
+									d.id_documento id_documento, 
+									td.tipo_documento tipo_documento,
+									d.numero_documento numero_documento,
+									ed.estado estado,
+									d.fecha_protesto fecha_protesto,
+									d.fecha_siniestro fecha_siniestro,
+									d.fecha_creacion fecha_creacion, 
+									d.monto monto "); 
+	  	$sqlpersonal->set_from(" documentos d ,tipodocumento td, estadodocumentos ed ");
+      	$sqlpersonal->set_where(" d.id_tipo_doc = td.id_tipo_documento
+							and   d.id_estado_doc = ed.id_estado_doc
+							and   d.id_deudor = ".$id_deudor.
+							" order by id_deudor ");
+	
+    	$sqlpersonal->load();
+
+    	return $sqlpersonal;
 	}
 	
 	

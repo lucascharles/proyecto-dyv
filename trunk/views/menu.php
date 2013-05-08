@@ -209,7 +209,7 @@ background:url(images/selected.png);
         <table width="100%" border="0" cellpadding="10" cellspacing="10" align="center" bgcolor="#E4E4E4">
         	<tr>
             	<td align="center" style="color:#3278b4; font-family:Verdana, Arial, Helvetica, sans-serif; font-size:18px; font-weight:bold;">
-        MENU PRICIPAL
+        MENU PRINCIPAL
         		</td>
         	</tr>
         </table>

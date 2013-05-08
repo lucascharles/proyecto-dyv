@@ -326,9 +326,24 @@
         	<table cellpadding="0" cellspacing="0" border="0" align="left" >
             	<tr>
 					<td align="left" class="etiqueta_form">Honorarios&nbsp;&nbsp;</td>
-					<td align="left"><input type="text" name="txthonorarios" id="txthonorarios" size="15" class="input_form" onFocus="resaltar(this)" valida="requerido" tipovalida="entero" />
+					<td align="left">
+						<input type="text" name="txthonorarios" id="txthonorarios" size="15" class="input_form" onFocus="resaltar(this)" valida="requerido" tipovalida="entero" />
         			</td>
         		</tr>
+        		<tr>
+					<td align="left" class="etiqueta_form">Capital&nbsp;&nbsp;</td>
+                    <td align="left">	
+                    	<input type="text" name="txtcapital" id="txtcapital" size="15" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" tipovalida="texto"/>
+                    </td>        		
+        		</tr>
+        		<tr>
+                    <td align="left" class="etiqueta_form">Interes&nbsp;</td>
+                    <td align="left">
+                        <input type="text" name="txtinteres" id="txtinteres" size="15" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" tipovalida="entero"/>
+                        (<input type="radio" turl="S" idmp="" name="rdestatus_repacta" id="rdestatus_repacta" />&nbsp;Repacta&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="radio" turl="S" idmp="" name="rdestatus_no_repacta" id="rdestatus_no_repacta" checked="checked" />&nbsp;No Repacta)
+                    </td>
+                 </tr>
              </table>
         </td>
     </tr>		
@@ -336,8 +351,7 @@
     	<td>
         	<table cellpadding="0" cellspacing="0" border="0" align="center" width="100%">
             	<tr>
-                    <td align="left" class="etiqueta_form">Capital&nbsp;&nbsp;
-                    			<input type="text" name="txtcapital" id="txtcapital" size="15" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" tipovalida="texto"/></td>
+                    
                  	<td align="left" class="etiqueta_form">Saldo&nbsp;&nbsp;
                  				<input type="text" name="txtsaldo" id="txtsaldo" size="15" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="entero"/></td>
 					<td align="left" class="etiqueta_form">Cuotas&nbsp;&nbsp;
@@ -349,15 +363,9 @@
  	<tr>
     	<td>
         	<table cellpadding="0" cellspacing="0" border="0" align="center" width="100%">
-            	<tr>
-                    <td align="left" class="etiqueta_form">Interes&nbsp;&nbsp;
-                        <input type="radio" turl="S" idmp="" name="rdestatus_repacta" id="rdestatus_repacta" />&nbsp;Repacta&nbsp;&nbsp;&nbsp;&nbsp;
-                        <input type="radio" turl="S" idmp="" name="rdestatus_no_repacta" id="rdestatus_no_repacta" checked="checked" />&nbsp;No Repacta
-                		    
-                    </td>
-                 </tr>
+            	
                 <tr>
-                    <td align="left"><input type="text" name="txtinteres" id="txtinteres" size="15" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" tipovalida="entero"/></td>
+                    
                     <td align="left" class="etiqueta_form">IMP&nbsp;&nbsp;
                  				<input type="text" name="txtimp" id="txtimp" size="15" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"  tipovalida="entero"/></td>
 					<td align="left" class="etiqueta_form">Cuotas de UF&nbsp;&nbsp;

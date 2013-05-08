@@ -36,6 +36,9 @@ class GestionesController extends ControllerBase
 		$nomMandante = $cab->get_data("nombre_mandante");
 		$iddeudor = $cab->get_data("id_deudor");
 		$idmandante = $cab->get_data("id_mandante");
+		$celDeudor = $cab->get_data("celular");
+		$telDeudor = $cab->get_data("telefono_fijo"); 
+		
 		
 		$datoDeuda = $gestiones->getDeudaNeta($iddeudor);
 		$monto = $datoDeuda->items[0];
@@ -57,6 +60,10 @@ class GestionesController extends ControllerBase
 		$data['coleccionMandantes'] = $datoM;
 		$data['rutDeudor'] = $rutDeudor;
 		$data['nomDeudor'] = $nomDeudor;
+		$data['celDeudor'] = $celDeudor;
+		$data['telDeudor'] = $telDeudor;
+		
+		
 		$data['rutMandante'] = $rutMandante;
 		$data['nomMandante'] = $nomMandante;
 		$data['deudaNeta'] = $deuda;

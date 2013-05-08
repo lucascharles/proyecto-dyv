@@ -169,7 +169,7 @@
 		
 		function seleccionadoDeudor(id)
 		{
-			document.getElementById("id_mandante").value = id;
+			document.getElementById("id_deudor").value = id;
 			buscarDatosDeudor(id);
 			cerrarVentDeudor();
 		}
@@ -328,6 +328,7 @@
 
 		function cargarPantalla(opt)
 		{
+			//alert("id_deudor: "+document.getElementById("id_deudor").value);
 			var url = "index.php?controlador=Deudores&accion=";
 			var accion = "";
 			document.getElementById("btnSimulacion").setAttribute("seleccionado","");
@@ -344,7 +345,7 @@
 			
 			if(opt == "SIMULACION")
 			{
-				accion = "liquidacion_simulacion";
+				accion = "liquidacion_documentos";
 				document.getElementById("btnSimulacion").setAttribute("seleccionado","S");
 				$(document.getElementById("btnSimulacion")).addClass('boton_form_brillante');
 			}
@@ -363,7 +364,6 @@
 
 			url += accion+"&iddeudor="+$("#id_deudor").val();
 			url += "&tipoperacion="+$("#tipoperacion").val(); 
-			
 			document.getElementById("frmsubpantalla").src = url;
 		}
 

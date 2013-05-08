@@ -607,7 +607,7 @@
     
     <tr>
 		<td width="20" align="left" class="etiqueta_form">Recibido:</td>
-        <td align="left"><input type="text" grabar="S" name="txtfechaRecibido" id="txtfechaRecibido" value="<?php echo date("d/m/Y"); ?>" size="20" onkeyup='mostrar(this)' class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="fecha"/></td>
+        <td align="left"><input type="text" grabar="S" name="txtfechaRecibido" id="txtfechaRecibido" value="<?php echo date("d/m/Y"); ?>" size="20" onkeyup='mostrar(this)' class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" tipovalida="fecha"/></td>
         
         <td width="70" align="left" class="etiqueta_form">Estado:</td>
         <td> 
@@ -654,7 +654,7 @@
   
  <tr>
 		<td width="20" align="left" class="etiqueta_form">Nro Doc.:</td>
-        <td align="left"><input type="text" grabar="S" name="txtnrodoc" id="txtnrodoc" value="<? echo($datoDoc->get_data("numero_documento"))?>" size="20" onkeyup='mostrar(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="entero"/></td>
+        <td align="left"><input type="text" grabar="S" name="txtnrodoc" id="txtnrodoc" value="<? echo($datoDoc->get_data("numero_documento"))?>" size="20" onkeyup='mostrar(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" tipovalida="entero"/></td>
         
         <td width="70" align="left" class="etiqueta_form">Tipo Doc.:</td>
         <td> 
@@ -693,10 +693,10 @@
     
     <tr>
     	 <td width="20" align="left" class="etiqueta_form">Cta. Cte.:</td>
-        <td align="left"><input type="text" grabar="S" name="txtctacte" id="txtctacte" value="<? echo($datoDoc->get_data("cta_cte"))?>"  size="15" onkeyup='mostrar(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="entero"/></td> 
+        <td align="left"><input type="text" grabar="S" name="txtctacte" id="txtctacte" value="<? echo($datoDoc->get_data("cta_cte"))?>"  size="15" onkeyup='mostrar(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" tipovalida="entero"/></td> 
         
     	<td width="20" align="left" class="etiqueta_form">Fecha Protesto:</td>
-        <td align="left"><input type="text" grabar="S" name="txtfechaprotesto" id="txtfechaprotesto" value="<? echo(formatoFecha($datoDoc->get_data("fecha_siniestro"),"dd-mm-yyyy","dd/mm/yyyy"))?>" size="15" onkeyup='mostrar(this)' class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="fecha"/></td>
+        <td align="left"><input type="text" grabar="S" name="txtfechaprotesto" id="txtfechaprotesto" value="<? echo(formatoFecha($datoDoc->get_data("fecha_siniestro"),"dd-mm-yyyy","dd/mm/yyyy"))?>" size="15" onkeyup='mostrar(this)' class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" ftipovalida="fecha"/></td>
 		<td width="70" align="left" class="etiqueta_form">Causal Protesto:</td>
         <td> 
         	<select name="selCausalProtesta" grabar="S" valida="requerido" tipovalida="texto" id="selCausalProtesta" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)">
