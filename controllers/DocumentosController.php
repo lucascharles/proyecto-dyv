@@ -189,6 +189,30 @@ class DocumentosController extends ControllerBase
 		$this->view->show("lista_documentos.php", $data);
 	}    
 	
+	public function listarDocDeudor($array)
+	{
+		require 'models/DocumentosModel.php';
+		$documentos = new DocumentosModel();
+			
+		$dato = $documentos->getListaDocumentos("",$array["idd"],$array);
+	
+		$cant_datos = 0;
+		if($dato->get_count() > 0)
+		{
+			$datoTmp = &$dato->items[($dato->get_count()-1)];
+			$array["id_partida"] = $datoTmp->get_data("id_documento");
+			$datoAux = $documentos->getListaDocumentos("","",$array);
+			$cant_datos = $datoAux->get_count();
+		}
+	
+		$data['nom_sistema'] = "SISTEMA DyV";
+		$data['colleccionDatosDocumentos'] = $dato;
+		$data['cant_mas'] = $cant_datos = 0;
+	
+		$this->view->show("lista_documentos.php", $data);
+	}
+	
+	
 	public function listarcartas($array)
     {
 		require 'models/DocumentosModel.php';

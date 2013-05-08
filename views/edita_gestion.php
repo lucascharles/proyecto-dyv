@@ -34,6 +34,11 @@
 		{
 			$("#pagina").load('views/admin_tipodocumento.php');
 		}
+
+		function volver()
+		{
+			$("#pagina").load('views/admin_gestiones.php');
+		}
 		
 		function cerrarVentMand()
 		{
@@ -353,7 +358,13 @@
     <tr>
 		<td align="right" class="etiqueta_form" width="20">Deudor:</td><td>&nbsp;&nbsp;&nbsp;
     		<input type="text" name="txtrutdeudor" id="txtrutdeudor" value="<? $var = &$rutDeudor; echo($var); ?>" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" />&nbsp;
-    		<input type="text" name="txtdeudornombre" id="txtdeudornombre" value="<? $var = &$nomDeudor; echo($var); ?>" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" />
+    		<input type="text" name="txtdeudornombre" id="txtdeudornombre" value="<? $var = &$nomDeudor; echo($var); ?>" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" />&nbsp;
+    	</td>	
+    	<td align="left" class="etiqueta_form" >Celular:&nbsp;
+    			<input type="text" name="txtceldeudor" id="txtceldeudor" value="<? $var = &$celDeudor; echo($var); ?>" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" />&nbsp;
+    	</td>	
+    	<td align="left" class="etiqueta_form" >Tel.Fijo: &nbsp;
+    		<input type="text" name="txtteldeudor" id="txtteldeudor" value="<? $var = &$telDeudor; echo($var); ?>" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" />
     	</td>
 	</tr>
      <tr>
@@ -547,9 +558,11 @@
 <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
     <tr>
         <td colspan="3" align="center">
-        <input  type="button" name="btngrabar" id="btngrabar" onclick="grabar()" class="boton_form" value="Grabar" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/>
-         </td>
-
+        	<input  type="button" name="btngrabar" id="btngrabar" onclick="grabar()" class="boton_form" value="Grabar" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/>
+        </td>
+		<td colspan="3" align="center">
+        	<input  type="button" name="btnvolver" id="btnvolver" onclick="volver()" class="boton_form" value="Volver" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/>
+        </td>
     </tr>
 </table>
 

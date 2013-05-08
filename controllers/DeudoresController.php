@@ -802,14 +802,24 @@ class DeudoresController extends ControllerBase
 		require 'models/DocumentosModel.php';
 		$documentos = new DocumentosModel();
 
-		$dato = $documentos->getDocLiquidar(1);  //$array["id_deudor"]
-		
 		$data['nom_sistema'] = "SISTEMA DyV";
-		$data['colleccionDoc'] = $dato;
+		$data['iddeudor'] = $array["iddeudor"];
 		
-		$this->view->show("deudor_liquidacion_documentos.php", $data);
+		$this->view->show("deudor_liquidacion_simulacion.php", $data);
 	}
 	
+	public function liquidacion_documentos($array)
+	{
+		require 'models/DocumentosModel.php';
+		$documentos = new DocumentosModel();
+	
+		$dato = $documentos->getDocLiquidar($array["iddeudor"]);
+	
+		$data['nom_sistema'] = "SISTEMA DyV";
+		$data['colleccionDoc'] = $dato;
+	
+		$this->view->show("deudor_liquidacion_documentos.php", $data);
+	}
 	
 	public function liquidacion_carta($array)
 	{
