@@ -78,38 +78,43 @@
 		
 		function grabar()
 		{
-			if(($.trim($("#selGestion").val()) != "")
-				&&($.trim($("#txtfechagestion").val()) != "")
-				&&($.trim($("#txtcomentarios").val()) != "")
-				&&($.trim($("#txtrut_mandante").val()) != "")
-				&&($.trim($("#txtfechaproxgestion").val()) != "")
-				&&($.trim($("#txtusuario").val()) != ""))
-			{
-				var datos = "controlador=Gestiones";
-				datos += "&accion=grabaEditar";
-				datos += "&idgestion="+$("#id_gestion").val();
-				datos += "&selGestion="+$("#selGestion").val();
-				datos += "&txtfechagestion="+$("#txtfechagestion").val();
-				datos += "&txtcomentarios="+$("#txtcomentarios").val();
-				datos += "&selMandantes="+$("#id_mandante").val();
-				datos += "&txtfechaproxgestion="+$("#txtfechaproxgestion").val();
-				datos += "&txtusuario="+$("#txtusuario").val();
 
-				$.ajax({
+			if(($.trim($("#txtfechagestion").val()) != "")
+					&&($.trim($("#txtcomentarios").val()) != "")
+					&&($.trim($("#txtrut_mandante").val()) != "")
+					&&($.trim($("#txtfechaproxgestion").val()) != "")
+					&&($.trim($("#txtusuario").val()) != "")
+					&&(document.getElementById('selGestion').options[document.getElementById('selGestion').selectedIndex].text != "") )
+					
+					{
+					//alert("grabar variables completas");
+
+					var datos = "controlador=Gestiones";
+					datos += "&accion=grabaEditar";
+					datos += "&idgestion="+$("#id_gestion").val();
+					datos += "&selGestion="+$("#selGestion").val();
+					datos += "&txtfechagestion="+$("#txtfechagestion").val();
+					datos += "&txtcomentarios="+$("#txtcomentarios").val();
+					datos += "&selMandantes="+$("#id_mandante").val();
+					datos += "&txtfechaproxgestion="+$("#txtfechaproxgestion").val();
+					datos += "&txtusuario="+$("#txtusuario").val();
+					$.ajax({
 					url: "index.php",
 					type: "GET",
 					data: datos,
 					cache: false,
 					success: function(res)
-					{						
-						document.getElementById("frmlistagestiones").src="index.php?controlador=Gestiones&accion=listar_bitacora_gestion&iddeudor="+$("#id_gestion").val();
+					{
+					document.getElementById("frmlistagestiones").src="index.php?controlador=Gestiones&accion=listar_bitacora_gestion&idgestion="+$("#id_gestion").val();
 					},
 					error: function()
 					{
-						$("#mensaje").text("Ha ocurrido un error y no se ha podido agregar el registro.");
+					$("#mensaje").text("Ha ocurrido un error y no se ha podido agregar el registro.");
 					}
-				});
-							}
+					});
+				
+					}
+			
 		}
 
 		function grabarDir()
@@ -515,16 +520,16 @@
 			        for($j=0; $j<$coleccionEstadoGestion->get_count(); $j++)
 			        {
 			            $datoTmp = &$coleccionEstadoGestion->items[$j];
-			            echo("<option value=".$datoTmp->get_data("id_estado_doc").">".utf8_encode($datoTmp->get_data("estado"))."</option>");           
+			            echo("<option value=".$datoTmp->get_data("id_estado").">".utf8_encode($datoTmp->get_data("estado"))."</option>");           
 			        }
     			?>
 			</select>
         </td>
         <td align="center" class="etiqueta_form">Fecha Gestion</td>
-        <td> <input type="text" name="txtfechagestion" id="txtfechagestion" value="<?php echo formatoFecha(date("d-m-Y H:i"),"dd-mm-yyyy","dd/mm/yyyy") ?>" class="input_form_medio" valida="requerido" tipovalida="texto" onFocus="resaltar(this)" onBlur="noresaltar(this)"/>
+        <td> <input type="text" name="txtfechagestion" id="txtfechagestion" value="<?php echo (date("Y-m-d")) ?>" class="input_form_medio" valida="requerido" tipovalida="texto" onFocus="resaltar(this)" onBlur="noresaltar(this)"/>
         </td>
         <td align="center" class="etiqueta_form">Comentarios</td>
-        <td> <input type="text" name="txtcomentarios" id="txtcomentarios" value="" class="input_form" valida="requerido" tipovalida="texto" onFocus="fechaGestion(); resaltar(this);" onBlur="noresaltar(this)"/>
+        <td> <input type="text" name="txtcomentarios" id="txtcomentarios" value="" class="input_form" valida="requerido" tipovalida="texto" onFocus="resaltar(this);" onBlur="noresaltar(this)"/>
         </td>
     </tr>
     <tr>
@@ -543,7 +548,7 @@
              </table>
         </td>
         <td align="center" class="etiqueta_form">Prox. Gestion</td>
-        <td> <input type="text" name="txtfechaproxgestion" id="txtfechaproxgestion" value="<?php echo formatoFecha(date("d-m-Y H:i"),"dd-mm-yyyy","dd/mm/yyyy") ?>" class="input_form_medio" valida="requerido" tipovalida="texto" onFocus="resaltar(this)" onBlur="noresaltar(this)"/>
+        <td> <input type="text" name="txtfechaproxgestion" id="txtfechaproxgestion" value="<?php echo(date("Y-m-d")) ?>" class="input_form_medio" valida="requerido" tipovalida="texto" onFocus="resaltar(this)" onBlur="noresaltar(this)"/>
         </td>
         <td align="center" class="etiqueta_form">Usuario</td>
         <td> <input type="text" name="txtusuario" id="txtusuario" disabled="disabled" value="<?php echo($_SESSION["idusuario"])?>" class="input_form_medio" valida="requerido" tipovalida="texto" onFocus="resaltar(this)" onBlur="noresaltar(this)"/></td>

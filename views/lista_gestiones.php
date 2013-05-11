@@ -42,7 +42,7 @@
 		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("segundo_apellido")) ?></td>
         <td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("primer_nombre")) ?></td>
         <td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("segundo_nombre")) ?></td>
-        <td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("fecha_gestion")) ?></td>
+        <td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("fecha_prox_gestion")) ?></td>
         <td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("estado")) ?></td>
         
 	</tr>
