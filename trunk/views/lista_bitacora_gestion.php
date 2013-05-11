@@ -20,7 +20,7 @@
 	<tr class="cabecera_listado" >
     	
 		<th align="center"><font class="titulolistado">Rut Deudor</font></th>
-        <th align="center"><font class="titulolistado">Gestion</font></th>
+        <th align="center"><font class="titulolistado">Estado</font></th>
         <th align="center"><font class="titulolistado">Fecha Gestion</font></th>
         <th align="center"><font class="titulolistado">Comentario</font></th>
         <th align="center"><font class="titulolistado">Proxima Gestion</font></th>

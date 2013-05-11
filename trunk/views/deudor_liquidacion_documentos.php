@@ -7,9 +7,14 @@
 	<title></title>
      <link rel="stylesheet" href="css/general.css" type="text/css" />
     <script language="javascript"> 
-		function seleccionado(id)
+		function simular(monto,fechavenc)
 		{
-			window.parent.seleccionado(id);
+			document.getElementById("txtmonto").value = document.getElementById("txtmonto").value + monto;
+			document.getElementById("txttotal").value = document.getElementById("txttotal").value + monto;
+			document.getElementById("txtfechavenc").value = fechavenc;
+			document.getElementById("txtdiasatraso").value = "";
+			document.getElementById("txtinteresdiario").value = "";
+			document.getElementById("txtinteresacumulado").value = "";
 		}
 		
 	</script>
@@ -37,12 +42,12 @@
 			
 	?>
 	<tr bgcolor="#FFFFFF">
-    	<td><input type="checkbox" id="<? echo($datoTmp->get_data("id_documento")) ?>" name="checktipdoc" value="" onclick="seleccionado(<? echo($datoTmp->get_data("id_documento")) ?>)"></td>	
+    	<td><input type="checkbox" id="<? echo($datoTmp->get_data("id_documento")) ?>" name="checktipdoc" value="" onclick="simular(<?php echo ($datoTmp->get_data("monto")) ?>,<?php echo (formatoFecha($datoTmp->get_data("fecha_protesto"),"dd-mm-yyyy","dd/mm/yyyy"))?>)"></td>	
 		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("numero_documento")) ?></td>
 		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo (formatoFecha($datoTmp->get_data("fecha_siniestro"),"dd-mm-yyyy","dd/mm/yyyy")) ?></td>
 		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("monto")) ?></td>
 		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("estado")) ?></td>
-		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php  echo (formatoFecha($datoTmp->get_data("fecha_protesto"),"dd-mm-yyyy","dd/mm/yyyy"))?></td>
+		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo (formatoFecha($datoTmp->get_data("fecha_protesto"),"dd-mm-yyyy","dd/mm/yyyy"))?></td>
 		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("tipo_documento")) ?></td>
 	</tr>
 	<?php
@@ -66,19 +71,19 @@
 		
 		<td align="right" class="etiqueta_form">Protesto Bco.&nbsp; </td>
         <td align="left">
-            <input type="text" name="txtprotesto" id="txtprotesto" size="5" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"  tipovalida="entero"/>
+            <input type="text" name="txtprotesto" id="txtprotesto" value="0" size="5" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"  tipovalida="entero"/>
         </td>                                   
     </tr>
     <tr>  
         <td align="right" class="etiqueta_form">Monto&nbsp;</td>
         <td align="left">
-            <input type="text" name="txtmonto" id="txtmonto" size="5" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"  tipovalida="entero"/>
+            <input type="text" name="txtmonto" id="txtmonto" value="0" size="5" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"  tipovalida="entero"/>
         </td>  
     </tr>
     <tr>                                     
 		<td align="right" class="etiqueta_form">Total&nbsp;</td>
         <td align="left">
-        	<input type="text" name="txttotal" id="txttotal" size="5" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"  tipovalida="entero"/>
+        	<input type="text" name="txttotal" id="txttotal" value="0" size="5" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"  tipovalida="entero"/>
         </td>
 	</tr>
     <tr>	
@@ -96,13 +101,13 @@
     <tr>   
         <td align="right" class="etiqueta_form">Interes Diario&nbsp;</td>
         <td align="left">
-        	<input type="text" name="txtinteresdiario" id="txtinteresdiario" size="5" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"  tipovalida="entero"/>
+        	<input type="text" name="txtinteresdiario" id="txtinteresdiario" value="0" size="5" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"  tipovalida="entero"/>
         </td>
      </tr>
     <tr>   
         <td align="right" class="etiqueta_form">Interes Acumulado&nbsp;</td>
         <td align="left">
-        	<input type="text" name="txtinteresacumulado" id="txtinteresacumulado" size="5" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"  tipovalida="entero"/>
+        	<input type="text" name="txtinteresacumulado" id="txtinteresacumulado" value="0" size="5" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"  tipovalida="entero"/>
         </td>
 	</tr>
 </table>

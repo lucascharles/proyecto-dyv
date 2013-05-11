@@ -29,7 +29,7 @@ class GestionesModel extends ModelBase
 	$where = " g.id_deudor = d.id_deudor
 	  	   and g.id_mandante = m.id_mandante
 		   and g.activo = 'S' 
-		   ORDER by fecha_prox_gestion desc ";
+		   ORDER by fecha_prox_gestion asc ";
 		
 	//if($des == "D"){
 		
@@ -90,15 +90,15 @@ class GestionesModel extends ModelBase
 	   						   m.rut_mandante rut_mandante,
 	   						   m.dv_mandante dv_mandante,
 	   						   eg.fecha_gestion fecha_gestion,
-	   						   g.fecha_prox_gestion fecha_prox_gestion,
+	   						   eg.fecha_prox_gestion fecha_prox_gestion,
 	   						   ed.estado estado,
 	   						   eg.notas notas,
 	   						   eg.usuario usuario "); 
-	  $sqlpersonal->set_from(" estados_x_gestion eg, gestiones g, mandantes m, deudores d, estadodocumentos ed ");
+	  $sqlpersonal->set_from(" estados_x_gestion eg, gestiones g, mandantes m, deudores d, estadosgestion ed ");
 	  $sqlpersonal->set_where(" eg.id_gestion = g.id_gestion
 								and	  g.id_mandante = m.id_mandante
 								and	  g.id_deudor = d.id_deudor
-								and   eg.id_estado = ed.id_estado_doc
+								and   eg.id_estado = ed.id_estado
 								and   g.id_deudor= ".$iddeudor 
 	  						 ." and g.id_mandante = " .$idmandante
 	  						 ." order by eg.fecha_gestion desc ");
@@ -127,6 +127,7 @@ class GestionesModel extends ModelBase
 	public function editarGestiones($array)
 	{
 	  $dato = new Estados_x_Gestion();
+	  $datoGes = new Gestiones();
 	  
 	  $dato->set_data("id_gestion",$array["idgestion"]);
 	  $dato->set_data("id_estado",$array["selGestion"]);
@@ -137,7 +138,12 @@ class GestionesModel extends ModelBase
 	  $dato->set_data("usuario",$array["txtusuario"]);
 	  
 	  $dato->save();
-		
+
+	  $datoGes->add_filter("id_gestion","=",$array["idgestion"]);
+	  $datoGes->load();
+	  $datoGes->set_data("fecha_prox_gestion",$array["txtfechaproxgestion"]);
+	  $datoGes->save();
+	  
 	}
 	
 	public function getCabeceraGestion($idgestion)
