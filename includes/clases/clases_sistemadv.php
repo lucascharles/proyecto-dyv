@@ -1462,6 +1462,34 @@
 		}
 	}
 	
+	class Parametros extends BusinessObject
+	{
+		function Parametros()
+		{
+			$this->table_name = "parametros";
+			$this->field_metadata = array(
+					"id_parametro" => array("int"),
+					"nombre_parametro" => array("varchar"),
+					"valor_parametro" => array("varchar")
+							);
+			parent::BusinessObject();
+		}
+	}
 	
+	class ParametrosCollection extends BusinessObjectCollection
+	{
+		function ParametrosCollection()
+		{
+			parent::BusinessObjectCollection();
+		}
+		
+		function create_singular($row) 
+		{ 
+			$obj = new Parametros();
+			$obj->load_from_list($row);
+			
+			return $obj;
+		}
+	}
 	
 ?>
