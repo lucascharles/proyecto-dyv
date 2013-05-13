@@ -345,5 +345,23 @@ class DocumentosController extends ControllerBase
 		$this->view->show("log_error_carga.php", $data);
 	}
 	
+	public function get_datos_banco($array)
+	{
+		require 'models/DocumentosModel.php';
+		$doc = new DocumentosModel();
+		
+		$banco = $doc->getBancoDocumento($array);
+				
+		if(!is_null($banco))
+		{
+			echo($banco->get_data("banco"));
+		}
+		else
+		{
+			echo("");
+		}
+	}
+	
+	
 }
 ?>
