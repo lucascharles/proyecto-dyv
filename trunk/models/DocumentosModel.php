@@ -1177,6 +1177,20 @@ class DocumentosModel extends ModelBase
     	return $sqlpersonal;
 	}
 	
+	public function getBancoDocumento($array)
+	{
+		include("config.php");
+
+		$doc = new Documentos();
+		$doc->add_filter("id_documento","=",$array["id_doc"]);
+		$doc->load();
+		
+		$banco = new Bancos();
+		$banco->add_filter("id_banco","=",$doc->get_data("id_banco"));
+		$banco->load();
+		
+		return $banco;
+	}
 	
 }
 ?>
