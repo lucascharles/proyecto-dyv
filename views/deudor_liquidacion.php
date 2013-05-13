@@ -50,6 +50,16 @@
 			
 		}
 		
+		function validaDeudor()
+		{
+			if($.trim($("#txtrut_deudor").val()) == "")
+			{
+				$("#mensaje").text("Debe seleccionar un Deudor");
+				$("#mensaje").show("slow");
+				setTimeout("limpiarMensaje()",3000);
+			}
+		}
+		
 		function validarRut(tipo)
 		{
 			var datos = "";
@@ -331,6 +341,15 @@
 			//alert("id_deudor: "+document.getElementById("id_deudor").value);
 			var url = "index.php?controlador=Deudores&accion=";
 			var accion = "";
+			
+			if($.trim($("#id_deudor").val()) == "")
+			{
+				$("#mensaje").text("Debe seleccionar un Deudor");
+				$("#mensaje").show("slow");
+				setTimeout("limpiarMensaje()",3000);
+				return false;
+			}
+			
 			document.getElementById("btnSimulacion").setAttribute("seleccionado","");
 			$(document.getElementById("btnSimulacion")).removeClass('boton_form_brillante');
 			$(document.getElementById("btnSimulacion")).addClass('boton_form');
@@ -392,7 +411,7 @@
             	<table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
                 	<tr> 
                         
-                       <td width="" colspan="4" align="left" class="etiqueta_form">Rut:&nbsp;&nbsp; <input type="text" name="txtrut_d" id="txtrut_d"  size="20" onkeyup='mostrarDeudor(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this); generadvrut('txtrut_d','txtrut_dv')" />&nbsp;<input type="text" name="txtrut_dv" id="txtrut_dv"  size="2" onkeyup='mostrarDeudor(this)'  class="input_form_min" disabled="disabled"/></td>
+                       <td width="" colspan="4" align="left" class="etiqueta_form">Rut:&nbsp;&nbsp; <input type="text" name="txtrut_d" id="txtrut_d"  size="20" onkeyup='mostrarDeudor(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this); generadvrut('txtrut_d','txtrut_dv');" />&nbsp;<input type="text" name="txtrut_dv" id="txtrut_dv"  size="2" onkeyup='mostrarDeudor(this)'  class="input_form_min" disabled="disabled"/></td>
                      </tr>
                      <tr>
                         
@@ -429,7 +448,7 @@
         	<td height="">
             	
 	             <div id="datos" style="">
-            	<iframe id="frmlistdeudor" src="index.php?controlador=Deudores&accion=listar&id_partida=0" scrolling="auto" frameborder="0" width="100%" height="100%"></iframe>
+            	<iframe id="frmlistdeudor" src="index.php?controlador=Deudores&accion=listar&id_partida=0" scrolling="auto" frameborder="0" width="90%" height="100%"></iframe>
                 </div>
             </td>
        </tr>
@@ -481,7 +500,7 @@
         	<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
             	<tr>
                 	<td width="240">
-						<input type="text" name="txtrut_deudor" id="txtrut_deudor" class="input_form" onblur=" generadvrut('txtrut_deudor','txtdv_deudor'); validarRut('D')" />&nbsp;
+						<input type="text" name="txtrut_deudor" id="txtrut_deudor" class="input_form" onblur="validaDeudor(); generadvrut('txtrut_deudor','txtdv_deudor'); validarRut('D')" />&nbsp;
 	            		<input type="text" name="txtdv_deudor" id="txtdv_deudor" class="input_form_min" onblur="" disabled="disabled" />&nbsp;
                     </td>
                 	<td align="left">
@@ -539,7 +558,7 @@
     </tr>
     <tr>
 		<td colspan="3">
-        	<iframe id="frmsubpantalla" src="" width="100%" align="middle" height="400" scrolling="auto" frameborder="0"></iframe>
+        	<iframe id="frmsubpantalla" src="" width="100%" align="middle" height="500" scrolling="auto" frameborder="0"></iframe>
         </td>
     </tr>
 
