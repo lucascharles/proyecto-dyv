@@ -56,5 +56,33 @@ class LiquidacionesModel extends ModelBase
 		return $dato;
 	}
 	
+	
+	public function getCalculoPrestamo($array)
+	{	
+		$saldo_inicial = $array["txtimporte"];
+		$array_pagos = array();
+
+		for($i=0; $i<$array["txtnumpagos"]; $i++)
+		{
+			$fechainicial = formatoFecha($array["txtfechainicial"],"dd/mm/yyyy","yyyy-mm-dd");
+			$fecha_aux =  strtotime ( '+'.($i+1).' month' , strtotime ( $fechainicial ) ) ;
+			$fecha = date("d/m/Y",$fecha_aux);
+			$array_aux = array();
+			$array_aux["num"] = $i+1;
+			$array_aux["fecha_pago"] = $fecha;
+			$array_aux["saldo_ini"] = round($saldo_inicial, array(0, PHP_ROUND_HALF_UP));
+			$array_aux["pago"] = round($array["txtpagomensual"], array(2, PHP_ROUND_HALF_UP));
+			$interes = round(($saldo_inicial * 2)/100, array(0, PHP_ROUND_HALF_UP));
+			$capital = round($array["txtpagomensual"], array(0, PHP_ROUND_HALF_UP)) - $interes;
+	        $array_aux["capital"] = $capital;
+        	$array_aux["interes"] = $interes;
+        	$array_aux["saldo_final"] = round($saldo_inicial - $capital, array(0, PHP_ROUND_HALF_UP));
+			$saldo_inicial = $saldo_inicial - $capital;
+			
+			$array_pagos[] = $array_aux;
+		}
+		
+		return $array_pagos;
+	}
 }
 ?>
