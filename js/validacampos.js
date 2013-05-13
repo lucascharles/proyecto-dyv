@@ -474,8 +474,8 @@ function validafecha(fecha)
 	{
 		if (!/^\d{2}\/\d{2}\/\d{4}$/.test(fecha))
 		{
-			alert("primer ");
-          result = false;
+			//alert("primer ");
+          	result = false;
         }
 		else
 		{
