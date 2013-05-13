@@ -81,18 +81,20 @@
 			$resp = $d."/".$m."/".$a." ".$tiempo;
 		}
 		
-		if($formatoOrigen = "dd/mm/yyyy" && $formatoDestino == "yyyy-mm-dd")
+		if($formatoOrigen == "dd/mm/yyyy" && $formatoDestino == "yyyy-mm-dd")
 		{
     		list($d,$m,$a) = explode("/", $fechavieja);
 			$resp = $a."-".$m."-".$d;
+			
+			
 		}
-		
 		
 		if($formatoOrigen == $formatoDestino)
 		{
     		$resp = $fechavieja." ".$tiempo;
-		}
 				
+		}
+
 		return $resp;
 	}
 	  
