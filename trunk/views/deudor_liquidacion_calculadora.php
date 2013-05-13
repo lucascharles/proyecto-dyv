@@ -5,160 +5,34 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<title></title>
-    <script src="js/jquery-1.7.1.min.js" type="text/javascript"></script>
+    <!-- LIBRERIA PAR CONTROL DE FECHA -->
+    <link rel="stylesheet" media="all" type="text/css" href="css/smoothness/jquery-ui-1.8.17.custom.css" />
+    <style type="text/css"> 
+			/* css for timepicker */	
+			#ui-datepicker-div, .ui-datepicker{ font-size: 80%; }
+			.ui-timepicker-div .ui-widget-header { margin-bottom: 8px; }
+			.ui-timepicker-div dl { text-align: left; }
+			.ui-timepicker-div dl dt { height: 25px; margin-bottom: -25px; }
+			.ui-timepicker-div dl dd { margin: 0 10px 10px 65px; }
+			.ui-timepicker-div td { font-size: 90%; }
+			.ui-tpicker-grid-label { background: none; border: none; margin: 0; padding: 0; }
+	</style>
+    <link rel="stylesheet" href="css/general.css" type="text/css" />
+ 	<script src="js/jquery/jquery-1.4.1.min.js" type="text/javascript"></script>
     <script src="js/validacampos.js" type="text/javascript"></script>
-    <script src="js/funciones.js" type="text/javascript"></script>
+  	<script src="js/funciones.js" type="text/javascript"></script>
+    
+	<script type="text/javascript" src="js/jquery-ui-1.8.16.custom.min.js"></script>
+	<script type="text/javascript" src="js/jquery-ui-timepicker-addon.js"></script>
+	<script type="text/javascript" src="js/i18n/jquery.ui.datepicker-es.js"></script>
+	<script type="text/javascript" src="js/jquery-ui-sliderAccess.js"></script>
+    
     <script language="javascript">
 		$(document).ready(function(){
-			
   			$('form').validator();
-			document.getElementById("txtrut_mandante").focus();
-			borrarTemporalContactos();		
+			document.getElementById("txtimporte").focus();
+			$("#txtfechainicial").datepicker();	
 		});
-		
-		function borrarTemporalContactos()
-		{
-			var datos = "controlador=Mandantes";
-				datos += "&accion=borrartmp";
-				
-				$.ajax({
-					url: "index.php",
-					type: "GET",
-					data: datos,
-					cache: false,
-					success: function(res)
-					{
-						document.getElementById("frmcontacto").src="index.php?controlador=Mandantes&accion=listar_contmp";
-					},
-					error: function()
-					{
-						$("#mensaje").text("Ha ocurrido un error y no se ha podido agregar el registro.");
-						setTimeout("$('#mensaje').text('')",3000);
-					}
-				});
-		}
-				
-		function limpiarAltaMand()
-		{
-			$("#txtrut_mandante").val("");
-			$("#txtdv_mandante").val("");
-			$("#txtapellido").val("");
-			$("#txtnombre").val("");
-			$("#txtcalle").val("");
-			$("#txtnumero").val("");
-			$("#txtpiso").val("");
-			$("#txtdpto").val("");
-			$("#txtcomuna").val("");
-			$("#txtciudad").val("");
-			$("#txtregion").val("");
-			$("#txttelefono1").val("");
-			$("#txttelefono2").val("");
-			$("#txtcuenta_corriente1").val("");
-			document.getElementById("selbanco1").selectedIndex = 0;
-			$("#txtcuenta_corriente2").val("");
-			document.getElementById("selbanco2").selectedIndex = 0;
-		}
-		
-		
-		function salirAltaMand()
-		{
-			$("#pagina").load('views/admin_mandantes.php');
-		}
-		
-		function grabarAltaMand()
-		{
-		
-			var arrayin = new Array(15);
-			
-			arrayin[0] = document.getElementById("txtrut_mandante");
-			arrayin[1] = document.getElementById("txtdv_mandante");
-			arrayin[2] = document.getElementById("txtapellido");
-			arrayin[3] = document.getElementById("txtnombre");
-			arrayin[4] = document.getElementById("txtcalle");
-			arrayin[5] = document.getElementById("txtnumero");
-			arrayin[6] = document.getElementById("txtpiso");
-			arrayin[7] = document.getElementById("txtdpto");
-			arrayin[8] = document.getElementById("txtcomuna");
-			arrayin[9] = document.getElementById("txtciudad");
-			arrayin[10] = document.getElementById("txtregion");
-			arrayin[11] = document.getElementById("txtcuenta_corriente1");
-			arrayin[12] = document.getElementById("txtcuenta_corriente2");
-			arrayin[13] = document.getElementById("txttelefono1");
-			arrayin[14] = document.getElementById("txttelefono2");
-			
-			var arraySel = new Array();
-			arraySel[0] = document.getElementById("selbanco1");
-			arraySel[0] = document.getElementById("selbanco2");
-			
-			if(!validarArray(arrayin, arraySel,"N"))
-			{
-				return false;
-			}
-				
-				
-				var datos = "controlador=Mandantes";
-				datos += "&accion=grabar";
-				
-			    datos += "&rut_mandante="+$("#txtrut_mandante").val();
-				datos += "&dv_mandante="+$("#txtdv_mandante").val();
-				datos += "&apellido="+$("#txtapellido").val();
-				datos += "&nombre="+$("#txtnombre").val();
-				datos += "&calle="+$("#txtcalle").val();
-				datos += "&numero="+$("#txtnumero").val();
-				datos += "&piso="+$("#txtpiso").val();
-				datos += "&dpto="+$("#txtdpto").val();
-				datos += "&comuna="+$("#txtcomuna").val();
-				datos += "&ciudad="+$("#txtciudad").val();
-				datos += "&region="+$("#txtregion").val();
-				datos += "&cuenta_corriente1="+$("#txtcuenta_corriente1").val();
-				datos += "&banco1="+$("#selbanco1").val();
-				datos += "&cuenta_corriente2="+$("#txtcuenta_corriente2").val();
-				datos += "&banco2="+$("#selbanco2").val();
-				datos += "&telefono1="+$("#txttelefono1").val();
-				datos += "&telefono2="+$("#txttelefono2").val();
-				datos += getDatosModoPago();
-			
-				$.ajax({
-					url: "index.php",
-					type: "GET",
-					data: datos,
-					cache: false,
-					success: function(res)
-					{
-						$("#pagina").load('index.php?controlador=Mandantes&accion=admin');
-					},
-					error: function()
-					{
-						$("#mensaje").text("Ha ocurrido un error y no se ha podido agregar el registro.");
-					}
-				});
-			
-		}
-		
-		function getDatosModoPago()
-		{
-			var url = "";
-			var arrayInput = document.getElementsByTagName('input');
-			for(var i=0; i<arrayInput.length; i++)
-	 		{	 
-				if(arrayInput[i].getAttribute('turl') == "S")
-				{
-					url += "&porcentaje_"+arrayInput[i].getAttribute('idmp')+"="+$("#txtporcentaje_"+arrayInput[i].getAttribute('idmp')).val();
-					url += "&operacion_"+arrayInput[i].getAttribute('idmp')+"="+$("#txtoperacion_"+arrayInput[i].getAttribute('idmp')).val();
-					if(document.getElementById("rdestatus_c_"+arrayInput[i].getAttribute('idmp')).checked == true)
-					{
-						url += "&estatus_"+arrayInput[i].getAttribute('idmp')+"=C";
-					}
-					else
-					{
-						url += "&estatus_"+arrayInput[i].getAttribute('idmp')+"=NC";
-					}				
-				}
-			}
-			
-			return url;
-		}
-				
 		
 		function limpiarMensaje()
 		{
@@ -166,216 +40,109 @@
 			$("#mensaje").text("");
 		}
 		
-		
-		// FUNCIONES FORM CONTACTO
-		function agregarCon()
-		{
-			$("#id_con").val("");
-			$("#formsoporte").show("slow");
-		}
-		
-		function editarCon()
-		{
-			if($.trim($("#id_con").val()) == "")
-			{
-				return false;
-			}
-			
-			var datos = "controlador=Mandantes";
-				datos += "&accion=getcontmp";
-				datos += "&idcon="+$("#id_con").val();
-				
-				$.ajax({
-					url: "index.php",
-					type: "GET",
-					data: datos,
-					cache: false,
-					dataType: "json",
-					success: function(res)
-					{
-						document.getElementById("txtcontacto").value = res[0];
-						document.getElementById("txtemail").value = res[1];
-						document.getElementById("txtcelular").value = res[2];
-						document.getElementById("txttelefono").value = res[3];
-						document.getElementById("txtfax").value = res[4];
-						document.getElementById("txtobservacion").value = res[5];
-
-						$("#formsoporte").show("slow");
-					},
-					error: function()
-					{
-						$("#mensaje").text("Ha ocurrido un error y no se ha podido agregar el registro.");
-						setTimeout("$('#mensaje').text('')",3000);
-					}
-				});
-		}
-		
-		function grabarCon()
-		{
-			
-			var arrayin = new Array(6);
-			arrayin[0] = document.getElementById("txtcontacto");
-			arrayin[1] = document.getElementById("txtemail");
-			arrayin[2] = document.getElementById("txtcelular");
-			arrayin[3] = document.getElementById("txttelefono");
-			arrayin[4] = document.getElementById("txtfax");
-			arrayin[5] = document.getElementById("txtobservacion");
-
-			var arraySel = new Array();
-			
-			if(!validarArray(arrayin, arraySel,"N"))
-			{
-				return false;
-			}
-			
-			var datos = "controlador=Mandantes";
-			if($.trim($("#id_con").val()) == "")
-			{
-				datos += "&accion=grabarcontmp";
-			}
-			else
-			{
-				datos += "&accion=editarcontmp";
-				datos += "&idcon="+$("#id_con").val();
-			}
-			
-			datos += "&contacto="+$("#txtcontacto").val();
-			datos += "&email="+$("#txtemail").val();
-			datos += "&celular="+$("#txtcelular").val();
-			datos += "&telefono="+$("#txttelefono").val();
-			datos += "&fax="+$("#txtfax").val();
-			datos += "&observacion="+$("#txtobservacion").val();
-		
-				$.ajax({
-					url: "index.php",
-					type: "GET",
-					data: datos,
-					cache: false,
-					success: function(res)
-					{
-						$("#formsoporte").hide("slow");
-						document.getElementById("frmcontacto").src="index.php?controlador=Mandantes&accion=listar_contmp";
-						
-						document.getElementById("txtcontacto").value = "";
-						document.getElementById("txtemail").value = "";
-						document.getElementById("txtcelular").value = "";
-						document.getElementById("txttelefono").value = "";
-						document.getElementById("txtfax").value = "";
-						document.getElementById("txtobservacion").value = "";
-			
-						$(document.getElementById("txtcontacto")).removeClass('notFilled');
-						$(document.getElementById("txtemail")).removeClass('notFilled');
-						$(document.getElementById("txtcelular")).removeClass('notFilled');
-						$(document.getElementById("txttelefono")).removeClass('notFilled');
-						$(document.getElementById("txtfax")).removeClass('notFilled');
-						$(document.getElementById("txtobservacion")).removeClass('notFilled');
-					},
-					error: function()
-					{
-						$("#mensaje").text("Ha ocurrido un error y no se ha podido agregar el registro.");
-						setTimeout("$('#mensaje').text('')",3000);
-					}
-				});
-		}
-		
-		function salirGCon()
-		{
-			$("#formsoporte").hide("slow");
-			
-			document.getElementById("txtcontacto").value = "";
-			document.getElementById("txtemail").value = "";
-			document.getElementById("txtcelular").value = "";
-			document.getElementById("txttelefono").value = "";
-			document.getElementById("txtfax").value = "";
-			document.getElementById("txtobservacion").value = "";
-			
-			$(document.getElementById("txtcontacto")).removeClass('notFilled');
-			$(document.getElementById("txtemail")).removeClass('notFilled');
-			$(document.getElementById("txtcelular")).removeClass('notFilled');
-			$(document.getElementById("txttelefono")).removeClass('notFilled');
-			$(document.getElementById("txtfax")).removeClass('notFilled');
-			$(document.getElementById("txtobservacion")).removeClass('notFilled');
-		}
-		
-		function seleccionado(id)
-		{
-			
-			$("#id_con").val(id);
-			
-		}
-
 		function calcular()
-		{									
-			var fini = document.getElementById("txtfechainicial").value;
-			var cuotas = document.getElementById("txtnumpagos").value;
-			var url = "index.php?controlador=Deudores&accion=calcular&finicial="+fini+"&cuotas="+cuotas;
+		{
+			if(!validar("N"))
+			{
+				return false;
+			}
+			
+			var url = "index.php?controlador=Deudores&accion=calcular";
+			url += "&txtimporte="+$("#txtimporte").val();
+			url += "&txtinteresmensual="+$("#txtinteresmensual").val();
+			url += "&txtcuotas="+$("#txtcuotas").val();
+			url += "&txtfechainicial="+$("#txtfechainicial").val();
+			url += "&txtpagomensual="+$("#txtpagomensual").val();
+			url += "&txtnumpagos="+$("#txtnumpagos").val();
+			url += "&txtimp="+$("#txtimp").val();
+			url += "&txtcostoprestamo="+$("#txtcostoprestamo").val();
 			
 			document.getElementById("frmcalculos").src = url;
 		}
-		
+			
+		function calculoAutomatico()
+		{
+			if($.trim($("#txtimp").val()) == "")
+			{
+				return false;
+			}
+			
+			
+			var costoprestamo = parseFloat($.trim($("#txtimporte").val())) + parseFloat($.trim($("#txtimp").val()));
+			var pagomensual =  (parseFloat($.trim($("#txtimporte").val())) + parseFloat($.trim($("#txtimp").val()))) / parseInt($.trim($("#txtcuotas").val()));
+					
+			$("#txtcostoprestamo").val(costoprestamo);
+			$("#txtpagomensual").val(pagomensual);
+			$("#txtnumpagos").val($.trim($("#txtcuotas").val()));
+			
+		}
 	</script>
 </head>
 <body>
-<form name="frmliquidacioncalculadora">
-<input  type="hidden" name="id_mandantes" id="id_mandantes" value=""/>
-<input  type="hidden" name="id_deudor" id="id_deudor" value=""/>
-<table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="titulopantalla">
- </table>
- <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
+<form name="frmliquidacioncalculadora" action="" method="post">
+ <table width="99%" align="center" border="0" cellpadding="0" cellspacing="0">
 <tr>
 		<th align="left" height="20"></th>
         <th></th>
-        <th align="right"></th>
+        <th align="right">
+        	<div style="position:relative; margin-right:10px;">
+        	<img src="images/grabar.gif" onClick="grabarCalculo()" title="Grabar" style="cursor:pointer;">&nbsp;&nbsp;
+            <img src="images/limpiar.gif" onClick="limpiarCalculo()" title="Limpiar" style="cursor:pointer;">
+            </div>
+        </th>
+        
     </tr>
  </table>
-<div id="datos" style="">
+<div id="datos" style=" width:99%">
 <table width="100%" align="center" border="0" cellpadding="5" cellspacing="5">
     <tr>
     	<td>
-        	<table cellpadding="0" cellspacing="0" border="0" align="left" >
+        	<table cellpadding="5" cellspacing="5" border="0" align="left" >
             	<tr>
 					<td align="left" class="etiqueta_form">Importe del prestamo&nbsp;&nbsp;&nbsp;&nbsp;</td>
-					<td align="left"><input type="text" name="txtimporte" id="txtimporte" size="15" class="input_form" onFocus="resaltar(this)" valida="requerido" tipovalida="entero" />
+					<td align="left"><input type="text" name="txtimporte" id="txtimporte" size="15" class="input_form" onFocus="resaltar(this)" valida="requerido" tipovalida="moneda" value="" tabindex="1" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input  type="button" name="btncalcular" id="btncalcular" onclick="calcular()"  value="Calcular" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)' tabindex="10" />
         			</td>
 				</tr>
 				<tr>	
 					<td align="left" class="etiqueta_form">Interes mensual&nbsp;&nbsp;&nbsp;&nbsp;</td>
-					<td align="left"><input type="text" name="txtinteresmensual" id="txtinteresmensual" size="15" class="input_form" onFocus="resaltar(this)" valida="requerido" tipovalida="entero" />
+					<td align="left"><input type="text" name="txtinteresmensual" id="txtinteresmensual" size="15" class="input_form" onFocus="resaltar(this)" valida="requerido" tipovalida="moneda" value="" tabindex="2"/>
         			</td>
 				</tr>
 				<tr>	
 					<td align="left" class="etiqueta_form">Cuotas&nbsp;&nbsp;&nbsp;&nbsp;</td>
-					<td align="left"><input type="text" name="txtcuotas" id="txtcuotas" size="15" class="input_form" onFocus="resaltar(this)" valida="requerido" tipovalida="entero" />
+					<td align="left"><input type="text" name="txtcuotas" id="txtcuotas" size="15" class="input_form" onFocus="resaltar(this)" valida="requerido" tipovalida="entero" value="" tabindex="3"/>
         			</td>        			
         		</tr>
 				<tr>	
 					<td align="left" class="etiqueta_form">Fecha Inicial&nbsp;&nbsp;&nbsp;&nbsp;</td>
-					<td align="left"><input type="text" name="txtfechainicial" id="txtfechainicial" size="15" class="input_form" onFocus="resaltar(this)" valida="requerido" tipovalida="entero" />
+					<td align="left"><input type="text" name="txtfechainicial" id="txtfechainicial" size="15" class="input_form_medio" onFocus="resaltar(this)" valida="requerido" tipovalida="fecha" value="" tabindex="4"/>
         			</td>        			
         		</tr>
+                <tr>	
+					<td align="left" class="etiqueta_form">IMP&nbsp;&nbsp;&nbsp;&nbsp;</td>
+					<td align="left"><input type="text" name="txtimp" id="txtimp" size="15" class="input_form" onFocus="resaltar(this)" valida="requerido" tipovalida="moneda" value="" onblur="calculoAutomatico()" tabindex="5"/>
+        			</td>        			
+				</tr>
         		<tr>
 					<td align="left" class="etiqueta_form">Pago Mensual&nbsp;&nbsp;&nbsp;&nbsp;</td>
-					<td align="left"><input type="text" name="txtpagomensual" id="txtpagomensual" size="15" class="input_form" onFocus="resaltar(this)" valida="requerido" tipovalida="entero" />
+					<td align="left"><input type="text" name="txtpagomensual" id="txtpagomensual" size="15" class="input_form" onFocus="resaltar(this)" valida="requerido" tipovalida="moneda" value="" tabindex="6"/>
         			</td>
 				</tr>
 				<tr>	
 					<td align="left" class="etiqueta_form">Numero de Pagos&nbsp;&nbsp;&nbsp;&nbsp;</td>
-					<td align="left"><input type="text" name="txtnumpagos" id="txtnumpagos" size="15" class="input_form" onFocus="resaltar(this)" valida="requerido" tipovalida="entero" />
+					<td align="left"><input type="text" name="txtnumpagos" id="txtnumpagos" size="15" class="input_form" onFocus="resaltar(this)" valida="requerido" tipovalida="entero" value="" tabindex="7"/>
         			</td>
 				</tr>
-				<tr>	
-					<td align="left" class="etiqueta_form">IMP&nbsp;&nbsp;&nbsp;&nbsp;</td>
-					<td align="left"><input type="text" name="txtimp" id="txtimp" size="15" class="input_form" onFocus="resaltar(this)" valida="requerido" tipovalida="entero" />
-        			</td>        			
-				</tr>
+			
 				<tr>	
 					<td align="left" class="etiqueta_form">Costo total prestamo&nbsp;&nbsp;&nbsp;&nbsp;</td>
-					<td align="left"><input type="text" name="txtcostoprestamo" id="txtcostoprestamo" size="15" class="input_form" onFocus="resaltar(this)" valida="requerido" tipovalida="entero" />
+					<td align="left"><input type="text" name="txtcostoprestamo" id="txtcostoprestamo" size="15" class="input_form" onFocus="resaltar(this)" valida="requerido" tipovalida="moneda" value="" tabindex="8"/>
         			</td>        			
         		</tr>
         		<tr>	
 					<td align="left" class="etiqueta_form">
-        				<input  type="button" name="btncalcular" id="btncalcular" onclick="calcular()"  value="Calcular" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/>
+        				
         			</td>
         		</tr>
              </table>
@@ -386,35 +153,16 @@
         	<span id="mensaje" style="display:none"></span>
          </td>
     </tr>    
-    
      <tr>
 		<td colspan="3">
-        	<iframe id="frmcalculos" src="" width="100%" align="middle" height="400" scrolling="auto" frameborder="0"></iframe>
+        	<iframe id="frmcalculos" src="" width="90%" align="middle" height="250" scrolling="auto" frameborder="0"></iframe>
         </td>
     </tr>
-    
  </table>
  </div>
  
- <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
- <tr>
-		<th align="left" height="20"></th>
-        <th></th>
-        <th></th>
-    </tr>
- </table>
 
- <div style="position:relative; margin-top:10px;">
- <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
-    <tr>
-        <td colspan="3" align="center">
-        	<input  type="button" name="btngrabar" id="btngrabar" onclick="grabarAltaMand()"  value="Grabar" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/>&nbsp;
-         	<input  type="button" name="btnlimpiar" id="btnlimpiar" onclick="limpiarAltaMand()"value="Limpiar" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/>&nbsp;
-            <input  type="button" name="btnsalir" id="btnsalir" onclick="salirAltaMand()"value="Cancelar" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/>
-         </td>
-    </tr>
-</table>
-</div>
+
 </form>
 </body>
 </html>
