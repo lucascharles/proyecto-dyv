@@ -6,13 +6,6 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<title></title>
      <link rel="stylesheet" href="css/general.css" type="text/css" />
-    <script language="javascript"> 
-		function seleccionado(id)
-		{
-			window.parent.seleccionado(id);
-		}
-		
-	</script>
 </head>
 <body>
  <table width="100%" cellpadding="2" cellspacing="2" align="center" border="0">
@@ -27,19 +20,18 @@
     </tr>
 	<?php
 	
-	for($j=1; $j<=6; $j++) 
+	for($i=0; $i<count($array_pagos); $i++) 
 	{
-		$fechainicial = "23/07/2007" ;
-		$fecha = date("d/m/Y",strtotime("$fechainicial + ".$j ." Month"));
+		$array_aux = $array_pagos[$i];
 	?>
 	<tr>
-		<td align="center"><?php echo($j) ?></td>
-		<td align="center"><?php echo($fecha) ?></td>
-		<td align="center"><?php echo(111) ?></td>
-		<td align="center"><?php echo(222) ?></td>
-		<td align="center"><?php echo(333) ?></td>
-		<td align="center"><?php echo(444) ?></td>
-		<td align="center"><?php echo(555) ?></td>
+		<td align="center"><?php echo($array_aux["num"]) ?></td>
+		<td align="center"><?php echo($array_aux["fecha_pago"]) ?></td>
+		<td align="left">&nbsp;&nbsp;<?php echo(conDecimales($array_aux["saldo_ini"])) ?></td>
+		<td align="left">&nbsp;&nbsp;<?php echo(conDecimales($array_aux["pago"])) ?></td>
+		<td align="left">&nbsp;&nbsp;<?php echo(conDecimales($array_aux["capital"])) ?></td>
+		<td align="left">&nbsp;&nbsp;<?php echo(conDecimales($array_aux["interes"])) ?></td>
+		<td align="left">&nbsp;&nbsp;<?php echo(conDecimales($array_aux["saldo_final"])) ?></td>
 	</tr>
 	<?php
 	}
