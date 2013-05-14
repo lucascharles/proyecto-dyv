@@ -379,7 +379,7 @@
 				accion = "liquidacion_carta";
 				document.getElementById("btnCarta").setAttribute("seleccionado","S");
 				$(document.getElementById("btnCarta")).addClass('boton_form_brillante');
-				parametros = "&capital="+$("#montocapital");
+				parametros = "&capital="+document.getElementById("montocapital").value;
 			}
 			if(opt == "CALCULADORA")
 			{
