@@ -389,7 +389,7 @@
 			}
 
 			url += accion+"&iddeudor="+$("#id_deudor").val();
-			url += "&tipoperacion="+$("#tipoperacion").val(); 
+			//url += "&tipoperacion="+$("#tipoperacion").val(); 
 			url += parametros;
 			document.getElementById("frmsubpantalla").src = url;
 		}
