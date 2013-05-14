@@ -94,6 +94,9 @@
 			// CALCULO INTERES ACUMULADO 
 			var int_acum = interes * dias;
 			$("#txtinteresacumulado").val(int_acum);
+
+			//PASO DE CAPITAL a CARTAS
+			window.parent.seleccionadoMontoCapital(document.getElementById("txtmonto").value);
 		}
 		
 		function simular()
@@ -151,6 +154,12 @@
 				}
 			});	
 		}
+
+		function seleccionadoMontoCapital(val)
+		{
+			document.getElementById("montocapital").value = val;
+		}
+		
 	</script>
 </head>
 <body>

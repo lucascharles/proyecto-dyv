@@ -28,14 +28,16 @@ class GestionesModel extends ModelBase
 
 	$where = " g.id_deudor = d.id_deudor
 	  	   and g.id_mandante = m.id_mandante
-		   and g.activo = 'S' 
-		   ORDER by fecha_prox_gestion asc ";
+		   and g.activo = 'S' ";
 		
-	//if($des == "D"){
+	if($des != ""){
 		
-	//	$cond=" and g.fecha_gestion between '".date('Y-m-d'). "' and '".date('Y-m-d')." 23:59'";
-	//	$where = $where . $cond;
-	//}
+		$cond=" and (d.rut_deudor like '".$des ."%' or m.rut_mandante like '".$des."%' )";
+		$where = $where . $cond;
+	}
+
+	$where = $where ." ORDER by fecha_prox_gestion asc ";
+	
 	
 	$sqlpersonal->set_where( $where );
 	
