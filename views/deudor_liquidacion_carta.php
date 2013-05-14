@@ -55,7 +55,7 @@
         		<tr>
 					<td align="right" class="etiqueta_form">Capital&nbsp;&nbsp;</td>
                     <td align="left">	
-                    	<input type="text" name="txtcapital" id="txtcapital" size="15" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" tipovalida="texto"/>
+                    	<input type="text" name="txtcapital" id="txtcapital" value="<?php $datoTmp = &$capital; echo($datoTmp); ?>" size="15" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" tipovalida="texto"/>
                     </td>        		
         		</tr>
         		<tr>

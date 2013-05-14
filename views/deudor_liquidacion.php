@@ -169,6 +169,11 @@
 		{
 			document.getElementById("id_documento").value = id;
 		}
+
+		function seleccionadoMontoCapital(val)
+		{
+			document.getElementById("montocapital").value = val;
+		}
 		
 		function seleccionadoMandante(id)
 		{
@@ -341,6 +346,7 @@
 			//alert("id_deudor: "+document.getElementById("id_deudor").value);
 			var url = "index.php?controlador=Deudores&accion=";
 			var accion = "";
+			var parametros = "";
 			
 			if($.trim($("#id_deudor").val()) == "")
 			{
@@ -373,6 +379,7 @@
 				accion = "liquidacion_carta";
 				document.getElementById("btnCarta").setAttribute("seleccionado","S");
 				$(document.getElementById("btnCarta")).addClass('boton_form_brillante');
+				parametros = "&capital="+$("#montocapital");
 			}
 			if(opt == "CALCULADORA")
 			{
@@ -383,6 +390,7 @@
 
 			url += accion+"&iddeudor="+$("#id_deudor").val();
 			url += "&tipoperacion="+$("#tipoperacion").val(); 
+			url += parametros;
 			document.getElementById("frmsubpantalla").src = url;
 		}
 
@@ -466,6 +474,7 @@
 <input grabar="S" type="hidden" name="id_documento" id="id_documento" value=""/>
 <input grabar="S" type="hidden" name="id_mandante" id="id_mandante" value=""/>
 <input grabar="S" type="hidden" name="id_deudor" id="id_deudor" value=""/>
+<input type="hidden" name="montocapital" id="montocapital" value="0"/>
 
 <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="titulopantalla">
 	<tr>

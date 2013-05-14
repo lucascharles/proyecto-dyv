@@ -1,7 +1,7 @@
 <?php
 	
-// $db = new mysql_db($config->get('dbhost'), $config->get('dbuser'),  $config->get('dbpass'), $config->get('dbname'), false);
-	$db = new mssql_db($config->get('dbhost'), $config->get('dbuser'),  $config->get('dbpass'), $config->get('dbname'), false);
+ $db = new mysql_db($config->get('dbhost'), $config->get('dbuser'),  $config->get('dbpass'), $config->get('dbname'), false);
+//	$db = new mssql_db($config->get('dbhost'), $config->get('dbuser'),  $config->get('dbpass'), $config->get('dbname'), false);
 	
 	
 	add_database($db, $db_name);
@@ -139,9 +139,6 @@
 		}
 	}
 
-	
-	
-	
 	class Documento_Ficha extends BusinessObject
 	{
 		function Documento_Ficha()
@@ -611,7 +608,7 @@
 					"id_deudor" => array("int"),
 					"rut_deudor" => array("numeric"),
 					"rut_deudor_s" => array("varchar"),
-					"dv_deudor" => array("varchar"),
+					"dv_deudor" => array("numeric"),
 					"primer_nombre" => array("varchar"),
 					"segundo_nombre" => array("varchar"),
 					"primer_apellido" => array("varchar"),
@@ -939,8 +936,8 @@
 					"id_gestion" => array("int"),
 					"id_estado" => array("int"),
 					"id_mandante" => array("int"),
-					"fecha_gestion" => array("datetime"),
-					"fecha_prox_gestion" => array("datetime"),
+					"fecha_gestion" => array("date"),
+					"fecha_prox_gestion" => array("date"),
 					"notas" => array("varchar"),
 					"usuario" => array("varchar")
 				);
@@ -1435,13 +1432,13 @@
 					"id_deudor" => array("int"),
 					"id_mandante" => array("int"),
 					"interes" => array("decimal"),
-					"valor_uf" => array("decimal"),
+					"valor_uf" => array("int"),
 					"fecha_simulacion" => array("date"),
 					"fecha_creacion" => array("date"),
 					"usuario_creacion" => array("varchar"),
 					"fecha_modificacion" => array("date"),
 					"usuario_modificacion" => array("varchar"),
-							);
+			);
 			parent::BusinessObject();
 		}
 	}
@@ -1452,12 +1449,12 @@
 		{
 			parent::BusinessObjectCollection();
 		}
-		
-		function create_singular($row) 
-		{ 
+	
+		function create_singular($row)
+		{
 			$obj = new Liquidaciones();
 			$obj->load_from_list($row);
-			
+				
 			return $obj;
 		}
 	}
@@ -1471,7 +1468,7 @@
 					"id_parametro" => array("int"),
 					"nombre_parametro" => array("varchar"),
 					"valor_parametro" => array("varchar")
-							);
+			);
 			parent::BusinessObject();
 		}
 	}
@@ -1482,14 +1479,15 @@
 		{
 			parent::BusinessObjectCollection();
 		}
-		
-		function create_singular($row) 
-		{ 
+	
+		function create_singular($row)
+		{
 			$obj = new Parametros();
 			$obj->load_from_list($row);
-			
+				
 			return $obj;
 		}
 	}
+	
 	
 ?>

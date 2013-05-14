@@ -9,8 +9,8 @@
     <script language="javascript">
 		function mostrar(obj)
 		{
-			var url = "index.php?controlador=TipoDocumento&accion=listar&des_int="+obj.value;
-			document.getElementById("frmlisttipdoc").src = url;
+			var url = "index.php?controlador=Gestiones&accion=listarGestiones&des_int="+obj.value;
+			document.getElementById("frmlistgestiones").src = url;
 		}
 		
 		function limpiar()
@@ -22,8 +22,8 @@
 		
 		function buscar()
 		{
-			var url = "index.php?controlador=TipoDocumento&accion=listar&des_int="+document.getElementById("txtdestipdoc").value;
-			document.getElementById("frmlisttipdoc").src = url;
+			var url = "index.php?controlador=Gestiones&accion=listarGestiones&des_int="+document.getElementById("txtrutdeudor").value;
+			document.getElementById("frmlistgestiones").src = url;
 		}
 		
 		function seleccionado(id)

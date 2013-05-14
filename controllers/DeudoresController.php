@@ -830,6 +830,7 @@ class DeudoresController extends ControllerBase
 		
 		$data['nom_sistema'] = "SISTEMA DyV";
 		$data['colleccionDoc'] = $dato;
+		$data['capital'] = $array["capital"];
 		
 		$this->view->show("deudor_liquidacion_carta.php", $data);
 	}

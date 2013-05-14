@@ -77,8 +77,8 @@ class GestionesController extends ControllerBase
     {
 		require 'models/GestionesModel.php';
 		$gestiones = new GestionesModel();
-//		$dato = $gestiones->getListaGestiones($array["des_int"]);
-		$dato = $gestiones->getListaGestiones($array["tipoGestion"]);
+		$dato = $gestiones->getListaGestiones($array["des_int"]);
+//		$dato = $gestiones->getListaGestiones($array["tipoGestion"]);
 		
 		$data['nom_sistema'] = "SISTEMA DyV";
 		$data['colleccionGestiones'] = $dato;
