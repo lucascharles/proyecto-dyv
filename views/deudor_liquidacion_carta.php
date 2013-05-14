@@ -10,11 +10,12 @@
     <script src="js/validacampos.js" type="text/javascript"></script>
     <script src="js/funciones.js" type="text/javascript"></script>
     <script language="javascript">
+
+		window.onload = calcular;
+    
 		$(document).ready(function(){
 			
   			$('form').validator();
-		
-		
 		});
 		
 		function limpiarMensaje()
@@ -23,28 +24,40 @@
 			$("#mensaje").text("");
 		}
 
-		function calcular(obj)
+		function calcular()
 		{
-			var url = "index.php?controlador=Gestiones&accion=listarGestiones&des_int="+obj.value;
+			var paraminteres = 2; 
+			var diasatraso = 210;
+			var valoruf = 22700;
+			
 			var capital = document.getElementById("txtcapital").value;
+			
+			
+			var interesdiario = parseInt(capital) * ((parseFloat(paraminteres)/100) /30);
+			var interesTotal = parseFloat(interesdiario) * parseInt(diasatraso);
+			document.getElementById("txtinteres").value = parseFloat(interesTotal).toFixed(2);;
+			
+			
 			var interes = document.getElementById("txtinteres").value;
 			var protesto = document.getElementById("txtprotestobanco").value;
 			var abono = document.getElementById("txtabono").value;
 			
-			document.getElementById("txthonorarios").value = (parseInt(capital) + parseInt(interes) + parseInt(protesto))*10/100;
-
-			document.getElementById("txtsaldo").value = parseInt(capital) + parseInt(interes) + parseInt(protesto) - parseInt(abono);
+			document.getElementById("txthonorarios").value = parseFloat((parseInt(capital) + parseInt(interes) + parseInt(protesto))*10/100).toFixed(2);;
+			document.getElementById("txtsaldo").value = parseFloat(parseInt(capital) + parseInt(interes) + parseInt(protesto) - parseInt(abono)).toFixed(2);;
 
 			var saldo = document.getElementById("txtsaldo").value;
 			var imp = document.getElementById("txtimp").value;
-			document.getElementById("txttotal").value = parseInt(saldo) + parseInt(imp);
+			document.getElementById("txttotal").value = parseFloat(parseInt(saldo) + parseInt(imp)).toFixed(2);;
+			
 			var total = document.getElementById("txttotal").value;
-			
 			var cuotas = document.getElementById("txtcuotas").value;
-			var valoruf = document.getElementById("txtvaloruf").value;
-			document.getElementById("txtvalorcuota").value = (parseInt(total)/parseInt(cuotas));
-			var valorcuotasuf = document.getElementById("txtcuotasuf").value = (parseInt(total)/parseInt(cuotas))/parseInt(valoruf);
-			
+			document.getElementById("txtvalorcuota").value = parseFloat(parseInt(document.getElementById("txttotal").value) / parseInt(cuotas)).toFixed(2);;
+			document.getElementById("txtcuotasuf").value = parseFloat(parseInt(document.getElementById("txttotal").value) / parseInt(cuotas) /parseInt(valoruf)).toFixed(2);;
+		}
+
+		function repactar(obj)
+		{
+			if(obj.name)
 		}
 		
 	</script>
@@ -79,34 +92,34 @@
         		<tr>
 					<td align="right" class="etiqueta_form">Capital&nbsp;&nbsp;</td>
                     <td align="left">	
-                    	<input type="text" name="txtcapital" id="txtcapital" value="<?php $datoTmp = &$capital; echo($datoTmp); ?>" size="15" class="input_form" onFocus="resaltar(this)" onBlur="calcular(this)" tipovalida="texto"/>
+                    	<input type="text" name="txtcapital" id="txtcapital" value="<?php $datoTmp = &$capital; echo($datoTmp); ?>" size="15" class="input_form" onFocus="resaltar(this)" onBlur="calcular()" tipovalida="texto"/>
                     </td>        		
         		</tr>
         		<tr>
                     <td align="right" class="etiqueta_form">Interes&nbsp;</td>
                     <td align="left">
-                        <input type="text" value="0" name="txtinteres" id="txtinteres" size="15" class="input_form" onFocus="resaltar(this)" onBlur="calcular(this)" tipovalida="entero"/>
-                        <input type="radio" value="S" name="rdestatus_repacta" id="rdestatus_repacta" />&nbsp;Repacta&nbsp;&nbsp;&nbsp;&nbsp;
-                        <input type="radio"  value="N" name="rdestatus_repacta" id="rdestatus_no_repacta" checked="checked" />&nbsp;No Repacta
+                        <input type="text" value="0" name="txtinteres" id="txtinteres" size="15" class="input_form" onFocus="resaltar(this)" onBlur="calcular()" tipovalida="entero"/>
+                        <input type="radio" value="S" onclick="repactar(this)" name="rdestatus_repacta" id="rdestatus_repacta" />&nbsp;Repacta&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="radio"  value="N" onclick="repactar(this)" name="rdestatus_no_repacta" id="rdestatus_no_repacta" checked="checked" />&nbsp;No Repacta
                     </td>
                  </tr>
                  <tr>
                  <td align="right" class="etiqueta_form" width="150">Protesto Banco&nbsp;&nbsp;
                     </td>
                     <td class="etiqueta_form" >
-                    		<input type="text" value="0" name="txtprotestobanco" id="txtprotestobanco" size="15" class="input_form" onFocus="resaltar(this)" onBlur="calcular(this)" valida="requerido" tipovalida="entero"/>
+                    		<input type="text" value="0" name="txtprotestobanco" id="txtprotestobanco" size="15" class="input_form" onFocus="resaltar(this)" onBlur="calcular()" valida="requerido" tipovalida="entero"/>
                     </td>
                  </tr>
                  
                  <tr>
                  	<td align="right" class="etiqueta_form" width="150">Abono&nbsp;&nbsp;</td>
-                	<td><input type="text" name="txtabono" id="txtabono" value="0" size="15" class="input_form" onFocus="resaltar(this)" onBlur="calcular(this)" tipovalida="entero"/>
+                	<td><input type="text" name="txtabono" id="txtabono" value="0" size="15" class="input_form" onFocus="resaltar(this)" onBlur="calcular()" tipovalida="entero"/>
                     </td>
                  </tr>
                  
                  <tr>
                     <td align="right" class="etiqueta_form" width="150">Deposito&nbsp;&nbsp;</td>
-                    <td><input type="text" name="txtdeposito" id="txtdeposito" value="0" size="15" class="input_form" onFocus="resaltar(this)" onBlur="calcular(this)" tipovalida="entero"/>
+                    <td><input type="text" name="txtdeposito" id="txtdeposito" value="0" size="15" class="input_form" onFocus="resaltar(this)" onBlur="calcular()" tipovalida="entero"/>
                     </td>               
             	 </tr>
              </table>
@@ -123,13 +136,13 @@
                 </tr>    
                 <tr>
                     <td align="center" class="etiqueta_form">
-                 		<input type="text" name="txtsaldo" id="txtsaldo" value="0" size="15" class="input_form" onFocus="resaltar(this)" onBlur="calcular(this)" valida="requerido" tipovalida="entero"/>
+                 		<input type="text" name="txtsaldo" id="txtsaldo" value="0" size="15" class="input_form" onFocus="resaltar(this)" onBlur="calcular()" valida="requerido" tipovalida="entero"/>
                     </td>
                     <td align="center" class="etiqueta_form">
-                    	<input type="text" name="txtimp" id="txtimp" value="0" size="15" class="input_form" onFocus="resaltar(this)" onBlur="calcular(this)"  tipovalida="entero"/>
+                    	<input type="text" name="txtimp" id="txtimp" value="0" size="15" class="input_form" onFocus="resaltar(this)" onBlur="calcular()"  tipovalida="entero"/>
                     </td>
                     <td align="center" class="etiqueta_form">	
-                 		<input type="text" name="txttotal" id="txttotal" value="0" size="15" class="input_form" onFocus="resaltar(this)" onBlur="calcular(this)"  tipovalida="entero"/>
+                 		<input type="text" name="txttotal" id="txttotal" value="0" size="15" class="input_form" onFocus="resaltar(this)" onBlur="calcular()"  tipovalida="entero"/>
                  	</td>		
                  		
                  </tr>
@@ -147,14 +160,16 @@
                 </tr>    
                 <tr>
                     <td align="center" class="etiqueta_form">
-                 		<input type="text" name="txtcuotas" id="txtcuotas" size="15" class="input_form" onFocus="calcular(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="entero"/>
+                 		<input type="text" name="txtcuotas" id="txtcuotas" value="1" size="15" class="input_form" onFocus="resaltar(this)" onBlur="calcular()" valida="requerido" tipovalida="entero"/>
                     </td>
-                    <td align="center" class="etiqueta_form">
-                    	<input type="text" name="txtvalorcuota" id="txtvalorcuota" size="15" class="input_form" onFocus="calcular(this)" onBlur="noresaltar(this)"  tipovalida="entero"/>
-                    </td>
+                  
                     <td align="center" class="etiqueta_form">	
-                 		<input type="text" name="txtcuotasuf" id="txtcuotasuf" size="15" class="input_form" onFocus="calcular(this)"  tipovalida="entero"/>
-                 	</td>		
+                 		<input type="text" name="txtcuotasuf" id="txtcuotasuf" value="0" size="15" class="input_form" onFocus="resaltar(this)" onBlur="calcular()" tipovalida="entero"/>
+                 	</td>
+                 	
+                 	<td align="center" class="etiqueta_form">
+                    	<input type="text" name="txtvalorcuota" id="txtvalorcuota" value="0" size="15" class="input_form" onFocus="resaltar(this)" onBlur="calcular()"  tipovalida="entero"/>
+                    </td>		
                  </tr>
              </table>
         </td>
