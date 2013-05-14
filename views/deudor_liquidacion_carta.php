@@ -22,6 +22,30 @@
 			$("#mensaje").hide("slow");
 			$("#mensaje").text("");
 		}
+
+		function calcular(obj)
+		{
+			var url = "index.php?controlador=Gestiones&accion=listarGestiones&des_int="+obj.value;
+			var capital = document.getElementById("txtcapital").value;
+			var interes = document.getElementById("txtinteres").value;
+			var protesto = document.getElementById("txtprotestobanco").value;
+			var abono = document.getElementById("txtabono").value;
+			
+			document.getElementById("txthonorarios").value = (parseInt(capital) + parseInt(interes) + parseInt(protesto))*10/100;
+
+			document.getElementById("txtsaldo").value = parseInt(capital) + parseInt(interes) + parseInt(protesto) - parseInt(abono);
+
+			var saldo = document.getElementById("txtsaldo").value;
+			var imp = document.getElementById("txtimp").value;
+			document.getElementById("txttotal").value = parseInt(saldo) + parseInt(imp);
+			var total = document.getElementById("txttotal").value;
+			
+			var cuotas = document.getElementById("txtcuotas").value;
+			var valoruf = document.getElementById("txtvaloruf").value;
+			document.getElementById("txtvalorcuota").value = (parseInt(total)/parseInt(cuotas));
+			var valorcuotasuf = document.getElementById("txtcuotasuf").value = (parseInt(total)/parseInt(cuotas))/parseInt(valoruf);
+			
+		}
 		
 	</script>
 </head>
@@ -49,23 +73,42 @@
             	<tr>
 					<td align="right" class="etiqueta_form" width="150">Honorarios&nbsp;&nbsp;</td>
 					<td align="left">
-						<input type="text" name="txthonorarios" id="txthonorarios" size="15" class="input_form" onFocus="resaltar(this)" valida="requerido" tipovalida="entero" />
+						<input type="text" value="0" name="txthonorarios" id="txthonorarios" size="15" class="input_form" onFocus="resaltar(this)" valida="requerido" tipovalida="entero" />
         			</td>
         		</tr>
         		<tr>
 					<td align="right" class="etiqueta_form">Capital&nbsp;&nbsp;</td>
                     <td align="left">	
-                    	<input type="text" name="txtcapital" id="txtcapital" value="<?php $datoTmp = &$capital; echo($datoTmp); ?>" size="15" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" tipovalida="texto"/>
+                    	<input type="text" name="txtcapital" id="txtcapital" value="<?php $datoTmp = &$capital; echo($datoTmp); ?>" size="15" class="input_form" onFocus="resaltar(this)" onBlur="calcular(this)" tipovalida="texto"/>
                     </td>        		
         		</tr>
         		<tr>
                     <td align="right" class="etiqueta_form">Interes&nbsp;</td>
                     <td align="left">
-                        <input type="text" name="txtinteres" id="txtinteres" size="15" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" tipovalida="entero"/>
+                        <input type="text" value="0" name="txtinteres" id="txtinteres" size="15" class="input_form" onFocus="resaltar(this)" onBlur="calcular(this)" tipovalida="entero"/>
                         <input type="radio" value="S" name="rdestatus_repacta" id="rdestatus_repacta" />&nbsp;Repacta&nbsp;&nbsp;&nbsp;&nbsp;
                         <input type="radio"  value="N" name="rdestatus_repacta" id="rdestatus_no_repacta" checked="checked" />&nbsp;No Repacta
                     </td>
                  </tr>
+                 <tr>
+                 <td align="right" class="etiqueta_form" width="150">Protesto Banco&nbsp;&nbsp;
+                    </td>
+                    <td class="etiqueta_form" >
+                    		<input type="text" value="0" name="txtprotestobanco" id="txtprotestobanco" size="15" class="input_form" onFocus="resaltar(this)" onBlur="calcular(this)" valida="requerido" tipovalida="entero"/>
+                    </td>
+                 </tr>
+                 
+                 <tr>
+                 	<td align="right" class="etiqueta_form" width="150">Abono&nbsp;&nbsp;</td>
+                	<td><input type="text" name="txtabono" id="txtabono" value="0" size="15" class="input_form" onFocus="resaltar(this)" onBlur="calcular(this)" tipovalida="entero"/>
+                    </td>
+                 </tr>
+                 
+                 <tr>
+                    <td align="right" class="etiqueta_form" width="150">Deposito&nbsp;&nbsp;</td>
+                    <td><input type="text" name="txtdeposito" id="txtdeposito" value="0" size="15" class="input_form" onFocus="resaltar(this)" onBlur="calcular(this)" tipovalida="entero"/>
+                    </td>               
+            	 </tr>
              </table>
         </td>
     </tr>		
@@ -74,72 +117,48 @@
         	<table cellpadding="5" cellspacing="5" border="0" align="center" width="100%">
             	<tr>
                     
-                 	<td align="right" class="etiqueta_form" width="150">Saldo&nbsp;&nbsp;
+                 	<td align="center" class="etiqueta_form" width="150">Saldo</td>
+                 	<td align="center" class="etiqueta_form" width="150">IMP</td>
+                 	<td align="center" class="etiqueta_form" width="150">Total</td>
+                </tr>    
+                <tr>
+                    <td align="center" class="etiqueta_form">
+                 		<input type="text" name="txtsaldo" id="txtsaldo" value="0" size="15" class="input_form" onFocus="resaltar(this)" onBlur="calcular(this)" valida="requerido" tipovalida="entero"/>
                     </td>
-                    <td class="etiqueta_form">
-                 				<input type="text" name="txtsaldo" id="txtsaldo" size="15" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="entero"/>
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cuotas&nbsp;&nbsp;
-                    
-                 				<input type="text" name="txtcuotas" id="txtcuotas" size="15" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="entero"/></td>
+                    <td align="center" class="etiqueta_form">
+                    	<input type="text" name="txtimp" id="txtimp" value="0" size="15" class="input_form" onFocus="resaltar(this)" onBlur="calcular(this)"  tipovalida="entero"/>
+                    </td>
+                    <td align="center" class="etiqueta_form">	
+                 		<input type="text" name="txttotal" id="txttotal" value="0" size="15" class="input_form" onFocus="resaltar(this)" onBlur="calcular(this)"  tipovalida="entero"/>
+                 	</td>		
+                 		
                  </tr>
              </table>
         </td>
     </tr>	
- 	<tr>
+	<tr>
     	<td>
         	<table cellpadding="5" cellspacing="5" border="0" align="center" width="100%">
-            	
-                <tr>
+            	<tr>
                     
-                    <td align="right" class="etiqueta_form" width="150">IMP&nbsp;&nbsp;
+                 	<td align="center" class="etiqueta_form" width="150">Cuotas</td>
+                 	<td align="center" class="etiqueta_form" width="150">Cuotas de UF</td>
+                 	<td align="center" class="etiqueta_form" width="150">Valor Aprox.</td>
+                </tr>    
+                <tr>
+                    <td align="center" class="etiqueta_form">
+                 		<input type="text" name="txtcuotas" id="txtcuotas" size="15" class="input_form" onFocus="calcular(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="entero"/>
                     </td>
-                    <td class="etiqueta_form">
-                 				<input type="text" name="txtimp" id="txtimp" size="15" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"  tipovalida="entero"/>
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cuotas de UF&nbsp;&nbsp;
-                 				<input type="text" name="txtcuotasuf" id="txtcuotasuf" size="15" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"  tipovalida="entero"/>
-                    </td>                                   
-            	 </tr>
-         	</table>
-         </td>
+                    <td align="center" class="etiqueta_form">
+                    	<input type="text" name="txtvalorcuota" id="txtvalorcuota" size="15" class="input_form" onFocus="calcular(this)" onBlur="noresaltar(this)"  tipovalida="entero"/>
+                    </td>
+                    <td align="center" class="etiqueta_form">	
+                 		<input type="text" name="txtcuotasuf" id="txtcuotasuf" size="15" class="input_form" onFocus="calcular(this)"  tipovalida="entero"/>
+                 	</td>		
+                 </tr>
+             </table>
+        </td>
     </tr>
-    <tr>
-    	<td>
-        	<table cellpadding="5" cellspacing="5" border="0" align="center" width="100%">
-            	<tr>
-                    <td align="right" class="etiqueta_form" width="150">Protesto Banco&nbsp;&nbsp;
-                    </td>
-                    <td class="etiqueta_form" >
-                    		<input type="text" name="txtprotestobanco" id="txtprotestobanco" size="15" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="entero"/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Total&nbsp;&nbsp;
-                 	 		<input type="text" name="txttotal" id="txttotal" size="15" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"  tipovalida="entero"/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Valor aprox.&nbsp;&nbsp;
-                 	 		<input type="text" name="txtvalorcuota" id="txtvalorcuota" size="15" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"  tipovalida="entero"/></td>                                   
-            	 </tr>
-         	</table>
-         </td>
-    </tr> 
-    <tr>
-    	<td>
-        	<table cellpadding="5" cellspacing="5" border="0" align="left" >
-            	<tr>
-                    <td align="right" class="etiqueta_form" width="150">Abono&nbsp;&nbsp;</td>
-                	<td><input type="text" name="txtabono" id="txtabono" size="15" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" tipovalida="entero"/>
-                    </td>               
-            	 </tr>
-         	</table>
-         </td>
-    </tr> 
-    <tr>
-    	<td>
-        	<table cellpadding="5" cellspacing="5" border="0" align="left" >
-            	<tr>
-                    <td align="right" class="etiqueta_form" width="150">Deposito&nbsp;&nbsp;</td>
-                    <td><input type="text" name="txtdeposito" id="txtdeposito" size="15" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" tipovalida="entero"/>
-                    </td>               
-            	 </tr>
-         	</table>
-         </td>
-    </tr> 
 
     <tr>
         <td>
