@@ -9,6 +9,7 @@
 		$id = 0;
 		
 		$obj->add_sort($clave, false);
+		$obj->add_limit(0,3);
 		$obj->load();
 		
 		for($i=0; $i<$obj->get_count(); $i++) 

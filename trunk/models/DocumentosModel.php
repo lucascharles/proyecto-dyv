@@ -246,21 +246,29 @@ class DocumentosModel extends ModelBase
 					$calculoHoy = strtotime("$fechaHoy +0 days");
 					$calculoFuturo = strtotime("$fechaHoy +$dias days");
 
-				 	//se crea el registro de gestion para el deudor						
-				 	$datoG = new Gestiones();
-				  	$datoG->set_data("id_deudor",$deudor->get_data("id_deudor"));
-			      	$datoG->set_data("id_mandante",$mandante->get_data("id_mandante"));
-			      	$datoG->set_data("fecha_gestion",date("Y-m-d"));
-			      	$datoG->set_data("nota_gestion","Inicia Gestion");
-			      	$datoG->set_data("fecha_prox_gestion",date("Y-m-d", $calculoFuturo));
-			      	$datoG->set_data("activo","S");
-			      	$datoG->set_data("usuario_modificacion",$_SESSION["idusuario"]);
-			      	$datoG->set_data("fecha_modificacion",date("Y-m-d"));
-			      	$datoG->set_data("usuario_creacion",$_SESSION["idusuario"]);
-			      	$datoG->set_data("fecha_creacion",date("Y-m-d"));      	
-			      	$datoG->set_data("estado","PENDIENTE DE ENVIAR CARTA");
-			      	$datoG->save();
-					 	
+				 	//se crea el registro de gestion para el deudor	
+					$DG = new Gestiones();
+					$DG->add_filter("id_deudor","=",$deudor->get_data("id_deudor"));
+					$DG->add_filter("AND");
+					$DG->add_filter("id_mandante","=",$mandante->get_data("id_mandante"));
+					$DG->load();
+					
+					if(is_null($DG->get_data("id"))){
+						
+				 		$datoG = new Gestiones();
+				  		$datoG->set_data("id_deudor",$deudor->get_data("id_deudor"));
+			      		$datoG->set_data("id_mandante",$mandante->get_data("id_mandante"));
+			      		$datoG->set_data("fecha_gestion",date("Y-m-d"));
+			      		$datoG->set_data("nota_gestion","Inicia Gestion");
+			      		$datoG->set_data("fecha_prox_gestion",date("Y-m-d", $calculoFuturo));
+			      		$datoG->set_data("activo","S");
+			      		$datoG->set_data("usuario_modificacion",$_SESSION["idusuario"]);
+			      		$datoG->set_data("fecha_modificacion",date("Y-m-d"));
+			      		$datoG->set_data("usuario_creacion",$_SESSION["idusuario"]);
+			      		$datoG->set_data("fecha_creacion",date("Y-m-d"));      	
+			      		$datoG->set_data("estado","PENDIENTE DE ENVIAR CARTA");
+			      		$datoG->save();
+					} 	
 					// VALIDACION IMPORTE
 					// vacio
 					if(trim($arraydatos[15]) == "")
@@ -739,7 +747,7 @@ class DocumentosModel extends ModelBase
 		$where .= " and d.id_documento > ".$array["id_partida"];
 		
 //		$sqlpersonal->set_top(10); // PARA SQLSERVER 
-		$sqlpersonal->set_limit(0,10); // PARA MYSQL
+//		$sqlpersonal->set_limit(0,10); // PARA MYSQL
 		
 		if(count($array) > 0)
 		{
@@ -781,6 +789,146 @@ class DocumentosModel extends ModelBase
     	return $sqlpersonal;	
 	
 	}
+	
+	public function getListaDocumentosGestion($des, $idd='',$array='')
+	{
+	
+		include("config.php");
+	
+		$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
+		$sqlpersonal->set_select(" d.id_documento id_documento, c.banco id_banco, dd.primer_apellido ape1_deudor, dd.segundo_apellido ape2_deudor,
+							  		dd.primer_nombre nom1_deudor, dd.segundo_nombre nom2_deudor,
+									m.nombre nombre_mandante, ed.estado id_estado_doc, td.tipo_documento id_tipo_doc,
+									d.numero_documento numero_documento,d.fecha_protesto fecha_siniestro, d.cta_cte cta_cte,d.monto monto");
+		$sqlpersonal->set_from(" documentos d,
+	 								bancos c,
+	 								deudores dd,
+	 								mandantes m,
+	 								estadodocumentos ed,
+	 								tipodocumento td");
+		$where = " d.id_banco = c.id_banco
+				and  d.id_deudor = dd.id_deudor
+				and m.id_mandante = d.id_mandatario
+				and d.id_estado_doc = ed.id_estado_doc
+				and d.id_tipo_doc = td.id_tipo_documento
+				and ed.estado not in ('RECUPERADO')
+				and d.activo = 'S' ";
+	
+		$where .= " and d.id_documento > ".$array["id_partida"];
+	
+		//		$sqlpersonal->set_top(10); // PARA SQLSERVER
+		//		$sqlpersonal->set_limit(0,10); // PARA MYSQL
+	
+		if(count($array) > 0)
+		{
+			if(trim($array["des_int"]) <> "")
+			{
+				$where .= " and dd.rut_deudor like '".trim($array["des_int"])."%'";
+			}
+				
+			if(trim($array["desApel1"]) <> "")
+			{
+				$where .= " and dd.primer_apellido like '".trim($array["desApel1"])."%'";
+			}
+				
+			if(trim($array["desApel2"]) <> "")
+			{
+				$where .= " and dd.segundo_apellido like '".trim($array["desApel2"])."%'";
+			}
+				
+			if(trim($array["desNomb1"]) <> "")
+			{
+				$where .= " and dd.primer_nombre like '".trim($array["desNomb1"])."%'";
+			}
+				
+			if(trim($array["desNomb2"]) <> "")
+			{
+				$where .= " and dd.segundo_nombre like '".trim($array["desNomb2"])."%'";
+			}
+		}
+	
+		if($idd > 0 && trim($idd) <> "")
+		{
+			$where .= " and d.id_deudor = ".$idd;
+		}
+	
+		$sqlpersonal->set_where($where);
+	
+		$sqlpersonal->load();
+	
+		return $sqlpersonal;
+	
+	}
+	
+	public function getListaDocumentos2($array)
+	{
+	
+		include("config.php");
+	
+		$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
+		$sqlpersonal->set_select(" d.id_documento id_documento, c.banco id_banco, dd.primer_apellido ape1_deudor, dd.segundo_apellido ape2_deudor,
+							  		dd.primer_nombre nom1_deudor, dd.segundo_nombre nom2_deudor,
+									m.nombre nombre_mandante, ed.estado id_estado_doc, td.tipo_documento id_tipo_doc,
+									d.numero_documento numero_documento,d.fecha_protesto fecha_siniestro, d.cta_cte cta_cte,d.monto monto");
+		$sqlpersonal->set_from(" documentos d,
+	 								bancos c,
+	 								deudores dd,
+	 								mandantes m,
+	 								estadodocumentos ed,
+	 								tipodocumento td");
+		$where = " d.id_banco = c.id_banco
+				and  d.id_deudor = dd.id_deudor
+				and m.id_mandante = d.id_mandatario
+				and d.id_estado_doc = ed.id_estado_doc
+				and d.id_tipo_doc = td.id_tipo_documento
+				and d.activo = 'S' ";
+	
+		$where .= " and d.id_documento > ".$array["id_partida"];
+	
+		//		$sqlpersonal->set_top(10); // PARA SQLSERVER
+		//		$sqlpersonal->set_limit(0,10); // PARA MYSQL
+	
+		if(count($array) > 0)
+		{
+			if(trim($array["des_int"]) <> "")
+			{
+				$where .= " and dd.rut_deudor like '".trim($array["des_int"])."%'";
+			}
+				
+			if(trim($array["desApel1"]) <> "")
+			{
+				$where .= " and dd.primer_apellido like '".trim($array["desApel1"])."%'";
+			}
+				
+			if(trim($array["desApel2"]) <> "")
+			{
+				$where .= " and dd.segundo_apellido like '".trim($array["desApel2"])."%'";
+			}
+				
+			if(trim($array["desNomb1"]) <> "")
+			{
+				$where .= " and dd.primer_nombre like '".trim($array["desNomb1"])."%'";
+			}
+				
+			if(trim($array["desNomb2"]) <> "")
+			{
+				$where .= " and dd.segundo_nombre like '".trim($array["desNomb2"])."%'";
+			}
+		}
+	
+		if($idd > 0 && trim($idd) <> "")
+		{
+			$where .= " and d.id_deudor = ".$idd;
+		}
+	
+		$sqlpersonal->set_where($where);
+	
+		$sqlpersonal->load();
+	
+		return $sqlpersonal;
+	
+	}
+	
 	
 	public function getListaDocumentosCartas($array)
 	{

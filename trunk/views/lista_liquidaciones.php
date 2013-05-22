@@ -18,10 +18,9 @@
 <table width="100%" cellpadding="2" cellspacing="2" align="center" border="0">
 	<tr bgcolor="#666666">
     	<th width="15" align="center"></th>
-		<th align="center"><font class="titulolistado">Id</font></th>
-        <th align="center"><font class="titulolistado">Rut Deudor</font></th>
-        <th align="center"><font class="titulolistado">Nombre Deudor</font></th>
-        <th align="center"><font class="titulolistado">Mandante</font></th>
+		<th align="center"><font class="titulolistado">Mandante</font></th>
+        <th align="center"><font class="titulolistado">Fecha creaci&oacute;n</font></th>
+        <th align="center"><font class="titulolistado">Usuario creaci&oacute;n</font></th>
     </tr>
 	<?php
 	
@@ -31,11 +30,11 @@
 			
 	?>
 	<tr>
-    	<td><input type="radio" id="<? echo($datoTmp->get_data("id_tipo_documento")) ?>" name="checktipdoc" value="" onclick="seleccionado(<? echo($datoTmp->get_data("id_tipo_documento")) ?>)"></td>
-		<td align="left"><?php echo ($datoTmp->get_data("id_tipo_documento")) ?></td>
-		<td align="left"><?php echo ($datoTmp->get_data("tipo_documento")) ?></td>
-		<td align="left"><?php echo ($datoTmp->get_data("id_tipo_documento")) ?></td>
-		<td align="left">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("tipo_documento")) ?></td>
+    	<td><input type="radio" id="<? echo($datoTmp->get_data("id_liquidacion")) ?>" name="checktipdoc" value="" onclick="seleccionado(<? echo($datoTmp->get_data("id_liquidacion")) ?>)"></td>
+		<td align="center"><?php echo ($datoTmp->get_data("id_mandante")) ?></td>
+		<td align="center">&nbsp;<?php echo (formatoFecha($datoTmp->get_data("fecha_creacion"),"yyyy-mm-dd","dd/mm/yyyy")) ?></td>
+		<td align="center">&nbsp;<?php echo ($datoTmp->get_data("usuario_creacion")) ?></td>
+		
 	</tr>
 	<?php
 	}

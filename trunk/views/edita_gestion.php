@@ -32,7 +32,7 @@
 		
 		function salir()
 		{
-			$("#pagina").load('views/admin_tipodocumento.php');
+			$("#pagina").load('views/admin_gestiones.php');
 		}
 
 		function volver()
@@ -78,7 +78,19 @@
 		
 		function grabar()
 		{
-
+			
+			if(document.getElementById("iddocumento").value == "" 
+				&& ((document.getElementById('selGestion').options[document.getElementById('selGestion').selectedIndex].text == "DEMANDA")
+						|| (document.getElementById('selGestion').options[document.getElementById('selGestion').selectedIndex].text == "CASTIGADO")
+						|| (document.getElementById('selGestion').options[document.getElementById('selGestion').selectedIndex].text == "RECUPERADO")))
+					
+			{
+				alert('Debe Seleccionar un Documento para una Demanda, Castigado o Recuperado.');
+			}
+			else
+			{
+			
+				
 			if(($.trim($("#txtfechagestion").val()) != "")
 					&&($.trim($("#txtcomentarios").val()) != "")
 					&&($.trim($("#txtrut_mandante").val()) != "")
@@ -87,7 +99,6 @@
 					&&(document.getElementById('selGestion').options[document.getElementById('selGestion').selectedIndex].text != "") )
 					
 					{
-					//alert("grabar variables completas");
 
 					var datos = "controlador=Gestiones";
 					datos += "&accion=grabaEditar";
@@ -98,6 +109,16 @@
 					datos += "&selMandantes="+$("#id_mandante").val();
 					datos += "&txtfechaproxgestion="+$("#txtfechaproxgestion").val();
 					datos += "&txtusuario="+$("#txtusuario").val();
+
+					if(document.getElementById("iddocumento").value != "" 
+						&& ((document.getElementById('selGestion').options[document.getElementById('selGestion').selectedIndex].text == "DEMANDA")
+								|| (document.getElementById('selGestion').options[document.getElementById('selGestion').selectedIndex].text == "CASTIGADO")
+								|| (document.getElementById('selGestion').options[document.getElementById('selGestion').selectedIndex].text == "RECUPERADO")))
+							
+					{
+						datos += "&iddocumento="+$("#iddocumento").val();
+					}
+					
 					$.ajax({
 					url: "index.php",
 					type: "GET",
@@ -115,6 +136,7 @@
 				
 					}
 			
+			}
 		}
 
 		function grabarDir()
@@ -157,6 +179,14 @@
 		{
 			document.getElementById("iddireccion").value = id;
 		}
+
+		function seleccionado_doc(id)
+		{
+			document.getElementById("iddocumento").value = id;
+			document.getElementById("id_gestion").value = <? echo($objGestion->get_data("id_gestion")) ?>;
+						
+		}
+		
 		
 		function validarRut(tipo)
 		{
@@ -251,6 +281,15 @@
 					}
 				});
 		}
+
+		function modDeudor(iddeudor)
+		{
+			if(iddeudor == "")
+			{
+				return false;
+			}
+			$("#pagina").load('index.php?controlador=Deudores&accion=editar&iddeudor='+iddeudor);
+		}
 		
 	</script>
 </head>
@@ -332,7 +371,8 @@
 <form name="frmadmgestion">
 	<input  type="hidden" name="id_gestion" id="id_gestion" value="<? echo($objGestion->get_data("id_gestion")) ?>"/>
 	<input  type="hidden" name="iddireccion" id="iddireccion" value=""/>
-    <input  type="hidden" name="id_mandante" id="id_mandante" value=""/>
+    <input  type="hidden" name="id_mandante" id="id_mandante" value="<? $var = &$idMandante; echo($var); ?>"/>
+    <input  type="hidden" name="iddocumento" id="iddocumento" value=""/>
     
 <div id="datos" style="">
 
@@ -371,6 +411,10 @@
     	<td align="left" class="etiqueta_form" >Tel.Fijo: &nbsp;
     		<input type="text" name="txtteldeudor" id="txtteldeudor" value="<? $var = &$telDeudor; echo($var); ?>" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" />
     	</td>
+    	<td align="left" class="etiqueta_form" >
+    		<input  type="button" name="btnmoddeudor" id="btnmoddeudor" onclick="modDeudor(<? echo($objGestion->get_data("id_deudor")) ?>)" class="boton_form" value="Deudor" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/>
+    	</td>
+    	
 	</tr>
      <tr>
     	<td height="5">
@@ -388,7 +432,7 @@
 <div id="datos" style="">
 <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="titulopantalla">
 	<tr>
-		<th align="left" height="30">&nbsp;Deuda Neta</th>
+		<th align="left" height="30">&nbsp;Deuda Neta - Documentos</th>
         <th></th>
         <th></th>
     </tr>
@@ -427,7 +471,7 @@
         
         </td>
         <td align="center" width="100">
-					<input  type="button" name="btnLiquidacion" id="btnLiquidacion" onclick="verLiquidacion()" class="boton_form" value="Liquidaci&oacute;n" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)' />
+					<input  type="button" name="btnLiquidacion" id="btnLiquidacion" onclick="alert(<? echo($objGestion->get_data("id_gestion")) ?>)" class="boton_form" value="Liquidaci&oacute;n" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)' />
 			
         </td>
     </tr>
@@ -538,8 +582,8 @@
         	<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
             	<tr>
                 	<td width="240">
-						<input type="text" name="txtrut_mandante" id="txtrut_mandante" class="input_form" onblur=" generadvrut('txtrut_mandante','txtdv_mandante'); validarRut('M')"  />&nbsp;
-            			<input type="text" name="txtdv_mandante" id="txtdv_mandante" class="input_form_min" onblur="" disabled="disabled" />
+						<input type="text" name="txtrut_mandante" id="txtrut_mandante" value="<? $var = &$rutMand; echo($var); ?>" class="input_form" onblur=" generadvrut('txtrut_mandante','txtdv_mandante'); validarRut('M')"  />&nbsp;
+            			<input type="text" name="txtdv_mandante" id="txtdv_mandante" value="<? $var = &$rutDvMand; echo($var); ?>"  class="input_form_min" onblur="" disabled="disabled" />
                     </td>
                 	<td align="left">
 			            <img src="images/buscar.png" title="Buscar Mandante" style="cursor:pointer" onclick="ventanaBusqueda()" />
