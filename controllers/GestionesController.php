@@ -33,7 +33,10 @@ class GestionesController extends ControllerBase
 		$rutDeudor = $cab->get_data("rut_deudor")."-".$cab->get_data("dv_deudor");
 		$nomDeudor = $cab->get_data("primer_apellido")." ".$cab->get_data("segundo_apellido")." ".$cab->get_data("primer_nombre");
 		$rutMandante = $cab->get_data("rut_mandante")."-".$cab->get_data("dv_mandante");
+		$rutMand = $cab->get_data("rut_mandante");
+		$rutDvMand = $cab->get_data("dv_mandante");
 		$nomMandante = $cab->get_data("nombre_mandante");
+		
 		$iddeudor = $cab->get_data("id_deudor");
 		$idmandante = $cab->get_data("id_mandante");
 		$celDeudor = $cab->get_data("celular");
@@ -63,8 +66,10 @@ class GestionesController extends ControllerBase
 		$data['celDeudor'] = $celDeudor;
 		$data['telDeudor'] = $telDeudor;
 		
-		
+		$data['rutMand'] = $rutMand;
+		$data['rutDvMand'] = $rutDvMand;
 		$data['rutMandante'] = $rutMandante;
+		$data['idMandante'] = $idmandante;
 		$data['nomMandante'] = $nomMandante;
 		$data['deudaNeta'] = $deuda;
 		$data['deudaNetaMandante'] = $deudaMandante;
@@ -181,7 +186,7 @@ class GestionesController extends ControllerBase
 		require 'models/DocumentosModel.php';
 		$documentos = new DocumentosModel();
 			
-		$dato = $documentos->getListaDocumentos("", $array["iddeudor"],$array);
+		$dato = $documentos->getListaDocumentosGestion("", $array["iddeudor"],$array);
 		
 		$data['nom_sistema'] = "SISTEMA DyV";
 		$data['colleccionDatosDocumentos'] = $dato;

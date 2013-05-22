@@ -753,7 +753,7 @@ class DeudoresController extends ControllerBase
     {
 		require 'models/LiquidacionesModel.php';
 		$liquidaciones = new LiquidacionesModel();
-		$dato = $liquidaciones->getTodasLiquidaciones($array["rutdeudor"]);
+		$dato = $liquidaciones->getLiquidacionesDeudor($array);
 				
 		$data['colleccionLiquidaciones'] = $dato;
 
@@ -764,40 +764,42 @@ class DeudoresController extends ControllerBase
     {
 		require 'models/DeudoresModel.php';
 		require 'models/MandantesModel.php';
-		require 'models/JuzgadoModel.php';
-		require 'models/JuzgadoComunaModel.php';
+		//require 'models/JuzgadoModel.php';
+		//require 'models/JuzgadoComunaModel.php';
 		require 'models/DocumentosModel.php';
-		require 'models/DireccionDeudoresModel.php';
+		//require 'models/DireccionDeudoresModel.php';
 		
-		$deudor = new DeudoresModel();
+		//$deudor = new DeudoresModel();
+		$deudores = new DeudoresModel();
 		$mandate = new MandantesModel();
-		$juzgado = new JuzgadoModel();
-		$jcomuna = new JuzgadoComunaModel();
+		//$juzgado = new JuzgadoModel();
+		//$jcomuna = new JuzgadoComunaModel();
 		$documentos = new DocumentosModel();
-		$direcciones = new DireccionDeudoresModel();
+		//$direcciones = new DireccionDeudoresModel();
 		
 		$data['nom_sistema'] = "SISTEMA DyV";
 		$data['ident'] = $array["id"];
 		$data['tipoperacion'] = $array["tipope"];
-		$datodeudor = $deudor->getDeudorDatos($array["id"]);	
+		$datodeudor = $deudores->getDeudorDatos($array["id"]);	
 		
 		$datomandante = $mandate->getMandanteDatos($datodeudor->get_data("id_mandante"));
 
 		$datodocumento = $documentos->getDatoDocumento($array["id_doc"]);
 		
-		$datodir = $direcciones->getDirActualDeudor($datodeudor->get_data("id_deudor"));
+		//$datodir = $direcciones->getDirActualDeudor($datodeudor->get_data("id_deudor"));
 		
 		$data['deudor'] = $datodeudor;
 		$data['mandante'] = $datomandante;
 		$data['documento'] = $datodocumento;
-		$data['direccion'] = $datodir;
-		
-		
+		//$data['direccion'] = $datodir;
+		$data['valoruf'] = 22700;  //crear metodo en la base para este parametro
+		$data['interes_base'] = "2";  //crear metodo en la base para este parametro
+				
 		$this->view->show("deudor_liquidacion.php", $data);
 	}
 	
 	
-	public function liquidacion_simulacion($array)
+	public function liquidacion_simulacion($array) // ???
 	{
 		require 'models/DocumentosModel.php';
 		$documentos = new DocumentosModel();
@@ -811,13 +813,28 @@ class DeudoresController extends ControllerBase
 	public function liquidacion_documentos($array)
 	{
 		require 'models/DocumentosModel.php';
+		require 'models/DeudoresModel.php';
 		$documentos = new DocumentosModel();
+		$deudores = new DeudoresModel();
 	
 		$dato = $documentos->getDocLiquidar($array["iddeudor"]);
+		$dato_deu = $deudores->getDeudorDatos($array["iddeudor"]);
 	
 		$data['nom_sistema'] = "SISTEMA DyV";
 		$data['colleccionDoc'] = $dato;
-	
+		$data['idddeudor'] = $array["iddeudor"];
+		$data['idmandante'] = $dato_deu->get_data("id_mandante");
+		if($array["id_liquidacion"] <> 0)
+		{
+			$data['simulacion'] = $deudores->getSimulacionLiquidacion($array);
+			$data['doc_simulacion'] = $deudores->getDocSimulacionLiquidacion($array);
+		}
+		else
+		{
+			$data['simulacion'] = null;
+			$data['doc_simulacion'] = null;
+		}
+		$data['id_liquidacion'] = $array["id_liquidacion"];
 		$this->view->show("deudor_liquidacion_documentos.php", $data);
 	}
 	
@@ -826,7 +843,8 @@ class DeudoresController extends ControllerBase
 		require 'models/DocumentosModel.php';
 		$documentos = new DocumentosModel();
 
-		$dato = $documentos->getDocLiquidar(1);  //$array["id_deudor"]
+		$dato = $documentos->getDocLiquidar($array["iddeudor"]);
+		  
 		
 		$data['nom_sistema'] = "SISTEMA DyV";
 		$data['colleccionDoc'] = $dato;
@@ -837,10 +855,10 @@ class DeudoresController extends ControllerBase
 	
 	public function liquidacion_calculadora($array)
 	{
-		require 'models/DocumentosModel.php';
-		$documentos = new DocumentosModel();
+		//require 'models/DocumentosModel.php';
+		//$documentos = new DocumentosModel();
 
-		$dato = $documentos->getDocLiquidar(1);  //$array["id_deudor"]
+		//$dato = $documentos->getDocLiquidar($array["iddeudor"]);  
 		
 		$data['nom_sistema'] = "SISTEMA DyV";
 		$data['colleccionDoc'] = $dato;
@@ -850,16 +868,24 @@ class DeudoresController extends ControllerBase
 	
 	public function calcular($array)
 	{
-		require 'models/DocumentosModel.php';
-		$documentos = new DocumentosModel();
+		require 'models/LiquidacionesModel.php';
+		$liqui = new LiquidacionesModel();
 
-		$dato = $documentos->getDocLiquidar(1);  //$array["id_deudor"]
-		
-		$data['nom_sistema'] = "SISTEMA DyV";
-		$data['colleccionDoc'] = $dato;
+		$data['array_pagos'] = $liqui->getCalculoPrestamo($array);  
 		
 		$this->view->show("lista_liquidaciones_calculos.php", $data);
 	}
 	
+	public function grabarSimulacion($array)
+	{
+		require 'models/DeudoresModel.php';
+		
+		$doc = new DeudoresModel();
+		$array["id_usuario"] = $_SESSION["idusuario"];
+		
+		$id_liq = $doc->grabarSimulacionDeudor($array);
+		
+		echo($id_liq);
+	}	
 }
 ?>
