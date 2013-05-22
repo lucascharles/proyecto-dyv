@@ -171,8 +171,8 @@ class DocumentosController extends ControllerBase
 		require 'models/DocumentosModel.php';
 		$documentos = new DocumentosModel();
 			
-		$dato = $documentos->getListaDocumentos("","",$array);
-
+		//$dato = $documentos->getListaDocumentos("","",$array);
+		$dato = $documentos->getListaDocumentos2($array);
 		$cant_datos = 0;
 		if($dato->get_count() > 0)
 		{
