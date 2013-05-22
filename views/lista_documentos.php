@@ -10,7 +10,8 @@
     <script language="javascript"> 
 		function seleccionado(id)
 		{
-			window.parent.seleccionado(id);			
+			window.parent.seleccionado(id);	
+			window.parent.seleccionado_doc(id);		
 		}
 		
 		function verMasRegistros(id, pantalla)

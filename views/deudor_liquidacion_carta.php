@@ -31,7 +31,11 @@
 			var valoruf = 22700;
 			
 			var capital = document.getElementById("txtcapital").value;
-			
+
+			if(capital == "")
+			{
+				capital = <?php $datoTmp = &$capital; echo($datoTmp); ?> ;
+			}
 			
 			var interesdiario = parseInt(capital) * ((parseFloat(paraminteres)/100) /30);
 			var interesTotal = parseFloat(interesdiario) * parseInt(diasatraso);

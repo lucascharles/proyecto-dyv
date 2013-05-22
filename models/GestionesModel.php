@@ -146,13 +146,22 @@ class GestionesModel extends ModelBase
 	  $datoGes->set_data("fecha_prox_gestion",$array["txtfechaproxgestion"]);
 	  $datoGes->save();
 	  
+	  //modifica estado de documento si la gestion es una DEMANDA, CASTIGO o RECUPERO
+	  if($array["iddocumento"] != "")
+	  {
+	  	$documento = new Documentos();
+	  	$documento->add_filter("id_documento","=",$array["iddocumento"]);
+	  	$documento->load();
+	  	$documento->set_data("id_estado_doc",$array["selGestion"]);
+	  	$documento->save();
+	  }
+	  
 	}
 	
 	public function getCabeceraGestion($idgestion)
 	{
 	
 		include("config.php");
-
 	
 		$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
 		

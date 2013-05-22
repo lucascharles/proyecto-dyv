@@ -95,6 +95,14 @@ function validarArray(arrayInputS, arraySelectS, mensaje)
 						}
 					}
 					
+					if(arrayInput[i].getAttribute('tipovalida') == "porcentaje")
+					{
+						if(!validaporcentaje($.trim($(arrayInput[i]).val())))
+						{
+							resultado = false;
+						}
+					}
+					
 					if(arrayInput[i].getAttribute('tipovalida') == "fecha")
 					{
 						if(!validafecha($.trim($(arrayInput[i]).val())))
@@ -283,6 +291,14 @@ function validar(mensaje)
 						}
 					}
 					
+					if(arrayInput[i].getAttribute('tipovalida') == "porcentaje")
+					{
+						if(!validaporcentaje($.trim($(arrayInput[i]).val())))
+						{
+							resultado = false;
+						}
+					}
+					
 					if(arrayInput[i].getAttribute('tipovalida') == "fecha")
 					{
 						if(!validafecha($.trim($(arrayInput[i]).val())))
@@ -444,6 +460,12 @@ function validamoneda(val)
 	return re.test(val);
 }
 
+function validaporcentaje(val)
+{
+	var re=/^[0-9]{1,10}(\,[0-9]{0,2})?$/;
+	return re.test(val);
+}
+
 function validamail(val)
 {
 	var result = true;
@@ -475,7 +497,7 @@ function validafecha(fecha)
 		if (!/^\d{2}\/\d{2}\/\d{4}$/.test(fecha))
 		{
 			//alert("primer ");
-          	result = false;
+          result = false;
         }
 		else
 		{

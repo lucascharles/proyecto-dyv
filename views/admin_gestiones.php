@@ -46,7 +46,9 @@
 				return false;
 			}
 			var id = document.getElementById("id_gestion").value;
+			
 			$("#pagina").load('index.php?controlador=Gestiones&accion=gestionar&idgestion='+id);
+			
 		}
 	</script>
 </head>

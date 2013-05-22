@@ -9,7 +9,18 @@
     <script src="js/funciones.js" type="text/javascript"></script>
     <script language="javascript">
 	
-		
+    	function mostrar(obj)
+		{
+    		var url = "index.php?controlador=Deudores&accion=listar";
+			url += "&rut="+$("#txtrut_d").val();
+			url += "&p_ape="+$("#txtpapellido").val();
+			url += "&s_ape="+$("#txtsapellido").val();
+			url += "&p_nom="+$("#txtpnombre").val();
+			url += "&s_nom="+$("#txtsnombre").val();
+			url += "&id_partida=0";
+			document.getElementById("frmlistdeudor").src = url;
+		}
+	
 		function limpiar()
 		{
 			document.getElementById("txtdestipdoc").value = "";
@@ -20,7 +31,7 @@
 		function buscar()
 		{
 			var url = "index.php?controlador=Deudores&accion=listar";
-			url += "&rut="+$("#txtrut").val()+$("#txtrut_d").val();
+			url += "&rut="+$("#txtrut_d").val();
 			url += "&p_ape="+$("#txtpapellido").val();
 			url += "&s_ape="+$("#txtsapellido").val();
 			url += "&p_nom="+$("#txtpnombre").val();

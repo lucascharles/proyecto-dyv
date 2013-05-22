@@ -17,21 +17,23 @@
 			.ui-timepicker-div td { font-size: 90%; }
 			.ui-tpicker-grid-label { background: none; border: none; margin: 0; padding: 0; }
 	</style>
-    <script src="js/jquery-1.7.1.min.js" type="text/javascript"></script>
-    <script src="js/jquery/jquery-1.4.1.min.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="css/general.css" type="text/css" />
+ 	<script src="js/jquery/jquery-1.4.1.min.js" type="text/javascript"></script>
     <script src="js/validacampos.js" type="text/javascript"></script>
   	<script src="js/funciones.js" type="text/javascript"></script>
-    
-	<script type="text/javascript" src="js/jquery-ui-1.8.16.custom.min.js"></script>
+    <script type="text/javascript" src="js/jquery-ui-1.8.16.custom.min.js"></script>
 	<script type="text/javascript" src="js/jquery-ui-timepicker-addon.js"></script>
 	<script type="text/javascript" src="js/i18n/jquery.ui.datepicker-es.js"></script>
 	<script type="text/javascript" src="js/jquery-ui-sliderAccess.js"></script>
     <script language="javascript">
 		$(document).ready(function(){
+			$("#txtfecha").datepicker();	
+			$("#txtfechavenc").datepicker();	
 			$('form').validator();
 			$("#txtfechaRecibido").datepicker();
 			$("#txtfechaprotesto").datepicker();
-			
+			//setParametro("interes_diario_normal","txtinteres");
+			//setParametro("valor_uf","txtvaloruf");
 		});
 		
 		function ventanaBusqueda(op)
@@ -153,27 +155,24 @@
 					}
 				});
 		}
-		
+		/*
 		function limpiarDocumentos()
 		{			
 			limpiarCampos();
 		}
+		*/
 		
 		function salir()
 		{
 			$("#pagina").load('views/admin_documentos.php');
 		}
 
-
+		/*
 		function seleccionado(id)
 		{
 			document.getElementById("id_documento").value = id;
 		}
-
-		function seleccionadoMontoCapital(val)
-		{
-			document.getElementById("montocapital").value = val;
-		}
+		*/
 		
 		function seleccionadoMandante(id)
 		{
@@ -341,12 +340,13 @@
 			document.getElementById("frmlistdeudor").src = url;
 		}
 
+/*
 		function cargarPantalla(opt)
 		{
 			//alert("id_deudor: "+document.getElementById("id_deudor").value);
 			var url = "index.php?controlador=Deudores&accion=";
 			var accion = "";
-			var parametros = "";
+			var capital = "";
 			
 			if($.trim($("#id_deudor").val()) == "")
 			{
@@ -378,8 +378,9 @@
 			{
 				accion = "liquidacion_carta";
 				document.getElementById("btnCarta").setAttribute("seleccionado","S");
+				capital= document.getElementById("frmlistdeudor").getElementById('txttotal').value;
+				
 				$(document.getElementById("btnCarta")).addClass('boton_form_brillante');
-				parametros = "&capital="+document.getElementById("montocapital").value;
 			}
 			if(opt == "CALCULADORA")
 			{
@@ -389,15 +390,172 @@
 			}
 
 			url += accion+"&iddeudor="+$("#id_deudor").val();
-			//url += "&tipoperacion="+$("#tipoperacion").val(); 
-			url += parametros;
+			url += "&tipoperacion="+$("#tipoperacion").val(); 
+			url += "&id_liquidacion="+$("#id_liquidacion").val();
+			url += "&capital="+capital;
+
 			document.getElementById("frmsubpantalla").src = url;
+		}
+		
+*/
+
+		function setIdLiquidacion(id)
+		{
+			
+			$("#id_liquidacion").val(id);
 		}
 
 
+		function simular_liquidacion()
+		{
+			var url = "index.php?controlador=Deudores&accion=";
+			var accion = "";
+			var capital = "";
+			
+			if($.trim($("#id_deudor").val()) == "")
+			{
+				$("#mensaje").text("Debe seleccionar un Deudor");
+				$("#mensaje").show("slow");
+				setTimeout("limpiarMensaje()",3000);
+				return false;
+			}
+
+			accion = "liquidacion_documentos";
+
+			url += accion+"&iddeudor="+$("#id_deudor").val();
+			url += "&tipoperacion="+$("#tipoperacion").val(); 
+			url += "&id_liquidacion="+$("#id_liquidacion").val();
+
+			document.getElementById("frmsubpantalla").src = url;
+		}
+
+		function seleccionado(id)
+		{
+			var arrayin = new Array(3);
+			arrayin[0] = document.getElementById("txtfecha");
+			arrayin[1] = document.getElementById("txtinteres");
+			arrayin[2] = document.getElementById("txtvaloruf");
+
+			var arraySel = new Array();
+			
+			if(!validarArray(arrayin, arraySel,"S"))
+			{
+				return false;
+			}
+			
+			// CALCULO MONTO DEUDA - FECHA VENCIMIENTO 
+			document.getElementById("fecha_sim").value = "";
+			document.getElementById("monto_documento_sim").value = 0;
+			var arraydoc = document.getElementsByTagName('input');
+			for(var i=0; i<arraydoc.length; i++)
+		 	{	 
+				if(arraydoc[i].getAttribute('type') == "checkbox")
+				{
+	  			 	if(arraydoc[i].checked == true)
+   				 	{
+						document.getElementById("monto_documento_sim").value = parseFloat(document.getElementById("monto_documento_sim").value) + parseFloat(arraydoc[i].getAttribute('monto'));
+						
+						if(document.getElementById("fecha_sim").value == "")
+						{
+							document.getElementById("fecha_sim").value = arraydoc[i].getAttribute('fecha_doc');
+						}
+						else
+						{
+							if (Date.parse(arraydoc[i].getAttribute('fecha_doc')) > Date.parse(document.getElementById("fecha_sim").value)) 
+							{
+								document.getElementById("fecha_sim").value = arraydoc[i].getAttribute('fecha_doc');
+							}
+						}
+		 			}
+				}
+			}	
+			
+			if($("#monto_documento_sim").val() == 0)
+			{
+				$("#txtmonto").val("");
+			}
+			else
+			{
+				$("#txtmonto").val($("#monto_documento_sim").val());
+			}
+			
+			if($("#monto_documento_sim").val() == 0)
+			{
+				$("#txttotal").val("");
+			}
+			else
+			{
+				$("#txttotal").val($("#monto_documento_sim").val());
+			}
+			
+//			$("#txtfechavenc").val($("#fecha_sim").val());
+			
+			// CALCULO CANTIDAD DIAS ATRASO
+			var dias = 0;
+			if($("#txtfechavenc").val() != "")
+			{
+				var d1 = $('#txtfechavenc').val().split("/");
+				var dat1 = new Date(d1[2], parseFloat(d1[1])-1, parseFloat(d1[0]));
+				var d2 = $('#txtfecha').val().split("/");
+				var dat2 = new Date(d2[2], parseFloat(d2[1])-1, parseFloat(d2[0]));
+ 
+				var fin = dat2.getTime() - dat1.getTime();
+				dias = Math.floor(fin / (1000 * 60 * 60 * 24))  
+ 
+ 				$('#txtdiasatraso').val(dias);
+			}
+			else
+			{
+				$('#txtdiasatraso').val("");
+			}
+			
+			// CALCULO INTERES DIARIO 
+			var interes = (parseFloat($("#txtinteres").val()) * parseFloat($("#monto_documento_sim").val()) ) / 100;
+			if(interes == 0)
+			{
+				$("#txtinteresdiario").val("");
+			}
+			else
+			{
+				$("#txtinteresdiario").val(interes);
+			}
+			
+			// CALCULO INTERES ACUMULADO 
+			var int_acum = interes * dias;
+			if(int_acum == 0)
+			{
+				$("#txtinteresacumulado").val("");
+			}
+			else
+			{
+				$("#txtinteresacumulado").val(int_acum);
+			}
+		}
+		
 	</script>
 </head>
 <body>
+<?
+	$protesto = (is_null($simulacion)) ? "" : utf8_decode($simulacion->get_data("protesto"));
+	$monto = (is_null($simulacion)) ? "" : utf8_decode($simulacion->get_data("monto"));
+	$total = (is_null($simulacion)) ? "" : utf8_decode($simulacion->get_data("total"));
+	$fecha_venc = (is_null($simulacion)) ? date("d/m/Y") : utf8_decode(formatoFecha($simulacion->get_data("fecha_venc"),"yyyy-mm-dd","dd/mm/yyyy"));
+	$diasatraso = (is_null($simulacion)) ? "" : utf8_decode($simulacion->get_data("diasatraso"));
+	$interes_diario = (is_null($simulacion)) ? "" : utf8_decode($simulacion->get_data("interes_diario"));
+	$interes_acumulado = (is_null($simulacion)) ? "" : utf8_decode($simulacion->get_data("interes_acumulado"));
+	
+	$array_doc = array();
+	
+	if(!is_null($doc_simulacion))
+	{
+		for($j=0; $j<$doc_simulacion->get_count(); $j++) 
+		{
+			$dTmp = &$doc_simulacion->items[$j];
+
+			$array_doc[] = $dTmp->get_data("id_documento");
+		}
+	}
+?>
 <div id="selecDeudor" style="position:absolute; margin-left:20px; width:95%; margin-top:30px; display:none; z-index:9999;">
 	<table cellpadding="10" cellspacing="10" align="center" border="0" width="100%" bgcolor="#FFFFFF">  
     <tr>
@@ -456,7 +614,7 @@
         	<td height="">
             	
 	             <div id="datos" style="">
-            	<iframe id="frmlistdeudor" src="index.php?controlador=Deudores&accion=listar&id_partida=0" scrolling="auto" frameborder="0" width="90%" height="100%"></iframe>
+            	<iframe name="frmlistdeudor" id="frmlistdeudor" src="index.php?controlador=Deudores&accion=listar&id_partida=0" scrolling="auto" frameborder="0" width="90%" height="100%"></iframe>
                 </div>
             </td>
        </tr>
@@ -474,7 +632,8 @@
 <input grabar="S" type="hidden" name="id_documento" id="id_documento" value=""/>
 <input grabar="S" type="hidden" name="id_mandante" id="id_mandante" value=""/>
 <input grabar="S" type="hidden" name="id_deudor" id="id_deudor" value=""/>
-<input type="hidden" name="montocapital" id="montocapital" value="0"/>
+<input grabar="S" type="hidden" name="id_liquidacion" id="id_liquidacion" value="<? if($id_liquidacion == "") $id_liquidacion = 0; echo($id_liquidacion) ?>"/>
+
 
 <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="titulopantalla">
 	<tr>
@@ -509,7 +668,7 @@
         	<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
             	<tr>
                 	<td width="240">
-						<input type="text" name="txtrut_deudor" id="txtrut_deudor" class="input_form" onblur="validaDeudor(); generadvrut('txtrut_deudor','txtdv_deudor'); validarRut('D')" />&nbsp;
+						<input type="text" name="txtrut_deudor" id="txtrut_deudor" class="input_form" onblur="validaDeudor(); generadvrut('txtrut_deudor','txtdv_deudor'); validarRut('D'); simular_liquidacion();" />&nbsp;
 	            		<input type="text" name="txtdv_deudor" id="txtdv_deudor" class="input_form_min" onblur="" disabled="disabled" />&nbsp;
                     </td>
                 	<td align="left">
@@ -542,37 +701,292 @@
  
  
  <div id="datos" style="">
- <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
- 	<tr>
-		<td colspan="3">
-        	<table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
-            	<tr>
-                	<td class="boton_form_brillante" seleccionado="S" id="btnSimulacion" onMouseOver='overClassBotonMenu(this)' onMouseOut='outClassBotonMenu(this)' onclick="cargarPantalla('SIMULACION')">
-                    	Simulacion
-                    </td>
-                    <td class="boton_form" id="btnCarta" onMouseOver='overClassBotonMenu(this)' onMouseOut='outClassBotonMenu(this)' onclick="cargarPantalla('CARTA')">
-                    	Carta
-                    </td>
-                    <td class="boton_form" id="btnCalculadora" onMouseOver='overClassBotonMenu(this)' onMouseOut='outClassBotonMenu(this)' onclick="cargarPantalla('CALCULADORA')">
-                    	Calculadora de Prestamos
-                    </td>
-                </tr>
-            </table>
-        </td>
+
+<table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="titulopantalla">
+	<tr>
+		<th align="left" height="30">&nbsp;Simulacion</th>
+        <th></th>
+        <th></th>
     </tr>
-    <tr>
-		<td colspan="3" height="10">
-        
-        </td>
-    </tr>
-    <tr>
+ </table>
+ </div>
+
+ <div id="datos" style=" overflow:auto; height:150px; width:99%;">
+<table width="100%" cellpadding="2" cellspacing="2" align="center" border="0">
+	<tr>
 		<td colspan="3">
         	<iframe id="frmsubpantalla" src="" width="100%" align="middle" height="500" scrolling="auto" frameborder="0"></iframe>
         </td>
     </tr>
-
 </table>
 </div>
+
+<div > 
+<table width="800" align="center" border="0" cellpadding="0" cellspacing="0">
+
+	<tr>
+        <td colspan="1" align="right" valign="top">
+        	<table cellpadding="5" cellspacing="5" border="0" align="center" width="100%">			
+                <tr>
+                    
+                    <td align="right" class="etiqueta_form">Fecha:&nbsp; </td>
+                    <td align="left">
+                        <input type="text" name="txtfecha" id="txtfecha" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" value="<? echo(date("d/m/Y")) ?>" valida="requerido" tipovalida="fecha" />
+                    </td>                                   
+                </tr>
+                <tr>  
+                    <td align="right" class="etiqueta_form">% Interes:&nbsp;</td>
+                    <td align="left">
+                        <input type="text" name="txtinteres" id="txtinteres" value="<?php $datoTmp = &$interes_base; echo($datoTmp); ?>" class="input_form_min" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" />
+                    </td>  
+                </tr>
+                <tr>                                     
+                    <td align="right" class="etiqueta_form">Valor UF:&nbsp;</td>
+                    <td align="left">
+                        <input type="text" name="txtvaloruf" id="txtvaloruf"  value="<?php $datoTmp = &$valoruf; echo($datoTmp); ?>"   class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="moneda" />
+                    </td>
+                </tr>
+             </table>
+        </td>
+        <td colspan="1" align="left" valign="top">   
+            <table cellpadding="5" cellspacing="5" border="0" align="center" width="100%">			
+                <tr>
+                    
+                    <td align="right" class="etiqueta_form">Protesto Bco.&nbsp; </td>
+                    <td align="left">
+                        <input type="text" name="txtprotesto" id="txtprotesto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"  value="<? echo($protesto) ?>" />
+                    </td>                                   
+                </tr>
+                <tr>  
+                    <td align="right" class="etiqueta_form">Monto&nbsp;</td>
+                    <td align="left">
+                        <input type="text" name="txtmonto" id="txtmonto" valida="requerido" tipovalida="moneda" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" value="<? echo($monto) ?>" />
+                    </td>  
+                </tr>
+                <tr>                                     
+                    <td align="right" class="etiqueta_form">Total&nbsp;</td>
+                    <td align="left">
+                        <input type="text" name="txttotal" id="txttotal" valida="requerido" tipovalida="moneda" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" value="<? echo($total) ?>" />
+                    </td>
+                </tr>
+                <tr>	
+                    <td align="right" class="etiqueta_form">Fecha Venc.&nbsp;</td>
+                    <td align="left">
+                        <input type="text" name="txtfechavenc" id="txtfechavenc" valida="requerido" tipovalida="fecha" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)"  value="<? echo($fecha_venc) ?>" />
+                    </td>
+                </tr>
+                <tr>    
+                    <td align="right" class="etiqueta_form">Dias Atraso&nbsp;</td>
+                    <td align="left">
+                        <input type="text" name="txtdiasatraso" id="txtdiasatraso" valida="requerido" tipovalida="entero" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" value="<? echo($diasatraso) ?>" />
+                    </td>
+                 </tr>
+                <tr>   
+                    <td align="right" class="etiqueta_form">Interes Diario&nbsp;</td>
+                    <td align="left">
+                        <input type="text" name="txtinteresdiario" id="txtinteresdiario" valida="requerido" tipovalida="moneda" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" value="<? echo($interes_diario) ?>" />
+                    </td>
+                 </tr>
+                <tr>   
+                    <td align="right" class="etiqueta_form">Interes Acumulado&nbsp;</td>
+                    <td align="left">
+                        <input type="text" name="txtinteresacumulado" id="txtinteresacumulado" valida="requerido" tipovalida="moneda" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" value="<? echo($interes_acumulado) ?>"/>
+                    </td>
+                </tr>
+            </table>
+		</td>
+     </tr>
+ </table>
+</div>
+ 
+ 
+ <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="titulopantalla">
+	<tr>
+		<th align="left" height="30">&nbsp;Carta</th>
+        <th></th>
+        <th></th>
+    </tr>
+ </table>
+ <div id="datos" style=" width:99%;">
+<table width="100%" align="center" border="0" cellpadding="5" cellspacing="5">
+    <tr>
+    	<td>
+        	<table cellpadding="5" cellspacing="5" border="0" align="left" >
+            	<tr>
+					<td align="right" class="etiqueta_form" width="150">Honorarios&nbsp;&nbsp;</td>
+					<td align="left">
+						<input type="text" value="0" name="txthonorarios" id="txthonorarios" size="15" class="input_form" onFocus="resaltar(this)" valida="requerido" tipovalida="entero" />
+        			</td>
+        		</tr>
+        		<tr>
+					<td align="right" class="etiqueta_form">Capital&nbsp;&nbsp;</td>
+                    <td align="left">	
+                    	<input type="text" name="txtcapital" id="txtcapital" value="<?php $datoTmp = &$capital; echo($datoTmp); ?>" size="15" class="input_form" onFocus="resaltar(this)" onBlur="calcular()" tipovalida="texto"/>
+                    </td>        		
+        		</tr>
+        		<tr>
+                    <td align="right" class="etiqueta_form">Interes&nbsp;</td>
+                    <td align="left">
+                        <input type="text" value="0" name="txtinteres" id="txtinteres" size="15" class="input_form" onFocus="resaltar(this)" onBlur="calcular()" tipovalida="entero"/>
+                        <input type="radio" value="S" onclick="repactar(this)" name="rdestatus_repacta" id="rdestatus_repacta" />&nbsp;Repacta&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="radio"  value="N" onclick="repactar(this)" name="rdestatus_no_repacta" id="rdestatus_no_repacta" checked="checked" />&nbsp;No Repacta
+                    </td>
+                 </tr>
+                 <tr>
+                 <td align="right" class="etiqueta_form" width="150">Protesto Banco&nbsp;&nbsp;
+                    </td>
+                    <td class="etiqueta_form" >
+                    		<input type="text" value="0" name="txtprotestobanco" id="txtprotestobanco" size="15" class="input_form" onFocus="resaltar(this)" onBlur="calcular()" valida="requerido" tipovalida="entero"/>
+                    </td>
+                 </tr>
+                 
+                 <tr>
+                 	<td align="right" class="etiqueta_form" width="150">Abono&nbsp;&nbsp;</td>
+                	<td><input type="text" name="txtabono" id="txtabono" value="0" size="15" class="input_form" onFocus="resaltar(this)" onBlur="calcular()" tipovalida="entero"/>
+                    </td>
+                 </tr>
+                 
+                 <tr>
+                    <td align="right" class="etiqueta_form" width="150">Deposito&nbsp;&nbsp;</td>
+                    <td><input type="text" name="txtdeposito" id="txtdeposito" value="0" size="15" class="input_form" onFocus="resaltar(this)" onBlur="calcular()" tipovalida="entero"/>
+                    </td>               
+            	 </tr>
+             </table>
+        </td>
+    </tr>		
+    <tr>
+    	<td>
+        	<table cellpadding="5" cellspacing="5" border="0" align="center" width="100%">
+            	<tr>
+                    
+                 	<td align="center" class="etiqueta_form" width="150">Saldo</td>
+                 	<td align="center" class="etiqueta_form" width="150">IMP</td>
+                 	<td align="center" class="etiqueta_form" width="150">Total</td>
+                </tr>    
+                <tr>
+                    <td align="center" class="etiqueta_form">
+                 		<input type="text" name="txtsaldo" id="txtsaldo" value="0" size="15" class="input_form" onFocus="resaltar(this)" onBlur="calcular()" valida="requerido" tipovalida="entero"/>
+                    </td>
+                    <td align="center" class="etiqueta_form">
+                    	<input type="text" name="txtimp" id="txtimp" value="0" size="15" class="input_form" onFocus="resaltar(this)" onBlur="calcular()"  tipovalida="entero"/>
+                    </td>
+                    <td align="center" class="etiqueta_form">	
+                 		<input type="text" name="txttotal" id="txttotal" value="0" size="15" class="input_form" onFocus="resaltar(this)" onBlur="calcular()"  tipovalida="entero"/>
+                 	</td>		
+                 		
+                 </tr>
+             </table>
+        </td>
+    </tr>	
+	<tr>
+    	<td>
+        	<table cellpadding="5" cellspacing="5" border="0" align="center" width="100%">
+            	<tr>
+                    
+                 	<td align="center" class="etiqueta_form" width="150">Cuotas</td>
+                 	<td align="center" class="etiqueta_form" width="150">Cuotas de UF</td>
+                 	<td align="center" class="etiqueta_form" width="150">Valor Aprox.</td>
+                </tr>    
+                <tr>
+                    <td align="center" class="etiqueta_form">
+                 		<input type="text" name="txtcuotas" id="txtcuotas" value="1" size="15" class="input_form" onFocus="resaltar(this)" onBlur="calcular()" valida="requerido" tipovalida="entero"/>
+                    </td>
+                  
+                    <td align="center" class="etiqueta_form">	
+                 		<input type="text" name="txtcuotasuf" id="txtcuotasuf" value="0" size="15" class="input_form" onFocus="resaltar(this)" onBlur="calcular()" tipovalida="entero"/>
+                 	</td>
+                 	
+                 	<td align="center" class="etiqueta_form">
+                    	<input type="text" name="txtvalorcuota" id="txtvalorcuota" value="0" size="15" class="input_form" onFocus="resaltar(this)" onBlur="calcular()"  tipovalida="entero"/>
+                    </td>		
+                 </tr>
+             </table>
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+        	<span id="mensaje" style="display:none"></span>
+         </td>
+    </tr>    
+ </table>
+ </div>
+ 
+ <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="titulopantalla">
+	<tr>
+		<th align="left" height="30">&nbsp;Calculadora Prestamo</th>
+        <th></th>
+        <th></th>
+    </tr>
+ </table>
+<div id="datos" style=" width:99%">
+<table width="100%" align="center" border="0" cellpadding="5" cellspacing="5">
+    <tr>
+    	<td>
+        	<table cellpadding="5" cellspacing="5" border="0" align="left" >
+            	<tr>
+					<td align="left" class="etiqueta_form">Importe del prestamo&nbsp;&nbsp;&nbsp;&nbsp;</td>
+					<td align="left"><input type="text" name="txtimporte" id="txtimporte" size="15" class="input_form" onFocus="resaltar(this)" valida="requerido" tipovalida="moneda" value="" tabindex="1" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input  type="button" name="btncalcular" id="btncalcular" onclick="calcular()"  value="Calcular" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)' tabindex="10" />
+        			</td>
+				</tr>
+				<tr>	
+					<td align="left" class="etiqueta_form">Interes mensual&nbsp;&nbsp;&nbsp;&nbsp;</td>
+					<td align="left"><input type="text" name="txtinteresmensual" id="txtinteresmensual" size="15" class="input_form" onFocus="resaltar(this)" valida="requerido" tipovalida="moneda" value="" tabindex="2"/>
+        			</td>
+				</tr>
+				<tr>	
+					<td align="left" class="etiqueta_form">Cuotas&nbsp;&nbsp;&nbsp;&nbsp;</td>
+					<td align="left"><input type="text" name="txtcuotas" id="txtcuotas" size="15" class="input_form" onFocus="resaltar(this)" valida="requerido" tipovalida="entero" value="" tabindex="3"/>
+        			</td>        			
+        		</tr>
+				<tr>	
+					<td align="left" class="etiqueta_form">Fecha Inicial&nbsp;&nbsp;&nbsp;&nbsp;</td>
+					<td align="left"><input type="text" name="txtfechainicial" id="txtfechainicial" size="15" class="input_form_medio" onFocus="resaltar(this)" valida="requerido" tipovalida="fecha" value="" tabindex="4"/>
+        			</td>        			
+        		</tr>
+                <tr>	
+					<td align="left" class="etiqueta_form">IMP&nbsp;&nbsp;&nbsp;&nbsp;</td>
+					<td align="left"><input type="text" name="txtimp" id="txtimp" size="15" class="input_form" onFocus="resaltar(this)" valida="requerido" tipovalida="moneda" value="" onblur="calculoAutomatico()" tabindex="5"/>
+        			</td>        			
+				</tr>
+        		<tr>
+					<td align="left" class="etiqueta_form">Pago Mensual&nbsp;&nbsp;&nbsp;&nbsp;</td>
+					<td align="left"><input type="text" name="txtpagomensual" id="txtpagomensual" size="15" class="input_form" onFocus="resaltar(this)" valida="requerido" tipovalida="moneda" value="" tabindex="6"/>
+        			</td>
+				</tr>
+				<tr>	
+					<td align="left" class="etiqueta_form">Numero de Pagos&nbsp;&nbsp;&nbsp;&nbsp;</td>
+					<td align="left"><input type="text" name="txtnumpagos" id="txtnumpagos" size="15" class="input_form" onFocus="resaltar(this)" valida="requerido" tipovalida="entero" value="" tabindex="7"/>
+        			</td>
+				</tr>
+			
+				<tr>	
+					<td align="left" class="etiqueta_form">Costo total prestamo&nbsp;&nbsp;&nbsp;&nbsp;</td>
+					<td align="left"><input type="text" name="txtcostoprestamo" id="txtcostoprestamo" size="15" class="input_form" onFocus="resaltar(this)" valida="requerido" tipovalida="moneda" value="" tabindex="8"/>
+        			</td>        			
+        		</tr>
+        		<tr>	
+					<td align="left" class="etiqueta_form">
+        				
+        			</td>
+        		</tr>
+             </table>
+        </td>
+    </tr>		
+    <tr>
+        <td>
+        	<span id="mensaje" style="display:none"></span>
+         </td>
+    </tr>    
+     <tr>
+		<td colspan="3">
+        	<iframe id="frmcalculos" src="" width="90%" align="middle" height="250" scrolling="auto" frameborder="0"></iframe>
+        </td>
+    </tr>
+ </table>
+ </div>
+ 
 </form>
 </body>
 </html>

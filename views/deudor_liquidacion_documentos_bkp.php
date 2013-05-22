@@ -36,12 +36,6 @@
 		
 	</script>
     <script language="javascript"> 
-
-		function seleccionado(id)
-		{
-			window.parent.seleccionado(id);
-		}
-    
 		function seleccionado_sim(id, monto)
 		{
 			
@@ -308,7 +302,19 @@
 <input type="hidden" name="id_deudor" valida="requerido" tipovalida="entero" id="id_deudor" value="<? echo($idddeudor) ?>" />
 <input type="hidden" name="id_mandante" valida="requerido" tipovalida="entero"  id="id_mandante" value="<? echo($idmandante) ?>" />
 <input type="hidden" name="id_liquidacion" valida="requerido" tipovalida="entero" id="id_liquidacion" value="<? echo($id_liquidacion) ?>" />
-
+ <table width="99%" align="center" border="0" cellpadding="0" cellspacing="0">
+<tr>
+		<th align="left" height="20"></th>
+        <th></th>
+        <th align="right">
+        	<div style="position:relative; margin-right:10px;">
+        	<img src="images/grabar.gif" onClick="grabarSimulacion()" title="Grabar" style="cursor:pointer;">&nbsp;&nbsp;
+            <img src="images/limpiar.gif" onClick="limpiarSimulacion()" title="Limpiar" style="cursor:pointer;">
+            </div>
+        </th>
+        
+    </tr>
+ </table>
 <div id="datos" style=" overflow:auto; height:150px; width:99%;">
 <table width="100%" cellpadding="2" cellspacing="2" align="center" border="0">
 	<tr class="cabecera_listado" >
@@ -332,7 +338,7 @@
 		}
 	?>
 	<tr bgcolor="#FFFFFF">
-    	<td><input type="checkbox" monto="<?php echo ($datoTmp->get_data("monto")) ?>" fecha_doc="<?php  echo (formatoFecha($datoTmp->get_data("fecha_protesto"),"yyyy-mm-dd","dd/mm/yyyy"))?>" id="<? echo($datoTmp->get_data("id_documento")) ?>" name="checkdoc_sim" value="" onclick="seleccionado(<? echo($datoTmp->get_data("id_documento")) ?>)" <? echo($checked) ?>></td>	
+    	<td><input type="checkbox" monto="<?php echo ($datoTmp->get_data("monto")) ?>" fecha_doc="<?php  echo (formatoFecha($datoTmp->get_data("fecha_protesto"),"yyyy-mm-dd","dd/mm/yyyy"))?>" id="<? echo($datoTmp->get_data("id_documento")) ?>" name="checkdoc_sim" value="" onclick="seleccionado_sim(<? echo($datoTmp->get_data("id_documento")) ?>,<? echo($datoTmp->get_data("monto")) ?>)" <? echo($checked) ?>></td>	
 		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("numero_documento")) ?></td>
 		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo (formatoFecha($datoTmp->get_data("fecha_siniestro"),"yyyy-mm-dd","dd/mm/yyyy")) ?></td>
 		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("monto")) ?></td>
@@ -346,6 +352,89 @@
 </table>
 </div>
 
+<div > 
+<table width="800" align="center" border="0" cellpadding="0" cellspacing="0">
+    <tr>
+        <td colspan="2" align="right">
+        	<!--
+        	<input  type="button" name="btnsimular" id="btnsimular" onclick="simular()" class="boton_form" value="Simular" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)' style="position:relative; margin-right:30px;"/>
+            -->
+        </td>
+    </tr>
+	<tr>
+        <td colspan="1" align="right" valign="top">
+        	<table cellpadding="5" cellspacing="5" border="0" align="center" width="100%">			
+                <tr>
+                    
+                    <td align="right" class="etiqueta_form">Fecha:&nbsp; </td>
+                    <td align="left">
+                        <input type="text" name="txtfecha" id="txtfecha" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" value="<? echo(date("d/m/Y")) ?>" valida="requerido" tipovalida="fecha" />
+                    </td>                                   
+                </tr>
+                <tr>  
+                    <td align="right" class="etiqueta_form">% Interes:&nbsp;</td>
+                    <td align="left">
+                        <input type="text" name="txtinteres" id="txtinteres" class="input_form_min" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="porcentaje" />
+                    </td>  
+                </tr>
+                <tr>                                     
+                    <td align="right" class="etiqueta_form">Valor UF:&nbsp;</td>
+                    <td align="left">
+                        <input type="text" name="txtvaloruf" id="txtvaloruf"  class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="moneda" />
+                    </td>
+                </tr>
+             </table>
+        </td>
+        <td colspan="1" align="left" valign="top">   
+            <table cellpadding="5" cellspacing="5" border="0" align="center" width="100%">			
+                <tr>
+                    
+                    <td align="right" class="etiqueta_form">Protesto Bco.&nbsp; </td>
+                    <td align="left">
+                        <input type="text" name="txtprotesto" id="txtprotesto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"  value="<? echo($protesto) ?>" />
+                    </td>                                   
+                </tr>
+                <tr>  
+                    <td align="right" class="etiqueta_form">Monto&nbsp;</td>
+                    <td align="left">
+                        <input type="text" name="txtmonto" id="txtmonto" valida="requerido" tipovalida="moneda" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" value="<? echo($monto) ?>" />
+                    </td>  
+                </tr>
+                <tr>                                     
+                    <td align="right" class="etiqueta_form">Total&nbsp;</td>
+                    <td align="left">
+                        <input type="text" name="txttotal" id="txttotal" valida="requerido" tipovalida="moneda" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" value="<? echo($total) ?>" />
+                    </td>
+                </tr>
+                <tr>	
+                    <td align="right" class="etiqueta_form">Fecha Venc.&nbsp;</td>
+                    <td align="left">
+                        <input type="text" name="txtfechavenc" id="txtfechavenc" valida="requerido" tipovalida="fecha" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)"  value="<? echo($fecha_venc) ?>" />
+                    </td>
+                </tr>
+                <tr>    
+                    <td align="right" class="etiqueta_form">Dias Atraso&nbsp;</td>
+                    <td align="left">
+                        <input type="text" name="txtdiasatraso" id="txtdiasatraso" valida="requerido" tipovalida="entero" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" value="<? echo($diasatraso) ?>" />
+                    </td>
+                 </tr>
+                <tr>   
+                    <td align="right" class="etiqueta_form">Interes Diario&nbsp;</td>
+                    <td align="left">
+                        <input type="text" name="txtinteresdiario" id="txtinteresdiario" valida="requerido" tipovalida="moneda" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" value="<? echo($interes_diario) ?>" />
+                    </td>
+                 </tr>
+                <tr>   
+                    <td align="right" class="etiqueta_form">Interes Acumulado&nbsp;</td>
+                    <td align="left">
+                        <input type="text" name="txtinteresacumulado" id="txtinteresacumulado" valida="requerido" tipovalida="moneda" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" value="<? echo($interes_acumulado) ?>"/>
+                    </td>
+                </tr>
+            </table>
+		</td>
+     </tr>
+ </table>
+</div>
 </form>
 </body>
 </html>

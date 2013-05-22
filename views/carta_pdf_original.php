@@ -66,7 +66,6 @@
 	  	
 	  	if($idDeudorAnt != $deudorTmp->get_data("id_deudor"))
 		{
-			$delta = 5;
 			//identifica el deudor para nueva carta
 				$idDeudorAnt = $deudorTmp->get_data("id_deudor");	
 
@@ -88,31 +87,31 @@
 				$pdf->SetXY(10, 70); 
 				$pdf->Write(0, "Señor(a)(es):");
 				$pdf->SetXY(10, 75); 
-				$pdf->Write(0, utf8_decode(strtoupper($nombreDeudor)));
+				$pdf->Write(0, utf8_decode($nombreDeudor));
 				
 				$pdf->SetFont('Arial',I,9);
 				$pdf->SetXY(10, 80); 
-				$pdf->Write(0, utf8_decode(strtoupper($direccionDeudor)));
+				$pdf->Write(0, utf8_decode($direccionDeudor));
 				$pdf->SetXY(10, 85); 
-				$pdf->Write(0, utf8_decode(strtoupper($comunaDeudor)));
+				$pdf->Write(0, utf8_decode($comunaDeudor));
 				$pdf->SetXY(10, 90); 
-				$pdf->Write(0, utf8_decode(strtoupper($ciudadDeudor)));
+				$pdf->Write(0, utf8_decode($ciudadDeudor));
 				$pdf->SetXY(10, 105); 
 				$pdf->Write(0, "Rut: ".$rutDeudor);
 				$pdf->SetXY(10, 110); 
 				$pdf->Line( 10, 110, 200, 110);
 				
 				$pdf->SetXY(10, 120); 
-				$pdf->Write(0, utf8_decode(strtoupper($mandante)));
+				$pdf->Write(0, utf8_decode($mandante));
 				$pdf->SetXY(10, 125); 
-				$pdf->Write(0, strtoupper("Nos ha encargado la cobranza de los siguientes documentos:"));
+				$pdf->Write(0, "Nos ha encargado la cobranza de los siguientes documentos:");
 				
 			}
 			$pdf->SetXY(10, 130+$delta); 
 			$pdf->Write(0, $tipoDoc." N°: ".$numDoc
-							." ".$estadoDoc."    PROTESTADO EL: ".$fecha2  
-							." POR $". number_format($montoDoc, 0, '', '.'));
-			$delta = $delta +5;
+							." ".$estadoDoc."    Protestado el: ".$fecha2  
+							." por $". number_format($montoDoc, 0, '', '.'));
+		
 		  }
 		
 		$pdf->Output("carta_deudores.pdf","D");

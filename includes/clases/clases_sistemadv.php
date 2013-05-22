@@ -1489,5 +1489,69 @@
 		}
 	}
 	
+	class Liquidacion_simulacion extends BusinessObject
+	{
+		function Liquidacion_simulacion()
+		{
+			$this->table_name = "liquidacion_simulacion";
+			$this->field_metadata = array(
+					"id" => array("int"),
+					"id_liquidacion" => array("int"),
+					"id_deudor" => array("int"),
+					"protesto" => array("varchar"),
+					"monto" => array("decimal"),
+					"total" => array("decimal"),
+					"fecha_venc" => array("date"),
+					"diasatraso" => array("int"),
+					"interes_diario" => array("decimal"),
+					"interes_acumulado" => array("decimal")
+							);
+			parent::BusinessObject();
+		}
+	}
 	
+	class Liquidacion_simulacionCollection extends BusinessObjectCollection
+	{
+		function Liquidacion_simulacionCollection()
+		{
+			parent::BusinessObjectCollection();
+		}
+		
+		function create_singular($row) 
+		{ 
+			$obj = new Liquidacion_simulacion();
+			$obj->load_from_list($row);
+			
+			return $obj;
+		}
+	}
+	
+	class Liquidacion_simulacion_doc extends BusinessObject
+	{
+		function Liquidacion_simulacion_doc()
+		{
+			$this->table_name = "liquidacion_simulacion_doc";
+			$this->field_metadata = array(
+					"id_liquidacion_simulacion" => array("int"),
+					"id_documento" => array("int")
+					);
+			parent::BusinessObject();
+		}
+	}
+	
+	class Liquidacion_simulacion_docCollection extends BusinessObjectCollection
+	{
+		function Liquidacion_simulacion_docCollection()
+		{
+			parent::BusinessObjectCollection();
+		}
+		
+		function create_singular($row) 
+		{ 
+			$obj = new Liquidacion_simulacion_doc();
+			$obj->load_from_list($row);
+			
+			return $obj;
+		}
+	}
 ?>
