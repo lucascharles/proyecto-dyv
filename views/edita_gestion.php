@@ -288,7 +288,8 @@
 			{
 				return false;
 			}
-			$("#pagina").load('index.php?controlador=Deudores&accion=editar&iddeudor='+iddeudor);
+
+			$("#pagina").load('index.php?controlador=Deudores&accion=editar&iddeudor='+iddeudor+"&control_volver=Gestiones&accion_volver=gestionar&param_volver=idgestion&val_volver="+$("#id_gestion").val());
 		}
 		
 	</script>
