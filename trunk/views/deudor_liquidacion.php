@@ -411,7 +411,6 @@
 			var url = "index.php?controlador=Deudores&accion=";
 			var accion = "";
 			var capital = "";
-			
 			if($.trim($("#id_deudor").val()) == "")
 			{
 				$("#mensaje").text("Debe seleccionar un Deudor");
@@ -429,120 +428,89 @@
 			document.getElementById("frmsubpantalla").src = url;
 		}
 
-		function seleccionado(id)
+		function seleccionado(id,monto,fecha,dias)
 		{
-			var arrayin = new Array(3);
-			arrayin[0] = document.getElementById("txtfecha");
-			arrayin[1] = document.getElementById("txtinteres");
-			arrayin[2] = document.getElementById("txtvaloruf");
+			document.getElementById("txtmonto").value = monto;
+			document.getElementById("txttotal").value = monto;
+			document.getElementById("txtfechavenc").value = fecha;
+			document.getElementById("txtdiasatraso").value = dias;
 
-			var arraySel = new Array();
-			
-			if(!validarArray(arrayin, arraySel,"S"))
-			{
-				return false;
-			}
-			
-			// CALCULO MONTO DEUDA - FECHA VENCIMIENTO 
-			document.getElementById("fecha_sim").value = "";
-			document.getElementById("monto_documento_sim").value = 0;
-			var arraydoc = document.getElementsByTagName('input');
-			for(var i=0; i<arraydoc.length; i++)
-		 	{	 
-				if(arraydoc[i].getAttribute('type') == "checkbox")
-				{
-	  			 	if(arraydoc[i].checked == true)
-   				 	{
-						document.getElementById("monto_documento_sim").value = parseFloat(document.getElementById("monto_documento_sim").value) + parseFloat(arraydoc[i].getAttribute('monto'));
-						
-						if(document.getElementById("fecha_sim").value == "")
-						{
-							document.getElementById("fecha_sim").value = arraydoc[i].getAttribute('fecha_doc');
-						}
-						else
-						{
-							if (Date.parse(arraydoc[i].getAttribute('fecha_doc')) > Date.parse(document.getElementById("fecha_sim").value)) 
-							{
-								document.getElementById("fecha_sim").value = arraydoc[i].getAttribute('fecha_doc');
-							}
-						}
-		 			}
-				}
-			}	
-			
-			if($("#monto_documento_sim").val() == 0)
-			{
-				$("#txtmonto").val("");
-			}
-			else
-			{
-				$("#txtmonto").val($("#monto_documento_sim").val());
-			}
-			
-			if($("#monto_documento_sim").val() == 0)
-			{
-				$("#txttotal").val("");
-			}
-			else
-			{
-				$("#txttotal").val($("#monto_documento_sim").val());
-			}
-			
-//			$("#txtfechavenc").val($("#fecha_sim").val());
-			
-			// CALCULO CANTIDAD DIAS ATRASO
-			var dias = 0;
-			if($("#txtfechavenc").val() != "")
-			{
-				var d1 = $('#txtfechavenc').val().split("/");
-				var dat1 = new Date(d1[2], parseFloat(d1[1])-1, parseFloat(d1[0]));
-				var d2 = $('#txtfecha').val().split("/");
-				var dat2 = new Date(d2[2], parseFloat(d2[1])-1, parseFloat(d2[0]));
- 
-				var fin = dat2.getTime() - dat1.getTime();
-				dias = Math.floor(fin / (1000 * 60 * 60 * 24))  
- 
- 				$('#txtdiasatraso').val(dias);
-			}
-			else
-			{
-				$('#txtdiasatraso').val("");
-			}
-			
 			// CALCULO INTERES DIARIO 
-			var interes = (parseFloat($("#txtinteres").val()) * parseFloat($("#monto_documento_sim").val()) ) / 100;
+			var interes = ((parseFloat($("#txtinteres").val()) * parseFloat(document.getElementById("txttotal").value) ) / 100)/30;
 			if(interes == 0)
 			{
 				$("#txtinteresdiario").val("");
 			}
 			else
 			{
-				$("#txtinteresdiario").val(interes);
+				$("#txtinteresdiario").val(interes.toFixed(2));
 			}
 			
 			// CALCULO INTERES ACUMULADO 
-			var int_acum = interes * dias;
+			var int_acum = interes * parseInt(dias);
 			if(int_acum == 0)
 			{
 				$("#txtinteresacumulado").val("");
 			}
 			else
 			{
-				$("#txtinteresacumulado").val(int_acum);
+				$("#txtinteresacumulado").val(int_acum.toFixed(2));
 			}
+
+			var capital = document.getElementById("txttotal").value;
+			var interes = document.getElementById("txtinteresacumulado").value;
+			var protesto = document.getElementById("txtprotesto").value;
+			var abono = document.getElementById("txtabono").value;
+
+			document.getElementById("txtcapital").value = capital;
+			document.getElementById("txthonorarios").value = parseFloat((parseInt(capital) + parseInt(interes) + parseInt(protesto))*10/100).toFixed(2);;
+			document.getElementById("txtsaldo").value = parseFloat(parseInt(capital) + parseInt(interes) + parseInt(protesto) - parseInt(abono)).toFixed(2);;
+			document.getElementById("txtinteres").value = interes;
+			
+			var saldo = document.getElementById("txtsaldo").value;
+			var imp = document.getElementById("txtimp").value;
+			document.getElementById("txttotal").value = parseFloat(parseInt(saldo) + parseInt(imp)).toFixed(2);;
+			
+			var total = document.getElementById("txttotal").value;
+			var cuotas = document.getElementById("txtcuotas").value;
+			document.getElementById("txtvalorcuota").value = parseFloat(parseInt(document.getElementById("txttotal").value) / parseInt(cuotas)).toFixed(2);;
+			document.getElementById("txtcuotasuf").value = parseFloat(parseInt(document.getElementById("txttotal").value) / parseInt(cuotas) /parseInt(valoruf)).toFixed(2);;
+	
 		}
-		
+
+
+		function calcular()
+		{
+			var capital = document.getElementById("txttotal").value;
+			var interes = document.getElementById("txtinteres").value;
+			var protesto = document.getElementById("txtprotesto").value;
+			var abono = document.getElementById("txtabono").value;
+
+			document.getElementById("txtcapital").value = capital;
+			document.getElementById("txthonorarios").value = parseFloat((parseInt(capital) + parseInt(interes) + parseInt(protesto))*10/100).toFixed(2);;
+			document.getElementById("txtsaldo").value = parseFloat(parseInt(capital) + parseInt(interes) + parseInt(protesto) - parseInt(abono)).toFixed(2);;
+
+			var saldo = document.getElementById("txtsaldo").value;
+			var imp = document.getElementById("txtimp").value;
+			document.getElementById("txttotal").value = parseFloat(parseInt(saldo) + parseInt(imp)).toFixed(2);;
+			
+			var total = document.getElementById("txttotal").value;
+			var cuotas = document.getElementById("txtcuotas").value;
+			document.getElementById("txtvalorcuota").value = parseFloat(parseInt(document.getElementById("txttotal").value) / parseInt(cuotas)).toFixed(2);;
+			document.getElementById("txtcuotasuf").value = parseFloat(parseInt(document.getElementById("txttotal").value) / parseInt(cuotas) /parseInt(valoruf)).toFixed(2);;
+		}
+	
 	</script>
 </head>
 <body>
 <?
-	$protesto = (is_null($simulacion)) ? "" : utf8_decode($simulacion->get_data("protesto"));
-	$monto = (is_null($simulacion)) ? "" : utf8_decode($simulacion->get_data("monto"));
-	$total = (is_null($simulacion)) ? "" : utf8_decode($simulacion->get_data("total"));
-	$fecha_venc = (is_null($simulacion)) ? date("d/m/Y") : utf8_decode(formatoFecha($simulacion->get_data("fecha_venc"),"yyyy-mm-dd","dd/mm/yyyy"));
-	$diasatraso = (is_null($simulacion)) ? "" : utf8_decode($simulacion->get_data("diasatraso"));
-	$interes_diario = (is_null($simulacion)) ? "" : utf8_decode($simulacion->get_data("interes_diario"));
-	$interes_acumulado = (is_null($simulacion)) ? "" : utf8_decode($simulacion->get_data("interes_acumulado"));
+	$protesto = 0; //(is_null($simulacion)) ? "" : utf8_decode($simulacion->get_data("protesto"));
+	$monto = 0; //(is_null($simulacion)) ? "" : utf8_decode($simulacion->get_data("monto"));
+	$total = 0; //(is_null($simulacion)) ? "" : utf8_decode($simulacion->get_data("total"));
+	$fecha_venc = date("d/m/Y"); //(is_null($simulacion)) ? date("d/m/Y") : utf8_decode(formatoFecha($simulacion->get_data("fecha_venc"),"yyyy-mm-dd","dd/mm/yyyy"));
+	$diasatraso = 0; //(is_null($simulacion)) ? "" : utf8_decode($simulacion->get_data("diasatraso"));
+	$interes_diario = 0; //(is_null($simulacion)) ? "" : utf8_decode($simulacion->get_data("interes_diario"));
+	$interes_acumulado = 0; //(is_null($simulacion)) ? "" : utf8_decode($simulacion->get_data("interes_acumulado"));
 	
 	$array_doc = array();
 	
@@ -629,6 +597,8 @@
 </table>
 </div>
 <form name="frmadmdocumentos">
+<input type="hidden" name="monto_documento_sim" id="monto_documento_sim" value="0" />
+<input type="hidden" name="fecha_sim" id="fecha_sim" value="" />
 <input grabar="S" type="hidden" name="id_documento" id="id_documento" value=""/>
 <input grabar="S" type="hidden" name="id_mandante" id="id_mandante" value=""/>
 <input grabar="S" type="hidden" name="id_deudor" id="id_deudor" value=""/>

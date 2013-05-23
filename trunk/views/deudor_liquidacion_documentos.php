@@ -37,29 +37,21 @@
 	</script>
     <script language="javascript"> 
 
-		function seleccionado(id)
+		function seleccionado(id,monto,fecha)
 		{
-			window.parent.seleccionado(id);
-		}
-    
-		function seleccionado_sim(id, monto)
-		{
-			
-			var arrayin = new Array(3);
-			arrayin[0] = document.getElementById("txtfecha");
-			arrayin[1] = document.getElementById("txtinteres");
-			arrayin[2] = document.getElementById("txtvaloruf");
-
-			var arraySel = new Array();
-			
-			if(!validarArray(arrayin, arraySel,"S"))
+			if(monto == "")
 			{
-				return false;
+				monto = 0;
 			}
-			
-			// CALCULO MONTO DEUDA - FECHA VENCIMIENTO 
-			document.getElementById("fecha_sim").value = "";
-			document.getElementById("monto_documento_sim").value = 0;
+			if(fecha == "")
+			{
+				alert(document.getElementById("fecha_sim").value);
+				fecha = document.getElementById("fecha_sim").value;
+			}
+
+			var v_monto = 0;
+			var v_dias = 0;
+			var v_fecha = "";	
 			var arraydoc = document.getElementsByTagName('input');
 			for(var i=0; i<arraydoc.length; i++)
 		 	{	 
@@ -67,84 +59,44 @@
 				{
 	  			 	if(arraydoc[i].checked == true)
    				 	{
-						document.getElementById("monto_documento_sim").value = parseFloat(document.getElementById("monto_documento_sim").value) + parseFloat(arraydoc[i].getAttribute('monto'));
+	  			 		v_monto = v_monto + parseFloat(arraydoc[i].getAttribute('monto'));
 						
-						if(document.getElementById("fecha_sim").value == "")
+						if(v_fecha == "")
 						{
-							document.getElementById("fecha_sim").value = arraydoc[i].getAttribute('fecha_doc');
+							v_fecha = arraydoc[i].getAttribute('fecha_doc');
 						}
 						else
 						{
-							if (Date.parse(arraydoc[i].getAttribute('fecha_doc')) > Date.parse(document.getElementById("fecha_sim").value)) 
+							if (Date.parse(arraydoc[i].getAttribute('fecha_doc')) > Date.parse(v_fecha)) 
 							{
-								document.getElementById("fecha_sim").value = arraydoc[i].getAttribute('fecha_doc');
+								v_fecha = arraydoc[i].getAttribute('fecha_doc');
 							}
 						}
 		 			}
 				}
 			}	
-			
-			if($("#monto_documento_sim").val() == 0)
-			{
-				$("#txtmonto").val("");
-			}
-			else
-			{
-				$("#txtmonto").val($("#monto_documento_sim").val());
-			}
-			
-			if($("#monto_documento_sim").val() == 0)
-			{
-				$("#txttotal").val("");
-			}
-			else
-			{
-				$("#txttotal").val($("#monto_documento_sim").val());
-			}
-			
-//			$("#txtfechavenc").val($("#fecha_sim").val());
-			
 			// CALCULO CANTIDAD DIAS ATRASO
 			var dias = 0;
-			if($("#txtfechavenc").val() != "")
+			if(v_fecha != "" && v_fecha != "//00/00/00")
 			{
-				var d1 = $('#txtfechavenc').val().split("/");
+				var d1 = v_fecha.split("/");
 				var dat1 = new Date(d1[2], parseFloat(d1[1])-1, parseFloat(d1[0]));
-				var d2 = $('#txtfecha').val().split("/");
+				var d2 = $('#fecha_sim').val().split("/");
 				var dat2 = new Date(d2[2], parseFloat(d2[1])-1, parseFloat(d2[0]));
  
 				var fin = dat2.getTime() - dat1.getTime();
-				dias = Math.floor(fin / (1000 * 60 * 60 * 24))  
- 
- 				$('#txtdiasatraso').val(dias);
+				dias = Math.floor(fin / (1000 * 60 * 60 * 24));  
+ 				v_dias = dias;
 			}
 			else
 			{
-				$('#txtdiasatraso').val("");
+				v_dias = parseInt("0");
 			}
-			
-			// CALCULO INTERES DIARIO 
-			var interes = (parseFloat($("#txtinteres").val()) * parseFloat($("#monto_documento_sim").val()) ) / 100;
-			if(interes == 0)
-			{
-				$("#txtinteresdiario").val("");
-			}
-			else
-			{
-				$("#txtinteresdiario").val(interes);
-			}
-			
-			// CALCULO INTERES ACUMULADO 
-			var int_acum = interes * dias;
-			if(int_acum == 0)
-			{
-				$("#txtinteresacumulado").val("");
-			}
-			else
-			{
-				$("#txtinteresacumulado").val(int_acum);
-			}
+
+			window.parent.seleccionado(id,v_monto,v_fecha,v_dias);
 		}
+    
+		
 		
 		function simular()
 		{
@@ -303,8 +255,9 @@
 	}
 ?>
 <form name="frmsim" >
+
 <input type="hidden" name="monto_documento_sim" id="monto_documento_sim" value="0" />
-<input type="hidden" name="fecha_sim" id="fecha_sim" value="" />
+<input type="hidden" name="fecha_sim" id="fecha_sim" value="<?php  echo(date("d/m/Y"));?>" />
 <input type="hidden" name="id_deudor" valida="requerido" tipovalida="entero" id="id_deudor" value="<? echo($idddeudor) ?>" />
 <input type="hidden" name="id_mandante" valida="requerido" tipovalida="entero"  id="id_mandante" value="<? echo($idmandante) ?>" />
 <input type="hidden" name="id_liquidacion" valida="requerido" tipovalida="entero" id="id_liquidacion" value="<? echo($id_liquidacion) ?>" />
@@ -332,7 +285,7 @@
 		}
 	?>
 	<tr bgcolor="#FFFFFF">
-    	<td><input type="checkbox" monto="<?php echo ($datoTmp->get_data("monto")) ?>" fecha_doc="<?php  echo (formatoFecha($datoTmp->get_data("fecha_protesto"),"yyyy-mm-dd","dd/mm/yyyy"))?>" id="<? echo($datoTmp->get_data("id_documento")) ?>" name="checkdoc_sim" value="" onclick="seleccionado(<? echo($datoTmp->get_data("id_documento")) ?>)" <? echo($checked) ?>></td>	
+    	<td><input type="checkbox" monto="<?php echo ($datoTmp->get_data("monto")) ?>" fecha_doc="<?php  echo (formatoFecha($datoTmp->get_data("fecha_protesto"),"yyyy-mm-dd","dd/mm/yyyy"))?>" id="<? echo($datoTmp->get_data("id_documento")) ?>" name="checkdoc_sim" value="" onclick="seleccionado(<? echo($datoTmp->get_data("id_documento")) ?>,<? echo($datoTmp->get_data("monto")) ?>,'<?php  echo (formatoFecha($datoTmp->get_data("fecha_protesto"),"dd-mm-yyyy","dd/mm/yyyy"))?>')" <? echo($checked) ?>></td>	
 		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("numero_documento")) ?></td>
 		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo (formatoFecha($datoTmp->get_data("fecha_siniestro"),"yyyy-mm-dd","dd/mm/yyyy")) ?></td>
 		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("monto")) ?></td>
