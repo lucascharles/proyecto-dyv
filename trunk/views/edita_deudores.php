@@ -182,11 +182,19 @@
 		
 		function salirAltaDeudor()
 		{
-			$("#pagina").load('views/admin_deudores.php');
+			if($.trim($("#control_volver").val()) != "")
+			{
+				$("#pagina").load('index.php?controlador='+$("#control_volver").val()+'&accion='+$("#accion_volver").val()+'&'+$("#param_volver").val()+'='+$("#val_volver").val());
+			}
+			else
+			{
+				$("#pagina").load('views/admin_deudores.php');
+			}
 		}
 		
 		function grabar()
 		{
+			
 			var arrayin = new Array(8);
 		
 			document.getElementById("tipo").value = "";
@@ -209,7 +217,7 @@
 				}
 			}
 			document.getElementById("tipo").value = tipo;
-			
+
 			if($.trim(document.getElementById("tipo").value) == "")
 			{
 				$("#mensaje").text("Debe indicar si el Deudor es Persona y/o Empresa.");
@@ -252,7 +260,7 @@
 			datos += "&telefono="+$("#txttelefono").val();
 			datos += "&email="+$("#txtemail").val();
 			datos += "&tipo="+$("#tipo").val();
-
+			
 			$.ajax({
 					url: "index.php",
 					type: "GET",
@@ -260,7 +268,14 @@
 					cache: false,
 					success: function(res)
 					{
-						$("#pagina").load('index.php?controlador=Deudores&accion=admin');
+						if($.trim($("#control_volver").val()) != "")
+						{
+							$("#pagina").load('index.php?controlador='+$("#control_volver").val()+'&accion='+$("#accion_volver").val()+'&'+$("#param_volver").val()+'='+$("#val_volver").val());
+						}
+						else
+						{
+							$("#pagina").load('index.php?controlador=Deudores&accion=admin');
+						}
 					},
 					error: function()
 					{
@@ -433,6 +448,11 @@
 <input type="hidden" name="id_deudor" id="id_deudor" value="<? echo($objDeudor->get_data("id_deudor")) ?>" />
 <input  type="hidden" name="id_dir" id="id_dir" value=""/>
 <input  type="hidden" name="tipo" id="tipo" value=""/>
+<input type="hidden" name="control_volver" id="control_volver" value="<? echo($control_volver) ?>" />
+<input type="hidden" name="accion_volver" id="accion_volver" value="<? echo($accion_volver) ?>" />
+<input type="hidden" name="param_volver" id="param_volver" value="<? echo($param_volver) ?>" />
+<input type="hidden" name="val_volver" id="val_volver" value="<? echo($val_volver) ?>" />
+
 <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="titulopantalla">
 	<tr>
 		<th align="left" height="30">&nbsp;Editar Deudores</th>
@@ -556,7 +576,7 @@
        	</td>
     <tr>
         <td colspan="2">
-        	<span id="mensaje" style="display:none"></span>
+        	<span id="mensaje" ></span>
          </td>
     </tr>   
  </table>
