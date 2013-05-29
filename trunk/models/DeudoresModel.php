@@ -964,32 +964,32 @@ ORDER BY orden ASC ";
 		if($rut <> "" && $rut <> 0)
 		{
 			$dato->add_filter("AND");
-			$dato->add_filter("rut_deudor","like",trim($rut)."%");
+			$dato->add_filter("rut_deudor","like","'".trim($rut)."%'");
 		}
 		
 		if(trim($p_ape) <> "")
 		{
 			$dato->add_filter("AND");
-			$dato->add_filter("primer_apellido","like",trim($p_ape)."%");
+			$dato->add_filter("primer_apellido","like","'".trim($p_ape)."%'");
 		}
 		if(trim($s_ape) <> "")
 		{
 			$dato->add_filter("AND");
-			$dato->add_filter("segundo_apellido","like",trim($s_ape)."%");
+			$dato->add_filter("segundo_apellido","like","'".trim($s_ape)."%'");
 		}
 		if(trim($p_nom) <> "")
 		{
 			$dato->add_filter("AND");
-			$dato->add_filter("primer_nombre","like",trim($p_nom)."%");
+			$dato->add_filter("primer_nombre","like","'".trim($p_nom)."%'");
 		}
 		if(trim($s_nom) <> "")
 		{
 			$dato->add_filter("AND");
-			$dato->add_filter("segundo_nombre","like",trim($s_nom)."%");
+			$dato->add_filter("segundo_nombre","like","'".trim($s_nom)."%'");
 		}
 
 //		$dato->add_top(3);      //es para sqlserver
-		$dato->add_limit(0,15);  //es para mysql
+//		$dato->add_limit(0,15);  //es para mysql
 		$dato->load();
 	
 		return $dato;
@@ -1265,6 +1265,27 @@ ORDER BY orden ASC ";
 		$col->load();
 		
 		return $col;
+	}
+	
+	public function grabarLiquidacion($array)
+	{
+		$dato = new Liquidaciones();
+		
+		$dato->set_data("id_deudor",$array["deudor"]);
+		$dato->set_data("id_mandante",$array["mandante"]);
+		$dato->set_data("interes",$array["interes"]);
+		$dato->set_data("valor_uf",$array["valor_uf"]);
+		$dato->set_data("abono",$array["abono"]);
+		$dato->set_data("cuotas",$array["cuotas"]);
+		$dato->set_data("repacta",$array["repacta"]);
+		$dato->set_data("fecha_inicial_calculo",$array["fecha_inicial_calculo"]);
+		$dato->set_data("fecha_simulacion",$array["fecha_simulacion"]);
+		$dato->save();	
+			
+//		$col = new Liquidacion_simulacion_docCollection();
+//		$col->add_filter("id_liquidacion_simulacion","=",$dato->get_data("id"));
+//		$col->load();
+		
 	}
 }
 ?>

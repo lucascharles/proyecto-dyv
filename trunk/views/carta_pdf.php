@@ -32,8 +32,12 @@
 		
 		$nombreDeudor = $deudorTmp->get_data("primer_apellido_deudor")." ".$deudorTmp->get_data("segundo_apellido_deudor")." ".
 						$deudorTmp->get_data("primer_nombre_deudor")." ".$deudorTmp->get_data("segundo_nombre_deudor");
-		$direccionDeudor = $deudorTmp->get_data("calle")." ".$deudorTmp->get_data("numero")." ".$deudorTmp->get_data("piso") 
-							." ".$deudorTmp->get_data("depto");		
+		$direccionDeudor = $deudorTmp->get_data("calle")." ".$deudorTmp->get_data("numero")." ".$deudorTmp->get_data("piso"); 
+							
+		if($deudorTmp->get_data("depto")!= ""){
+			$direccionDeudor = $direccionDeudor ." Dep./Of. ".$deudorTmp->get_data("depto");
+		}
+			
 		
 		$comunaDeudor = $deudorTmp->get_data("comuna");		
 		$ciudadDeudor = $deudorTmp->get_data("ciudad");

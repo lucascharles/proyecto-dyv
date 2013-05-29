@@ -891,5 +891,13 @@ class DeudoresController extends ControllerBase
 		
 		echo($id_liq);
 	}	
+	
+	public function grabarLiquidacion($array)
+	{
+		require 'models/DeudoresModel.php';
+		
+		$deudor = new DeudoresModel();
+		$deudor->grabarLiquidacion($array);
+	}	
 }
 ?>
