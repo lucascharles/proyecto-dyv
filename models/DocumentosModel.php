@@ -296,7 +296,7 @@ class DocumentosModel extends ModelBase
 					
 					// no existe tipo documento
 					$tipodoc = new TipoDocumento();
-					$tipodoc->add_filter("tipo_documento","=",strtoupper(trim($arraydatos[18])));
+					$tipodoc->add_filter("tipo_documento","=",strtoupper(trim($arraydatos[17])));
 					$tipodoc->load();
 					if(is_null($tipodoc->get_data("id_tipo_documento")))
 					{
@@ -318,7 +318,7 @@ class DocumentosModel extends ModelBase
 					
 					// no existe banco
 					$banco = new Bancos();
-					$banco->add_filter("codigo","=",trim($arraydatos[19]));
+					$banco->add_filter("codigo","=",trim($arraydatos[18]));
 					$banco->load();
 					$banco_default = $banco->get_data("id_banco");
 					if(is_null($banco->get_data("id_banco")))
@@ -811,7 +811,7 @@ class DocumentosModel extends ModelBase
 				and m.id_mandante = d.id_mandatario
 				and d.id_estado_doc = ed.id_estado_doc
 				and d.id_tipo_doc = td.id_tipo_documento
-				and ed.estado not in ('RECUPERADO')
+				and ed.estado not in ('RECUPERADO','CASTIGADO')
 				and d.activo = 'S' ";
 	
 		$where .= " and d.id_documento > ".$array["id_partida"];
@@ -894,7 +894,12 @@ class DocumentosModel extends ModelBase
 			{
 				$where .= " and dd.rut_deudor like '".trim($array["des_int"])."%'";
 			}
-				
+
+			if(trim($array["rutmandante"]) <> "")
+			{
+				$where .= " and m.rut_mandante like '".trim($array["rutmandante"])."%'";
+			}
+			
 			if(trim($array["desApel1"]) <> "")
 			{
 				$where .= " and dd.primer_apellido like '".trim($array["desApel1"])."%'";

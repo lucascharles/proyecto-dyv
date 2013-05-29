@@ -8,8 +8,9 @@
      <link rel="stylesheet" href="css/general.css" type="text/css" />
 </head>
 <body>
+<div id="datos" style=" overflow:auto; height:150px; width:99%;">
  <table width="100%" cellpadding="2" cellspacing="2" align="center" border="0">
-	<tr bgcolor="#666666">
+	<tr class="cabecera_listado">
 		<th align="center"><font class="titulolistado">Num.</font></th>
         <th align="center"><font class="titulolistado">Fecha Pago</font></th>
         <th align="center"><font class="titulolistado">Saldo Inicial</font></th>
@@ -37,5 +38,6 @@
 	}
 	?>
 </table>
+</div>
 </body>
 </html>

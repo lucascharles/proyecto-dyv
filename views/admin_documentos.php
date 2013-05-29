@@ -15,6 +15,7 @@
 			url += "&desNomb1="+document.getElementById("txtPrimerNomb").value;
 			url += "&desNomb2="+document.getElementById("txtSegundoNomb").value;
 			url += "&id_partida=0";
+			url += "&rutmandante="+document.getElementById("txtrutmandante").value;
 			document.getElementById("frmlistdocumentos").src = url;
 		}
 		
@@ -112,7 +113,9 @@
 <div id="buscador" style="">
 <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
 	<tr>
-		<td width="" align="left" class="etiqueta_form">R.U.T.:&nbsp;&nbsp;&nbsp; <input type="text" name="txtrut" id="txtrut"  size="20" onkeyup='mostrar(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" /></td>
+		<td width="" align="left" class="etiqueta_form">R.U.T. Deudor:&nbsp;&nbsp;&nbsp; <input type="text" name="txtrut" id="txtrut"  size="20" onkeyup='mostrar(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" /></td>
+        <td align="left"></td>
+        <td width="" align="left" class="etiqueta_form">R.U.T. Mandante:&nbsp;&nbsp;&nbsp; <input type="text" name="txtrutmandante" id="txtrutmandante"  size="20" onkeyup='mostrar(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" /></td>
         <td align="left"></td>
         <td> 
         </td>
