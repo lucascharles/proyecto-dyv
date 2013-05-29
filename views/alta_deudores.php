@@ -578,15 +578,15 @@
                 </tr>
                 <tr>
                 	<td class="etiqueta_form">Celular</td>
-                    <td><input type="text" grabar="S" name="txtcelular" id="txtcelular"  size="25" valida="requerido" tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtcelular" class="msjdato_incomp"></span></td>
+                    <td><input type="text" grabar="S" name="txtcelular" id="txtcelular"  size="25"  tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtcelular" class="msjdato_incomp"></span></td>
                 </tr>
                 <tr>
                 	<td class="etiqueta_form">Tel&eacute;fono</td>
-                    <td><input type="text" grabar="S" name="txttelefono" id="txttelefono"  size="25" valida="requerido" tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txttelefono" class="msjdato_incomp"></span></td>
+                    <td><input type="text" grabar="S" name="txttelefono" id="txttelefono"  size="25"  tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txttelefono" class="msjdato_incomp"></span></td>
                 </tr>
                 <tr>
                 	<td class="etiqueta_form">Email</td>
-                    <td><input type="text" grabar="S" name="txtemail" id="txtemail"  size="25" valida="requerido" tipovalida="mail" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtemail" class="msjdato_incomp"></span></td>
+                    <td><input type="text" grabar="S" name="txtemail" id="txtemail"  size="25"  tipovalida="mail" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtemail" class="msjdato_incomp"></span></td>
                 </tr>
                 <tr>
                 	<td colspan="2" height="25"></td>
