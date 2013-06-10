@@ -11,6 +11,7 @@
     <script language="javascript">
 		$(document).ready(function(){
   			$('form').validator();
+  			$("#txtfechaproxgestion").datepicker();
 		});
 		
 		function ventanaBusqueda()
@@ -23,6 +24,20 @@
 			 //$("html, body").animate({ scrollTop: $(document).height() }, "slow");
   //return false;
 		}
+
+		
+		function ocultarDir()
+		{
+				$("#formsoporte").hide("slow");
+		}
+	
+
+		function agregarDir()
+		{
+				$("#formsoporte").show("slow");
+			
+		}
+
 		function limpiar()
 		{
 			document.getElementById("txtdestipdoc").value = "";
@@ -291,6 +306,16 @@
 
 			$("#pagina").load('index.php?controlador=Deudores&accion=editar&iddeudor='+iddeudor+"&control_volver=Gestiones&accion_volver=gestionar&param_volver=idgestion&val_volver="+$("#id_gestion").val());
 		}
+
+		function liquidar(iddeudor)
+		{
+			if(iddeudor == "")
+			{
+				return false;
+			}
+			
+			$("#pagina").load('index.php?controlador=Gestiones&accion=gestiona_liquidacion&iddeudor='+iddeudor);		
+		}
 		
 	</script>
 </head>
@@ -412,6 +437,9 @@
     	<td align="left" class="etiqueta_form" >Tel.Fijo: &nbsp;
     		<input type="text" name="txtteldeudor" id="txtteldeudor" value="<? $var = &$telDeudor; echo($var); ?>" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" />
     	</td>
+    	<td align="left" class="etiqueta_form" >Email: &nbsp;
+    		<input type="text" name="txtemaildeudor" id="txtemaildeudor" value="<? $var = &$emailDeudor; echo($var); ?>" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" />
+    	</td>
     	<td align="left" class="etiqueta_form" >
     		<input  type="button" name="btnmoddeudor" id="btnmoddeudor" onclick="modDeudor(<? echo($objGestion->get_data("id_deudor")) ?>)" class="boton_form" value="Deudor" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/>
     	</td>
@@ -441,24 +469,24 @@
 <table width="100%" height="120" align="center" border="0" cellpadding="0" cellspacing="0">
      <tr>
      	<td valign="top" colspan="2">
-     		<table width="100%"  align="center" border="0" cellpadding="0" cellspacing="0">
-            <tr>
-					<td height="5" colspan="2"></td>
-        		</tr>
-				<tr>
-					<td align="right" class="etiqueta_form" width="20">&nbsp;Monto(neto):</td><td>&nbsp;&nbsp;&nbsp;
-        				<input type="text" name="txtmontodeuda" id="txtmontodeuda" value="<? $var = &$deudaNeta; echo($var); ?>"  class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" />
-        			</td>
-        		</tr>
-                <tr>
-					<td height="5" colspan="2"></td>
-        		</tr>
-        		<tr>
-					<td align="right" class="etiqueta_form" width="20">&nbsp;Monto(Mandante):</td><td>&nbsp;&nbsp;&nbsp;
-        				<input type="text" name="txtmontodeudaMandante" id="txtmontodeudaMandante" value="<? $var = &$deudaNetaMandante; echo($var); ?>" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)"/>
-        			</td>
-        		</tr>
-        	</table>
+<!--     		<table width="100%"  align="center" border="0" cellpadding="0" cellspacing="0">-->
+<!--            <tr>-->
+<!--					<td height="5" colspan="2"></td>-->
+<!--        		</tr>-->
+<!--				<tr>-->
+<!--					<td align="right" class="etiqueta_form" width="20">&nbsp;Monto(neto):</td><td>&nbsp;&nbsp;&nbsp;-->
+<!--        				<input type="text" name="txtmontodeuda" id="txtmontodeuda" value="<? $var = &$deudaNeta; echo($var); ?>"  class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" />-->
+<!--        			</td>-->
+<!--        		</tr>-->
+<!--                <tr>-->
+<!--					<td height="5" colspan="2"></td>-->
+<!--        		</tr>-->
+<!--        		<tr>-->
+<!--					<td align="right" class="etiqueta_form" width="20">&nbsp;Monto(Mandante):</td><td>&nbsp;&nbsp;&nbsp;-->
+<!--        				<input type="text" name="txtmontodeudaMandante" id="txtmontodeudaMandante" value="<? $var = &$deudaNetaMandante; echo($var); ?>" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)"/>-->
+<!--        			</td>-->
+<!--        		</tr>-->
+<!--        	</table>-->
         </td>
     </tr>
     <tr>
@@ -467,13 +495,10 @@
      </tr>
     <tr>
     	<td align="right" valign="top" >
-        
-        				<iframe id="frmlistdocumentos" src="index.php?controlador=Gestiones&accion=listarDocumentos&iddeudor=<? echo($objGestion->get_data("id_deudor")) ?>&id_partida=0" frameborder="0" align="middle" width="100%" height="120" scrolling="auto"></iframe>
-        
+        			<iframe id="frmlistdocumentos" src="index.php?controlador=Gestiones&accion=listarDocumentos&iddeudor=<? echo($objGestion->get_data("id_deudor")) ?>&id_partida=0" frameborder="0" align="middle" width="100%" height="120" scrolling="auto"></iframe>
         </td>
         <td align="center" width="100">
-					<input  type="button" name="btnLiquidacion" id="btnLiquidacion" onclick="alert(<? echo($objGestion->get_data("id_gestion")) ?>)" class="boton_form" value="Liquidaci&oacute;n" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)' />
-			
+					<input  type="button" name="btnLiquidacion" id="btnLiquidacion" onclick="liquidar(<? echo($objGestion->get_data("id_deudor")) ?>)" class="boton_form" value="Liquidaci&oacute;n" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)' />
         </td>
     </tr>
 </table>
@@ -484,13 +509,20 @@
 
 <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="titulopantalla">
 	<tr>
-		<th align="center" height="30">&nbsp;Direcciones</th>
+		<td>
+		<th align="left" height="30">&nbsp;Direcciones</th>
         <th></th>
         <th align="center" ></th>
         <th></th>
         <th></th>
+        </td>
+        <td align="right">
+			<input  type="button" name="btnVerDireccion" id="btnVerDireccion" onclick="agregarDir()" class="boton_form" value="Ver Direccion" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)' />
+        </td>
     </tr>
  </table>
+</div> 
+ <div id="formsoporte" style=" display:none"> 
 <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
 
     <tr>
@@ -499,7 +531,12 @@
         </td>
         <td width="100" >
         	&nbsp;
+         <tr>
          <input  type="button" name="btngrabardir" id="btngrabardir" onclick="grabarDir()" class="boton_form" value="Grabar" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)' />
+         </tr>
+         <tr>
+         <input  type="button" name="btnocultardir" id="btnocultardir" onclick="ocultarDir()" class="boton_form" value="Salir" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)' />
+         </tr>
         </td>
 	</tr>
 </table>
@@ -509,7 +546,7 @@
 
 <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="titulopantalla">
 	<tr>
-		<th align="center" height="30">&nbsp;Demandas</th>
+		<th align="left" height="30">&nbsp;Demandas</th>
         <th></th>
         <th align="center"></th>
         <th></th>
@@ -560,7 +597,7 @@
 		<td align="center" class="etiqueta_form">Gestion</td>
         <td> 
         	<select name="selGestion" valida="requerido" tipovalida="texto" id="selGestion" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)">
-     			<option value=""> ----Seleccione----</option>
+     			<option value="<? $var = &$idUltimaGestion; echo($var); ?>"> <? $var = &$estadoUltimaGestion; echo($var); ?> </option>
         		<?
 			        for($j=0; $j<$coleccionEstadoGestion->get_count(); $j++)
 			        {
@@ -592,8 +629,13 @@
                 </tr>
              </table>
         </td>
+        <?php 
+        	$fecha = date('Y-m-d');
+			$nuevafecha = strtotime ( '+3 day' , strtotime ( $fecha ) ) ;
+			$nuevafecha = date ( 'Y-m-d' , $nuevafecha );
+        ?>
         <td align="center" class="etiqueta_form">Prox. Gestion</td>
-        <td> <input type="text" name="txtfechaproxgestion" id="txtfechaproxgestion" value="<?php echo(date("Y-m-d")) ?>" class="input_form_medio" valida="requerido" tipovalida="texto" onFocus="resaltar(this)" onBlur="noresaltar(this)"/>
+        <td> <input type="text" name="txtfechaproxgestion" id="txtfechaproxgestion" value="<?php echo($nuevafecha); ?>" class="input_form_medio" valida="requerido" tipovalida="texto" onFocus="resaltar(this)" onBlur="noresaltar(this)"/>
         </td>
         <td align="center" class="etiqueta_form">Usuario</td>
         <td> <input type="text" name="txtusuario" id="txtusuario" disabled="disabled" value="<?php echo($_SESSION["idusuario"])?>" class="input_form_medio" valida="requerido" tipovalida="texto" onFocus="resaltar(this)" onBlur="noresaltar(this)"/></td>

@@ -1393,14 +1393,14 @@
 					"id_gestion" => array("int"),
 					"id_deudor" => array("int"),
 					"id_mandante" => array("int"),
-					"fecha_gestion" => array("datetime"),
+					"fecha_gestion" => array("date"),
 					"nota_gestion" => array("varchar"),
-					"fecha_prox_gestion" => array("datetime"),
+					"fecha_prox_gestion" => array("date"),
 					"activo" => array("varchar"),
 					"usuario_creacion" => array("varchar"),
-					"fecha_creacion"  => array("datetime"),
+					"fecha_creacion"  => array("date"),
 					"usuario_modificacion" => array("varchar"),
-					"fecha_modificacion"  => array("datetime")
+					"fecha_modificacion"  => array("date")
 				);
 			parent::BusinessObject();
 		}

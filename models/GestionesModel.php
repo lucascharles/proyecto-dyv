@@ -48,6 +48,102 @@ class GestionesModel extends ModelBase
 	
 	}
 	
+	public function getListaGestionesDia($des)
+	{
+	
+	include("config.php");
+
+	
+	$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
+	
+	$sqlpersonal->set_select( " g.id_gestion id_gestion,	   
+   					  m.rut_mandante rut_mandante,
+					  m.dv_mandante dv_mandante,							   
+					  d.rut_deudor rut_deudor, 
+					  d.dv_deudor dv_deudor,
+					  d.primer_apellido primer_apellido, 
+					  d.segundo_apellido segundo_apellido,
+					  d.primer_nombre primer_nombre,
+					  d.segundo_nombre segundo_nombre,
+					  g.fecha_gestion fecha_gestion,
+					  g.fecha_prox_gestion fecha_prox_gestion,
+					  g.estado estado ");
+	$sqlpersonal->set_from( " gestiones g, deudores d, mandantes m ");
+
+	$where = " g.id_deudor = d.id_deudor
+	  	   and g.id_mandante = m.id_mandante
+		   and g.activo = 'S'
+		   AND ((g.fecha_prox_gestion <= curdate()) or g.id_gestion not in(select gg.id_gestion from estados_x_gestion gg))
+		   and d.id_deudor in (select d1.id_deudor from documentos d1 where d1.id_deudor = d.id_deudor and d1.id_estado_doc not in( 2,3 )
+		   						and d1.activo = 'S') ";
+	
+	
+	
+	
+	if($des != ""){
+		
+		$cond=" and (d.rut_deudor like '".$des ."%' or m.rut_mandante like '".$des."%' )";
+		$where = $where . $cond;
+	}
+
+	$where = $where ." ORDER by fecha_prox_gestion asc ";
+	
+	
+	$sqlpersonal->set_where( $where );
+	
+    $sqlpersonal->load();
+
+    return $sqlpersonal;	
+	
+	}
+	
+	public function cuentaGestionesDia()
+	{
+	
+	include("config.php");
+
+	
+	$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
+	
+	$sqlpersonal->set_select( " count(*) cantidad ");
+	$sqlpersonal->set_from( " gestiones g, deudores d, mandantes m ");
+	$where = " g.id_deudor = d.id_deudor
+	  	   and g.id_mandante = m.id_mandante
+		   and g.activo = 'S'
+		   AND ((g.fecha_prox_gestion <= curdate()) or g.id_gestion not in(select gg.id_gestion from estados_x_gestion gg))
+		   and d.id_deudor in (select d1.id_deudor from documentos d1 where d1.id_deudor = d.id_deudor and d1.id_estado_doc not in( 2,3 )) ";
+	
+	$sqlpersonal->set_where( $where );
+	
+    $sqlpersonal->load();
+
+    return $sqlpersonal;	
+	
+	}
+	
+	public function cuentaGestionesTotal()
+	{
+	
+	include("config.php");
+
+	
+	$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
+	
+	$sqlpersonal->set_select( " count(*) cantidad ");
+	$sqlpersonal->set_from( " gestiones g, deudores d, mandantes m ");
+	$where = " g.id_deudor = d.id_deudor
+	  	   and g.id_mandante = m.id_mandante
+		   and g.activo = 'S'
+		   and d.id_deudor in (select d1.id_deudor from documentos d1 where d1.id_deudor = d.id_deudor and d1.id_estado_doc not in( 2,3 )) ";
+	
+	$sqlpersonal->set_where( $where );
+	
+    $sqlpersonal->load();
+
+    return $sqlpersonal;	
+	
+	}
+	
 	public function getGestion($idgestion)
 	{
 		
@@ -111,6 +207,30 @@ class GestionesModel extends ModelBase
     return $sqlpersonal;
 
 	}
+	
+	
+	public function getUltimaGestion($idgestion)
+	{
+	
+	include("config.php");
+
+	
+	$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
+	
+	$sqlpersonal->set_select(" max(eg.id)id ,esg.estado estado, esg.id_estado id_estado"); 
+	  $sqlpersonal->set_from(" gestiones g, estados_x_gestion eg, estadosgestion esg ");
+	  $sqlpersonal->set_where(" g.id_gestion = eg.id_gestion 
+							and eg.id_estado = esg.id_estado 
+	  						and eg.id_gestion = " .$idgestion
+	  					 ." group by esg.estado, esg.id_estado");
+	
+    $sqlpersonal->load();
+
+    return $sqlpersonal;
+
+	}
+	
+
 	
 	public function getListaMandantes($param)
 	{
@@ -176,6 +296,7 @@ class GestionesModel extends ModelBase
 								   d.segundo_nombre segundo_nombre,
 								   d.celular celular,
 								   d.telefono_fijo telefono_fijo,
+								   d.email email,
 								   m.rut_mandante rut_mandante,
 								   m.dv_mandante dv_mandante,
 								   m.nombre nombre_mandante "); 

@@ -52,7 +52,8 @@
 			$this->host = $h;
 			$this->user = $u; 
 			$this->pass = $p;
-			$this->db_connect_id_s = mssql_connect($this->host, $this->user, $this->pass);
+//			$this->db_connect_id_s = mssql_connect($this->host, $this->user, $this->pass);  //Sql Server
+			$this->db_connect_id_s = mysql_connect($this->host, $this->user, $this->pass);  //MySql
 		}
 		
 		function get_count()
@@ -120,11 +121,13 @@
 			}
 			$sql .= ";";
 			
-			//echo("<br>sql: ".$sql);
+//			echo("<br>sql: ".$sql);
 			
-			$select = mssql_query($sql,$this->db_connect_id_s);
+//			$select = mssql_query($sql,$this->db_connect_id_s);//sql_server
+			$select = mysql_query($sql,$this->db_connect_id_s);
 			
-			while($fila=mssql_fetch_array($select))
+//			while($fila=mssql_fetch_array($select))  //sql server
+			while($fila=mysql_fetch_array($select))
 			{
 				$datas = new dataSqlSoporte();
 				$arrayaux = array();
@@ -155,9 +158,10 @@
 			$sql = $this->sql_completo;
 			$sql .= ";";
 		
-			$select = mssql_query($sql,$this->db_connect_id_s);
+//			$select = mssql_query($sql,$this->db_connect_id_s);   //sql server
+			$select = mysql_query($sql,$this->db_connect_id_s);
 			
-			while($fila=mssql_fetch_array($select))
+			while($fila=mysql_fetch_array($select))
 			{
 				$datas = new dataSqlSoporte();
 				$arrayaux = array();
@@ -455,7 +459,7 @@
 			{
 				if ($this->is_new)
 				{
-					//echo "insert";
+//					echo "insert";
 					return $this->_insert();
 				}
 				else if ($this->is_dirty())
@@ -982,8 +986,12 @@
 			{
 				$sql .= " TOP(" . $this->top . ") ";
 			}
+			else
+			{
+				$sql .= " * ";
+			}
 			
-			$sql .= " * FROM " . $data_objects[$this->db_key]->sql_escape_tablename($this->table_name);
+			$sql .= " FROM " . $data_objects[$this->db_key]->sql_escape_tablename($this->table_name);
 	
 			// add where clause if any filters where set.
 			$where_sql = $this->build_where_clause();

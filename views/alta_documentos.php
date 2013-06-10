@@ -175,7 +175,7 @@
 		
 		function seleccionadoDeudor(id)
 		{
-			document.getElementById("id_mandante").value = id;
+			document.getElementById("id_deudor").value = id;
 			buscarDatosDeudor(id);
 			cerrarVentDeudor();
 		}
@@ -273,12 +273,13 @@
 		{		
 			if(!validar("N"))
 			{
+	
 				return false;
 			}
-			
-			if($.trim($("#selDeudor").val()) != "")
+
+			if($.trim($("#id_deudor").val()) != "")
 			{
-				var id = document.getElementById("selDeudor").value;
+				var id = document.getElementById("id_deudor").value;
 				
 				var datos = "controlador=Documentos";
 				
@@ -662,7 +663,7 @@
         			<td align="left"><input type="text" grabar="S" name="txtnrodoc" id="txtnrodoc"  size="20" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"  valida="requerido" tipovalida="entero"/></td>
         			<td align="left"><input type="text" grabar="S" name="txtmonto" id="txtmonto" value="0" size="15" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="moneda" /></td>
         			<td> 
-                    <select name="selBancos" grabar="S" valida="requerido" tipovalida="texto" id="selBancos" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)">
+                    <select name="selBancos" grabar="S" tipovalida="texto" id="selBancos" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)">
      			<option value=""><? print utf8_encode("----Seleccione----") ?></option>
         		<?
 			        for($j=0; $j<$coleccion_bancos->get_count(); $j++)
@@ -683,7 +684,7 @@
                 <td width="70" align="left" colspan="2" class="etiqueta_form">Causal Protesto:</td>
         	   </tr>
     			<tr>
-    				<td align="left"><input type="text" grabar="S" name="txtctacte" id="txtctacte"  size="15" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="entero" /></td>        
+    				<td align="left"><input type="text" grabar="S" name="txtctacte" id="txtctacte"  size="15" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" tipovalida="entero" /></td>        
         			<td align="left"><input type="text" grabar="S" name="txtfechaprotesto" id="txtfechaprotesto"  size="15" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="fecha"/></td>
                     <td colspan="2">
         	<select name="selCausalProtesta" grabar="S" valida="requerido" tipovalida="texto" id="selCausalProtesta" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)">
