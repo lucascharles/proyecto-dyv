@@ -120,84 +120,12 @@
 	</script>
 </head>
 <body>
-<div id="selecDeudor" style="position:absolute; margin-left:20px; width:95%; margin-top:30px; display:none; z-index:9999;">
-	<table cellpadding="10" cellspacing="10" align="center" border="0" width="100%" bgcolor="#FFFFFF">  
-    <tr>
-    <td>
-	<table width="100%" align="center" border="0" bgcolor="#eeeeee" cellpadding="5" cellspacing="5"> 
-    	<tr>
-        	<td height="" align="right">
-            	<div onclick="cerrarVentDeudor()" style="cursor:pointer; font-weight:bold; color:#000099;"> cerrar </div>
-            </td>
-        </tr>
-        <tr>
-        <th align="left">Seleccionar Deudor</th>
-        </tr>
-        <tr>
-        <td height="10"> </td>
-        </tr>
-        <tr>
-        	<td height="">
-            	<table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
-                	<tr> 
-                        
-                       <td width="" colspan="4" align="left" class="etiqueta_form">Rut:&nbsp;&nbsp; <input type="text" name="txtrut_d" id="txtrut_d"  size="20" onkeyup='mostrarDeudor(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this); generadvrut('txtrut_d','txtrut_dv');" />&nbsp;<input type="text" name="txtrut_dv" id="txtrut_dv"  size="2" onkeyup='mostrarDeudor(this)'  class="input_form_min" disabled="disabled"/></td>
-                     </tr>
-                     <tr>
-                        
-                        <td width="" align="left" height="15"></td>
-                      
-                    </tr>
-                	<tr>
-                        
-                        <td width="" align="left" class="etiqueta_form">Primer Apellido:</td>
-                        <td width="" align="left" class="etiqueta_form">Segundo Apellido:</td>
-                        <td width="" align="left" class="etiqueta_form">Primer Nombre:</td>
-                        <td width="70" align="left" class="etiqueta_form">Segundo Nombre:</td>
-                    </tr>
-                    
-                    <tr>                       
-                        <td align="left"> <input type="text" name="txtpapellido" id="txtpapellido" value="" size="20" onkeyup='mostrarDeudor(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/></td>
-                        <td align="left"><input type="text" name="txtsapellido" id="txtsapellido" value="" size="20" onkeyup='mostrarDeudor(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/></td>  
-                        <td align="left"><input type="text" name="txtpnombre" id="txtpnombre" value="" size="20" onkeyup='mostrarDeudor(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/></td>
-                        <td align="left"><input type="text" name="txtsnombre" id="txtsnombre" value="" size="20" onkeyup='mostrarDeudor(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/></td>
-                    </tr>
-
-                </table>
-            </td>
-        </tr>
-        <tr>
-        	<td height="15">
-            
-            </td>
-        </tr>
-        <tr>
-        <th align="left">Deudores disponibles</th>
-        </tr>
-    	<tr>
-        	<td height="">
-            	
-	             <div id="datos" style="">
-            	<iframe name="frmlistdeudor" id="frmlistdeudor" src="index.php?controlador=Deudores&accion=listar&id_partida=0" scrolling="auto" frameborder="0" width="100%" height="100%"></iframe>
-                </div>
-            </td>
-       </tr>
-        <tr>
-        	<td height="15">
-            
-            </td>
-        </tr>
-    </table>
-    </td>
-</tr>
-</table>
-</div>
 <form name="frmadmliquidaciones">
 <input  type="hidden" name="id_liquidacion" id="id_liquidacion" value=""/>
 <input type="hidden" name="id_deudor" id="id_deudor" value=""/>
 <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="titulopantalla">
 	<tr>
-		<th align="left" height="30">&nbsp;B&uacute;squeda de Liquidaciones</th>
+		<th align="left" height="30">&nbsp;Liquidaciones</th>
         <th></th>
         <th></th>
     </tr>
@@ -215,20 +143,18 @@
 		<td width="" align="left" class="etiqueta_form">
         R.U.T. Deudor:&nbsp;&nbsp;&nbsp; <input type="text" name="txtrut_deudor" id="txtrut_deudor" class="input_form" onblur="validaDeudor(); generadvrut('txtrut_deudor','txtdv_deudor'); validarRut('D'); simular_liquidacion();" />&nbsp;
 	            		<input type="text" name="txtdv_deudor" id="txtdv_deudor" class="input_form_min" onblur="" disabled="disabled" />&nbsp;
-                        <img src="images/buscar.png" title="Buscar Deudor" style="cursor:pointer" onclick="ventanaBusqueda('D')"/>
         </td>
+        <td width="" align="left" class="etiqueta_form">Nombre:&nbsp; 
+        	<input type="text" name="txtnombre_deudor" id="txtnombre_deudor" class="input_form" onblur="" />&nbsp;
+        </td>
+        
         <td align="left"></td>
         <td> 
         </td>
     </tr>
     
 	<tr>
-       <td colspan="3" align="right"> 
-       		<!--
-       		<input  type="button" name="btnbuscar" id="btnbuscar" onclick="buscar()"  value="Buscar" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)' />&nbsp;
-            -->
-         	<input  type="button" name="btnlimpiar" id="btnlimpiar" value="Limpiar" onclick="limpiar()" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/>
-       </td>
+       
     </tr>
    
  </table>
@@ -237,7 +163,7 @@
  <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
     <tr>
 		<td colspan="2" width="90%">
-        	<iframe id="frmlistliquidaciones" src="" width="100%" align="middle" height="220" scrolling="auto" frameborder="0"></iframe>
+        	<iframe id="frmlistliquidaciones" src="index.php?controlador=Deudores&accion=listar_liquidaciones&rutdeudor=<?php ?>" width="100%" align="middle" height="220" scrolling="auto" frameborder="0"></iframe>
         </td>
         <td width="10%">
         	<div style="position:relative; margin-left:10px;">

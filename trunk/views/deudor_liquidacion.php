@@ -52,6 +52,37 @@
 			}
 			
 		}
+
+		function repactar()
+		{
+			if($.trim($("#txtrut_deudor").val()) == "")
+			{
+				$("#mensaje").text("Debe seleccionar un Deudor");
+				$("#mensaje").show("slow");
+				setTimeout("limpiarMensaje()",3000);
+			}
+		}
+
+		function repactar()
+		{
+			if(document.getElementById("rdestatus_repacta").value == "S")
+			{
+				$("#formsoporte").show("slow");
+				calculadora_prestamo();
+			}
+
+			if(document.getElementById("rdestatus_repacta").value == "N")
+			{
+				$("#formsoporte").show("slow");
+			}
+		}
+	
+
+		function noRepactar()
+		{
+			document.getElementById("rdestatus_repacta").value = "";
+			$("#formsoporte").hide("slow");
+		}
 		
 		function validaDeudor()
 		{
@@ -62,7 +93,6 @@
 				setTimeout("limpiarMensaje()",3000);
 			}
 		}
-		
 		function validarRut(tipo)
 		{
 			var datos = "";
@@ -181,11 +211,13 @@
 			buscarDatosMandante(id);
 			cerrarVentMand();
 		}
-		
+
+		//TODO: mostrar docs
 		function seleccionadoDeudor(id)
 		{
 			document.getElementById("id_deudor").value = id;
 			buscarDatosDeudor(id);
+			simular_liquidacion();
 			cerrarVentDeudor();
 		}
 		
@@ -252,33 +284,18 @@
 			//document.getElementById("frmtipocom").src = "";
 		}
 		
-		function eliminar()
-		{
-					
-			if(document.getElementById("id_documento").value == "")
-			{
-				return false;
-			}
-			
-			var id = document.getElementById("id_documento").value;
-			var url = "index.php?controlador=Documentos&accion=eliminar&iddocumentos="+id;
-			
-			document.getElementById("frmlistdocumentos").src = url;
-		}
-		
 		function grabar()
 		{		
 				var datos = "controlador=Deudores";
 				
 				datos += "&accion=grabarLiquidacion";
 				datos += "&deudor="+$("#id_deudor").val();
-				datos += "&mandante="+$("#id_mandante").val();
 				datos += "&interes="+$("#txtinteres").val();
 				datos += "&valoruf="+$("#txtvaloruf").val();
-				datos += "&abono="+$("#txtabono").val();
-				datos += "&cuotas="+$("#txtcuotas").val();
-				datos += "&repacta="+$("#rdestatus_repacta").val();
-				datos += "&fechainicialcalc="+$("#txtfechaincial").val();
+//				datos += "&abono="+$("#txtabono").val();
+//				datos += "&cuotas="+$("#txtcuotas").val();
+//				datos += "&repacta="+$("#rdestatus_repacta").val();
+//				datos += "&fechainicialcalc="+$("#txtfechaincial").val();
 				datos += "&fechasimulacion="+$("#txtfecha").val();
 				
 				$.ajax({
@@ -329,17 +346,10 @@
 			document.getElementById("frmlistdeudor").src = url;
 		}
 
-
-
 		function setIdLiquidacion(id)
 		{
 			
 			$("#id_liquidacion").val(id);
-		}
-
-		function mostrarDocs(obj)
-		{
-			alert('mostrar docs');
 		}
 
 		function simular_liquidacion()
@@ -366,7 +376,6 @@
 
 		function seleccionado(id,monto,fecha,dias)
 		{
-			document.getElementById("txtmonto").value = monto;
 			document.getElementById("txttotal").value = monto;
 			document.getElementById("txtfechavenc").value = fecha;
 			document.getElementById("txtdiasatraso").value = dias;
@@ -393,51 +402,39 @@
 				$("#txtinteresacumulado").val(int_acum.toFixed(2));
 			}
 
+			//CALCULO DE SIMULACION
 			var capital = document.getElementById("txttotal").value;
 			var interes = document.getElementById("txtinteresacumulado").value;
 			var protesto = document.getElementById("txtprotesto").value;
-			var abono = document.getElementById("txtabono").value;
+			var honorarios = ((parseInt(capital) + parseFloat(interes) + parseInt(protesto))*10/100).toFixed(2);
 
-			document.getElementById("txtcapital").value = capital;
-			document.getElementById("txthonorarios").value = parseFloat((parseInt(capital) + parseInt(interes) + parseInt(protesto))*10/100).toFixed(2);;
-			document.getElementById("txtsaldo").value = parseFloat(parseInt(capital) + parseInt(interes) + parseInt(protesto) - parseInt(abono)).toFixed(2);;
-			document.getElementById("txtinterescarta").value = int_acum.toFixed(2);
+			document.getElementById("txthonorarios").value = honorarios;
+
+			var total = (parseFloat(capital) + parseFloat(interes) + parseFloat(protesto) + parseFloat(honorarios)).toFixed(2); 
+			document.getElementById("txttotalsimulacion").value = total;
 			
-			var saldo = document.getElementById("txtsaldo").value;
-			var imp = document.getElementById("txtimp").value;
-			document.getElementById("txttotal").value = parseFloat(parseInt(saldo) + parseInt(imp)).toFixed(2);;
-			
-			var total = document.getElementById("txttotal").value;
-			var cuotas = document.getElementById("txtcuotas").value;
-			var valoruf = document.getElementById("txtvaloruf").value;
-			document.getElementById("txtvalorcuota").value = parseFloat(parseInt(document.getElementById("txttotal").value) / parseInt(cuotas)).toFixed(2);;
-			document.getElementById("txtcuotasuf").value = parseFloat(parseInt(document.getElementById("txttotal").value) / parseInt(cuotas) /parseInt(valoruf)).toFixed(2);;
+		}
 
-			document.getElementById("txtprotestobanco").value = protesto;
-
-			//calculadora prestamo
-			document.getElementById("txtimporte").value = saldo;
+		function calculadora_prestamo()
+		{
+			//CALCULADORA PRESTAMO
+			document.getElementById("txtimporte").value = parseInt(document.getElementById("txttotal").value)+parseFloat(document.getElementById("txtinteresacumulado").value);
 			document.getElementById("txtinteresmensual").value = document.getElementById("txtinteres").value;
-			document.getElementById("txtcuotascalc").value = document.getElementById("txtcuotas").value;
-			document.getElementById("txtimpcalc").value = document.getElementById("txtimp").value;
-			document.getElementById("txtnumpagos").value = document.getElementById("txtcuotas").value;
-			document.getElementById("txtcostoprestamo").value = parseFloat(document.getElementById("txtimporte").value)+parseFloat(document.getElementById("txtimpcalc").value);	
+			document.getElementById("txtimpcalc").value = 0; //definir formula
+			var pagomensual = (parseFloat($.trim($("#txtimporte").val())) + parseFloat($.trim($("#txtimpcalc").val()))) / parseInt($.trim($("#txtcuotascalc").val()));
+			document.getElementById("txtpagomensual").value = pagomensual;
+			document.getElementById("txtcostoprestamo").value = parseFloat(document.getElementById("txtimporte").value)+parseFloat(document.getElementById("txtimpcalc").value)+parseFloat(document.getElementById("txthonorarios").value);
 		}
 
 
 		function actualizar()
 		{
-			var total = document.getElementById("txttotal").value;
-			var cuotas = document.getElementById("txtcuotas").value;
+			var total = document.getElementById("txtimporte").value;
+			var cuotas = document.getElementById("txtcuotascalc").value;
 			var valoruf = document.getElementById("txtvaloruf").value;
-			document.getElementById("txtvalorcuota").value = parseFloat(parseInt(total) / parseInt(cuotas)).toFixed(2);;
-			document.getElementById("txtcuotasuf").value = parseFloat(parseInt(total) / parseInt(cuotas) /parseInt(valoruf)).toFixed(2);;
 
-			//actualiza carta
-			document.getElementById("txtcuotascalc").value = document.getElementById("txtcuotas").value;
-			document.getElementById("txtimpcalc").value = document.getElementById("txtimp").value;
-			document.getElementById("txtnumpagos").value = document.getElementById("txtcuotas").value;
-			document.getElementById("txtcostoprestamo").value = parseFloat(document.getElementById("txtimporte").value)+parseFloat(document.getElementById("txtimpcalc").value);
+			document.getElementById("txtpagomensual").value = parseFloat(parseInt(total) / parseInt(cuotas)).toFixed(2);
+			document.getElementById("txtcostoprestamo").value = parseFloat(document.getElementById("txtimporte").value)+parseFloat(document.getElementById("txtimpcalc").value)+parseFloat(document.getElementById("txthonorarios").value);
 
 		}
 
@@ -449,10 +446,10 @@
 			url += "&txtcuotas="+$("#txtcuotascalc").val();
 			url += "&txtfechainicial="+$("#txtfechainicial").val();
 			url += "&txtpagomensual="+$("#txtpagomensual").val();
-			url += "&txtnumpagos="+$("#txtnumpagos").val();
-			url += "&txtimp="+$("#txtimp").val();
+			url += "&txtnumpagos="+$("#txtcuotascalc").val();
+			url += "&txtimp="+$("#txtimpcalc").val();
 			url += "&txtcostoprestamo="+$("#txtcostoprestamo").val();
-			
+			alert(url);
 			document.getElementById("frmcalculos").src = url;
 		}
 	
@@ -689,24 +686,17 @@
         </td>
         <td colspan="1" align="left" valign="top">   
             <table cellpadding="5" cellspacing="5" border="0" align="center" width="100%">			
+                <tr>  
+                    <td align="right" class="etiqueta_form">Capital&nbsp;</td>
+                    <td align="left">
+                        <input type="text" name="txttotal" id="txttotal" valida="requerido" tipovalida="moneda" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" value="<? echo($monto) ?>" />
+                    </td>  
+                </tr>
                 <tr>
-                    
-                    <td align="right" class="etiqueta_form">Protesto Bco.&nbsp; </td>
+                    <td align="right" class="etiqueta_form">Protesto&nbsp; </td>
                     <td align="left">
                         <input type="text" name="txtprotesto" id="txtprotesto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"  value="<? echo($protesto) ?>" />
                     </td>                                   
-                </tr>
-                <tr>  
-                    <td align="right" class="etiqueta_form">Monto&nbsp;</td>
-                    <td align="left">
-                        <input type="text" name="txtmonto" id="txtmonto" valida="requerido" tipovalida="moneda" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" value="<? echo($monto) ?>" />
-                    </td>  
-                </tr>
-                <tr>                                     
-                    <td align="right" class="etiqueta_form">Total&nbsp;</td>
-                    <td align="left">
-                        <input type="text" name="txttotal" id="txttotal" valida="requerido" tipovalida="moneda" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" value="<? echo($total) ?>" />
-                    </td>
                 </tr>
                 <tr>	
                     <td align="right" class="etiqueta_form">Fecha Venc.&nbsp;</td>
@@ -732,6 +722,21 @@
                         <input type="text" name="txtinteresacumulado" id="txtinteresacumulado" valida="requerido" tipovalida="moneda" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" value="<? echo($interes_acumulado) ?>"/>
                     </td>
                 </tr>
+                 <tr>	
+					<td align="right" class="etiqueta_form">Honorarios DyV&nbsp;</td>
+					<td align="left"><input type="text" name="txthonorarios" id="txthonorarios" size="15" class="input_form" onFocus="resaltar(this)" value="" tabindex="7"/>
+        			</td>
+				</tr>
+                <tr>                                     
+                    <td align="right" class="etiqueta_form">Total&nbsp;</td>
+                    <td align="left">
+                        <input type="text" name="txttotalsimulacion" id="txttotalsimulacion"  class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" value="" />
+                        <input type="radio" value="S" onclick="repactar(this)" name="rdestatus_repacta" id="rdestatus_repacta" />&nbsp;Repacta&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="radio"  value="N" onclick="noRepactar(this)" name="rdestatus_repacta" id="rdestatus_no_repacta" checked="checked" />&nbsp;No Repacta
+                    </td>
+                </tr>
+                 
+                 
             </table>
 		</td>
      </tr>
@@ -740,126 +745,7 @@
      </tr>
  </table>
 </div>
- 
- <div id="datos" style="">
- <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="titulopantalla">
-	<tr>
-		<th align="left" height="30">&nbsp;Carta</th>
-        <th></th>
-        <th></th>
-    </tr>
- </table>
- </div>
- <div id="datos" style=" width:100%;">
-<table width="100%" align="center" border="0" cellpadding="5" cellspacing="5">
-    <tr>
-    	<td>
-        	<table cellpadding="5" cellspacing="5" border="0" align="left" >
-            	<tr>
-					<td align="right" class="etiqueta_form" width="150">Honorarios&nbsp;&nbsp;</td>
-					<td align="left">
-						<input type="text" value="0" name="txthonorarios" id="txthonorarios" size="15" class="input_form" onFocus="resaltar(this)" valida="requerido" tipovalida="entero" />
-        			</td>
-        		</tr>
-        		<tr>
-					<td align="right" class="etiqueta_form">Capital&nbsp;&nbsp;</td>
-                    <td align="left">	
-                    	<input type="text" name="txtcapital" id="txtcapital" value="<?php $datoTmp = &$capital; echo($datoTmp); ?>" size="15" class="input_form" onFocus="resaltar(this)" tipovalida="texto"/>
-                    </td>        		
-        		</tr>
-        		<tr>
-                    <td align="right" class="etiqueta_form">Interes&nbsp;</td>
-                    <td align="left">
-                        <input type="text" name="txtinterescarta" id="txtinterescarta" size="15" class="input_form" onFocus="resaltar(this)" tipovalida="entero"/>
-                        <input type="radio" value="S" onclick="repactar(this)" name="rdestatus_repacta" id="rdestatus_repacta" />&nbsp;Repacta&nbsp;&nbsp;&nbsp;&nbsp;
-                        <input type="radio"  value="N" onclick="repactar(this)" name="rdestatus_no_repacta" id="rdestatus_no_repacta" checked="checked" />&nbsp;No Repacta
-                    </td>
-                 </tr>
-                 <tr>
-                 <td align="right" class="etiqueta_form" width="150">Protesto Banco&nbsp;&nbsp;
-                    </td>
-                    <td class="etiqueta_form" >
-                    		<input type="text" value="0" name="txtprotestobanco" id="txtprotestobanco" size="15" class="input_form" onFocus="resaltar(this)" onBlur="calcular()" valida="requerido" tipovalida="entero"/>
-                    </td>
-                 </tr>
-                 
-                 <tr>
-                 	<td align="right" class="etiqueta_form" width="150">Abono&nbsp;&nbsp;</td>
-                	<td><input type="text" name="txtabono" id="txtabono" value="0" size="15" class="input_form" onFocus="resaltar(this)" onBlur="actualizar()" tipovalida="entero"/>
-                    </td>
-                 </tr>
-                 
-                 <tr>
-                    <td align="right" class="etiqueta_form" width="150">Deposito&nbsp;&nbsp;</td>
-                    <td><input type="text" name="txtdeposito" id="txtdeposito" value="0" size="15" class="input_form" onFocus="resaltar(this)" onBlur="actualizar()" tipovalida="entero"/>
-                    </td>               
-            	 </tr>
-             </table>
-        </td>
-    </tr>		
-    <tr>
-    	<td>
-        	<table cellpadding="5" cellspacing="5" border="0" align="center" width="100%">
-            	<tr>
-                    
-                 	<td align="center" class="etiqueta_form" width="150">Saldo</td>
-                 	<td align="center" class="etiqueta_form" width="150">IMP</td>
-                 	<td align="center" class="etiqueta_form" width="150">Total</td>
-                </tr>    
-                <tr>
-                    <td align="center" class="etiqueta_form">
-                 		<input type="text" name="txtsaldo" id="txtsaldo" value="0" size="15" class="input_form" onFocus="resaltar(this)" readonly="readonly" tipovalida="entero"/>
-                    </td>
-                    <td align="center" class="etiqueta_form">
-                    	<input type="text" name="txtimp" id="txtimp" value="0" size="15" class="input_form" onFocus="resaltar(this)" readonly="readonly" tipovalida="entero"/>
-                    </td>
-                    <td align="center" class="etiqueta_form">	
-                 		<input type="text" name="txttotal" id="txttotal" value="0" size="15" class="input_form" onFocus="resaltar(this)" readonly="readonly"  tipovalida="entero"/>
-                 	</td>		
-                 		
-                 </tr>
-             </table>
-        </td>
-    </tr>	
-	<tr>
-    	<td>
-        	<table cellpadding="5" cellspacing="5" border="0" align="center" width="100%">
-            	<tr>
-                    
-                 	<td align="center" class="etiqueta_form" width="150">Cuotas</td>
-                 	<td align="center" class="etiqueta_form" width="150">Cuotas de UF</td>
-                 	<td align="center" class="etiqueta_form" width="150">Valor Aprox.</td>
-                </tr>    
-                <tr>
-                    <td align="center" class="etiqueta_form">
-                 		<input type="text" name="txtcuotas" id="txtcuotas" value="1" size="15" class="input_form" onFocus="resaltar(this)" onBlur="actualizar()" valida="requerido" tipovalida="entero"/>
-                    </td>
-                  
-                    <td align="center" class="etiqueta_form">	
-                 		<input type="text" name="txtcuotasuf" id="txtcuotasuf" readonly="readonly" value="0" size="15" class="input_form" onFocus="resaltar(this)" tipovalida="entero"/>
-                 	</td>
-                 	
-                 	<td align="center" class="etiqueta_form">
-                    	<input type="text" name="txtvalorcuota" id="txtvalorcuota" readonly="readonly" value="0" size="15" class="input_form" onFocus="resaltar(this)"  tipovalida="entero"/>
-                    </td>		
-                 </tr>
-             </table>
-        </td>
-    </tr>
-
-    <tr>
-        <td>
-        	<span id="mensaje_carta" style="display:none"></span>
-         </td>
-    </tr>
-    <tr>
-        <td height="120">
-        
-         </td>
-    </tr>   
-    
- </table>
- </div>
+ <div id="formsoporte" style=" display:none"> 
  <div id="datos" style="">
  <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="titulopantalla">
 	<tr>
@@ -869,6 +755,7 @@
     </tr>
  </table>
  </div>
+ 
 <div id="datos" style=" width:100%">
 <table width="100%" align="center" border="0" cellpadding="5" cellspacing="5">
     <tr>
@@ -887,14 +774,20 @@
 				</tr>
 				<tr>	
 					<td align="left" class="etiqueta_form">Cuotas&nbsp;&nbsp;&nbsp;&nbsp;</td>
-					<td align="left"><input type="text" name="txtcuotascalc" id="txtcuotascalc" size="15" class="input_form" onFocus="resaltar(this)" valida="requerido" tipovalida="entero" value="" tabindex="3"/>
+					<td align="left"><input type="text" name="txtcuotascalc" id="txtcuotascalc" size="15" class="input_form" onblur="actualizar()" onFocus="resaltar(this)" valida="requerido" tipovalida="entero" value="1" tabindex="3"/>
         			</td>        			
         		</tr>
 				<tr>	
-					<td align="left" class="etiqueta_form">Fecha Inicial&nbsp;&nbsp;&nbsp;&nbsp;</td>
+					<td align="left" class="etiqueta_form">Fecha Calculo&nbsp;&nbsp;&nbsp;&nbsp;</td>
+					<td align="left"><input type="text" name="txtfechacalculo" id="txtfechacalculo" size="15" class="input_form_medio" onFocus="resaltar(this)" value="<? echo(date("d/m/Y")) ?>" valida="requerido" tipovalida="fecha" tabindex="4"/>
+        			</td>        			
+        		</tr>
+				<tr>	
+					<td align="left" class="etiqueta_form">Fecha Pago&nbsp;&nbsp;&nbsp;&nbsp;</td>
 					<td align="left"><input type="text" name="txtfechainicial" id="txtfechainicial" size="15" class="input_form_medio" onFocus="resaltar(this)" value="<? echo(date("d/m/Y")) ?>" valida="requerido" tipovalida="fecha" tabindex="4"/>
         			</td>        			
         		</tr>
+
                 <tr>	
 					<td align="left" class="etiqueta_form">IMP&nbsp;&nbsp;&nbsp;&nbsp;</td>
 					<td align="left"><input type="text" name="txtimpcalc" id="txtimpcalc" size="15" class="input_form" onFocus="resaltar(this)" valida="requerido" tipovalida="moneda" value="" onblur="calculoAutomatico()" tabindex="5"/>
@@ -905,12 +798,6 @@
 					<td align="left"><input type="text" name="txtpagomensual" id="txtpagomensual" size="15" class="input_form" onFocus="resaltar(this)" valida="requerido" tipovalida="moneda" value="" tabindex="6"/>
         			</td>
 				</tr>
-				<tr>	
-					<td align="left" class="etiqueta_form">Numero de Pagos&nbsp;&nbsp;&nbsp;&nbsp;</td>
-					<td align="left"><input type="text" name="txtnumpagos" id="txtnumpagos" size="15" class="input_form" onFocus="resaltar(this)" valida="requerido" tipovalida="entero" value="" tabindex="7"/>
-        			</td>
-				</tr>
-			
 				<tr>	
 					<td align="left" class="etiqueta_form">Costo total prestamo&nbsp;&nbsp;&nbsp;&nbsp;</td>
 					<td align="left"><input type="text" name="txtcostoprestamo" id="txtcostoprestamo" size="15" class="input_form" onFocus="resaltar(this)" valida="requerido" tipovalida="moneda" value="" tabindex="8"/>
@@ -935,6 +822,7 @@
         </td>
     </tr>
  </table>
+ </div>
  </div>
  <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
     <tr>

@@ -747,9 +747,20 @@ class DeudoresController extends ControllerBase
 	
 	public function admin_liquidaciones($array)
     {
-		$data['nom_sistema'] = "SISTEMA DyV";
+		require 'models/DeudoresModel.php';
+		
+    	$data['nom_sistema'] = "SISTEMA DyV";
 		$data['accion_form'] = "";
 		
+		if($array[iddeudor] != "")
+		{
+			$id = $array[iddeudor];
+			$deudor = new DeudoresModel();
+			$dtmp = $deudor->getDeudorLiquidar(id,"");
+			$data['rutdeudor'] = $dtmp->get_data("rut_deudor");
+			$data['dvdeudor'] = $dtmp->get_data("dv_deudor");
+			$data['iddeudor'] = $id;
+		}
 		$this->view->show("admin_liquidaciones.php", $data);
 	}
 	

@@ -87,7 +87,9 @@ class DocumentosController extends ControllerBase
     {
 		require 'models/DocumentosModel.php';
 		$documentos = new DocumentosModel();
-			
+
+		$array["id_partida"] = 0;
+		
 		//$dato = $documentos->getListaDocumentos("",$array["ident"],$array);
 		//$datoTmp = &$dato->items[($dato->get_count()-1)];
 		

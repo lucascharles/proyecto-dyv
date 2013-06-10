@@ -4,18 +4,32 @@ class GestionesController extends ControllerBase
     //Accion index
     public function admin($array)
     {
-		$data['nom_sistema'] = "SISTEMA DyV";
+		require 'models/GestionesModel.php';
+    	$gestiones = new GestionesModel();
+    	$cantidad = $gestiones->cuentaGestionesDia();
+    	$cuenta = $cantidad->items[0];
+		$cant = $cuenta->get_data("cantidad");
+		
+    	$data['nom_sistema'] = "SISTEMA DyV";
 		$data['accion_form'] = "";
 		$data['tipoGestion'] = "D";
+		$data['cantGestion'] = $cant;
 		
 		$this->view->show("admin_gestiones.php", $data);
 	}
 
 	public function admin_grales($array)
     {
-		$data['nom_sistema'] = "SISTEMA DyV";
+		require 'models/GestionesModel.php';
+    	$gestiones = new GestionesModel();
+    	$cantidad = $gestiones->cuentaGestionesTotal();
+    	$cuenta = $cantidad->items[0];
+		$cant = $cuenta->get_data("cantidad");
+    	
+    	$data['nom_sistema'] = "SISTEMA DyV";
 		$data['accion_form'] = "";
 		$data['tipoGestion'] = "";
+		$data['cantGestion'] = $cant;
 		
 		$this->view->show("admin_gestiones.php", $data);
 	}
@@ -41,7 +55,7 @@ class GestionesController extends ControllerBase
 		$idmandante = $cab->get_data("id_mandante");
 		$celDeudor = $cab->get_data("celular");
 		$telDeudor = $cab->get_data("telefono_fijo"); 
-		
+		$emailDeudor = $cab->get_data("email");
 		
 		$datoDeuda = $gestiones->getDeudaNeta($iddeudor);
 		$monto = $datoDeuda->items[0];
@@ -65,6 +79,7 @@ class GestionesController extends ControllerBase
 		$data['nomDeudor'] = $nomDeudor;
 		$data['celDeudor'] = $celDeudor;
 		$data['telDeudor'] = $telDeudor;
+		$data['emailDeudor'] = $emailDeudor;
 		
 		$data['rutMand'] = $rutMand;
 		$data['rutDvMand'] = $rutDvMand;
@@ -73,6 +88,21 @@ class GestionesController extends ControllerBase
 		$data['nomMandante'] = $nomMandante;
 		$data['deudaNeta'] = $deuda;
 		$data['deudaNetaMandante'] = $deudaMandante;
+		
+		
+		$ultimaGestion = $gestiones->getUltimaGestion($array["idgestion"]);
+		
+		if($ultimaGestion->get_count() > 0)
+		{
+			$ultGes = $ultimaGestion->items[0];
+			$data['idUltimaGestion'] = $ultGes->get_data("id_estado");
+			$data['estadoUltimaGestion'] = $ultGes->get_data("estado");
+		}
+		else
+		{
+			$data['idUltimaGestion'] = 1;
+			$data['estadoUltimaGestion'] = "EXISTENCIA"; 
+		}
 		
 		$this->view->show("edita_gestion.php", $data);
 	}
@@ -83,8 +113,11 @@ class GestionesController extends ControllerBase
 		require 'models/GestionesModel.php';
 		$gestiones = new GestionesModel();
 		$dato = $gestiones->getListaGestiones($array["des_int"]);
-//		$dato = $gestiones->getListaGestiones($array["tipoGestion"]);
-		
+
+		if($array["tipoGestion"] == "D")
+		{
+			$dato = $gestiones->getListaGestionesDia($array["des_int"]);			
+		}
 		$data['nom_sistema'] = "SISTEMA DyV";
 		$data['colleccionGestiones'] = $dato;
 		
@@ -172,7 +205,15 @@ class GestionesController extends ControllerBase
     {
 		require 'models/GestionesModel.php';
 		$gestiones = new GestionesModel();
+//		if()
+//		{
+//			$dato = $gestiones->getListaGestionesDia($array["des_int"]);	
+//		}
+		
+		
 		$dato = $gestiones->getListaGestiones($array["des_int"]);
+		
+		
 
 		
 		$data['nom_sistema'] = "SISTEMA DyV";

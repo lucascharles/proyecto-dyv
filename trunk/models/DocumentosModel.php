@@ -116,7 +116,7 @@ class DocumentosModel extends ModelBase
 				
 					// no existe mandante
 					$mandante = new Mandantes();
-//					echo("rut_mandante".$arraydatos[14]);
+					//echo("rut_mandante 14".$arraydatos[14]);
 					$mandante->add_filter("rut_mandante","=",trim(substr($arraydatos[14],0,-1)));
 					$mandante->load();
 					if(is_null($mandante->get_data("id_mandante")))
@@ -253,7 +253,7 @@ class DocumentosModel extends ModelBase
 					$DG->add_filter("id_mandante","=",$mandante->get_data("id_mandante"));
 					$DG->load();
 					
-					if(is_null($DG->get_data("id"))){
+					if(is_null($DG->get_data("id_gestion"))){
 						
 				 		$datoG = new Gestiones();
 				  		$datoG->set_data("id_deudor",$deudor->get_data("id_deudor"));
@@ -669,36 +669,46 @@ class DocumentosModel extends ModelBase
 	  
 	  $dato->set_data("id_deudor",$array["deudor"]);
       $dato->set_data("id_mandatario",$array["mandante"]);
-      $dato->set_data("fecha_siniestro",$array["txtfechaRecibido"]);
+      $dato->set_data("id_estado_doc",999); //por defecto se crean en estado 'PENDIENTE DE ENVIAR CARTA'
+      
       $dato->set_data("numero_documento",$array["txtnrodoc"]);
       $dato->set_data("id_tipo_doc",$array["selTipoDoc"]);
-      $dato->set_data("id_estado_doc",999); //por defecto se crean en estado 'PENDIENTE DE ENVIAR CARTA'
+	  $dato->set_data("fecha_siniestro",date('Y-m-d', strtotime($array["txtfechaRecibido"])));
       $dato->set_data("monto",$array["txtmonto"]);
-      $dato->set_data("id_banco",$array["selBancos"]);
+      if($array["selBancos"] != "")
+      {
+      	$dato->set_data("id_banco",$array["selBancos"]);
+      }
+      else
+      {
+      	$dato->set_data("id_banco",0);
+      }
       $dato->set_data("cta_cte",$array["txtctacte"]);
-      $dato->set_data("fecha_protesto",$array["txtfechaprotesto"]);
-      $dato->set_data("id_causa_protesta",$array["selCausalProtesta"]);
-      $dato->set_data("monto",$array["txtmonto"]);
+      $dato->set_data("fecha_protesto",date('Y-m-d', strtotime($array["txtfechaprotesto"])));
+      $dato->set_data("id_causa_protesto",$array["selCausalProtesta"]);
       $dato->set_data("cta_cte",$array["txtctacte"]);
       $dato->set_data("gastos_protesto",$array["gastos_protesto"]);
       $dato->set_data("ns",$array["ns"]);
-      $dato->set_data("fecha_creacion",$array["fecha_creacion"]);
+      $dato->set_data("fecha_creacion",date('Y-m-d', strtotime($array["txtfechaRecibido"])));
       $dato->set_data("usuario_creacion",$array["usuario_creacion"]);
-      $dato->set_data("fecha_modificacion",$array["fecha_modificacion"]);
+      $dato->set_data("fecha_modificacion",date('Y-m-d', strtotime($array["txtfechaRecibido"])));
       $dato->set_data("usuario_modificacion",$array["usuario_modificacion"]);
+      
       $dato->set_data("activo","S");		
 	  $dato->save();
 	  
 	  $dato2 = new GestionesCollection();
       $dato2->add_filter("id_deudor","=",$array["deudor"]);
+      $dato2->add_filter("AND");
       $dato2->add_filter("id_mandante","=",$array["mandante"]);
+      $dato2->add_filter("AND");
       $dato2->add_filter("activo","=","S");
 	  $dato2->load();
+	  
 	  if($dato2->get_count() == 0)
 	  {
-	  	
 	  	$fechaHoy = date("Y-m-d");
-		$dias = 5;
+		$dias = 3;
 
 		$calculoHoy = strtotime("$fechaHoy +0 days");
 		$calculoFuturo = strtotime("$fechaHoy +$dias days");
@@ -707,15 +717,24 @@ class DocumentosModel extends ModelBase
 	  	$dato3 = new Gestiones();
 	  	$dato3->set_data("id_deudor",$array["deudor"]);
       	$dato3->set_data("id_mandante",$array["mandante"]);
-      	$dato3->set_data("fecha_gestion",date("d/m/Y H:i:s"));
+      	$dato3->set_data("fecha_gestion",date("Y-m-d"));      	
       	$dato3->set_data("nota_gestion","Inicia Gestion");
-      	$dato3->set_data("fecha_prox_gestion",date("d/m/Y", $calculoFuturo));
+	    $dato3->set_data("fecha_prox_gestion",date("Y-m-d", $calculoFuturo));
       	$dato3->set_data("activo","S");
-      	$dato3->set_data("usuario_modificacion",$_SESSION["idusuario"]);
-      	$dato3->set_data("fecha_modificacion",date("d/m/Y H:i:s"));
-      	$dato3->set_data("usuario_creacion",$_SESSION["idusuario"]);
-      	$dato3->set_data("fecha_creacion",date("d/m/Y H:i:s"));      	
+//      	$dato3->set_data("usuario_modificacion",$_SESSION["idusuario"]);
+      	$dato3->set_data("fecha_modificacion",date("Y-m-d"));
+//      	$dato3->set_data("usuario_creacion",$_SESSION["idusuario"]);
+      	$dato3->set_data("fecha_creacion",date("Y-m-d"));      	
       	$dato3->set_data("estado","GESTION");
+      
+      	$dato3->save();
+	  }
+	  else
+	  {
+	  	$dato3 = new Gestiones();
+	  	$dato3->set_data("id_deudor",$array["deudor"]);
+      	$dato3->set_data("id_mandante",$array["mandante"]);
+      	$dato3->set_data("nota_gestion","Inicia Gestion");
       	$dato3->save();
 	  }
 	 
@@ -730,7 +749,8 @@ class DocumentosModel extends ModelBase
 		$sqlpersonal->set_select(" d.id_documento id_documento, c.banco id_banco, dd.primer_apellido ape1_deudor, dd.segundo_apellido ape2_deudor, 
 							  		dd.primer_nombre nom1_deudor, dd.segundo_nombre nom2_deudor,
 									m.nombre nombre_mandante, ed.estado id_estado_doc, td.tipo_documento id_tipo_doc,
-									d.numero_documento numero_documento,d.fecha_protesto fecha_siniestro, d.cta_cte cta_cte,d.monto monto"); 
+									d.numero_documento numero_documento,d.fecha_protesto fecha_siniestro, d.cta_cte cta_cte,d.monto monto,
+									d.fecha_siniestro fecha_recibido"); 
 	  	$sqlpersonal->set_from(" documentos d, 
 	 								bancos c,
 	 								deudores dd,
@@ -799,15 +819,13 @@ class DocumentosModel extends ModelBase
 		$sqlpersonal->set_select(" d.id_documento id_documento, c.banco id_banco, dd.primer_apellido ape1_deudor, dd.segundo_apellido ape2_deudor,
 							  		dd.primer_nombre nom1_deudor, dd.segundo_nombre nom2_deudor,
 									m.nombre nombre_mandante, ed.estado id_estado_doc, td.tipo_documento id_tipo_doc,
-									d.numero_documento numero_documento,d.fecha_protesto fecha_siniestro, d.cta_cte cta_cte,d.monto monto");
-		$sqlpersonal->set_from(" documentos d,
-	 								bancos c,
+									d.numero_documento numero_documento,d.fecha_protesto fecha_protesto, d.cta_cte cta_cte,d.monto monto , d.fecha_siniestro fecha_recibido");
+		$sqlpersonal->set_from(" documentos d left join bancos c on d.id_banco = c.id_banco,
 	 								deudores dd,
 	 								mandantes m,
 	 								estadodocumentos ed,
 	 								tipodocumento td");
-		$where = " d.id_banco = c.id_banco
-				and  d.id_deudor = dd.id_deudor
+		$where = " d.id_deudor = dd.id_deudor
 				and m.id_mandante = d.id_mandatario
 				and d.id_estado_doc = ed.id_estado_doc
 				and d.id_tipo_doc = td.id_tipo_documento
@@ -869,7 +887,7 @@ class DocumentosModel extends ModelBase
 		$sqlpersonal->set_select(" d.id_documento id_documento, c.banco id_banco, dd.primer_apellido ape1_deudor, dd.segundo_apellido ape2_deudor,
 							  		dd.primer_nombre nom1_deudor, dd.segundo_nombre nom2_deudor,
 									m.nombre nombre_mandante, ed.estado id_estado_doc, td.tipo_documento id_tipo_doc,
-									d.numero_documento numero_documento,d.fecha_protesto fecha_siniestro, d.cta_cte cta_cte,d.monto monto");
+									d.numero_documento numero_documento,d.fecha_protesto fecha_siniestro, d.cta_cte cta_cte,d.monto monto, d.fecha_siniestro fecha_recibido ");
 		$sqlpersonal->set_from(" documentos d,
 	 								bancos c,
 	 								deudores dd,
@@ -1083,16 +1101,14 @@ class DocumentosModel extends ModelBase
 		$sqlpersonal->set_select(" d.id_documento id_documento,c.banco id_banco, dd.primer_apellido ape1_deudor, dd.segundo_apellido ape2_deudor, 
 								  		dd.primer_nombre nom1_deudor, dd.segundo_nombre nom2_deudor,
 										m.nombre nombre_mandante, ed.estado id_estado, td.tipo_documento id_tipo_doc,
-										d.numero_documento numero_documento,d.fecha_siniestro fecha_siniestro,d.cta_cte cta_cte,d.monto monto"); 
-		  $sqlpersonal->set_from(" documentos d, 
-		 								bancos c,
+										d.numero_documento numero_documento,d.fecha_protesto fecha_protesto,d.cta_cte cta_cte,d.monto monto, d.fecha_siniestro fecha_recibido "); 
+		  $sqlpersonal->set_from(" documentos d left join bancos c on d.id_banco = c.id_banco,
 		 								deudores dd,
 		 								mandantes m,
 		 								estadodocumentos ed,
 		 								tipodocumento td");
 	    
-		  $where = " d.id_banco = c.id_banco
-									and  d.id_deudor = dd.id_deudor
+		  $where = "   d.id_deudor = dd.id_deudor
 									and m.id_mandante = d.id_mandatario
 									and d.id_estado_doc = ed.id_estado_doc
 									and d.id_tipo_doc = td.id_tipo_documento
