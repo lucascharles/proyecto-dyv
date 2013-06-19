@@ -84,5 +84,45 @@ class LiquidacionesModel extends ModelBase
 		
 		return $array_pagos;
 	}
+	
+	
+	public function getLiquidacion($id)
+	{
+		$dato = new Liquidaciones();
+		$dato->add_filter("id_liquidacion","=",$id);
+		$dato->load();
+		
+		return $dato;
+	}
+	
+	public function getLiquidacionesDeudor($array)
+	{
+		$deudor = new Deudores();
+		$deudor->add_filter("rut_deudor","=",$array["rutdeudor"]);
+		$deudor->load();
+		/*
+		$dato = new LiquidacionesCollection();
+		$dato->add_filter("id_deudor","=",$deudor->get_data("id_deudor"));
+		$dato->load();
+		*/
+		
+		include("config.php");
+
+		$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
+	
+		$sqlpersonal->set_select( " l.id_liquidacion id_liquidacion,
+	   		   m.nombre nombre, m.apellido apellido, l.fecha_creacion fecha_creacion, l.usuario_creacion usuario_creacion");
+		$sqlpersonal->set_from(" liquidaciones l, mandantes m ");
+		
+		$where = " l.id_deudor = ".$deudor->get_data("id_deudor")." and l.id_mandante = m.id_mandante  ";
+
+		$sqlpersonal->set_where($where);
+		
+    	$sqlpersonal->load();
+
+    	return $sqlpersonal;	
+		
+		return $dato;
+	}
 }
 ?>

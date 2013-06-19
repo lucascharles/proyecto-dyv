@@ -38,9 +38,13 @@ class GestionesController extends ControllerBase
     {
 		require 'models/GestionesModel.php';
 		require 'models/DocumentosModel.php';
+		require 'models/DeudoresModel.php';
+		require 'models/MandantesModel.php';
 		
 		$gestiones = new GestionesModel();
 		$estges = new DocumentosModel();
+		$deudor = new DeudoresModel();
+		$mandantes = new MandantesModel();
 		
 		$cabecera = $gestiones->getCabeceraGestion($array["idgestion"]);
 		$cab = $cabecera->items[0];
@@ -69,6 +73,8 @@ class GestionesController extends ControllerBase
 		$datoEg = $estges->getListaEstadoGestion(""); 
 		$datoM = $gestiones->getListaMandantes($array["iddeudor"]);
 		
+		$MandantesXDeudor = $mandantes->getMandanteDeudor($iddeudor);
+		$cantDemandas = $deudor->getCantFicha($iddeudor);
 		
 		
 		$data['nom_sistema'] = "SISTEMA DyV";
@@ -88,6 +94,9 @@ class GestionesController extends ControllerBase
 		$data['nomMandante'] = $nomMandante;
 		$data['deudaNeta'] = $deuda;
 		$data['deudaNetaMandante'] = $deudaMandante;
+		$data['tipoGestion'] = $array["tipoGestion"];
+		$data['cantidadDemandas'] = $cantDemandas;
+		$data['coleccionMandantesDeudor'] = $MandantesXDeudor;
 		
 		
 		$ultimaGestion = $gestiones->getUltimaGestion($array["idgestion"]);
@@ -205,13 +214,14 @@ class GestionesController extends ControllerBase
     {
 		require 'models/GestionesModel.php';
 		$gestiones = new GestionesModel();
-//		if()
-//		{
-//			$dato = $gestiones->getListaGestionesDia($array["des_int"]);	
-//		}
-		
-		
-		$dato = $gestiones->getListaGestiones($array["des_int"]);
+		if($array["tipoGestion"]=="D")
+		{
+			$dato = $gestiones->getListaGestionesDia($array["des_int"]);	
+		}
+		else
+		{
+			$dato = $gestiones->getListaGestiones($array["des_int"]);
+		}
 		
 		
 
@@ -234,7 +244,19 @@ class GestionesController extends ControllerBase
 		
 		$this->view->show("lista_documentos.php", $data);
 	}
-
+	
+	public function listarDocumentoMandante($array)
+    {
+		require 'models/DocumentosModel.php';
+		$documentos = new DocumentosModel();
+			
+		$dato = $documentos->getListaDocMandanteDeudor($array["iddeudor"],$array["idmandante"]);
+		
+		$data['nom_sistema'] = "SISTEMA DyV";
+		$data['colleccionDatosDocumentos'] = $dato;
+		
+		$this->view->show("lista_documentos.php", $data);
+	}
 	public function getMandantesDeudor($array)
     {
 		require 'models/GestionesModel.php';
@@ -247,5 +269,17 @@ class GestionesController extends ControllerBase
 		$this->view->show("lista_mandantesDeudor.php", $data);
 	}    
 	
+	public function gestiona_liquidacion($array)
+	{
+		require 'models/DeudoresModel.php';
+		$deudor = new DeudoresModel();
+		$dato = $deudor->getDeudorDatos($array["iddeudor"]);
+		
+		$data['nom_sistema'] = "SISTEMA DyV";
+		$data['deudor'] = $dato;
+	
+		
+		$this->view->show("gestiona_liquidaciones.php", $data);
+	}
 }
 ?>

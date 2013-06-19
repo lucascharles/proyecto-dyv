@@ -651,6 +651,7 @@ class DocumentosModel extends ModelBase
       $dato->set_data("fecha_protesto",$array["txtfechaprotesto"]);
       $dato->set_data("monto",$array["txtmonto"]);
       $dato->set_data("cta_cte",$array["txtctacte"]);
+      $dato->set_data("gastos_protesto",$array["montoProtesto"]);
 	  $dato->save();
 	}
 
@@ -810,6 +811,37 @@ class DocumentosModel extends ModelBase
 	
 	}
 	
+	public function getListaDocMandanteDeudor($iddeudor,$idmandante)
+	{
+	
+		include("config.php");
+	
+		$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
+		$sqlpersonal->set_select(" d.id_documento id_documento, c.banco id_banco, dd.primer_apellido ape1_deudor, dd.segundo_apellido ape2_deudor,
+							  		dd.primer_nombre nom1_deudor, dd.segundo_nombre nom2_deudor,
+									m.nombre nombre_mandante, ed.estado id_estado_doc, td.tipo_documento id_tipo_doc,
+									d.numero_documento numero_documento,d.fecha_protesto fecha_protesto, d.cta_cte cta_cte,d.monto monto , d.fecha_siniestro fecha_recibido");
+		$sqlpersonal->set_from(" documentos d left join bancos c on d.id_banco = c.id_banco,
+	 								deudores dd,
+	 								mandantes m,
+	 								estadodocumentos ed,
+	 								tipodocumento td");
+		$where = " d.id_deudor = dd.id_deudor
+				and m.id_mandante = d.id_mandatario
+				and d.id_estado_doc = ed.id_estado_doc
+				and d.id_tipo_doc = td.id_tipo_documento
+				and ed.estado not in ('RECUPERADO','CASTIGADO')
+				and d.activo = 'S'
+				and m.id_mandante = ". $idmandante." and d.id_deudor = ".$iddeudor ;
+	
+		$sqlpersonal->set_where($where);
+	
+		$sqlpersonal->load();
+	
+		return $sqlpersonal;
+	
+	}
+	
 	public function getListaDocumentosGestion($des, $idd='',$array='')
 	{
 	
@@ -833,9 +865,6 @@ class DocumentosModel extends ModelBase
 				and d.activo = 'S' ";
 	
 		$where .= " and d.id_documento > ".$array["id_partida"];
-	
-		//		$sqlpersonal->set_top(10); // PARA SQLSERVER
-		//		$sqlpersonal->set_limit(0,10); // PARA MYSQL
 	
 		if(count($array) > 0)
 		{
@@ -887,7 +916,7 @@ class DocumentosModel extends ModelBase
 		$sqlpersonal->set_select(" d.id_documento id_documento, c.banco id_banco, dd.primer_apellido ape1_deudor, dd.segundo_apellido ape2_deudor,
 							  		dd.primer_nombre nom1_deudor, dd.segundo_nombre nom2_deudor,
 									m.nombre nombre_mandante, ed.estado id_estado_doc, td.tipo_documento id_tipo_doc,
-									d.numero_documento numero_documento,d.fecha_protesto fecha_siniestro, d.cta_cte cta_cte,d.monto monto, d.fecha_siniestro fecha_recibido ");
+									d.numero_documento numero_documento,d.fecha_protesto fecha_protesto, d.fecha_siniestro fecha_siniestro, d.cta_cte cta_cte,d.monto monto, d.fecha_siniestro fecha_recibido ");
 		$sqlpersonal->set_from(" documentos d,
 	 								bancos c,
 	 								deudores dd,
@@ -1154,8 +1183,8 @@ class DocumentosModel extends ModelBase
 							   m.id_mandante id_mandante, m.rut_mandante rut_mandante,m.dv_mandante dv_mandante, m.nombre nombre_mandante,  
 							   d.id_estado_doc id_estado, ed.estado estado, 
 							   d.id_tipo_doc id_tipo_doc, td.tipo_documento tipo_doc,
-							   d.id_causa_protesto id_causa_protesto, cp.causal causa_protesto,
-							   d.numero_documento numero_documento,d.fecha_siniestro fecha_siniestro,d.cta_cte cta_cte,d.monto monto "); 
+							   d.id_causa_protesto id_causa_protesto, cp.causal causa_protesto, d.gastos_protesto gastos_protesto,
+							   d.numero_documento numero_documento,d.fecha_protesto fecha_protesto, d.fecha_siniestro fecha_siniestro,d.cta_cte cta_cte,d.monto monto "); 
 	  $sqlpersonal->set_from(" documentos d, 
 								bancos c,
 								deudores dd,
@@ -1278,6 +1307,49 @@ class DocumentosModel extends ModelBase
 		
 	}
 
+	public function getDocEnviarDeudor($array)
+	{
+		include("config.php");
+
+		$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
+	
+		$sqlpersonal->set_select(" d.id_deudor id_deudor,
+									dd.rut_deudor rut_deudor,
+									dd.dv_deudor dv_deudor,
+									dd.primer_nombre primer_nombre_deudor,
+									dd.segundo_nombre segundo_nombre_deudor,
+									dd.primer_apellido primer_apellido_deudor,
+									dd.segundo_apellido segundo_apellido_deudor,
+									dds.calle calle,
+									dds.numero numero,
+									dds.piso piso,
+									dds.depto depto,
+									dds.comuna comuna,
+									dds.ciudad ciudad,
+									m.nombre nombre_mandante,
+									m.apellido apellido_mandante,
+									d.id_documento id_documento, td.tipo_documento tipo_documento,
+									d.numero_documento numero_documento,ed.estado estado,
+									d.fecha_protesto fecha_protesto,
+									d.fecha_siniestro fecha_siniestro,
+									d.fecha_creacion fecha_creacion, 
+									d.monto monto "); 
+	  	$sqlpersonal->set_from(" documentos d ,tipodocumento td, estadodocumentos ed,
+        						 mandantes m, deudores dd, direccion_deudores dds ");
+      	$sqlpersonal->set_where(" d.id_tipo_doc = td.id_tipo_documento
+							and   d.id_estado_doc = ed.id_estado_doc
+							and   d.id_deudor = dd.id_deudor
+							and   d.id_mandatario = m.id_mandante
+							and   dd.id_deudor = dds.id_deudor
+							and   dds.vigente = 'S'
+							and   d.id_deudor = ".$array.
+							" order by d.numero_documento ");
+	
+    	$sqlpersonal->load();
+
+    	return $sqlpersonal;	
+	}
+	
 	public function getDocEnviar($array)
 	{
 		include("config.php");
@@ -1312,6 +1384,7 @@ class DocumentosModel extends ModelBase
 							and   d.id_deudor = dd.id_deudor
 							and   d.id_mandatario = m.id_mandante
 							and   dd.id_deudor = dds.id_deudor
+							and   dds.vigente = 'S'
 							and   d.id_documento in ".$array.
 							" order by id_deudor ");
 	
@@ -1334,7 +1407,8 @@ class DocumentosModel extends ModelBase
 									d.fecha_protesto fecha_protesto,
 									d.fecha_siniestro fecha_siniestro,
 									d.fecha_creacion fecha_creacion, 
-									d.monto monto "); 
+									d.monto monto,
+									d.gastos_protesto gasto_protesto "); 
 	  	$sqlpersonal->set_from(" documentos d ,tipodocumento td, estadodocumentos ed ");
       	$sqlpersonal->set_where(" d.id_tipo_doc = td.id_tipo_documento
 							and   d.id_estado_doc = ed.id_estado_doc

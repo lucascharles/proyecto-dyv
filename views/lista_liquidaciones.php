@@ -16,7 +16,7 @@
 </head>
 <body>
 <table width="100%" cellpadding="2" cellspacing="2" align="center" border="0">
-	<tr bgcolor="#666666">
+	<tr class="cabecera_listado">
     	<th width="15" align="center"></th>
 		<th align="center"><font class="titulolistado">Mandante</font></th>
         <th align="center"><font class="titulolistado">Fecha creaci&oacute;n</font></th>
@@ -31,7 +31,7 @@
 	?>
 	<tr>
     	<td><input type="radio" id="<? echo($datoTmp->get_data("id_liquidacion")) ?>" name="checktipdoc" value="" onclick="seleccionado(<? echo($datoTmp->get_data("id_liquidacion")) ?>)"></td>
-		<td align="center"><?php echo ($datoTmp->get_data("id_mandante")) ?></td>
+		<td align="center"><?php echo (utf8_decode($datoTmp->get_data("nombre")." ".$datoTmp->get_data("apellido"))) ?></td>
 		<td align="center">&nbsp;<?php echo (formatoFecha($datoTmp->get_data("fecha_creacion"),"yyyy-mm-dd","dd/mm/yyyy")) ?></td>
 		<td align="center">&nbsp;<?php echo ($datoTmp->get_data("usuario_creacion")) ?></td>
 		

@@ -343,9 +343,9 @@
 	$monto = ($tipoperacion == "M") ? $ficha->get_data("monto") : "";
 	$abogado = ($tipoperacion == "M") ? $ficha->get_data("abogado") : "";
 	$firma = ($tipoperacion == "M") ? $ficha->get_data("firma") : "";
-	$ingreso = ($tipoperacion == "M") ? formatoFecha($ficha->get_data("ingreso"),"dd-mm-yyyy","dd/mm/yyyy") : "";
+	$ingreso = ($tipoperacion == "M") ? formatoFecha($ficha->get_data("ingreso"),"yyyy-mm-dd","dd/mm/yyyy") : "";
 	$providencia_1 = ($tipoperacion == "M") ? $ficha->get_data("providencia") : "";
-	$dist_corte = ($tipoperacion == "M") ? formatoFecha($ficha->get_data("distribucion_corte"),"dd-mm-yyyy","dd/mm/yyyy") : "";
+	$dist_corte = ($tipoperacion == "M") ? formatoFecha($ficha->get_data("distribucion_corte"),"yyyy-mm-dd","dd/mm/yyyy") : "";
 	$rol = ($tipoperacion == "M") ? $ficha->get_data("rol") : "";
 	$juzgadoNro = ($tipoperacion == "M") ? $ficha->get_data("id_juzgado") : "";
 	$jComuna = ($tipoperacion == "M") ? $ficha->get_data("id_juzgado_comuna") : "";
@@ -361,7 +361,7 @@
 
   <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="titulopantalla">
 	<tr>
-		<th align="left" height="30">&nbsp;Liquidacion Deudor</th>
+		<th align="left" height="30">&nbsp;Ficha Deudor</th>
         <th></th>
         <th></th>
     </tr>
@@ -387,11 +387,14 @@
         </td>
     </tr>
     <tr>
-		<td align="right" class="etiqueta_form" width="20">Deuda Neta:</td><td>&nbsp;&nbsp;&nbsp; <input type="text" grabar="S" name="txtmonto" id="txtmonto" valida="requerido" value="<? echo(conDecimales($monto)) ?>" tipovalida="moneda" size="20"  class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" />
+		<td align="right" class="etiqueta_form" width="20">Monto:</td><td>&nbsp;&nbsp;&nbsp; <input type="text" grabar="S" name="txtmonto" id="txtmonto" valida="requerido" value="<? echo(conDecimales($monto)) ?>" tipovalida="moneda" size="20"  class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" />
         </td>
     </tr>
-    
-    <tr>
+     <tr>
+
+		<td align="right" class="etiqueta_form">Nro. doc.:</td><td>&nbsp;&nbsp;&nbsp;<? echo($nro) ?> </td>
+    </tr>
+     <tr>
 		<td height="5"> </td>
     </tr>
    </table>

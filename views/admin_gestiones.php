@@ -9,7 +9,8 @@
     <script language="javascript">
 		function mostrar(obj)
 		{
-			var url = "index.php?controlador=Gestiones&accion=listarGestiones&des_int="+obj.value;
+			var tipoG = document.getElementById("tipo_gestion").value;
+			var url = "index.php?controlador=Gestiones&accion=listarGestiones&des_int="+obj.value+"&tipoGestion="+tipoG;
 			document.getElementById("frmlistgestiones").src = url;
 		}
 		
@@ -47,7 +48,7 @@
 			}
 			var id = document.getElementById("id_gestion").value;
 			
-			$("#pagina").load('index.php?controlador=Gestiones&accion=gestionar&idgestion='+id);
+			$("#pagina").load('index.php?controlador=Gestiones&accion=gestionar&idgestion='+id+'&tipoGestion='+document.getElementById("tipo_gestion").value);
 			
 		}
 	</script>
@@ -55,9 +56,10 @@
 <body>
 <form name="frmadmgestiones">
 <input  type="hidden" name="id_gestion" id="id_gestion" value=""/>
+<input  type="hidden" name="tipo_gestion" id="tipo_gestion" value="<?php $var = &$tipoGestion; echo($var); ?>"/>
 <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="titulopantalla">
 	<tr>
-		<th align="left" height="30">&nbsp;Gestiones</th>
+		<th align="left" height="30">&nbsp;Gestiones<?php $var = &$tipoGestion; if($var == "D"){echo(" del dia");} ?></th>
         <th></th>
         <th></th>
     </tr>
