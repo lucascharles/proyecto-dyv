@@ -495,12 +495,35 @@ class DeudoresController extends ControllerBase
 	
 	public function listar_dirtmp($array)
     {
-		require 'models/DireccionDeudoresModel.php';
+		require 'models/DocumentosModel.php';
+    	require 'models/DireccionDeudoresModel.php';
 		$dir = new DireccionDeudoresModel();
 		$dato = $dir->getListaDireccionesTmp(session_id());	
 		
 		$data['nom_sistema'] = "SISTEMA DyV";
 		$data['colleccionDeudores'] = $dato;
+		
+		if($array["generacarta"] == "S")		
+		{
+			$documentos = new DocumentosModel;
+			$listaDoc = $documentos->getDocEnviarDeudor($array["iddeudor"]);
+			/*
+			$listaIdDocs = " ( ";
+			for($i=0; $i<$listaDoc->get_count(); $i++) 
+	  			{
+	  				$deudorTmp = &$listaDoc->items[$i];
+    				$listaIdDocs = $listaIdDocs . $deudorTmp->get_data("id_deudor") .",";
+    			}
+    		$listaIdDocs = $listaIdDocs . " 0) ";
+		
+    		$docCartas = new DocumentosModel();
+			$listaDocumentosDeudor = $docCartas->getDocEnviar($listaIdDocs);
+    		*/
+			$data['nom_sistema'] = "SISTEMA DyV";
+			$data['accion_form'] = "";
+			$data['colleccionDocumentos'] = $listaDoc;// $listaDocumentosDeudor;
+			$this->view->show("carta_pdf.php", $data);
+		}
 		
 		$this->view->show("lista_direcciones.php", $data);
 	}   
@@ -752,14 +775,11 @@ class DeudoresController extends ControllerBase
     	$data['nom_sistema'] = "SISTEMA DyV";
 		$data['accion_form'] = "";
 		
-		if($array[iddeudor] != "")
+		if($array["iddeudor"] != "")
 		{
-			$id = $array[iddeudor];
+			$id = $array["iddeudor"];
 			$deudor = new DeudoresModel();
-			$dtmp = $deudor->getDeudorLiquidar(id,"");
-			$data['rutdeudor'] = $dtmp->get_data("rut_deudor");
-			$data['dvdeudor'] = $dtmp->get_data("dv_deudor");
-			$data['iddeudor'] = $id;
+			$data['deudor'] = $deudor->getDeudorDatos($id);
 		}
 		$this->view->show("admin_liquidaciones.php", $data);
 	}
@@ -779,18 +799,13 @@ class DeudoresController extends ControllerBase
     {
 		require 'models/DeudoresModel.php';
 		require 'models/MandantesModel.php';
-		//require 'models/JuzgadoModel.php';
-		//require 'models/JuzgadoComunaModel.php';
 		require 'models/DocumentosModel.php';
-		//require 'models/DireccionDeudoresModel.php';
-		
-		//$deudor = new DeudoresModel();
+		require 'models/ParametrosModel.php';
+	
 		$deudores = new DeudoresModel();
 		$mandate = new MandantesModel();
-		//$juzgado = new JuzgadoModel();
-		//$jcomuna = new JuzgadoComunaModel();
 		$documentos = new DocumentosModel();
-		//$direcciones = new DireccionDeudoresModel();
+		$parametros = new ParametrosModel();
 		
 		$data['nom_sistema'] = "SISTEMA DyV";
 		$data['ident'] = $array["id"];
@@ -801,15 +816,80 @@ class DeudoresController extends ControllerBase
 
 		$datodocumento = $documentos->getDatoDocumento($array["id_doc"]);
 		
-		//$datodir = $direcciones->getDirActualDeudor($datodeudor->get_data("id_deudor"));
+		$data['iddeudor'] = $array["id"];
+		$data['deudor'] = $datodeudor;
+		$data['mandante'] = $datomandante;
+		$data['documento'] = $datodocumento;
+		$data['valoruf'] = $parametros->getParametro(array("nom_param"=>"valor_uf"));// 22700;  		//crear metodo en la base para este parametro
+		$data['interes_base'] = $parametros->getParametro(array("nom_param"=>"interes_diario_normal")); //"2";    //crear metodo en la base para este parametro
+				
+		$this->view->show("deudor_liquidacion.php", $data);
+	}
+	
+	public function edita_liquidacion($array)
+    {
+		require 'models/DeudoresModel.php';
+		require 'models/MandantesModel.php';
+		require 'models/DocumentosModel.php';
+		require 'models/ParametrosModel.php';
+		require 'models/LiquidacionesModel.php';
+		
+	
+		$deudores = new DeudoresModel();
+		$mandate = new MandantesModel();
+		$documentos = new DocumentosModel();
+		$parametros = new ParametrosModel();
+		$liquidacion = new LiquidacionesModel();
+		
+		$data['nom_sistema'] = "SISTEMA DyV";
+		
+		$data['tipoperacion'] = $array["tipope"];
+		$data['liquidacion'] = $liquidacion->getLiquidacion($array["id"]);
+		$array["id_liquidacion"] = $array["id"];
+		$data['doc_simulacion'] = $deudores->getDocSimulacionLiquidacion($array);
+		$datodeudor = $deudores->getDeudorDatos($data['liquidacion']->get_data("id_deudor"));	
+		//$datomandante = $mandate->getMandanteDatos($data['liquidacion']->get_data("id_mandante"));
+
+		//$datodocumento = $documentos->getDatoDocumento($array["id_doc"]);
+			
+		$data['deudor'] = $datodeudor;
+		//$data['mandante'] = $datomandante;
+		//$data['documento'] = $datodocumento;
+		$data['valoruf'] = $parametros->getParametro("valor_uf");// 22700;  		//crear metodo en la base para este parametro
+		$data['interes_base'] = $parametros->getParametro("interes_diario_normal"); //"2";    //crear metodo en la base para este parametro
+				
+		$this->view->show("deudor_liquidacion_edita.php", $data);
+	}
+	
+	public function modifica_liquidacion($array)
+    {
+		require 'models/DeudoresModel.php';
+		require 'models/MandantesModel.php';
+		require 'models/DocumentosModel.php';
+		require 'models/LiquidacionesModel.php';
+		
+		$deudores = new DeudoresModel();
+		$mandate = new MandantesModel();
+		$documentos = new DocumentosModel();
+		$liquidaciones = new LiquidacionesModel();
+		
+		$data['nom_sistema'] = "SISTEMA DyV";
+//		$data['ident'] = $array["id"];
+//		$data['tipoperacion'] = $array["tipope"];
+
+		$datodeudor = $deudores->getDeudorDatos($array["id"]);	
+		$datoliquidacion = $liquidaciones->getLiquidacion($array["id"]);
+		
+		$datomandante = $mandate->getMandanteDatos($datodeudor->get_data("id_mandante"));
+
+		$datodocumento = $documentos->getDatoDocumento($array["id_doc"]);
 		
 		$data['deudor'] = $datodeudor;
 		$data['mandante'] = $datomandante;
 		$data['documento'] = $datodocumento;
-		//$data['direccion'] = $datodir;
 		$data['valoruf'] = 22700;  //crear metodo en la base para este parametro
-		$data['interes_base'] = "2";  //crear metodo en la base para este parametro
-				
+		$data['interes_base'] = "1.5";  //crear metodo en la base para este parametro
+		$data['liquidacion'] = datoliquidacion;		
 		$this->view->show("deudor_liquidacion.php", $data);
 	}
 	
@@ -841,7 +921,8 @@ class DeudoresController extends ControllerBase
 		$data['idmandante'] = $dato_deu->get_data("id_mandante");
 		if($array["id_liquidacion"] <> 0)
 		{
-			$data['simulacion'] = $deudores->getSimulacionLiquidacion($array);
+			//$data['simulacion'] = $deudores->getSimulacionLiquidacion($array);
+		
 			$data['doc_simulacion'] = $deudores->getDocSimulacionLiquidacion($array);
 		}
 		else
@@ -849,6 +930,7 @@ class DeudoresController extends ControllerBase
 			$data['simulacion'] = null;
 			$data['doc_simulacion'] = null;
 		}
+		
 		$data['id_liquidacion'] = $array["id_liquidacion"];
 		$this->view->show("deudor_liquidacion_documentos.php", $data);
 	}
@@ -908,7 +990,17 @@ class DeudoresController extends ControllerBase
 		require 'models/DeudoresModel.php';
 		
 		$deudor = new DeudoresModel();
+		$array["id_usuario"] = $_SESSION["idusuario"];
 		$deudor->grabarLiquidacion($array);
 	}	
+	
+	public function grabar_editaLiquidacion($array)
+	{
+		require 'models/DeudoresModel.php';
+		
+		$deudor = new DeudoresModel();
+		$array["id_usuario"] = $_SESSION["idusuario"];
+		$deudor->grabar_editaLiquidacion($array);
+	}
 }
 ?>

@@ -1400,7 +1400,8 @@
 					"usuario_creacion" => array("varchar"),
 					"fecha_creacion"  => array("date"),
 					"usuario_modificacion" => array("varchar"),
-					"fecha_modificacion"  => array("date")
+					"fecha_modificacion"  => array("date"),
+					"estado" => array("varchar")
 				);
 			parent::BusinessObject();
 		}
@@ -1428,20 +1429,35 @@
 		{
 			$this->table_name = "liquidaciones";
 			$this->field_metadata = array(
-					"id_liquidacion" => array("int"),
-					"id_deudor" => array("int"),
-					"id_mandante" => array("int"),
-					"interes" => array("decimal"),
-					"valor_uf" => array("int"),
-					"abono" => array("int"),
-					"cuotas" => array("int"),
-					"repacta" => array("varchar"),
-					"fecha_inicial_calculo"=> array("date"),
-					"fecha_simulacion" => array("date"),
-					"fecha_creacion" => array("date"),
-					"usuario_creacion" => array("varchar"),
-					"fecha_modificacion" => array("date"),
-					"usuario_modificacion" => array("varchar"),
+					  "id_liquidacion" => array("int"),
+					  "id_deudor" => array("int"),
+					  "id_mandante" => array("int"),
+					  "interes" => array("decimal"),
+					  "valor_uf" => array("int"),
+					  "abono" => array("int"),
+					  "cuotas" => array("int"),
+					  "repacta" => array("varchar"),
+					  "fecha_inicial_calculo"  => array("date"),
+					  "fecha_simulacion" => array("date"),
+					  "capital" => array("decimal"),
+					  "protesto" => array("decimal"),
+					  "fecha_venc" => array("date"),
+					  "dias_atraso" => array("int"),
+					  "interes_diario" =>  array("decimal"),
+					  "interes_acumulado" => array("int"),
+					  "honorarios_dyv" => array("int"),
+					  "total_simulacion" => array("int"),
+					  "importe_prestamo" => array("int"),
+					  "interes_mensual" => array("decimal"),
+					  "fecha_calculo" => array("date"),
+					  "fecha_pago" => array("date"),
+					  "imp" => array("decimal"),
+					  "pago_mensual" => array("int"),
+					  "costo_total" => array("int"),
+					  "fecha_creacion" => array("date"),
+					  "usuario_creacion" =>  array("varchar"),
+					  "fecha_modificacion" => array("date"),
+					  "usuario_modificacion" =>  array("varchar")
 			);
 			parent::BusinessObject();
 		}

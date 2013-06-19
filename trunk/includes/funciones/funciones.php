@@ -25,6 +25,12 @@
 	function formatoFecha($fechavieja, $formatoOrigen, $formatoDestino)
 	{
 		$resp = "";
+		
+		if(trim($fechavieja) == "")
+		{
+			return $resp;
+		}
+		
 		if(strlen($fechavieja) > 10)
 		{
 			$tiempo = substr($fechavieja, 10);

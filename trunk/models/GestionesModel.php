@@ -23,8 +23,9 @@ class GestionesModel extends ModelBase
 					  d.segundo_nombre segundo_nombre,
 					  g.fecha_gestion fecha_gestion,
 					  g.fecha_prox_gestion fecha_prox_gestion,
-					  g.estado estado ");
-	$sqlpersonal->set_from( " gestiones g, deudores d, mandantes m ");
+					  eg.estado estado  
+					  ");
+	$sqlpersonal->set_from( " gestiones g LEFT JOIN estadosgestion eg ON g.estado = eg.id_estado, deudores d, mandantes m ");
 
 	$where = " g.id_deudor = d.id_deudor
 	  	   and g.id_mandante = m.id_mandante
@@ -67,13 +68,13 @@ class GestionesModel extends ModelBase
 					  d.segundo_nombre segundo_nombre,
 					  g.fecha_gestion fecha_gestion,
 					  g.fecha_prox_gestion fecha_prox_gestion,
-					  g.estado estado ");
-	$sqlpersonal->set_from( " gestiones g, deudores d, mandantes m ");
+					  eg.estado estado ");
+	$sqlpersonal->set_from( " gestiones g LEFT JOIN estadosgestion eg ON g.estado = eg.id_estado, deudores d, mandantes m ");
 
 	$where = " g.id_deudor = d.id_deudor
 	  	   and g.id_mandante = m.id_mandante
 		   and g.activo = 'S'
-		   AND ((g.fecha_prox_gestion <= curdate()) or g.id_gestion not in(select gg.id_gestion from estados_x_gestion gg))
+		   AND ((g.fecha_prox_gestion <= CURDATE()) OR (g.id_gestion NOT IN(SELECT gg.id_gestion FROM estados_x_gestion gg) AND (g.fecha_prox_gestion <= CURDATE()) ))
 		   and d.id_deudor in (select d1.id_deudor from documentos d1 where d1.id_deudor = d.id_deudor and d1.id_estado_doc not in( 2,3 )
 		   						and d1.activo = 'S') ";
 	
@@ -110,7 +111,7 @@ class GestionesModel extends ModelBase
 	$where = " g.id_deudor = d.id_deudor
 	  	   and g.id_mandante = m.id_mandante
 		   and g.activo = 'S'
-		   AND ((g.fecha_prox_gestion <= curdate()) or g.id_gestion not in(select gg.id_gestion from estados_x_gestion gg))
+		   AND ((g.fecha_prox_gestion <= CURDATE()) OR (g.id_gestion NOT IN(SELECT gg.id_gestion FROM estados_x_gestion gg) AND (g.fecha_prox_gestion <= CURDATE()) ))
 		   and d.id_deudor in (select d1.id_deudor from documentos d1 where d1.id_deudor = d.id_deudor and d1.id_estado_doc not in( 2,3 )) ";
 	
 	$sqlpersonal->set_where( $where );
@@ -265,6 +266,7 @@ class GestionesModel extends ModelBase
 	  $datoGes->add_filter("id_gestion","=",$array["idgestion"]);
 	  $datoGes->load();
 	  $datoGes->set_data("fecha_prox_gestion",$array["txtfechaproxgestion"]);
+	  $datoGes->set_data("estado",$array["selGestion"]);
 	  $datoGes->save();
 	  
 	  //modifica estado de documento si la gestion es una DEMANDA, CASTIGO o RECUPERO

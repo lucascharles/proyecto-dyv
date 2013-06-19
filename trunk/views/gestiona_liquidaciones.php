@@ -52,12 +52,14 @@
 			}
 			var id = document.getElementById("id_liquidacion").value;
 			
-			$("#pagina").load('index.php?controlador=Deudores&accion=deudor_liquidacion&id='+id+'&tipope=M');
+			$("#pagina").load('index.php?controlador=Deudores&accion=modifica_liquidacion&id='+id+'&tipope=M');
 		}
 
 		function nuevaliquidacion()
 		{
-			$("#pagina").load('index.php?controlador=Deudores&accion=nueva_liquidacion');
+			var iddeudor = document.getElementById("id_deudor").value;
+			alert('index.php?controlador=Deudores&accion=nueva_liquidacion&id='+iddeudor);
+			$("#pagina").load('index.php?controlador=Deudores&accion=nueva_liquidacion&id='+iddeudor);
 		}
 		
 		function seleccionadoDeudor(id)
@@ -122,7 +124,7 @@
 <body>
 <form name="frmadmliquidaciones">
 <input  type="hidden" name="id_liquidacion" id="id_liquidacion" value=""/>
-<input type="hidden" name="id_deudor" id="id_deudor" value=""/>
+<input type="hidden" name="id_deudor" id="id_deudor" value="<?php echo($deudor->get_data("id_deudor")) ?>"/>
 <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="titulopantalla">
 	<tr>
 		<th align="left" height="30">&nbsp;Liquidaciones</th>
@@ -141,15 +143,10 @@
 <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
 	<tr>
 		<td width="" align="left" class="etiqueta_form">
-        R.U.T. Deudor:&nbsp;&nbsp;&nbsp; <input type="text" name="txtrut_deudor" id="txtrut_deudor" class="input_form" onblur="validaDeudor(); generadvrut('txtrut_deudor','txtdv_deudor'); validarRut('D'); simular_liquidacion();" />&nbsp;
-	            		<input type="text" name="txtdv_deudor" id="txtdv_deudor" class="input_form_min" onblur="" disabled="disabled" />&nbsp;
+        R.U.T. Deudor:&nbsp;&nbsp;&nbsp; <input type="text" name="txtrut_deudor" id="txtrut_deudor" value="<?php echo($deudor->get_data("rut_deudor")."-".$deudor->get_data("dv_deudor")) ?>" class="input_form" onblur="" />&nbsp;
         </td>
-        <td width="" align="left" class="etiqueta_form">Nombre:&nbsp; 
-        	<input type="text" name="txtnombre_deudor" id="txtnombre_deudor" class="input_form" onblur="" />&nbsp;
-        </td>
-        
-        <td align="left"></td>
-        <td> 
+        <td width="" align="left" class="etiqueta_form">
+        Nombre:&nbsp; <input type="text" name="txtnombre_deudor" id="txtnombre_deudor" value="<?php echo($deudor->get_data("primer_apellido")." ".$deudor->get_data("segundo_apellido").$deudor->get_data("primer_nombre")." ".$deudor->get_data("segundo_nombre")) ?>" class="input_form" onblur="" />&nbsp;
         </td>
     </tr>
     
@@ -163,7 +160,7 @@
  <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
     <tr>
 		<td colspan="2" width="90%">
-        	<iframe id="frmlistliquidaciones" src="index.php?controlador=Deudores&accion=listar_liquidaciones&rutdeudor=<?php ?>" width="100%" align="middle" height="220" scrolling="auto" frameborder="0"></iframe>
+        	<iframe id="frmlistliquidaciones" src="index.php?controlador=Deudores&accion=listar_liquidaciones&rutdeudor=<?php echo($deudor->get_data("rut_deudor"))?>" width="100%" align="middle" height="220" scrolling="auto" frameborder="0"></iframe>
         </td>
         <td width="10%">
         	<div style="position:relative; margin-left:10px;">

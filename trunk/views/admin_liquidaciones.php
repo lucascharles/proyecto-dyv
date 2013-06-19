@@ -5,6 +5,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<title></title>
+    <script src="js/funciones.js" type="text/javascript"></script>
 	<script src="js/funcionesgral.js" type="text/javascript"></script>
     <script language="javascript">
 		function mostrar(obj)
@@ -30,17 +31,23 @@
 			var url = "index.php?controlador=Deudores&accion=listar_liquidaciones&rutdeudor="+document.getElementById("txtrut").value;
 			document.getElementById("frmlistliquidaciones").src = url;
 		}
-		
+		/*
 		function seleccionado(id)
 		{
 			document.getElementById("id_ficha").value = id;
 		}
-		
+		*/
 		
 		
 		function salir()
 		{
 			$("#pagina").load('views/default.php');
+		}
+		
+		
+		function seleccionado(id)
+		{
+			document.getElementById("id_liquidacion").value = id;
 		}
 		
 		function liquidacion()
@@ -52,12 +59,16 @@
 			}
 			var id = document.getElementById("id_liquidacion").value;
 			
-			$("#pagina").load('index.php?controlador=Deudores&accion=deudor_liquidacion&id='+id+'&tipope=M');
+			$("#pagina").load('index.php?controlador=Deudores&accion=edita_liquidacion&id='+id+'&tipope=M');
 		}
 
 		function nuevaliquidacion()
 		{
-			$("#pagina").load('index.php?controlador=Deudores&accion=nueva_liquidacion');
+			if($.trim($("#id_deudor").val()) != "")
+			{
+				var iddeudor = document.getElementById("id_deudor").value;
+				$("#pagina").load('index.php?controlador=Deudores&accion=nueva_liquidacion'+'&id='+iddeudor);
+			}
 		}
 		
 		function seleccionadoDeudor(id)
@@ -119,6 +130,18 @@
 		}
 	</script>
 </head>
+<?
+$id_deudor = "";
+$rutdeudor = "";
+$dvdeudor = "";
+if(!is_null($deudor))
+{
+	$id_deudor = $deudor->get_data("id_deudor");
+	$rutdeudor = $deudor->get_data("rut_deudor");
+	$dvdeudor = $deudor->get_data("dv_deudor");	
+}
+			
+?>
 <body>
 <div id="selecDeudor" style="position:absolute; margin-left:20px; width:95%; margin-top:30px; display:none; z-index:9999;">
 	<table cellpadding="10" cellspacing="10" align="center" border="0" width="100%" bgcolor="#FFFFFF">  
@@ -194,7 +217,7 @@
 </div>
 <form name="frmadmliquidaciones">
 <input  type="hidden" name="id_liquidacion" id="id_liquidacion" value=""/>
-<input type="hidden" name="id_deudor" id="id_deudor" value=""/>
+<input type="hidden" name="id_deudor" id="id_deudor" value="<?=$id_deudor?>"/>
 <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="titulopantalla">
 	<tr>
 		<th align="left" height="30">&nbsp;B&uacute;squeda de Liquidaciones</th>
@@ -213,8 +236,11 @@
 <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
 	<tr>
 		<td width="" align="left" class="etiqueta_form">
-        R.U.T. Deudor:&nbsp;&nbsp;&nbsp; <input type="text" name="txtrut_deudor" id="txtrut_deudor" class="input_form" onblur="validaDeudor(); generadvrut('txtrut_deudor','txtdv_deudor'); validarRut('D'); simular_liquidacion();" />&nbsp;
-	            		<input type="text" name="txtdv_deudor" id="txtdv_deudor" class="input_form_min" onblur="" disabled="disabled" />&nbsp;
+        <!--
+        R.U.T. Deudor:&nbsp;&nbsp;&nbsp; <input type="text" name="txtrut" id="txtrut"  size="20" onkeyup='mostrar(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" />
+        -->
+        R.U.T. Deudor:&nbsp;&nbsp;&nbsp; <input type="text" name="txtrut_deudor" id="txtrut_deudor" class="input_form" value="<?=$rutdeudor?>"  onblur="validaDeudor(); generadvrut('txtrut_deudor','txtdv_deudor'); validarRut('D');" />&nbsp;
+	            		<input type="text" name="txtdv_deudor" id="txtdv_deudor" class="input_form_min" value="<?=$dvdeudor?>" onblur="" disabled="disabled" />&nbsp;
                         <img src="images/buscar.png" title="Buscar Deudor" style="cursor:pointer" onclick="ventanaBusqueda('D')"/>
         </td>
         <td align="left"></td>
@@ -263,3 +289,12 @@
 </form>
 </body>
 </html>
+<?
+if(!is_null($deudor))
+{
+	echo("<script language='javascript'>");
+	echo("mostrar(document.getElementById('txtrut_deudor'));");
+	echo("</script>");
+}
+?>
+

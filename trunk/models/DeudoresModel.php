@@ -19,6 +19,15 @@ class DeudoresModel extends ModelBase
 		return $dato;
 	}
 
+	public function getCantFicha($iddeudor)
+	{
+		$dato = new FichaCollection();
+		$dato->add_filter("id_deudor","=",$iddeudor);
+		$dato->load();
+		$cantidad = $dato->get_count();		
+		return $cantidad;
+	}
+	
 	public function altaFicha($param)
 	{
 		$deudor = new Deudores();
@@ -699,16 +708,6 @@ ORDER BY orden ASC ";
 		return $datod;
 	}
 
-	public function getDeudorLiquidar($array)
-	{
-		// DATOS DEL DEUDOR
-		$dato = new Deudores();
-		$dato->add_filter("id_deudor","=",$arrayParam["iddeudor"]);
-		$dato->load();
-		
-		return $dato;
-	}
-	
 	public function editarDeudor($arrayParam)
 	{
 		// DATOS DEL DEUDOR
@@ -719,11 +718,11 @@ ORDER BY orden ASC ";
 		$dato->set_data("rut_deudor_s",$arrayParam["rut"].$arrayParam["rut_d"]);
 		$dato->set_data("dv_deudor",$arrayParam["rut_d"]);
 		$dato->set_data("razonsocial",$arrayParam["razonsocial"]);
-		$dato->set_data("primer_nombre",$arrayParam["papellido"]);
-		$dato->set_data("segundo_nombre",$arrayParam["sapellido"]);
-		$dato->set_data("primer_apellido",$arrayParam["pnombre"]);
-		$dato->set_data("segundo_apellido",$arrayParam["snombre"]);
-		$dato->set_data("comentario",$arrayParam["pnombre"]);
+		$dato->set_data("primer_nombre",$arrayParam["pnombre"]);
+		$dato->set_data("segundo_nombre",$arrayParam["snombre"]);
+		$dato->set_data("primer_apellido",$arrayParam["papellido"]);
+		$dato->set_data("segundo_apellido",$arrayParam["sapellido"]);
+//		$dato->set_data("comentario",$arrayParam["pnombre"]);
 		$dato->set_data("celular",$arrayParam["celular"]);
 		$dato->set_data("telefono_fijo",$arrayParam["telefono"]);
 		$dato->set_data("email",$arrayParam["email"]);
@@ -1265,13 +1264,10 @@ ORDER BY orden ASC ";
 	}
 	
 	public function getDocSimulacionLiquidacion($array)
-	{
-		$dato = new Liquidacion_simulacion();
-		$dato->add_filter("id_liquidacion","=",$array["id_liquidacion"]);
-		$dato->load();
+	{	
 		
 		$col = new Liquidacion_simulacion_docCollection();
-		$col->add_filter("id_liquidacion_simulacion","=",$dato->get_data("id"));
+		$col->add_filter("id_liquidacion_simulacion","=",$array["id_liquidacion"]);
 		$col->load();
 		
 		return $col;
@@ -1279,36 +1275,103 @@ ORDER BY orden ASC ";
 	
 	public function grabarLiquidacion($array)
 	{
-		$dato = new Liquidaciones();
+		$deudor = new Deudores();
+		$deudor->add_filter("id_deudor","=",$array["deudor"]);
+		$deudor->load();
 		
+		$dato = new Liquidaciones();
 		$dato->set_data("id_deudor",$array["deudor"]);
+		$dato->set_data("id_mandante",$deudor->get_data("id_mandante"));
 		$dato->set_data("interes",$array["interes"]);
 		$dato->set_data("valor_uf",$array["valoruf"]);
-		$dato->set_data("abono",$array["abono"]);
-		$dato->set_data("cuotas",$array["cuotas"]);
+		$dato->set_data("fecha_simulacion",formatoFecha($array["fechasimulacion"],"dd/mm/yyyy","yyyy-mm-dd"));
+		$dato->set_data("capital",$array["capital"]);
+		$dato->set_data("protesto",$array["protesto"]);
+		$dato->set_data("fecha_venc",formatoFecha($array["fechavenc"],"dd/mm/yyyy","yyyy-mm-dd"));
+		$dato->set_data("dias_atraso",$array["diasatraso"]);
+		$dato->set_data("interes_diario",$array["interesdiario"]);
+		$dato->set_data("interes_acumulado",$array["interesacumulado"]);
+		$dato->set_data("honorarios_dyv",$array["honoraiorsdyv"]);
+		$dato->set_data("total_simulacion",$array["total"]);
 		$dato->set_data("repacta",$array["repacta"]);
-		$dato->set_data("fecha_inicial_calculo",$array["fecha_inicial_calculo"]);
-		$dato->set_data("fecha_simulacion",$array["fechasimulacion"]);
-
-		$dato->save();	
-	}
-
-	public function grabarLiquidacionDocumentos($array)
-	{
-		$dato = new Liquidaciones();
-		
-		$dato->set_data("id_deudor",$array["deudor"]);
-		$dato->set_data("interes",$array["interes"]);
-		$dato->set_data("valor_uf",$array["valoruf"]);
-		$dato->set_data("abono",$array["abono"]);
-		$dato->set_data("cuotas",$array["cuotas"]);
-		$dato->set_data("repacta",$array["repacta"]);
-		$dato->set_data("fecha_inicial_calculo",$array["fecha_inicial_calculo"]);
-		$dato->set_data("fecha_simulacion",$array["fechasimulacion"]);
-
+		if($array["repacta"] == "S")
+		{
+			$dato->set_data("importe_prestamo",$array["importeprestamo"]);
+			$dato->set_data("interes_mensual",$array["interesmensual"]);
+			$dato->set_data("cuotas",$array["cuotas"]);
+			$dato->set_data("fecha_calculo",formatoFecha($array["fechacalculo"],"dd/mm/yyyy","yyyy-mm-dd"));
+			$dato->set_data("fecha_pago",formatoFecha($array["fechapago"],"dd/mm/yyyy","yyyy-mm-dd"));
+			$dato->set_data("imp",$array["imp"]);
+			$dato->set_data("pago_mensual",$array["pagomensual"]);
+			$dato->set_data("costo_total",$array["costototal"]);
+		}
+			$dato->set_data("fecha_creacion",date("Y-m-d"));
+			$dato->set_data("usuario_creacion",$array["id_usuario"]);
 		$dato->save();	
 		
+		$id_new = getUltimoId(new LiquidacionesCollection(), "id_liquidacion");
+		
+		$arraydoc = explode(",",$array["docs"]);
+		for($i=0; $i<count($arraydoc); $i++)
+		{
+			$doc_sim = new Liquidacion_simulacion_doc();
+			$doc_sim->set_data("id_liquidacion_simulacion",$id_new);
+			$doc_sim->set_data("id_documento",$arraydoc[$i]);
+			$doc_sim->save();
+		}
 	}
 	
+	public function grabar_editaLiquidacion($array)
+	{
+		$deudor = new Deudores();
+		$deudor->add_filter("id_deudor","=",$array["deudor"]);
+		$deudor->load();
+		
+		$dato = new Liquidaciones();
+		$dato->add_filter("id_liquidacion","=",$array["id_liquidacion"]);
+		$dato->load();
+		$dato->set_data("id_mandante",$deudor->get_data("id_mandante"));
+		$dato->set_data("interes",$array["interes"]);
+		$dato->set_data("valor_uf",$array["valoruf"]);
+		$dato->set_data("fecha_simulacion",formatoFecha($array["fechasimulacion"],"dd/mm/yyyy","yyyy-mm-dd"));
+		$dato->set_data("capital",$array["capital"]);
+		$dato->set_data("protesto",$array["protesto"]);
+		$dato->set_data("fecha_venc",formatoFecha($array["fechavenc"],"dd/mm/yyyy","yyyy-mm-dd"));
+		$dato->set_data("dias_atraso",$array["diasatraso"]);
+		$dato->set_data("interes_diario",$array["interesdiario"]);
+		$dato->set_data("interes_acumulado",$array["interesacumulado"]);
+		$dato->set_data("honorarios_dyv",$array["honoraiorsdyv"]);
+		$dato->set_data("total_simulacion",$array["total"]);
+		$dato->set_data("repacta",$array["repacta"]);
+		if($array["repacta"] == "S")
+		{
+			$dato->set_data("importe_prestamo",$array["importeprestamo"]);
+			$dato->set_data("interes_mensual",$array["interesmensual"]);
+			$dato->set_data("cuotas",$array["cuotas"]);
+			$dato->set_data("fecha_calculo",formatoFecha($array["fechacalculo"],"dd/mm/yyyy","yyyy-mm-dd"));
+			$dato->set_data("fecha_pago",formatoFecha($array["fechapago"],"dd/mm/yyyy","yyyy-mm-dd"));
+			$dato->set_data("imp",$array["imp"]);
+			$dato->set_data("pago_mensual",$array["pagomensual"]);
+			$dato->set_data("costo_total",$array["costototal"]);
+		}
+		$dato->set_data("fecha_modificacion",date("Y-m-d"));
+		$dato->set_data("usuario_modificacion",$array["id_usuario"]);
+		$dato->save();	
+		
+		$doc_del = new Liquidacion_simulacion_doc();
+		$doc_del->add_filter("id_liquidacion_simulacion","=",$array["id_liquidacion"]);
+		$doc_del->load();
+		$doc_del->mark_deleted();
+		$doc_del->save();
+		
+		$arraydoc = explode(",",$array["docs"]);
+		for($i=0; $i<count($arraydoc); $i++)
+		{
+			$doc_sim = new Liquidacion_simulacion_doc();
+			$doc_sim->set_data("id_liquidacion_simulacion",$array["id_liquidacion"]);
+			$doc_sim->set_data("id_documento",$arraydoc[$i]);
+			$doc_sim->save();
+		}
+	}
 }
 ?>

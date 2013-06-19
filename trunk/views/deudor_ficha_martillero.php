@@ -110,7 +110,7 @@
 	$entrega_receptor = ($id_alta > 0) ? $martillero->get_data("entrega_receptor") : "";
 	$retiro_especies = ($id_alta > 0) ? $martillero->get_data("retiro_especies") : "";
 	$oposicion_retiro = ($id_alta > 0) ? $martillero->get_data("oposicion_retiro") : "";
-	$fecha_remate = ($id_alta > 0) ? formatoFecha($martillero->get_data("fecha_remate"),"dd-mm-yyyy","dd/mm/yyyy") : "";
+	$fecha_remate = ($id_alta > 0) ? formatoFecha($martillero->get_data("fecha_remate"),"yyyy-mm-dd","dd/mm/yyyy") : "";
 ?>
 <form name="frmreceptor">
 <input  type="hidden" name="tipoperacion" id="tipoperacion" value="<? echo($tipoperacion) ?>" grabar="S"/>

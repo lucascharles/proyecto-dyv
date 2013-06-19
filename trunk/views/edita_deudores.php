@@ -142,8 +142,9 @@
 					cache: false,
 					success: function(res)
 					{
-						$("#formsoporte").hide("slow");
+						
 						document.getElementById("frmdireccion").src="index.php?controlador=Deudores&accion=listar_dirtmp";
+																	
 						document.getElementById("txtcalle").value = "";
 						document.getElementById("txtnumero").value = "";
 						document.getElementById("txtpiso").value = "";
@@ -159,6 +160,7 @@
 						$(document.getElementById("txtcomuna")).removeClass('notFilled');
 						$(document.getElementById("txtciudad")).removeClass('notFilled');
 						$(document.getElementById("txtotros")).removeClass('notFilled');
+					
 					},
 					error: function()
 					{
@@ -228,11 +230,8 @@
 		
 			arrayin[0] = document.getElementById("txtrut");
 			arrayin[1] = document.getElementById("txtrut_d");
-			//arrayin[2] = document.getElementById("txtrazonsocial");
 			arrayin[2] = document.getElementById("txtpapellido");
-			//arrayin[4] = document.getElementById("txtsapellido");
 			arrayin[3] = document.getElementById("txtpnombre");
-			//arrayin[6] = document.getElementById("txtsnombre");
 			arrayin[4] = document.getElementById("txtpnombre");
 			arrayin[5] = document.getElementById("txtcelular");
 			arrayin[6] = document.getElementById("txttelefono");
@@ -255,11 +254,12 @@
 			datos += "&sapellido="+$("#txtsapellido").val();
 			datos += "&pnombre="+$("#txtpnombre").val();
 			datos += "&snombre="+$("#txtsnombre").val();
-			datos += "&pnombre="+$("#txtpnombre").val();
+//			datos += "&pnombre="+$("#txtpnombre").val();
 			datos += "&celular="+$("#txtcelular").val();
 			datos += "&telefono="+$("#txttelefono").val();
 			datos += "&email="+$("#txtemail").val();
 			datos += "&tipo="+$("#tipo").val();
+
 			
 			$.ajax({
 					url: "index.php",
@@ -493,12 +493,12 @@
 						$disabled = "";
 					}
 					?>
-                    &nbsp;&nbsp;&nbsp;<input type="text" grabar="S" disabled="disabled" value="<? echo($objDeudor->get_data("razonsocial")) ?>" name="txtrazonsocial" id="txtrazonsocial"  size="40" valida="requerido" tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtrazonsocial" class="msjdato_incomp"></span>
+                    &nbsp;&nbsp;&nbsp;<input type="text" grabar="S"  value="<? echo($objDeudor->get_data("razonsocial")) ?>" name="txtrazonsocial" id="txtrazonsocial"  size="40"  tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtrazonsocial" class="msjdato_incomp"></span>
                     </td>
                 </tr>
                 <tr>
                     <td width="150" align="left"  class="etiqueta_form">Primer apellido:</td>
-                    <td> &nbsp;&nbsp;&nbsp;<input type="text" grabar="S" name="txtpapellido" id="txtpapellido" value="<? echo($objDeudor->get_data("primer_apellido")) ?>"  size="40" valida="requerido" tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtpapellido" class="msjdato_incomp"></span>
+                    <td> &nbsp;&nbsp;&nbsp;<input type="text" grabar="S" name="txtpapellido" id="txtpapellido" value="<? echo($objDeudor->get_data("primer_apellido")) ?>"  size="40"  tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtpapellido" class="msjdato_incomp"></span>
                     </td>
                 </tr>
                 <tr>
@@ -508,12 +508,12 @@
                 </tr>
                 <tr>
                     <td width="150" align="left"  class="etiqueta_form">Primer nombre:</td>
-                    <td> &nbsp;&nbsp;&nbsp;<input type="text" grabar="S" name="txtpnombre" id="txtpnombre"  value="<? echo($objDeudor->get_data("primer_nombre")) ?>" size="40" valida="requerido" tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtpnombre" class="msjdato_incomp"></span>
+                    <td> &nbsp;&nbsp;&nbsp;<input type="text" grabar="S" name="txtpnombre" id="txtpnombre"  value="<? echo($objDeudor->get_data("primer_nombre")) ?>" size="40"  tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtpnombre" class="msjdato_incomp"></span>
                     </td>
                 </tr>
                 <tr>
                     <td width="150" align="left" class="etiqueta_form">Segundo nombre:</td>
-                    <td> &nbsp;&nbsp;&nbsp;<input type="text" grabar="S" name="txtsnombre" id="txtsnombre" value="<? echo($objDeudor->get_data("segundo_nombre")) ?>"  size="40" valida="requerido" tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtsnombre" class="msjdato_incomp"></span>
+                    <td> &nbsp;&nbsp;&nbsp;<input type="text" grabar="S" name="txtsnombre" id="txtsnombre" value="<? echo($objDeudor->get_data("segundo_nombre")) ?>"  size="40"  tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtsnombre" class="msjdato_incomp"></span>
                     </td>
                 </tr>
             </table>
@@ -600,27 +600,27 @@
 			<table width="100%" align="center" border="0" cellpadding="5" cellspacing="5">
             	<tr>
                 	<td class="etiqueta_form">Calle</td>
-                    <td><input type="text" name="txtcalle" id="txtcalle" size="40" valida="requerido" tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtcalle" class="msjdato_incomp"></span></td>
+                    <td><input type="text" name="txtcalle" id="txtcalle" size="40"  tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtcalle" class="msjdato_incomp"></span></td>
                 </tr>
                 <tr>
                 	<td class="etiqueta_form">N&uacute;mero</td>
-                    <td><input type="text" name="txtnumero" id="txtnumero" size="40" valida="requerido" tipovalida="entero" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtnumero" class="msjdato_incomp"></span></td>
+                    <td><input type="text" name="txtnumero" id="txtnumero" size="40"  tipovalida="entero" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtnumero" class="msjdato_incomp"></span></td>
                 </tr>
                 <tr>
                 	<td class="etiqueta_form">Piso</td>
-                    <td><input type="text" name="txtpiso" id="txtpiso" size="40" valida="requerido" tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtpiso" class="msjdato_incomp"></span></td>
+                    <td><input type="text" name="txtpiso" id="txtpiso" size="40"  tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtpiso" class="msjdato_incomp"></span></td>
                 </tr>
                 <tr>
                 	<td class="etiqueta_form">Departamento</td>
-                    <td><input type="text" name="txtdepartamento" id="txtdepartamento" size="40" valida="requerido" tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtdepartamento" class="msjdato_incomp"></span></td>
+                    <td><input type="text" name="txtdepartamento" id="txtdepartamento" size="40"  tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtdepartamento" class="msjdato_incomp"></span></td>
                 </tr>
                 <tr>
                 	<td class="etiqueta_form">Comuna</td>
-                    <td><input type="text" name="txtcomuna" id="txtcomuna" size="40" valida="requerido" tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtcomuna" class="msjdato_incomp"></span></td>
+                    <td><input type="text" name="txtcomuna" id="txtcomuna" size="40"  tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtcomuna" class="msjdato_incomp"></span></td>
                 </tr>
                 <tr>
                 	<td class="etiqueta_form">Ciudad</td>
-                    <td><input type="text" name="txtciudad" id="txtciudad" size="40" valida="requerido" tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtciudad" class="msjdato_incomp"></span></td>
+                    <td><input type="text" name="txtciudad" id="txtciudad" size="40"  tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtciudad" class="msjdato_incomp"></span></td>
                 </tr>
                 <tr>
                 	<td class="etiqueta_form">Otros</td>

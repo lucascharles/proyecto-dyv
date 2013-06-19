@@ -270,5 +270,28 @@ class MandantesModel extends ModelBase
 		
 		echo($resp);
     }
+    
+    public function getMandanteDeudor($iddeudor)
+    {
+
+		include("config.php");
+		
+		$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
+		
+		$sqlselect = "DISTINCT id_mandatario id_mandatario, m.nombre nombre, m.rut_mandante rut_mandante, m.dv_mandante dv_mandante";
+		$sqlfrom = " documentos d, mandantes m ";
+		$sqlwhere = " d.`id_mandatario` = m.`id_mandante`
+					  AND d.id_deudor = ". $iddeudor. 
+					  " AND d.activo = 'S' AND m.activo = 'S' ";
+		
+		$sqlpersonal->set_select($sqlselect ); 
+		$sqlpersonal->set_from($sqlfrom);
+		$sqlpersonal->set_where($sqlwhere);
+		
+	    $sqlpersonal->load();
+	
+	    return $sqlpersonal;
+
+    }
 }
 ?>

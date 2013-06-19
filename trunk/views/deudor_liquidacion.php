@@ -25,26 +25,28 @@
 	<script type="text/javascript" src="js/jquery-ui-timepicker-addon.js"></script>
 	<script type="text/javascript" src="js/i18n/jquery.ui.datepicker-es.js"></script>
 	<script type="text/javascript" src="js/jquery-ui-sliderAccess.js"></script>
+    			
+
     <script language="javascript">
 		$(document).ready(function(){
 			$("#txtfecha").datepicker();	
 			$("#txtfechavenc").datepicker();
+			$("#txtfechacalculo").datepicker();
 			$("#txtfechainicial").datepicker();	
 			$('form').validator();
 			$("#txtfechaRecibido").datepicker();
 			$("#txtfechaprotesto").datepicker();
-			//setParametro("interes_diario_normal","txtinteres");
-			//setParametro("valor_uf","txtvaloruf");
+			$('form').validator();		
+			validaDeudor(); 
+			generadvrut('txtrut_deudor','txtdv_deudor'); 
+			validarRut('D'); 
+			simular_liquidacion();
 		});
+		
 		
 		function ventanaBusqueda(op)
 		{
-			if(op == "M")
-			{
-				$("#selecMandante").slideDown(1000);	
-				document.getElementById("txtrut_m").focus();
-			}
-			
+	
 			if(op == "D")
 			{
 				$("#selecDeudor").slideDown(1000);	
@@ -55,33 +57,21 @@
 
 		function repactar()
 		{
-			if($.trim($("#txtrut_deudor").val()) == "")
-			{
-				$("#mensaje").text("Debe seleccionar un Deudor");
-				$("#mensaje").show("slow");
-				setTimeout("limpiarMensaje()",3000);
-			}
-		}
-
-		function repactar()
-		{
-			if(document.getElementById("rdestatus_repacta").value == "S")
+			if(document.getElementById("rdestatus_repacta").checked == true)
 			{
 				$("#formsoporte").show("slow");
 				calculadora_prestamo();
-			}
-
-			if(document.getElementById("rdestatus_repacta").value == "N")
-			{
-				$("#formsoporte").show("slow");
 			}
 		}
 	
 
 		function noRepactar()
 		{
-			document.getElementById("rdestatus_repacta").value = "";
-			$("#formsoporte").hide("slow");
+			if(document.getElementById("rdestatus_no_repacta").checked == true)
+			{
+				document.getElementById("rdestatus_repacta").value = "";
+				$("#formsoporte").hide("slow");
+			}
 		}
 		
 		function validaDeudor()
@@ -205,13 +195,6 @@
 		}
 		*/
 		
-		function seleccionadoMandante(id)
-		{
-			document.getElementById("id_mandante").value = id;
-			buscarDatosMandante(id);
-			cerrarVentMand();
-		}
-
 		//TODO: mostrar docs
 		function seleccionadoDeudor(id)
 		{
@@ -221,30 +204,7 @@
 			cerrarVentDeudor();
 		}
 		
-		function buscarDatosMandante(id)
-		{
-			var datos = "controlador=Mandantes";
-			datos += "&accion=getDatosMandante";
-			datos += "&id_mandante="+id;
-				
-			$.ajax({
-					url: "index.php",
-					type: "GET",
-					data: datos,
-					cache: false,
-					dataType: "json",
-					success: function(res)
-					{		
-						$("#txtrut_mandante").val(res[0]);
-						$("#txtdv_mandante").val(res[1]);
-						
-					},
-					error: function()
-					{
-						$("#mensaje").text("Ha ocurrido un error y no se ha podido agregar el registro.");
-					}
-				});
-		}
+		
 		
 		function buscarDatosDeudor(id)
 		{
@@ -270,12 +230,7 @@
 					}
 				});
 		}
-		
-		function cerrarVentMand()
-		{
-			$("#selecMandante").slideUp(1000);
-			//document.getElementById("frmtipocom").src = "";
-		}
+
 		
 		
 		function cerrarVentDeudor()
@@ -284,29 +239,110 @@
 			//document.getElementById("frmtipocom").src = "";
 		}
 		
+		function volver()
+		{
+			var url = "index.php?controlador=Deudores&accion=admin_liquidaciones";
+			if($.trim($("#id_deudor").val()) != "")
+			{
+				url += '&iddeudor='+$("#id_deudor").val();
+				$("#pagina").load(url);
+			}
+		}
+		
 		function grabar()
 		{		
+			if($.trim($("#id_deudor").val()) == "")
+			{
+				$("#mensaje").text("Debe seleccionar un Deudor");
+				$("#mensaje").show("slow");
+				setTimeout("limpiarMensaje()",3000);
+				return false;
+			}
+			
+			if($.trim($("#docs").val()) == "")
+			{
+				$("#mensaje").text("Debe seleccionar Documentos para la simulacion");
+				$("#mensaje").show("slow");
+				setTimeout("limpiarMensaje()",3000);
+				return false;
+			}
+			
+			var arrayin = new Array();
+			arrayin[0] = document.getElementById("txtinteres");
+			arrayin[1] = document.getElementById("txtvaloruf");
+			arrayin[2] = document.getElementById("txtfecha");
+			arrayin[3] = document.getElementById("txttotal");
+			arrayin[4] = document.getElementById("txtprotesto");
+			arrayin[5] = document.getElementById("txtfechavenc");
+			arrayin[6] = document.getElementById("txtdiasatraso");
+			arrayin[7] = document.getElementById("txtinteresdiario");
+			arrayin[8] = document.getElementById("txtinteresacumulado");
+			arrayin[9] = document.getElementById("txthonorarios");
+			arrayin[10] = document.getElementById("txttotalsimulacion");
+			
+			if(document.getElementById("rdestatus_repacta").checked == true)
+			{
+				arrayin[11] = document.getElementById("txtimporte");
+				arrayin[12] = document.getElementById("txtinteresmensual");
+				arrayin[13] = document.getElementById("txtcuotascalc");
+				arrayin[14] = document.getElementById("txtfechacalculo");
+				arrayin[15] = document.getElementById("txtfechainicial");
+				arrayin[16] = document.getElementById("txtimpcalc");
+				arrayin[17] = document.getElementById("txtpagomensual");
+				arrayin[18] = document.getElementById("txtcostoprestamo");
+			}
+			
+			var arraySel = new Array();
+			
+			if(!validarArray(arrayin, arraySel,"N"))
+			{
+				return false;
+			}
+			
+			
 				var datos = "controlador=Deudores";
 				
 				datos += "&accion=grabarLiquidacion";
 				datos += "&deudor="+$("#id_deudor").val();
 				datos += "&interes="+$("#txtinteres").val();
 				datos += "&valoruf="+$("#txtvaloruf").val();
-//				datos += "&abono="+$("#txtabono").val();
-//				datos += "&cuotas="+$("#txtcuotas").val();
-//				datos += "&repacta="+$("#rdestatus_repacta").val();
-//				datos += "&fechainicialcalc="+$("#txtfechaincial").val();
 				datos += "&fechasimulacion="+$("#txtfecha").val();
+				
+				datos += "&capital="+$("#txttotal").val();
+				datos += "&protesto="+$("#txtprotesto").val();
+				datos += "&fechavenc="+$("#txtfechavenc").val();
+				datos += "&diasatraso="+$("#txtdiasatraso").val();
+				datos += "&interesdiario="+$("#txtinteresdiario").val();
+				datos += "&interesacumulado="+$("#txtinteresacumulado").val();
+				datos += "&honoraiorsdyv="+$("#txthonorarios").val();
+				datos += "&total="+$("#txttotalsimulacion").val();
+
+				datos += "&importeprestamo="+$("#txtimporte").val();
+				datos += "&interesmensual="+$("#txtinteresmensual").val();
+				datos += "&cuotas="+$("#txtcuotascalc").val();
+				datos += "&fechacalculo="+$("#txtfechacalculo").val();
+				datos += "&fechapago="+$("#txtfechainicial").val();
+				datos += "&imp="+$("#txtimpcalc").val();
+				datos += "&pagomensual="+$("#txtpagomensual").val();
+				datos += "&costototal="+$("#txtcostoprestamo").val();
+				datos += "&docs="+$("#docs").val();
+				if(document.getElementById("rdestatus_repacta").checked == true)
+				{
+					datos += "&repacta=S";
+				}
+				else
+				{
+					datos += "&repacta=N";
+				}
 				
 				$.ajax({
 					url: "index.php",
-					type: "GET",
+					type: "GET",	
 					data: datos,
 					cache: false,
 					success: function(res)
 					{						
-						alert('Los Datos se grabaron correctamente.');
-					//$("#pagina").load('index.php?controlador=Deudores&accion=editaLiquidacion');
+						$("#pagina").load('index.php?controlador=Deudores&accion=admin_liquidaciones&iddeudor='+$("#id_deudor").val());
 					},
 					error: function()
 					{
@@ -321,18 +357,7 @@
 			$("#mensaje").text("");
 		}
 
-		function mostrar(obj)
-		{
-			var url = "index.php?controlador=Mandantes&accion=listar";
-			url += "&des_int="+$("#txtrut_m").val();
-			url += "&desApel1="+$("#txtPrimerApel").val();
-			url += "&desApel2="+$("#txtsapellido_m").val();
-			url += "&desNomb1="+$("#txtPrimerNomb").val();
-			url += "&desNomb2="+$("#txtsnombre_m").val();
-			url += "&id_partida=0";
-			
-			document.getElementById("frmmandantes").src = url;
-		}
+
 		
 		function mostrarDeudor(obj)
 		{
@@ -373,18 +398,35 @@
 
 			document.getElementById("frmsubpantalla").src = url;
 		}
-
-		function seleccionado(id,monto,fecha,dias)
+		
+		function quitarDoc(id,monto,fecha,dias)
 		{
+			var array = document.getElementById("docs").value.split(",");
+			document.getElementById("docs").value = "";
+			for(var i=0; i<array.length; i++)
+			{
+				if(array[i] != id)
+				{
+					if(document.getElementById("docs").value == "")
+					{
+						document.getElementById("docs").value = array[i];
+					}	
+					else
+					{
+						document.getElementById("docs").value += ","+array[i];
+					}
+				}
+			}
+					
 			document.getElementById("txttotal").value = monto;
 			document.getElementById("txtfechavenc").value = fecha;
 			document.getElementById("txtdiasatraso").value = dias;
-
+			
 			// CALCULO INTERES DIARIO 
 			var interes = ((parseFloat($("#txtinteres").val()) * parseFloat(document.getElementById("txttotal").value) ) / 100)/30;
 			if(interes == 0)
 			{
-				$("#txtinteresdiario").val("");
+				$("#txtinteresdiario").val(0);
 			}
 			else
 			{
@@ -395,7 +437,7 @@
 			var int_acum = interes * parseInt(dias);
 			if(int_acum == 0)
 			{
-				$("#txtinteresacumulado").val("");
+				$("#txtinteresacumulado").val(0);
 			}
 			else
 			{
@@ -406,11 +448,61 @@
 			var capital = document.getElementById("txttotal").value;
 			var interes = document.getElementById("txtinteresacumulado").value;
 			var protesto = document.getElementById("txtprotesto").value;
+			alert(capital+" / "+interes+" / "+protesto)
 			var honorarios = ((parseInt(capital) + parseFloat(interes) + parseInt(protesto))*10/100).toFixed(2);
 
 			document.getElementById("txthonorarios").value = honorarios;
 
 			var total = (parseFloat(capital) + parseFloat(interes) + parseFloat(protesto) + parseFloat(honorarios)).toFixed(2); 
+			document.getElementById("txttotalsimulacion").value = total;
+		}
+
+		function seleccionado(id,monto,fecha,dias)
+		{
+			if(document.getElementById("docs").value == "")
+			{
+				document.getElementById("docs").value = id;
+			}	
+			else
+			{
+				document.getElementById("docs").value += ","+id;
+			}
+			
+			document.getElementById("txttotal").value = monto;
+			document.getElementById("txtfechavenc").value = fecha;
+			document.getElementById("txtdiasatraso").value = dias;
+
+			// CALCULO INTERES DIARIO 
+			var interes = Math.ceil(((parseFloat($("#txtinteres").val()) * parseFloat(document.getElementById("txttotal").value) ) / 100)/30);
+			if(interes == 0)
+			{
+				$("#txtinteresdiario").val("");
+			}
+			else
+			{
+				$("#txtinteresdiario").val(interes);
+			}
+			
+			// CALCULO INTERES ACUMULADO 
+			var int_acum = interes * parseInt(dias);
+			if(int_acum == 0)
+			{
+				$("#txtinteresacumulado").val("");
+			}
+			else
+			{
+				$("#txtinteresacumulado").val(int_acum);
+			}
+
+			//CALCULO DE SIMULACION
+			var capital = document.getElementById("txttotal").value;
+			var interes = document.getElementById("txtinteresacumulado").value;
+			var protesto = document.getElementById("txtprotesto").value;
+			var honorarios = Math.ceil(((parseInt(capital) + parseFloat(interes) + parseInt(protesto))*10/100));
+
+			document.getElementById("txthonorarios").value = honorarios;
+
+			var total = Math.ceil((parseFloat(capital) + parseFloat(interes) + parseFloat(protesto) + parseFloat(honorarios))); 
 			document.getElementById("txttotalsimulacion").value = total;
 			
 		}
@@ -449,7 +541,7 @@
 			url += "&txtnumpagos="+$("#txtcuotascalc").val();
 			url += "&txtimp="+$("#txtimpcalc").val();
 			url += "&txtcostoprestamo="+$("#txtcostoprestamo").val();
-			alert(url);
+			
 			document.getElementById("frmcalculos").src = url;
 		}
 	
@@ -572,8 +664,9 @@
 <input type="hidden" name="fecha_sim" id="fecha_sim" value="" />
 <input grabar="S" type="hidden" name="id_documento" id="id_documento" value=""/>
 <input grabar="S" type="hidden" name="id_mandante" id="id_mandante" value=""/>
-<input grabar="S" type="hidden" name="id_deudor" id="id_deudor" value=""/>
+<input grabar="S" type="hidden" name="id_deudor" id="id_deudor" value="<?=$deudor->get_data("id_deudor")?>"/>
 <input grabar="S" type="hidden" name="id_liquidacion" id="id_liquidacion" value="<? if($id_liquidacion == "") $id_liquidacion = 0; echo($id_liquidacion) ?>"/>
+<input grabar="S" type="hidden" name="docs" id="docs" value=""/>
 
 
 <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="titulopantalla">
@@ -609,11 +702,11 @@
         	<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
             	<tr>
                 	<td width="240">
-						<input type="text" name="txtrut_deudor" id="txtrut_deudor" class="input_form" onblur="validaDeudor(); generadvrut('txtrut_deudor','txtdv_deudor'); validarRut('D'); simular_liquidacion();" onkeyup='mostrarDocs(this)'/>&nbsp;
+						<input type="text" name="txtrut_deudor" id="txtrut_deudor" class="input_form" onblur="validaDeudor(); generadvrut('txtrut_deudor','txtdv_deudor'); validarRut('D'); simular_liquidacion();" value="<?=$deudor->get_data("rut_deudor")?>" onkeyup='mostrarDocs(this)' disabled="disabled"/>&nbsp;
 	            		<input type="text" name="txtdv_deudor" id="txtdv_deudor" class="input_form_min" onblur="" disabled="disabled" />&nbsp;
                     </td>
                 	<td align="left">
-			            <img src="images/buscar.png" title="Buscar Deudor" style="cursor:pointer" onclick="ventanaBusqueda('D')"/>
+			           <!-- <img src="images/buscar.png" title="Buscar Deudor" style="cursor:pointer" onclick="ventanaBusqueda('D')"/>-->
                     </td>
                 </tr>
              </table>
@@ -673,13 +766,13 @@
                 <tr>  
                     <td align="right" class="etiqueta_form">% Interes:&nbsp;</td>
                     <td align="left">
-                        <input type="text" name="txtinteres" id="txtinteres" value="<?php $datoTmp = &$interes_base; echo($datoTmp); ?>" class="input_form_min" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" />
+                        <input type="text" name="txtinteres" id="txtinteres" value="<?=conDecimales($interes_base)?>" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="moneda" />
                     </td>  
                 </tr>
                 <tr>                                     
                     <td align="right" class="etiqueta_form">Valor UF:&nbsp;</td>
                     <td align="left">
-                        <input type="text" name="txtvaloruf" id="txtvaloruf"  value="<?php $datoTmp = &$valoruf; echo($datoTmp); ?>"   class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="moneda" />
+                        <input type="text" name="txtvaloruf" id="txtvaloruf"  value="<?=$valoruf?>"   class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="moneda" />
                     </td>
                 </tr>
              </table>
@@ -724,13 +817,13 @@
                 </tr>
                  <tr>	
 					<td align="right" class="etiqueta_form">Honorarios DyV&nbsp;</td>
-					<td align="left"><input type="text" name="txthonorarios" id="txthonorarios" size="15" class="input_form" onFocus="resaltar(this)" value="" tabindex="7"/>
+					<td align="left"><input type="text" name="txthonorarios" id="txthonorarios" size="15" class="input_form" onFocus="resaltar(this)" value="" tabindex="7" valida="requerido" tipovalida="moneda"/>
         			</td>
 				</tr>
                 <tr>                                     
                     <td align="right" class="etiqueta_form">Total&nbsp;</td>
                     <td align="left">
-                        <input type="text" name="txttotalsimulacion" id="txttotalsimulacion"  class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" value="" />
+                        <input type="text" name="txttotalsimulacion" id="txttotalsimulacion"  class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" value="" valida="requerido" tipovalida="moneda" />
                         <input type="radio" value="S" onclick="repactar(this)" name="rdestatus_repacta" id="rdestatus_repacta" />&nbsp;Repacta&nbsp;&nbsp;&nbsp;&nbsp;
                         <input type="radio"  value="N" onclick="noRepactar(this)" name="rdestatus_repacta" id="rdestatus_no_repacta" checked="checked" />&nbsp;No Repacta
                     </td>

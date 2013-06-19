@@ -38,6 +38,16 @@
 			
 		}
 
+		function agregarDemanda()
+		{
+				$("#formsoporteDemanda").show("slow");
+		}
+
+		function ocultarDemanda()
+		{
+				$("#formsoporteDemanda").hide("slow");
+		}
+		
 		function limpiar()
 		{
 			document.getElementById("txtdestipdoc").value = "";
@@ -52,7 +62,16 @@
 
 		function volver()
 		{
-			$("#pagina").load('views/admin_gestiones.php');
+			var tg = document.getElementById("tipoGestion").value;
+
+			if(tg == "D")	
+			{
+				$("#pagina").load('index.php?controlador=Gestiones&accion=admin&proc=1');
+			}
+			else
+			{
+				$("#pagina").load('views/admin_gestiones.php');
+			}
 		}
 		
 		function cerrarVentMand()
@@ -313,7 +332,7 @@
 			{
 				return false;
 			}
-			
+//			alert('index.php?controlador=Gestiones&accion=gestiona_liquidacion&iddeudor='+iddeudor);
 			$("#pagina").load('index.php?controlador=Gestiones&accion=gestiona_liquidacion&iddeudor='+iddeudor);		
 		}
 		
@@ -399,6 +418,7 @@
 	<input  type="hidden" name="iddireccion" id="iddireccion" value=""/>
     <input  type="hidden" name="id_mandante" id="id_mandante" value="<? $var = &$idMandante; echo($var); ?>"/>
     <input  type="hidden" name="iddocumento" id="iddocumento" value=""/>
+    <input  type="hidden" name="tipoGestion" id="tipoGestion" value="<? $var = &$tipoGestion; echo($var); ?>"/>
     
 <div id="datos" style="">
 
@@ -461,32 +481,27 @@
 <div id="datos" style="">
 <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="titulopantalla">
 	<tr>
-		<th align="left" height="30">&nbsp;Deuda Neta - Documentos</th>
-        <th></th>
-        <th></th>
+		<th align="left" height="30">&nbsp;Documentos por Mandantes               
+        	<select name="selMandantes" tipovalida="texto" id="selMandantes" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)">
+     			<option value="<? $var = &$idMandante; echo($var); ?>"> <? $var = &$rutMandante; $var2 = &$nomMandante; echo($var."   ".$var2); ?> </option>
+        		<?
+			        for($j=0; $j<$coleccionMandantesDeudor->get_count(); $j++)
+			        {
+			            $datoTmp = &$coleccionMandantesDeudor->items[$j];
+			            echo("<option value=".$datoTmp->get_data("id_mandatario").">".utf8_encode($datoTmp->get_data("rut_mandante")."-".$datoTmp->get_data("dv_mandante")."   ".$datoTmp->get_data("nombre"))."</option>");           
+			        }
+    			?>
+			</select>
+        </th>
+        
+        <th align="left" height="30"> Deuda Neta:&nbsp;&nbsp;<? $var = &$deudaNeta; echo($var); ?></th> 
+        
     </tr>
  </table>
 <table width="100%" height="120" align="center" border="0" cellpadding="0" cellspacing="0">
      <tr>
      	<td valign="top" colspan="2">
-<!--     		<table width="100%"  align="center" border="0" cellpadding="0" cellspacing="0">-->
-<!--            <tr>-->
-<!--					<td height="5" colspan="2"></td>-->
-<!--        		</tr>-->
-<!--				<tr>-->
-<!--					<td align="right" class="etiqueta_form" width="20">&nbsp;Monto(neto):</td><td>&nbsp;&nbsp;&nbsp;-->
-<!--        				<input type="text" name="txtmontodeuda" id="txtmontodeuda" value="<? $var = &$deudaNeta; echo($var); ?>"  class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" />-->
-<!--        			</td>-->
-<!--        		</tr>-->
-<!--                <tr>-->
-<!--					<td height="5" colspan="2"></td>-->
-<!--        		</tr>-->
-<!--        		<tr>-->
-<!--					<td align="right" class="etiqueta_form" width="20">&nbsp;Monto(Mandante):</td><td>&nbsp;&nbsp;&nbsp;-->
-<!--        				<input type="text" name="txtmontodeudaMandante" id="txtmontodeudaMandante" value="<? $var = &$deudaNetaMandante; echo($var); ?>" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)"/>-->
-<!--        			</td>-->
-<!--        		</tr>-->
-<!--        	</table>-->
+
         </td>
     </tr>
     <tr>
@@ -495,7 +510,7 @@
      </tr>
     <tr>
     	<td align="right" valign="top" >
-        			<iframe id="frmlistdocumentos" src="index.php?controlador=Gestiones&accion=listarDocumentos&iddeudor=<? echo($objGestion->get_data("id_deudor")) ?>&id_partida=0" frameborder="0" align="middle" width="100%" height="120" scrolling="auto"></iframe>
+        			<iframe id="frmlistdocumentos" src="index.php?controlador=Gestiones&accion=listarDocumentoMandante&iddeudor=<? echo($objGestion->get_data("id_deudor")) ?>&idmandante=<? echo($objGestion->get_data("id_mandante")) ?>" frameborder="0" align="middle" width="100%" height="120" scrolling="auto"></iframe>
         </td>
         <td align="center" width="100">
 					<input  type="button" name="btnLiquidacion" id="btnLiquidacion" onclick="liquidar(<? echo($objGestion->get_data("id_deudor")) ?>)" class="boton_form" value="Liquidaci&oacute;n" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)' />
@@ -535,7 +550,7 @@
          <input  type="button" name="btngrabardir" id="btngrabardir" onclick="grabarDir()" class="boton_form" value="Grabar" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)' />
          </tr>
          <tr>
-         <input  type="button" name="btnocultardir" id="btnocultardir" onclick="ocultarDir()" class="boton_form" value="Salir" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)' />
+         <input  type="button" name="btnocultardir" id="btnocultardir" onclick="ocultarDir()" class="boton_form" value="Ocultar" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)' />
          </tr>
         </td>
 	</tr>
@@ -546,13 +561,20 @@
 
 <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="titulopantalla">
 	<tr>
-		<th align="left" height="30">&nbsp;Demandas</th>
+		<td>
+		<th align="left" height="30">&nbsp;Demandas - Cantidad: <? $var = &$cantidadDemandas; echo($var); ?></th>
         <th></th>
-        <th align="center"></th>
+        <th align="center" ></th>
         <th></th>
         <th></th>
+        </td>
+        <td align="right">
+			<input  type="button" name="btnVerDemandas" id="btnVerDemandas" onclick="agregarDemanda()" class="boton_form" value="Ver Demanda" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)' />
+        </td>
     </tr>
  </table>
+
+ <div id="formsoporteDemanda" style=" display:none">  
 <table width="100%" align="center" border="1" cellpadding="0" cellspacing="0">
 	<tr>
 	     <th></th>
@@ -562,7 +584,11 @@
             	<iframe id="frmdemandas" src="index.php?controlador=Gestiones&accion=listar_demandas&iddeudor=<? echo($objGestion->get_data("id_deudor")) ?>" frameborder="0" align="middle" width="80%" height="120" scrolling="auto"></iframe>
         </td>
 	</tr>
+	<tr>
+    	<input  type="button" name="btnocultardem" id="btnocultardem" onclick="ocultarDemanda()" class="boton_form" value="Ocultar" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)' />
+    </tr>
 </table>
+</div>
 </div>
 
 <div id="datos" style="">
