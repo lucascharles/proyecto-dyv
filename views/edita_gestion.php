@@ -120,7 +120,7 @@
 						|| (document.getElementById('selGestion').options[document.getElementById('selGestion').selectedIndex].text == "RECUPERADO")))
 					
 			{
-				alert('Debe Seleccionar un Documento para una Demanda, Castigado o Recuperado.');
+				alert('Debe Seleccionar un Documento para una Demanda, Castigo o Recupero.');
 			}
 			else
 			{
@@ -153,7 +153,7 @@
 					{
 						datos += "&iddocumento="+$("#iddocumento").val();
 					}
-					
+//					alert(datos);
 					$.ajax({
 					url: "index.php",
 					type: "GET",

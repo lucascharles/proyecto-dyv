@@ -256,8 +256,13 @@ class GestionesModel extends ModelBase
 	  $dato->set_data("id_gestion",$array["idgestion"]);
 	  $dato->set_data("id_estado",$array["selGestion"]);
 	  $dato->set_data("id_mandante",$array["selMandantes"]);
+	  
+	  
 	  $dato->set_data("fecha_gestion",$array["txtfechagestion"]);
-	  $dato->set_data("fecha_prox_gestion",$array["txtfechaproxgestion"]);
+	  
+	  $date = str_replace('/', '-',$array["txtfechaproxgestion"]); 
+	  $dato->set_data("fecha_prox_gestion",date('Y-m-d', strtotime($date)));
+	  
 	  $dato->set_data("notas",$array["txtcomentarios"]);
 	  $dato->set_data("usuario",$array["txtusuario"]);
 	  
@@ -265,7 +270,10 @@ class GestionesModel extends ModelBase
 
 	  $datoGes->add_filter("id_gestion","=",$array["idgestion"]);
 	  $datoGes->load();
-	  $datoGes->set_data("fecha_prox_gestion",$array["txtfechaproxgestion"]);
+	  
+	  $date = str_replace('/', '-',$array["txtfechaproxgestion"]); 
+	  $datoGes->set_data("fecha_prox_gestion",date('Y-m-d', strtotime($date)));
+	  
 	  $datoGes->set_data("estado",$array["selGestion"]);
 	  $datoGes->save();
 	  

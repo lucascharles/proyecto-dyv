@@ -171,6 +171,12 @@
 		{
 			document.getElementById("id_documento").value = id;
 		}
+
+		function seleccionado_doc(id)
+		{
+			document.getElementById("id_documento").value = id;
+		}
+
 		
 		function seleccionadoMandante(id)
 		{
@@ -279,7 +285,6 @@
 		{		
 			if(!validar("N"))
 			{
-	
 				return false;
 			}
 
@@ -301,7 +306,7 @@
 				datos += "&txtfechaprotesto="+$("#txtfechaprotesto").val();
 				datos += "&selCausalProtesta="+$("#selCausalProtesta").val();
 				datos += "&selEstadoDoc="+$("#selEstadoDoc").val();
-				
+//				alert(datos);
 				$.ajax({
 					url: "index.php",
 					type: "GET",
@@ -691,9 +696,9 @@
         	   </tr>
     			<tr>
     				<td align="left"><input type="text" grabar="S" name="txtctacte" id="txtctacte"  size="15" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" tipovalida="entero" /></td>        
-        			<td align="left"><input type="text" grabar="S" name="txtfechaprotesto" id="txtfechaprotesto"  size="15" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="fecha" onKeyUp="this.value=formateafecha(this.value)"/></td>
+        			<td align="left"><input type="text" grabar="S" name="txtfechaprotesto" id="txtfechaprotesto"  size="15" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)"  tipovalida="fecha" onKeyUp="this.value=formateafecha(this.value)"/></td>
                     <td colspan="2">
-        	<select name="selCausalProtesta" grabar="S" valida="requerido" tipovalida="texto" id="selCausalProtesta" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)">
+        	<select name="selCausalProtesta" grabar="S" tipovalida="texto" id="selCausalProtesta" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)">
      			<option value=""><? print utf8_encode("----Seleccione----") ?></option>
         		<?
 			        for($j=0; $j<$coleccion_causalProtesta->get_count(); $j++)
