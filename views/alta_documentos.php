@@ -26,7 +26,13 @@
 	<script type="text/javascript" src="js/jquery-ui-timepicker-addon.js"></script>
 	<script type="text/javascript" src="js/i18n/jquery.ui.datepicker-es.js"></script>
 	<script type="text/javascript" src="js/jquery-ui-sliderAccess.js"></script>
+     <script src="js/funcionesgral.js" type="text/javascript"></script>
     <script language="javascript">
+	
+		$(function () {
+			$("#txtfechaRecibido").datepicker({changeYear: true});
+			$("#txtfechaprotesto").datepicker({changeYear: true});
+		});
 		$(document).ready(function(){
 			$('form').validator();
 			$("#txtfechaRecibido").datepicker();
@@ -591,7 +597,7 @@
     
     <tr>
 		<td width="20" align="left" class="etiqueta_form">&nbsp;Recibido:</td>
-        <td align="left"><input type="text" grabar="S" name="txtfechaRecibido" id="txtfechaRecibido" value="<?php echo date("d/m/Y"); ?>" size="20"  valida="requerido" tipovalida="fecha" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)"/></td>
+        <td align="left"><input type="text" grabar="S" name="txtfechaRecibido" id="txtfechaRecibido" value="<?php echo date("d/m/Y"); ?>" size="20"  valida="requerido" tipovalida="fecha" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)"onKeyUp="this.value=formateafecha(this.value)"/></td>
         
         <td width="70" align="left" class="etiqueta_form">Estado:</td>
         <td> 
@@ -685,7 +691,7 @@
         	   </tr>
     			<tr>
     				<td align="left"><input type="text" grabar="S" name="txtctacte" id="txtctacte"  size="15" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" tipovalida="entero" /></td>        
-        			<td align="left"><input type="text" grabar="S" name="txtfechaprotesto" id="txtfechaprotesto"  size="15" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="fecha"/></td>
+        			<td align="left"><input type="text" grabar="S" name="txtfechaprotesto" id="txtfechaprotesto"  size="15" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="fecha" onKeyUp="this.value=formateafecha(this.value)"/></td>
                     <td colspan="2">
         	<select name="selCausalProtesta" grabar="S" valida="requerido" tipovalida="texto" id="selCausalProtesta" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)">
      			<option value=""><? print utf8_encode("----Seleccione----") ?></option>
