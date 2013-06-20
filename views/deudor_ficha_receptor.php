@@ -25,19 +25,19 @@
 	<script type="text/javascript" src="js/jquery-ui-timepicker-addon.js"></script>
 	<script type="text/javascript" src="js/i18n/jquery.ui.datepicker-es.js"></script>
 	<script type="text/javascript" src="js/jquery-ui-sliderAccess.js"></script>
-    
+     <script src="js/funcionesgral.js" type="text/javascript"></script>
     <script language="javascript">
 		
 		$(document).ready(function(){
 			
   			$('form').validator();
-			$("#txtfecha_mandamiento").datepicker();	
-			$("#txtfecha_domicilio").datepicker();	
-			$("#txtfecha_domicilio_1").datepicker();	
-			$("#txtfecha_embargo_fp").datepicker();	
-			$("#txtfecha_oficio").datepicker();	
-			$("#txtfecha_traba_emb").datepicker();	
-			$("#txtfecha_busqueda_2").datepicker();	
+			$("#txtfecha_mandamiento").datepicker({changeYear: true});	
+			$("#txtfecha_domicilio").datepicker({changeYear: true});	
+			$("#txtfecha_domicilio_1").datepicker({changeYear: true});	
+			$("#txtfecha_embargo_fp").datepicker({changeYear: true});	
+			$("#txtfecha_oficio").datepicker({changeYear: true});	
+			$("#txtfecha_traba_emb").datepicker({changeYear: true});	
+			$("#txtfecha_busqueda_2").datepicker({changeYear: true});	
 			
 		});
 		
@@ -108,26 +108,26 @@
 	
 	$id_receptor = ($id_alta > 0) ? $receptor->get_data("id_receptor") : "";
 	$id_ficha = ($id_alta > 0) ? $receptor->get_data("id_ficha") : "";
-	$fecha_mandamiento = ($id_alta > 0) ? formatoFecha($receptor->get_data("fecha_mandamiento"),"dd-mm-yyyy","dd/mm/yyyy") : "";
+	$fecha_mandamiento = ($id_alta > 0) ? formatoFecha($receptor->get_data("fecha_mandamiento"),"yyyy-mm-dd","dd/mm/yyyy") : "";
 	$receptor_view = ($id_alta > 0) ? $receptor->get_data("receptor") : "";
 	$busqueda = ($id_alta > 0) ? $receptor->get_data("busqueda") : "";
 	$notificacion = ($id_alta > 0) ? $receptor->get_data("notificacion") : "";
-	$fecha_domicilio = ($id_alta > 0) ?  formatoFecha($receptor->get_data("fecha_domicilio"),"dd-mm-yyyy","dd/mm/yyyy") : "";
+	$fecha_domicilio = ($id_alta > 0) ?  formatoFecha($receptor->get_data("fecha_domicilio"),"yyyy-mm-dd","dd/mm/yyyy") : "";
 	$entrega_receptor_2 = ($id_alta > 0) ? $receptor->get_data("entrega_receptor_2") : "";
 	$notificacion_2 = ($id_alta > 0) ? $receptor->get_data("notificacion_2") : "";
-	$fecha_domicilio_1 = ($id_alta > 0) ?  formatoFecha($receptor->get_data("fecha_domicilio_1"),"dd-mm-yyyy","dd/mm/yyyy") : "";
+	$fecha_domicilio_1 = ($id_alta > 0) ?  formatoFecha($receptor->get_data("fecha_domicilio_1"),"yyyy-mm-dd","dd/mm/yyyy") : "";
 	$entrega_receptor_3 = ($id_alta > 0) ? $receptor->get_data("entrega_receptor_3") : "";
 	$notificacion_3 = ($id_alta > 0) ? $receptor->get_data("notificacion_3") : "";
-	$fecha_embargo_fp = ($id_alta > 0) ? formatoFecha($receptor->get_data("fecha_embargo_fp"),"dd-mm-yyyy","dd/mm/yyyy") : "";
-	$fecha_oficio = ($id_alta > 0) ? formatoFecha($receptor->get_data("fecha_oficio"),"dd-mm-yyyy","dd/mm/yyyy") : "";
-	$fecha_traba_emb = ($id_alta > 0) ? formatoFecha($receptor->get_data("fecha_traba_emb"),"dd-mm-yyyy","dd/mm/yyyy") : "";
+	$fecha_embargo_fp = ($id_alta > 0) ? formatoFecha($receptor->get_data("fecha_embargo_fp"),"yyyy-mm-dd","dd/mm/yyyy") : "";
+	$fecha_oficio = ($id_alta > 0) ? formatoFecha($receptor->get_data("fecha_oficio"),"yyyy-mm-dd","dd/mm/yyyy") : "";
+	$fecha_traba_emb = ($id_alta > 0) ? formatoFecha($receptor->get_data("fecha_traba_emb"),"yyyy-mm-dd","dd/mm/yyyy") : "";
 		
 	$entrega_receptor_1 = ($id_alta > 0) ? $receptor->get_data("entrega_receptor_1") : "";
 	$fono_receptor = ($id_alta > 0) ? $receptor->get_data("fono_receptor") : "";
 	$resultado_busqueda = ($id_alta > 0) ? $receptor->get_data("resultado_busqueda") : "";
 	$resultado_notificacion_1 = ($id_alta > 0) ? $receptor->get_data("resultado_notificacion_1") : "";
 	$providencia_1 = ($id_alta > 0) ? $receptor->get_data("providencia_1") : "";
-	$fecha_busqueda_2 = ($id_alta > 0) ? formatoFecha($receptor->get_data("fecha_busqueda_2"),"dd-mm-yyyy","dd/mm/yyyy") : "";
+	$fecha_busqueda_2 = ($id_alta > 0) ? formatoFecha($receptor->get_data("fecha_busqueda_2"),"yyyy-mm-dd","dd/mm/yyyy") : "";
 	$resultado_notificacion_2 = ($id_alta > 0) ? $receptor->get_data("resultado_notificacion_2") : "";
 	$providencia_2 = ($id_alta > 0) ? $receptor->get_data("providencia_2") : "";
 	$busqueda_3 = ($id_alta > 0) ? $receptor->get_data("busqueda_3") : "";
@@ -166,7 +166,7 @@
         	<table cellpadding="0" cellspacing="2" border="0" align="center" width="100%">
             	<tr>
                 	<td align="left" class="etiqueta_form">Fecha mandamiento</td>
-                    <td align="left" ><input type="text" grabar="S" name="txtfecha_mandamiento" id="txtfecha_mandamiento" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="fecha" value="<? echo($fecha_mandamiento) ?>"/></td>
+                    <td align="left" ><input type="text" grabar="S" name="txtfecha_mandamiento" id="txtfecha_mandamiento" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="fecha" value="<? echo($fecha_mandamiento) ?>" onKeyUp="this.value=formateafecha(this.value)" /></td>
                 </tr>
                 <tr>
 					<td align="left" class="etiqueta_form">Receptor</td>
@@ -182,7 +182,7 @@
                  </tr>
                  <tr>
 					<td align="left" class="etiqueta_form">Fecha domicilio</td>
-                    <td align="left" ><input type="text" grabar="S" name="txtfecha_domicilio" id="txtfecha_domicilio" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="fecha" value="<? echo($fecha_domicilio) ?>"/></td>
+                    <td align="left" ><input type="text" grabar="S" name="txtfecha_domicilio" id="txtfecha_domicilio" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="fecha" value="<? echo($fecha_domicilio) ?>" onKeyUp="this.value=formateafecha(this.value)"/></td>
 
                  </tr>
                  <tr>
@@ -195,7 +195,7 @@
                  </tr>
                  <tr>
 					<td align="left" class="etiqueta_form">Fecha domicilio 2</td>
-                    <td align="left" ><input type="text" grabar="S" name="txtfecha_domicilio_1" id="txtfecha_domicilio_1" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="fecha" value="<? echo($fecha_domicilio_1) ?>"/></td>
+                    <td align="left" ><input type="text" grabar="S" name="txtfecha_domicilio_1" id="txtfecha_domicilio_1" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="fecha" value="<? echo($fecha_domicilio_1) ?>" onKeyUp="this.value=formateafecha(this.value)"/></td>
 
                  </tr>
                   <tr>
@@ -208,15 +208,15 @@
                   </tr> 
                   <tr>
 					<td align="left" class="etiqueta_form">Fecha embargo fuerza p&uacute;blica</td>
-                    <td align="left" ><input type="text" grabar="S" name="txtfecha_embargo_fp" id="txtfecha_embargo_fp" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="fecha" value="<? echo($fecha_embargo_fp) ?>"/></td>
+                    <td align="left" ><input type="text" grabar="S" name="txtfecha_embargo_fp" id="txtfecha_embargo_fp" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="fecha" value="<? echo($fecha_embargo_fp) ?>" onKeyUp="this.value=formateafecha(this.value)"/></td>
                   </tr>  
                   <tr>
 					<td align="left" class="etiqueta_form">Fecha oficio</td>
-                    <td align="left" ><input type="text" grabar="S" name="txtfecha_oficio" id="txtfecha_oficio" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="fecha" value="<? echo($fecha_oficio) ?>"/></td>
+                    <td align="left" ><input type="text" grabar="S" name="txtfecha_oficio" id="txtfecha_oficio" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="fecha" value="<? echo($fecha_oficio) ?>" onKeyUp="this.value=formateafecha(this.value)"/></td>
                   </tr>  
                   <tr>
 					<td align="left" class="etiqueta_form">Fecha traba embargo</td>
-                    <td align="left" ><input type="text" grabar="S" name="txtfecha_traba_emb" id="txtfecha_traba_emb" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="fecha" value="<? echo($fecha_traba_emb) ?>"/></td>
+                    <td align="left" ><input type="text" grabar="S" name="txtfecha_traba_emb" id="txtfecha_traba_emb" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="fecha" value="<? echo($fecha_traba_emb) ?>" onKeyUp="this.value=formateafecha(this.value)"/></td>
                   </tr>
             	</table>
         </td>
@@ -246,7 +246,7 @@
                  </tr>
                  <tr>
 					<td align="left" class="etiqueta_form">Fecha B&uacute;squeda 2</td>
-                    <td align="left" ><input type="text" grabar="S" name="txtfecha_busqueda_2" id="txtfecha_busqueda_2" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="fecha" value="<? echo($entrega_receptor_1) ?>"/></td>
+                    <td align="left" ><input type="text" grabar="S" name="txtfecha_busqueda_2" id="txtfecha_busqueda_2" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="fecha" value="<? echo($entrega_receptor_1) ?>" onKeyUp="this.value=formateafecha(this.value)"/></td>
                  </tr> 
                  <tr>
 					<td align="left" class="etiqueta_form">Resultado notificaci&oacute;n 2</td>
