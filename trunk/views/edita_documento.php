@@ -26,11 +26,13 @@
 	<script type="text/javascript" src="js/jquery-ui-timepicker-addon.js"></script>
 	<script type="text/javascript" src="js/i18n/jquery.ui.datepicker-es.js"></script>
 	<script type="text/javascript" src="js/jquery-ui-sliderAccess.js"></script>
+    <script src="js/funcionesgral.js" type="text/javascript"></script>
     <script language="javascript">
 		$(document).ready(function(){
 			$('form').validator();
-			$("#txtfechaRecibido").datepicker();
-			$("#txtfechaprotesto").datepicker();
+			$("#txtfechaRecibido").datepicker({changeYear: true});
+			$("#txtfechaprotesto").datepicker({changeYear: true});
+			$("#txtfechavenc").datepicker({changeYear: true});
 			
 		});
 		
@@ -545,7 +547,7 @@
     
     <tr>
 		<td width="20" align="left" class="etiqueta_form">Recibido:</td>
-        <td align="left"><input type="text" grabar="S" name="txtfechaRecibido" id="txtfechaRecibido" value="<?php echo date("d/m/Y"); ?>" size="20" onkeyup='mostrar(this)' class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" tipovalida="fecha"/></td>
+        <td align="left"><input type="text" grabar="S" name="txtfechaRecibido" id="txtfechaRecibido" value="<?php echo date("d/m/Y"); ?>" size="20" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" tipovalida="fecha" onKeyUp="this.value=formateafecha(this.value)"/></td>
         
         <td width="70" align="left" class="etiqueta_form">Estado:</td>
         <td> 
@@ -634,7 +636,7 @@
         <td align="left"><input type="text" grabar="S" name="txtctacte" id="txtctacte" value="<? echo($datoDoc->get_data("cta_cte"))?>"  size="15" onkeyup='mostrar(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" tipovalida="entero"/></td> 
         
     	<td width="20" align="left" class="etiqueta_form">Fecha Protesto:</td>
-        <td align="left"><input type="text" grabar="S" name="txtfechaprotesto" id="txtfechaprotesto" value="<? echo(formatoFecha($datoDoc->get_data("fecha_protesto"),"yyyy-mm-dd","dd/mm/yyyy"))?>" size="15" onkeyup='mostrar(this)' class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" ftipovalida="fecha"/></td>
+        <td align="left"><input type="text" grabar="S" name="txtfechaprotesto" id="txtfechaprotesto" value="<? echo(formatoFecha($datoDoc->get_data("fecha_protesto"),"yyyy-mm-dd","dd/mm/yyyy"))?>" size="15" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" tipovalida="fecha" onKeyUp="this.value=formateafecha(this.value)"/></td>
         <td width="20" align="left" class="etiqueta_form">Monto Protesto:</td>
         <td align="left"><input type="text" grabar="S" name="txtmontoprotesto" id="txtmontoprotesto" value="<? echo($datoDoc->get_data("gastos_protesto"))?>"  size="15" onkeyup='mostrar(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" tipovalida="entero"/></td>
 		<td width="70" align="left" class="etiqueta_form">Causal Protesto:</td>
@@ -652,7 +654,7 @@
         
         </td>
     	<td width="20" align="left" class="etiqueta_form">Fecha Venc.:</td>
-        <td align="left"><input type="text" grabar="S" name="txtfechavenc" id="txtfechavenc" value="<? echo(formatoFecha($datoDoc->get_data("fecha_siniestro"),"dd-mm-yyyy","dd/mm/yyyy"))?>" size="15" onkeyup='mostrar(this)' class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" ftipovalida="fecha"/></td>
+        <td align="left"><input type="text" grabar="S" name="txtfechavenc" id="txtfechavenc" value="<? echo(formatoFecha($datoDoc->get_data("fecha_siniestro"),"yyyy-mm-dd","dd/mm/yyyy"))?>" size="15" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" tipovalida="fecha" onKeyUp="this.value=formateafecha(this.value)"/></td>
     
     </tr>
     
