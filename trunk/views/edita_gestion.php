@@ -8,10 +8,11 @@
     <link rel="stylesheet" href="css/general.css" type="text/css" />
     <script src="js/jquery-1.7.1.min.js" type="text/javascript"></script>
     <script src="js/validacampos.js" type="text/javascript"></script>
+    <script src="js/funcionesgral.js" type="text/javascript"></script>
     <script language="javascript">
 		$(document).ready(function(){
   			$('form').validator();
-  			$("#txtfechaproxgestion").datepicker();
+  			$("#txtfechaproxgestion").datepicker({changeYear: true});
 		});
 		
 		function ventanaBusqueda()
@@ -661,7 +662,7 @@
 			$nuevafecha = date ( 'Y-m-d' , $nuevafecha );
         ?>
         <td align="center" class="etiqueta_form">Prox. Gestion</td>
-        <td> <input type="text" name="txtfechaproxgestion" id="txtfechaproxgestion" value="<?php echo($nuevafecha); ?>" class="input_form_medio" valida="requerido" tipovalida="texto" onFocus="resaltar(this)" onBlur="noresaltar(this)"/>
+        <td> <input type="text" name="txtfechaproxgestion" id="txtfechaproxgestion" value="<?php echo($nuevafecha); ?>" class="input_form_medio" valida="requerido" tipovalida="texto" onFocus="resaltar(this)" onBlur="noresaltar(this)" onKeyUp="this.value=formateafecha(this.value)"/>
         </td>
         <td align="center" class="etiqueta_form">Usuario</td>
         <td> <input type="text" name="txtusuario" id="txtusuario" disabled="disabled" value="<?php echo($_SESSION["idusuario"])?>" class="input_form_medio" valida="requerido" tipovalida="texto" onFocus="resaltar(this)" onBlur="noresaltar(this)"/></td>
