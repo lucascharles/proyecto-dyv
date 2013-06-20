@@ -26,11 +26,12 @@
 	<script type="text/javascript" src="js/jquery-ui-timepicker-addon.js"></script>
 	<script type="text/javascript" src="js/i18n/jquery.ui.datepicker-es.js"></script>
 	<script type="text/javascript" src="js/jquery-ui-sliderAccess.js"></script>
+    <script src="js/funcionesgral.js" type="text/javascript"></script>
     <script language="javascript">
-//		$(document).ready(function(){
-//			$("#txtdesde").datepicker();	
-//			$("#txthasta").datepicker();	
-//		});
+		$(document).ready(function(){
+			$("#txtdesde").datepicker({changeYear: true});	
+			$("#txthasta").datepicker({changeYear: true});	
+		});
 	</script>
 
     <script language="javascript">
@@ -132,12 +133,12 @@
 <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
 	 <tr>
 		<td width="20" align="left" class="etiqueta_form">Desde:</td>
-<!--        <td align="left">&nbsp; <input type="text" name="txtdesde" id="txtdesde" value="<? echo($fechaDesde) ?>"  size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" /></td>-->
-		<td align="left">&nbsp; <input type="text" name="txtdesde" id="txtdesde" value="0"  size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" /></td>        
+<!--        <td align="left">&nbsp; <input type="text" name="txtdesde" id="txtdesde" value="<? //echo($fechaDesde) ?>"  size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" /></td>-->
+		<td align="left">&nbsp; <input type="text" name="txtdesde" id="txtdesde" value="<?=$fechaDesde?>"  size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" onKeyUp="this.value=formateafecha(this.value)" /></td>        
         
         <td width="40" align="left" class="etiqueta_form">Hasta:</td>
-<!--        <td align="left">&nbsp;<input type="text" name="txthasta" id="txthasta"  value="<? echo($fechaHasta) ?>" size="40"  class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)"/></td>-->
-		<td align="left">&nbsp;<input type="text" name="txthasta" id="txthasta"  value="0" size="40"  class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)"/></td>
+<!--        <td align="left">&nbsp;<input type="text" name="txthasta" id="txthasta"  value="<? //echo($fechaHasta) ?>" size="40"  class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)"/></td>-->
+		<td align="left">&nbsp;<input type="text" name="txthasta" id="txthasta"  value="<?=$fechaHasta?>" size="40"  class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" onKeyUp="this.value=formateafecha(this.value)"/></td>
      </tr>
      <tr>
 		<td width="20" align="left" class="etiqueta_form">Rut Deudor:</td>
