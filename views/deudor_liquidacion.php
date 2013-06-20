@@ -25,17 +25,17 @@
 	<script type="text/javascript" src="js/jquery-ui-timepicker-addon.js"></script>
 	<script type="text/javascript" src="js/i18n/jquery.ui.datepicker-es.js"></script>
 	<script type="text/javascript" src="js/jquery-ui-sliderAccess.js"></script>
-    			
+    <script src="js/funcionesgral.js" type="text/javascript"></script>		
 
     <script language="javascript">
 		$(document).ready(function(){
-			$("#txtfecha").datepicker();	
-			$("#txtfechavenc").datepicker();
-			$("#txtfechacalculo").datepicker();
-			$("#txtfechainicial").datepicker();	
+			$("#txtfecha").datepicker({changeYear: true});	
+			$("#txtfechavenc").datepicker({changeYear: true});
+			$("#txtfechacalculo").datepicker({changeYear: true});
+			$("#txtfechainicial").datepicker({changeYear: true});	
 			$('form').validator();
-			$("#txtfechaRecibido").datepicker();
-			$("#txtfechaprotesto").datepicker();
+			$("#txtfechaRecibido").datepicker({changeYear: true});
+			$("#txtfechaprotesto").datepicker({changeYear: true});
 			$('form').validator();		
 			validaDeudor(); 
 			generadvrut('txtrut_deudor','txtdv_deudor'); 
@@ -760,7 +760,7 @@
                     
                     <td align="right" class="etiqueta_form">Fecha:&nbsp; </td>
                     <td align="left">
-                        <input type="text" name="txtfecha" id="txtfecha" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" value="<? echo(date("d/m/Y")) ?>" valida="requerido" tipovalida="fecha" />
+                        <input type="text" name="txtfecha" id="txtfecha" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" value="<? echo(date("d/m/Y")) ?>" valida="requerido" tipovalida="fecha" onKeyUp="this.value=formateafecha(this.value)"/>
                     </td>                                   
                 </tr>
                 <tr>  
@@ -794,7 +794,7 @@
                 <tr>	
                     <td align="right" class="etiqueta_form">Fecha Venc.&nbsp;</td>
                     <td align="left">
-                        <input type="text" name="txtfechavenc" id="txtfechavenc" valida="requerido" tipovalida="fecha" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)"  value="<? echo($fecha_venc) ?>" />
+                        <input type="text" name="txtfechavenc" id="txtfechavenc" valida="requerido" tipovalida="fecha" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)"  value="<? echo($fecha_venc) ?>" onKeyUp="this.value=formateafecha(this.value)"/>
                     </td>
                 </tr>
                 <tr>    
@@ -872,12 +872,12 @@
         		</tr>
 				<tr>	
 					<td align="left" class="etiqueta_form">Fecha Calculo&nbsp;&nbsp;&nbsp;&nbsp;</td>
-					<td align="left"><input type="text" name="txtfechacalculo" id="txtfechacalculo" size="15" class="input_form_medio" onFocus="resaltar(this)" value="<? echo(date("d/m/Y")) ?>" valida="requerido" tipovalida="fecha" tabindex="4"/>
+					<td align="left"><input type="text" name="txtfechacalculo" id="txtfechacalculo" size="15" class="input_form_medio" onFocus="resaltar(this)" value="<? echo(date("d/m/Y")) ?>" valida="requerido" tipovalida="fecha" tabindex="4" onKeyUp="this.value=formateafecha(this.value)"/>
         			</td>        			
         		</tr>
 				<tr>	
 					<td align="left" class="etiqueta_form">Fecha Pago&nbsp;&nbsp;&nbsp;&nbsp;</td>
-					<td align="left"><input type="text" name="txtfechainicial" id="txtfechainicial" size="15" class="input_form_medio" onFocus="resaltar(this)" value="<? echo(date("d/m/Y")) ?>" valida="requerido" tipovalida="fecha" tabindex="4"/>
+					<td align="left"><input type="text" name="txtfechainicial" id="txtfechainicial" size="15" class="input_form_medio" onFocus="resaltar(this)" value="<? echo(date("d/m/Y")) ?>" valida="requerido" tipovalida="fecha" tabindex="4" onKeyUp="this.value=formateafecha(this.value)"/>
         			</td>        			
         		</tr>
 
