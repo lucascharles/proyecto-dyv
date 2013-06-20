@@ -21,20 +21,27 @@
     <script src="js/jquery/jquery-1.4.1.min.js" type="text/javascript"></script>
     <script src="js/validacampos.js" type="text/javascript"></script>
   	<script src="js/funciones.js" type="text/javascript"></script>
+    <script src="js/funcionesgral.js" type="text/javascript"></script>
     
 	<script type="text/javascript" src="js/jquery-ui-1.8.16.custom.min.js"></script>
 	<script type="text/javascript" src="js/jquery-ui-timepicker-addon.js"></script>
 	<script type="text/javascript" src="js/i18n/jquery.ui.datepicker-es.js"></script>
 	<script type="text/javascript" src="js/jquery-ui-sliderAccess.js"></script>
     <script language="javascript">
+	$(function () {
+			//$.datepicker.setDefaults($.datepicker.regional["es"]);
+			$("#txtdist_corte").datepicker({changeYear: true});
+			$("#txtingreso").datepicker({changeYear: true});
+		});
+		
 		$(document).ready(function(){
-			
   			$('form').validator();
 			$("#txtdist_corte").datepicker();
 			$("#txtingreso").datepicker();
 			recolectarBasura();
-			
 		});
+		
+		
 		
 		function recolectarBasura()
 		{
@@ -414,7 +421,7 @@
         </td>
         <td><input type="text" grabar="S" name="txtfirma" id="txtfirma"  value="<? echo($firma) ?>" size="20" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" />
         </td>
-        <td><input type="text" grabar="S" name="txtingreso" id="txtingreso"  value="<? echo($ingreso) ?>" size="20" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" />
+        <td><input type="text" grabar="S" name="txtingreso" id="txtingreso"  value="<? echo($ingreso) ?>" size="20" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" onKeyUp="this.value=formateafecha(this.value)" />
         </td>
         <td><input type="text" grabar="S" name="txtprovidencia_1"  value="<? echo($providencia_1) ?>" id="txtprovidencia_1"  size="20" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" />
         </td>
@@ -426,7 +433,7 @@
         <td align="left" class="etiqueta_form">J. Comuna</td>
     </tr>
     <tr>
-        <td><input type="text" grabar="S" name="txtdist_corte" value="<? echo($dist_corte) ?>" id="txtdist_corte"  size="20" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" />
+        <td><input type="text" grabar="S" name="txtdist_corte" value="<? echo($dist_corte) ?>" id="txtdist_corte"  size="20" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" onKeyUp="this.value=formateafecha(this.value)" />
         </td>
         <td><input type="text" grabar="S" name="txtrol"  value="<? echo($rol) ?>"id="txtrol"  size="20" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" />
         </td>
