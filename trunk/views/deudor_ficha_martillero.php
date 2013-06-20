@@ -26,8 +26,13 @@
 	<script type="text/javascript" src="js/i18n/jquery.ui.datepicker-es.js"></script>
 	<script type="text/javascript" src="js/jquery-ui-sliderAccess.js"></script>
 
+	 <script src="js/funcionesgral.js" type="text/javascript"></script>
     
     <script language="javascript">
+		
+		$(function () {
+			$("#txtfecha_remate").datepicker({changeYear: true});
+		});
 		
 		$(document).ready(function(){
 			
@@ -185,7 +190,7 @@
                  </tr>
                  <tr>
 					<td align="left" class="etiqueta_form">Fecha remate</td>
-                    <td align="left" ><input type="text" grabar="S" name="txtfecha_remate" id="txtfecha_remate" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="fecha" value="<? echo($fecha_remate) ?>"/></td>
+                    <td align="left" ><input type="text" grabar="S" name="txtfecha_remate" id="txtfecha_remate" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="fecha" value="<? echo($fecha_remate) ?>" onKeyUp="this.value=formateafecha(this.value)"/></td>
 
                  </tr>
 
