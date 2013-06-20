@@ -672,10 +672,15 @@ class DocumentosModel extends ModelBase
       $dato->set_data("id_mandatario",$array["mandante"]);
       $dato->set_data("id_estado_doc",999); //por defecto se crean en estado 'PENDIENTE DE ENVIAR CARTA'
       
+     
       $dato->set_data("numero_documento",$array["txtnrodoc"]);
       $dato->set_data("id_tipo_doc",$array["selTipoDoc"]);
-	  $dato->set_data("fecha_siniestro",date('Y-m-d', strtotime($array["txtfechaRecibido"])));
+	  
+      $date = str_replace('/', '-',$array["txtfechaRecibido"]); 
+      $dato->set_data("fecha_siniestro",date('Y-m-d', strtotime($date)));
+      
       $dato->set_data("monto",$array["txtmonto"]);
+
       if($array["selBancos"] != "")
       {
       	$dato->set_data("id_banco",$array["selBancos"]);
@@ -684,20 +689,34 @@ class DocumentosModel extends ModelBase
       {
       	$dato->set_data("id_banco",0);
       }
+     
       $dato->set_data("cta_cte",$array["txtctacte"]);
-      $dato->set_data("fecha_protesto",date('Y-m-d', strtotime($array["txtfechaprotesto"])));
-      $dato->set_data("id_causa_protesto",$array["selCausalProtesta"]);
-      $dato->set_data("cta_cte",$array["txtctacte"]);
-      $dato->set_data("gastos_protesto",$array["gastos_protesto"]);
-      $dato->set_data("ns",$array["ns"]);
-      $dato->set_data("fecha_creacion",date('Y-m-d', strtotime($array["txtfechaRecibido"])));
-      $dato->set_data("usuario_creacion",$array["usuario_creacion"]);
-      $dato->set_data("fecha_modificacion",date('Y-m-d', strtotime($array["txtfechaRecibido"])));
-      $dato->set_data("usuario_modificacion",$array["usuario_modificacion"]);
       
-      $dato->set_data("activo","S");		
+	  $date = str_replace('/', '-', $array["txtfechaprotesto"]);
+	  $dato->set_data("fecha_protesto",date('Y-m-d', strtotime($date)));
+
+	  //      $dato->set_data("fecha_protesto",date('Y-m-d', strtotime($array["txtfechaprotesto"])));
+      
+	 if($array["selCausalProtesta"] != "")
+      {
+      	$dato->set_data("id_causa_protesto",$array["selCausalProtesta"]);
+      }
+      
+      $dato->set_data("gastos_protesto",$array["gastos_protesto"]);
+//      $dato->set_data("ns",$array["ns"]);
+
+      $date = str_replace('/', '-', $array["txtfechaRecibido"]);
+      $dato->set_data("fecha_creacion",date('Y-m-d', strtotime($date)));
+      
+      $dato->set_data("usuario_creacion",$array["usuario_creacion"]);
+      
+      $date = str_replace('/', '-', $array["txtfechaRecibido"]);
+      $dato->set_data("fecha_modificacion",date('Y-m-d', strtotime($date)));
+      
+      $dato->set_data("usuario_modificacion",$array["usuario_modificacion"]);
+   	  $dato->set_data("activo","S");		
 	  $dato->save();
-	  
+	
 	  $dato2 = new GestionesCollection();
       $dato2->add_filter("id_deudor","=",$array["deudor"]);
       $dato2->add_filter("AND");
@@ -726,7 +745,7 @@ class DocumentosModel extends ModelBase
       	$dato3->set_data("fecha_modificacion",date("Y-m-d"));
 //      	$dato3->set_data("usuario_creacion",$_SESSION["idusuario"]);
       	$dato3->set_data("fecha_creacion",date("Y-m-d"));      	
-      	$dato3->set_data("estado","GESTION");
+      	$dato3->set_data("estado",1);
       
       	$dato3->save();
 	  }
@@ -738,7 +757,7 @@ class DocumentosModel extends ModelBase
       	$dato3->set_data("nota_gestion","Inicia Gestion");
       	$dato3->save();
 	  }
-	 
+
 	}
 	
 	public function getListaDocumentos($des, $idd='',$array='')
@@ -1185,19 +1204,17 @@ class DocumentosModel extends ModelBase
 							   d.id_tipo_doc id_tipo_doc, td.tipo_documento tipo_doc,
 							   d.id_causa_protesto id_causa_protesto, cp.causal causa_protesto, d.gastos_protesto gastos_protesto,
 							   d.numero_documento numero_documento,d.fecha_protesto fecha_protesto, d.fecha_siniestro fecha_siniestro,d.cta_cte cta_cte,d.monto monto "); 
-	  $sqlpersonal->set_from(" documentos d, 
+	  $sqlpersonal->set_from(" documentos d LEFT JOIN causalprotesta cp ON d.id_causa_protesto = cp.id_causal , 
 								bancos c,
 								deudores dd,
 								mandantes m,
 								estadodocumentos ed,
-								tipodocumento td,
-								causalprotesta cp ");    
+								tipodocumento td ");    
 	  $sqlpersonal->set_where(" d.id_banco = c.id_banco
 								and  d.id_deudor = dd.id_deudor
 								and m.id_mandante = d.id_mandatario
 								and d.id_estado_doc = ed.id_estado_doc
 								and d.id_tipo_doc = td.id_tipo_documento
-								and d.id_causa_protesto = cp.id_causal
 								and d.activo = 'S'
 								and d.id_documento = ".$var_id);
 	

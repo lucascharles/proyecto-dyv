@@ -530,27 +530,27 @@
                 </tr>
                 <tr>
                     <td width="150" align="left" class="etiqueta_form">Razon social:</td>
-                    <td> &nbsp;&nbsp;&nbsp;<input type="text" grabar="S" disabled="disabled" name="txtrazonsocial" id="txtrazonsocial"  size="40" valida="requerido" tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtrazonsocial" class="msjdato_incomp"></span>
+                    <td> &nbsp;&nbsp;&nbsp;<input type="text" grabar="S" disabled="disabled" name="txtrazonsocial" id="txtrazonsocial"  size="40"  tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtrazonsocial" class="msjdato_incomp"></span>
                     </td>
                 </tr>
                 <tr>
                     <td width="150" align="left" class="etiqueta_form">Primer apellido:</td>
-                    <td> &nbsp;&nbsp;&nbsp;<input type="text" grabar="S" name="txtpapellido" id="txtpapellido"  size="40" valida="requerido" tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtpapellido" class="msjdato_incomp"></span>
+                    <td> &nbsp;&nbsp;&nbsp;<input type="text" grabar="S" name="txtpapellido" id="txtpapellido"  size="40"  tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtpapellido" class="msjdato_incomp"></span>
                     </td>
                 </tr>
                 <tr>
                     <td width="150" align="left" class="etiqueta_form">Segundo apellido:</td>
-                    <td> &nbsp;&nbsp;&nbsp;<input type="text" grabar="S" name="txtsapellido" id="txtsapellido"  size="40" valida="requerido" tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtsapellido" class="msjdato_incomp"></span>
+                    <td> &nbsp;&nbsp;&nbsp;<input type="text" grabar="S" name="txtsapellido" id="txtsapellido"  size="40"  tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtsapellido" class="msjdato_incomp"></span>
                     </td>
                 </tr>
                 <tr>
                     <td width="150" align="left" class="etiqueta_form">Primer nombre:</td>
-                    <td> &nbsp;&nbsp;&nbsp;<input type="text" grabar="S" name="txtpnombre" id="txtpnombre"  size="40" valida="requerido" tipovalida="texto" class="input_form" /><span id="msj_error_txtpnombre" class="msjdato_incomp"></span>
+                    <td> &nbsp;&nbsp;&nbsp;<input type="text" grabar="S" name="txtpnombre" id="txtpnombre"  size="40"  tipovalida="texto" class="input_form" /><span id="msj_error_txtpnombre" class="msjdato_incomp"></span>
                     </td>
                 </tr>
                 <tr>
                     <td width="150" align="left" class="etiqueta_form">Segundo nombre:</td>
-                    <td> &nbsp;&nbsp;&nbsp;<input type="text" grabar="S" name="txtsnombre" id="txtsnombre"  size="40" valida="requerido" tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtsnombre" class="msjdato_incomp"></span>
+                    <td> &nbsp;&nbsp;&nbsp;<input type="text" grabar="S" name="txtsnombre" id="txtsnombre"  size="40"  tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtsnombre" class="msjdato_incomp"></span>
                     </td>
                 </tr>
             </table>
