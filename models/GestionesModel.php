@@ -4,7 +4,7 @@ class GestionesModel extends ModelBase
 		
 	
 		
-	public function getListaGestiones($des)
+	public function getListaGestiones($des, $param=array())
 	{
 	
 	include("config.php");
@@ -32,11 +32,21 @@ class GestionesModel extends ModelBase
 		   and g.activo = 'S'
 		   and d.id_deudor in (select d1.id_deudor from documentos d1 where d1.id_deudor = d.id_deudor and d1.id_estado_doc not in( 2,3 )) ";
 	
+	if(trim($param["rut_d"]) <> "")
+	{
+		$where .= " and d.rut_deudor like '".trim($param["rut_d"])."%'";
+	}
+	if(trim($param["rut_m"]) <> "")
+	{
+		$where .= " and m.rut_mandante like '".trim($param["rut_m"])."%'";
+	}
+	/*
 	if($des != ""){
 		
 		$cond=" and (d.rut_deudor like '".$des ."%' or m.rut_mandante like '".$des."%' )";
 		$where = $where . $cond;
 	}
+	*/
 
 	$where = $where ." ORDER by fecha_prox_gestion asc ";
 	
@@ -49,7 +59,7 @@ class GestionesModel extends ModelBase
 	
 	}
 	
-	public function getListaGestionesDia($des)
+	public function getListaGestionesDia($des, $param=array())
 	{
 	
 	include("config.php");
@@ -79,13 +89,22 @@ class GestionesModel extends ModelBase
 		   						and d1.activo = 'S') ";
 	
 	
-	
-	
+	if(trim($param["rut_d"]) <> "")
+	{
+		$where .= " and d.rut_deudor like '".trim($param["rut_d"])."%'";
+	}
+	if(trim($param["rut_m"]) <> "")
+	{
+		$where .= " and m.rut_mandante like '".trim($param["rut_m"])."%'";
+	}
+
+	/*
 	if($des != ""){
 		
 		$cond=" and (d.rut_deudor like '".$des ."%' or m.rut_mandante like '".$des."%' )";
 		$where = $where . $cond;
 	}
+	*/
 
 	$where = $where ." ORDER by fecha_prox_gestion asc ";
 	
