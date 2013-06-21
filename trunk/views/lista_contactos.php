@@ -35,12 +35,12 @@
 	?>
 	<tr bgcolor="#FFFFFF" >
     	<td><input type="radio" id="<? echo($datoTmp->get_data("id_contacto")) ?>" name="checktipdoc" value="" onclick="seleccionado(<? echo($datoTmp->get_data("id_contacto")) ?>)"></td>
-        <td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("contacto")) ?></td>
+        <td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo (utf8_decode($datoTmp->get_data("contacto"))) ?></td>
 		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("email")) ?></td>
 		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("celular")) ?></td>
         <td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("telefono")) ?></td>
         <td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("fax")) ?></td>
-        <td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("observacion")) ?></td>
+        <td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo (utf8_decode($datoTmp->get_data("observacion"))) ?></td>
 	</tr>
     <tr bgcolor="#FFFFFF" >
     	<td colspan="7" style="border-bottom:solid; border-bottom-width:2px; border-bottom-color:#CCCCCC; "></td>

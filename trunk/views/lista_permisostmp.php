@@ -35,7 +35,7 @@
         <img src="images/asignar.gif" id="<? echo($datoTmp->get_data("id")) ?>" title="Quitar permiso" onclick="seleccionado(<? echo($datoTmp->get_data("id")) ?>)" style="cursor:pointer"  />
         </td>
         <td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("id")) ?></td>
-        <td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("nombre")) ?></td>
+        <td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo (utf8_decode($datoTmp->get_data("nombre"))) ?></td>
 	</tr>
     <tr bgcolor="#FFFFFF" >
     	<td colspan="3" style="border-bottom:solid; border-bottom-width:2px; border-bottom-color:#CCCCCC; "></td>

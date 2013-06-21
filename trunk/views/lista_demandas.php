@@ -37,7 +37,7 @@
 		<td align="left">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("rol")) ?></td>
 		<td align="left">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("ficha")) ?></td>
 		<td align="left">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("rep")) ?></td>
-		<td align="left">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("fecha")) ?></td>
+		<td align="left">&nbsp;&nbsp;<?php echo (formatFecha($datoTmp->get_data("fecha"),"yyyy-mm-dd","dd/mm/yyyy")) ?></td>
 
 	</tr>
 	<?php

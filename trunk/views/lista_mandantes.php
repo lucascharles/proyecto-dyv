@@ -100,8 +100,8 @@
       </td>
       
       <td align="left"  class="dato_lista"><?php echo ($datoTmp->get_data("rut_mandante")."-".$datoTmp->get_data("dv_mandante"))?></td>      
-      <td align="left" class="dato_lista"><?php echo ($datoTmp->get_data("apellido")) ?></td>
-      <td align="left" class="dato_lista"><?php echo ($datoTmp->get_data("nombre")) ?></td>           
+      <td align="left" class="dato_lista"><?php echo (utf8_decode($datoTmp->get_data("apellido"))) ?></td>
+      <td align="left" class="dato_lista"><?php echo (utf8_decode($datoTmp->get_data("nombre"))) ?></td>           
   
       <td align="left" class="dato_lista">
 	  <?php 
@@ -110,7 +110,7 @@
 	  	$dbTmp = &$colleccionBancos->items[$i];
 		if($dbTmp->get_data("id_banco") == $datoTmp->get_data("banco1"))
 		{
-	  		echo ($dbTmp->get_data("banco"));
+	  		echo (utf8_decode($dbTmp->get_data("banco")));
 			break;
 		}
 	  }
@@ -124,7 +124,7 @@
 	  	$dbTmp = &$colleccionBancos->items[$i];
 		if($dbTmp->get_data("id_banco") == $datoTmp->get_data("banco2"))
 		{
-	  		echo ($dbTmp->get_data("banco"));
+	  		echo (utf8_decode($dbTmp->get_data("banco")));
 			break;
 		}
 	  }

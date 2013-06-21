@@ -35,8 +35,8 @@
 	<tr>
     	<td><input type="radio" id="<? echo($datoTmp->get_data("id_mandante")) ?>" name="checkmandante" value="" onclick="seleccionado(<? echo($datoTmp->get_data("id_mandante")) ?>)"></td>
 		<td align="center"><?php echo($datoTmp->get_data("rut_mandante")."-".$datoTmp->get_data("dv_mandante")) ?></td>
-		<td align="left">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("nombre")) ?></td>
-		<td align="left">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("email")) ?></td>
+		<td align="left">&nbsp;&nbsp;<?php echo (utf8_decode($datoTmp->get_data("nombre"))) ?></td>
+		<td align="left">&nbsp;&nbsp;<?php echo (utf8_decode($datoTmp->get_data("email"))) ?></td>
 		<td align="left">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("tel1")) ?></td>
 		<td align="left">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("tel2")) ?></td>
 		<td align="left">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("fax")) ?></td>

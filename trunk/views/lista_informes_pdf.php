@@ -22,19 +22,19 @@
     	$pdf->Cell(30,5,$datoTmp->get_data("rut_mandante")."-".$datoTmp->get_data("dv_mandante"),1);
       	$pdf->Cell(30,5,$datoTmp->get_data("rut_deudor")."-".$datoTmp->get_data("dv_deudor"),1);
       	$pdf->Cell(30,5,$datoTmp->get_data("numero_siniestro"),1);
-      	$pdf->Cell(30,5,$datoTmp->get_data("fecha_siniestro"),1);
-		$pdf->Cell(30,5,$datoTmp->get_data("estado"),1);
+      	$pdf->Cell(30,5,formatoFecha($datoTmp->get_data("fecha_siniestro"),"yyyy-mm-dd","dd/mm/yyyy"),1);
+		$pdf->Cell(30,5,utf8_decode($datoTmp->get_data("estado")),1);
 		$pdf->Cell(30,5,$datoTmp->get_data("monto"),1);
 		$pdf->Cell(30,5,$datoTmp->get_data("tipo_documento"),1);
-		$pdf->Cell(30,5,$datoTmp->get_data("banco"),1);
+		$pdf->Cell(30,5,utf8_decode($datoTmp->get_data("banco")),1);
 		$pdf->Cell(30,5,$datoTmp->get_data("numero_documento"),1);
-		$pdf->Cell(30,5,$datoTmp->get_data("causal"),1);
+		$pdf->Cell(30,5,utf8_decode($datoTmp->get_data("causal")),1);
 		$pdf->Cell(30,5,$datoTmp->get_data("numero_ficha"),1);
-		$pdf->Cell(30,5,$datoTmp->get_data("primer_nombre"),1);
-		$pdf->Cell(30,5,$datoTmp->get_data("primer_apellido"),1);
+		$pdf->Cell(30,5,utf8_decode($datoTmp->get_data("primer_nombre")),1);
+		$pdf->Cell(30,5,utf8_decode($datoTmp->get_data("primer_apellido")),1);
 		$pdf->Cell(30,5,$datoTmp->get_data("juzgado_numero"),1);
-		$pdf->Cell(30,5,$datoTmp->get_data("juzgado_comuna"),1);
-		$pdf->Cell(30,5,$datoTmp->get_data("rol"),1);
+		$pdf->Cell(30,5,utf8_decode($datoTmp->get_data("juzgado_comuna")),1);
+		$pdf->Cell(30,5,utf8_decode($datoTmp->get_data("rol")),1);
 		
 	}
 	/*
