@@ -36,10 +36,9 @@
 		<td><input type="radio" id="<? echo($datoTmp->get_data("id_ficha")) ?>" name="checkficha" value="" onclick="seleccionado(<? echo($datoTmp->get_data("id_ficha")) ?>)"></td>
 		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("id_ficha")) ?></td>
 		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("rut_deudor")."-".$datoTmp->get_data("dv_deudor")) ?></td>
-		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("d_primer_apellido")." ".$datoTmp->get_data("d_segundo_apellido")
-													." ".$datoTmp->get_data("d_primer_nombre")." ".$datoTmp->get_data("d_segundo_nombre")) ?></td>
+		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo (utf8_decode($datoTmp->get_data("d_primer_apellido")." ".$datoTmp->get_data("d_segundo_apellido")." ".$datoTmp->get_data("d_primer_nombre")." ".$datoTmp->get_data("d_segundo_nombre"))) ?></td>
 		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("rut_mandante")."-".$datoTmp->get_data("dv_mandante")) ?></td>
-		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("nombre")) ?></td>
+		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo (utf8_decode($datoTmp->get_data("nombre"))) ?></td>
 		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo (formatoFecha($datoTmp->get_data("ingreso"),"yyyy-mm-dd","dd/mm/yyyy")) ?></td>
 
 	</tr>

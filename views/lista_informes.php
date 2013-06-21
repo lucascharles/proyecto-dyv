@@ -185,26 +185,26 @@ if($marcar == "S")
 		{ 
 		?>
     	<td align="left" class="dato_lista">&nbsp;&nbsp;
-        <input type="checkbox"  name="chkMarcar" checked="checked" id="<? echo($datoTmp->get_data("id_documento")) ?>" name="checkinforme" value="<? echo($datoTmp->get_data("id_documento")) ?>" onclick=""></td>
+        <input type="checkbox"  name="chkMarcar" checked="checked" id="<? echo($datoTmp->get_data("id_documento")) ?>" name="checkinforme" value="<?=$datoTmp->get_data("id_documento")?>" onclick=""></td>
    	<?php }else{ ?>
    		<td align="left" class="dato_lista">&nbsp;&nbsp;<input type="checkbox" name="chkMarcar" id="<? echo($datoTmp->get_data("id_documento")) ?>" name="checkinforme" value="" onclick=""></td>
    	<?php } ?>
 		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("rut_mandante")."-".$datoTmp->get_data("dv_mandante")) ?></td>
 		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("rut_deudor")."-".$datoTmp->get_data("dv_deudor")) ?></td>
         <td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("numero_siniestro")) ?></td>
-        <td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("fecha_siniestro")) ?></td>
-        <td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("estado")) ?></td>
+        <td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo (formatoFecha($datoTmp->get_data("fecha_siniestro"),"yyyy-mm-dd","dd/mm/yyyy")) ?></td>
+        <td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo (utf8_decode($datoTmp->get_data("estado"))) ?></td>
         <td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("monto")) ?></td>
         <td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("tipo_documento")) ?></td>
-        <td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("banco")) ?></td>
+        <td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo (utf8_decode($datoTmp->get_data("banco"))) ?></td>
         <td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("numero_documento")) ?></td>
-        <td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("causal")) ?></td>
+        <td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo (utf8_decode($datoTmp->get_data("causal"))) ?></td>
         <td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("numero_ficha")) ?></td>
-        <td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("primer_nombre")) ?></td>
-        <td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("primer_apellido")) ?></td>
+        <td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo (utf8_decode($datoTmp->get_data("primer_nombre"))) ?></td>
+        <td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo (utf8_decode($datoTmp->get_data("primer_apellido"))) ?></td>
         <td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("juzgado_numero")) ?></td>
         <td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("juzgado_comuna")) ?></td>
-        <td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("rol")) ?></td>
+        <td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo (utf8_decode($datoTmp->get_data("rol"))) ?></td>
         <td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ("comentario") ?></td>
         <td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ("sugerencia") ?></td>
 	</tr>

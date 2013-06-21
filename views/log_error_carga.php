@@ -73,7 +73,7 @@
     </tr>
     <tr>
         <td align="left" colspan="3" height="0" class="etiqueta_form">
-		Usuario:&nbsp;<? echo($logerror->get_data("id_usuario")) ?>
+		Usuario:&nbsp;<? echo(utf8_decode($logerror->get_data("id_usuario"))) ?>
          </td>
     </tr>
      <tr>
@@ -129,11 +129,11 @@
                     	<font color='#0000FF'><? echo($datoTmp->get_data("fila")); ?></font>
                     </td>
                     <td width="60%" align="center">
-                    	<font color='#0000FF'><? echo($descrip_error); ?></font>
+                    	<font color='#0000FF'><? echo(utf8_decode($descrip_error)); ?></font>
                     </td>
 
                     <td width="30%"  align="center">
-                    	<font color='#0000FF'><? echo($datoTmp->get_data("archivo")); ?></font>
+                    	<font color='#0000FF'><? echo(utf8_decode($datoTmp->get_data("archivo"))); ?></font>
                     </td>
                 </tr>
                 <tr bgcolor="">

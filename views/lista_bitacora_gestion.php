@@ -36,10 +36,10 @@
 	<tr bgcolor="#FFFFFF" >    	
         <td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("rut_deudor")."-".$datoTmp->get_data("dv_deudor")) ?></td>
 		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("estado")) ?></td>
-		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("fecha_gestion")) ?></td>
-        <td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("notas")) ?></td>
-        <td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("fecha_prox_gestion")) ?></td>
-        <td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("usuario")) ?></td>
+		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo (formatoFecha($datoTmp->get_data("fecha_gestion"),"yyyy-mm-dd","dd/mm/yyyy")) ?></td>
+        <td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo (utf8_decode($datoTmp->get_data("notas"))) ?></td>
+        <td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo (formatoFecha($datoTmp->get_data("fecha_prox_gestion"),"yyyy-mm-dd","dd/mm/yyyy")) ?></td>
+        <td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo (utf8_decode($datoTmp->get_data("usuario"))) ?></td>
 	</tr>
     <tr bgcolor="#FFFFFF" >
     	<td colspan="6" style="border-bottom:solid; border-bottom-width:2px; border-bottom-color:#CCCCCC; "></td>
