@@ -979,22 +979,22 @@ ORDER BY orden ASC ";
 		if(trim($p_ape) <> "")
 		{
 			$dato->add_filter("AND");
-			$dato->add_filter("primer_apellido","like","'".trim($p_ape)."%'");
+			$dato->add_filter("primer_apellido","like",trim($p_ape)."%");
 		}
 		if(trim($s_ape) <> "")
 		{
 			$dato->add_filter("AND");
-			$dato->add_filter("segundo_apellido","like","'".trim($s_ape)."%'");
+			$dato->add_filter("segundo_apellido","like",trim($s_ape)."%");
 		}
 		if(trim($p_nom) <> "")
 		{
 			$dato->add_filter("AND");
-			$dato->add_filter("primer_nombre","like","'".trim($p_nom)."%'");
+			$dato->add_filter("primer_nombre","like",trim($p_nom)."%");
 		}
 		if(trim($s_nom) <> "")
 		{
 			$dato->add_filter("AND");
-			$dato->add_filter("segundo_nombre","like","'".trim($s_nom)."%'");
+			$dato->add_filter("segundo_nombre","like",trim($s_nom)."%");
 		}
 
 //		$dato->add_top(3);      //es para sqlserver
@@ -1113,7 +1113,7 @@ ORDER BY orden ASC ";
 		$where = " f.id_deudor = d.id_deudor and f.id_mandante = m.id_mandante  ";
 		if($rutdeudor != "")
 		{
-			$where = $where." and d.rut_deudor = ".$rutdeudor;
+			$where = $where." and d.rut_deudor LIKE '".$rutdeudor."%'";
 		}
 		$sqlpersonal->set_where($where);
 		
