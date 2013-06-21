@@ -10,15 +10,18 @@
 		function mostrar(obj)
 		{
 			var tipoG = document.getElementById("tipo_gestion").value;
-			var url = "index.php?controlador=Gestiones&accion=listarGestiones&des_int="+obj.value+"&tipoGestion="+tipoG;
+			var url = "index.php?controlador=Gestiones&accion=listarGestiones&rut_d="+document.getElementById("txtrutdeudor").value+"&rut_m="+document.getElementById("txtrutmandante").value+"&tipoGestion="+tipoG;
 			document.getElementById("frmlistgestiones").src = url;
+
 		}
 		
 		function limpiar()
 		{
-			document.getElementById("txtdestipdoc").value = "";
-			var url = "index.php?controlador=TipoDocumento&accion=listar";
-			document.getElementById("frmlisttipdoc").src = url;
+			document.getElementById("txtrutdeudor").value = "";
+			document.getElementById("txtrutmandante").value = "";
+			var tipoG = document.getElementById("tipo_gestion").value;
+			var url = "index.php?controlador=Gestiones&accion=listarGestiones&rut_d="+document.getElementById("txtrutdeudor").value+"&rut_m="+document.getElementById("txtrutmandante").value+"&tipoGestion="+tipoG;
+			document.getElementById("frmlistgestiones").src = url;
 		}
 		
 		function buscar()

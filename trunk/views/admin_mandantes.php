@@ -7,11 +7,10 @@
 	<title></title>
 
     <script language="javascript">
-		function mostrar(obj)
+		function mostrar()
 		{
 			var url = "index.php?controlador=Mandantes&accion=listar&des_int="+document.getElementById("txtrut_m").value;
 			url += "&desApel1="+document.getElementById("txtPrimerApel").value;
-			url += "&desNomb1="+document.getElementById("txtPrimerNomb").value;
 			url += "&id_partida=0";
 			document.getElementById("frmlistmandantes").src = url;
 		}
@@ -20,7 +19,6 @@
 		{
 			document.getElementById("txtrut_m").value = "";
 			document.getElementById("txtPrimerApel").value = "";
-			document.getElementById("txtPrimerNomb").value = "";
 			
 			var url = "index.php?controlador=Mandantes&accion=listar&id_partida=0";
 			document.getElementById("frmlistmandantes").src = url;
@@ -99,7 +97,7 @@
 <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
 	 <tr>
 		<td width="20" align="left"  class="etiqueta_form">Rut:</td>
-        <td align="left">&nbsp; <input type="text" name="txtrut_m" id="txtrut_m"  size="40" onkeyup='mostrar(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/></td>
+        <td align="left">&nbsp; <input type="text" name="txtrut_m" id="txtrut_m"  size="40" onkeyup='mostrar()' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/></td>
         <td></td>
      </tr>
       <tr>
@@ -114,7 +112,7 @@
 <!--                <td align="left" class="etiqueta_form" width="25%"></td>-->
 <!--                <td align="left" class="etiqueta_form"  width="25%"s></td>-->
             	<td width="20" align="left"  class="etiqueta_form">Razon Social:</td>
-            	<td align="left">&nbsp; <input type="text" name="txtPrimerApel" id="txtPrimerApel"  size="120" onkeyup='mostrar(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/></td>
+            	<td align="left">&nbsp; <input type="text" name="txtPrimerApel" id="txtPrimerApel"  size="120" onkeyup='mostrar()' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/></td>
 
             </tr>
 <!--		    <tr>-->
