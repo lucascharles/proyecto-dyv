@@ -822,7 +822,11 @@ class DeudoresController extends ControllerBase
 		$data['documento'] = $datodocumento;
 		$data['valoruf'] = $parametros->getParametro(array("nom_param"=>"valor_uf"));// 22700;  		//crear metodo en la base para este parametro
 		$data['interes_base'] = $parametros->getParametro(array("nom_param"=>"interes_diario_normal")); //"2";    //crear metodo en la base para este parametro
-				
+		
+		$data['control_volver'] = $array["control_volver"];
+		$data['accion_volver'] = $array["accion_volver"];
+		$data['param_volver'] = $array["param_volver"];
+		$data['val_volver'] = $array["val_volver"];
 		$this->view->show("deudor_liquidacion.php", $data);
 	}
 	
@@ -857,6 +861,11 @@ class DeudoresController extends ControllerBase
 		//$data['documento'] = $datodocumento;
 		$data['valoruf'] = $parametros->getParametro("valor_uf");// 22700;  		//crear metodo en la base para este parametro
 		$data['interes_base'] = $parametros->getParametro("interes_diario_normal"); //"2";    //crear metodo en la base para este parametro
+		
+		$data['control_volver'] = $array["control_volver"];
+		$data['accion_volver'] = $array["accion_volver"];
+		$data['param_volver'] = $array["param_volver"];
+		$data['val_volver'] = $array["val_volver"];
 				
 		$this->view->show("deudor_liquidacion_edita.php", $data);
 	}
