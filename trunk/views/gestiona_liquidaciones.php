@@ -40,26 +40,45 @@
 		
 		function salir()
 		{
-			$("#pagina").load('views/default.php');
+			if($.trim($("#control_volver").val()) != "")
+			{
+				$("#pagina").load('index.php?controlador='+$("#control_volver").val()+'&accion='+$("#accion_volver").val()+'&'+$("#param_volver").val()+'='+$("#val_volver").val());
+			}
+			else
+			{
+				$("#pagina").load('views/default.php');
+			}
 		}
 		
 		function liquidacion()
 		{
-			
 			if(document.getElementById("id_liquidacion").value == "")
 			{
 				return false;
 			}
 			var id = document.getElementById("id_liquidacion").value;
-			
-			$("#pagina").load('index.php?controlador=Deudores&accion=modifica_liquidacion&id='+id+'&tipope=M');
+				
+			if($.trim($("#control_volver").val()) != "")
+			{
+				$("#pagina").load('index.php?controlador=Deudores&accion=edita_liquidacion&id='+id+'&tipope=M'+"&control_volver=Gestiones&accion_volver=gestionar&param_volver=idgestion&val_volver="+$("#val_volver").val());
+			}
+			else
+			{			
+				$("#pagina").load('index.php?controlador=Deudores&accion=modifica_liquidacion&id='+id+'&tipope=M');
+			}
 		}
 
 		function nuevaliquidacion()
 		{
 			var iddeudor = document.getElementById("id_deudor").value;
-			alert('index.php?controlador=Deudores&accion=nueva_liquidacion&id='+iddeudor);
-			$("#pagina").load('index.php?controlador=Deudores&accion=nueva_liquidacion&id='+iddeudor);
+			if($.trim($("#control_volver").val()) != "")
+			{
+				$("#pagina").load('index.php?controlador=Deudores&accion=nueva_liquidacion&id='+iddeudor+"&control_volver=Gestiones&accion_volver=gestionar&param_volver=idgestion&val_volver="+$("#val_volver").val());
+			}
+			else
+			{
+				$("#pagina").load('index.php?controlador=Deudores&accion=nueva_liquidacion&id='+iddeudor);
+			}
 		}
 		
 		function seleccionadoDeudor(id)
@@ -119,12 +138,22 @@
 			}
 			
 		}
+		
+		function seleccionado(id)
+		{
+			document.getElementById("id_liquidacion").value = id;
+		}
+		
 	</script>
 </head>
 <body>
 <form name="frmadmliquidaciones">
 <input  type="hidden" name="id_liquidacion" id="id_liquidacion" value=""/>
 <input type="hidden" name="id_deudor" id="id_deudor" value="<?php echo($deudor->get_data("id_deudor")) ?>"/>
+<input type="hidden" name="control_volver" id="control_volver" value="<? echo($control_volver) ?>" />
+<input type="hidden" name="accion_volver" id="accion_volver" value="<? echo($accion_volver) ?>" />
+<input type="hidden" name="param_volver" id="param_volver" value="<? echo($param_volver) ?>" />
+<input type="hidden" name="val_volver" id="val_volver" value="<? echo($val_volver) ?>" />
 <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="titulopantalla">
 	<tr>
 		<th align="left" height="30">&nbsp;Liquidaciones</th>
