@@ -216,11 +216,11 @@ class GestionesController extends ControllerBase
 		$gestiones = new GestionesModel();
 		if($array["tipoGestion"]=="D")
 		{
-			$dato = $gestiones->getListaGestionesDia($array["des_int"]);	
+			$dato = $gestiones->getListaGestionesDia($array["des_int"],$array);	
 		}
 		else
 		{
-			$dato = $gestiones->getListaGestiones($array["des_int"]);
+			$dato = $gestiones->getListaGestiones($array["des_int"],$array);
 		}
 		
 		
