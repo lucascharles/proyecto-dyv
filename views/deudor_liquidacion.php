@@ -241,11 +241,18 @@
 		
 		function volver()
 		{
-			var url = "index.php?controlador=Deudores&accion=admin_liquidaciones";
-			if($.trim($("#id_deudor").val()) != "")
+			if($.trim($("#control_volver").val()) != "")
 			{
-				url += '&iddeudor='+$("#id_deudor").val();
-				$("#pagina").load(url);
+				$("#pagina").load('index.php?controlador='+$("#control_volver").val()+'&accion='+$("#accion_volver").val()+'&'+$("#param_volver").val()+'='+$("#val_volver").val());
+			}
+			else
+			{
+				var url = "index.php?controlador=Deudores&accion=admin_liquidaciones";
+				if($.trim($("#id_deudor").val()) != "")
+				{
+					url += '&iddeudor='+$("#id_deudor").val();
+					$("#pagina").load(url);
+				}
 			}
 		}
 		
@@ -341,8 +348,15 @@
 					data: datos,
 					cache: false,
 					success: function(res)
-					{						
-						$("#pagina").load('index.php?controlador=Deudores&accion=admin_liquidaciones&iddeudor='+$("#id_deudor").val());
+					{	
+						if($.trim($("#control_volver").val()) != "")
+						{
+							$("#pagina").load('index.php?controlador='+$("#control_volver").val()+'&accion='+$("#accion_volver").val()+'&'+$("#param_volver").val()+'='+$("#val_volver").val());
+						}
+						else
+						{					
+							$("#pagina").load('index.php?controlador=Deudores&accion=admin_liquidaciones&iddeudor='+$("#id_deudor").val());
+						}
 					},
 					error: function()
 					{
@@ -667,7 +681,10 @@
 <input grabar="S" type="hidden" name="id_deudor" id="id_deudor" value="<?=$deudor->get_data("id_deudor")?>"/>
 <input grabar="S" type="hidden" name="id_liquidacion" id="id_liquidacion" value="<? if($id_liquidacion == "") $id_liquidacion = 0; echo($id_liquidacion) ?>"/>
 <input grabar="S" type="hidden" name="docs" id="docs" value=""/>
-
+<input type="hidden" name="control_volver" id="control_volver" value="<? echo($control_volver) ?>" />
+<input type="hidden" name="accion_volver" id="accion_volver" value="<? echo($accion_volver) ?>" />
+<input type="hidden" name="param_volver" id="param_volver" value="<? echo($param_volver) ?>" />
+<input type="hidden" name="val_volver" id="val_volver" value="<? echo($val_volver) ?>" />
 
 <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="titulopantalla">
 	<tr>
