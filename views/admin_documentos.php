@@ -7,13 +7,13 @@
 	<title></title>
 
     <script language="javascript">
-		function mostrar(obj)
+		function mostrar()
 		{
 			var url = "index.php?controlador=Documentos&accion=listar&des_int="+document.getElementById("txtrut").value;
 			url += "&desApel1="+document.getElementById("txtPrimerApel").value;
-			url += "&desApel2="+document.getElementById("txtSegundoApel").value;
-			url += "&desNomb1="+document.getElementById("txtPrimerNomb").value;
-			url += "&desNomb2="+document.getElementById("txtSegundoNomb").value;
+			//url += "&desApel2="+document.getElementById("txtSegundoApel").value;
+			//url += "&desNomb1="+document.getElementById("txtPrimerNomb").value;
+			//url += "&desNomb2="+document.getElementById("txtSegundoNomb").value;
 			url += "&id_partida=0";
 			url += "&rutmandante="+document.getElementById("txtrutmandante").value;
 			document.getElementById("frmlistdocumentos").src = url;
@@ -23,10 +23,10 @@
 		{
 			document.getElementById("txtrut").value = "";
 			document.getElementById("txtPrimerApel").value = "";
-			document.getElementById("txtSegundoApel").value = "";
-			document.getElementById("txtPrimerNomb").value = "";
-			document.getElementById("txtSegundoNomb").value = "";
-			
+			//document.getElementById("txtSegundoApel").value = "";
+			//document.getElementById("txtPrimerNomb").value = "";
+			//document.getElementById("txtSegundoNomb").value = "";
+			document.getElementById("txtrutmandante").value = "";
 			var url = "index.php?controlador=Documentos&accion=listar&id_partida=0";
 			document.getElementById("frmlistdocumentos").src = url;
 		}
@@ -113,9 +113,9 @@
 <div id="buscador" style="">
 <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
 	<tr>
-		<td width="" align="left" class="etiqueta_form">R.U.T. Deudor:&nbsp;&nbsp;&nbsp; <input type="text" name="txtrut" id="txtrut"  size="20" onkeyup='mostrar(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" /></td>
+		<td width="" align="left" class="etiqueta_form">R.U.T. Deudor:&nbsp;&nbsp;&nbsp; <input type="text" name="txtrut" id="txtrut"  size="20" onkeyup='mostrar()' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" /></td>
         <td align="left"></td>
-        <td width="" align="left" class="etiqueta_form">R.U.T. Mandante:&nbsp;&nbsp;&nbsp; <input type="text" name="txtrutmandante" id="txtrutmandante"  size="20" onkeyup='mostrar(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" /></td>
+        <td width="" align="left" class="etiqueta_form">R.U.T. Mandante:&nbsp;&nbsp;&nbsp; <input type="text" name="txtrutmandante" id="txtrutmandante"  size="20" onkeyup='mostrar()' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" /></td>
         <td align="left"></td>
         <td> 
         </td>
@@ -127,16 +127,16 @@
     	<td colspan="3">
         	 <table width="100%" align="center" cellpadding="0" cellspacing="0" border="0">
 				<tr>
-            		<td align="left" class="etiqueta_form">Primer Apellido</td>
-	                <td align="left" class="etiqueta_form">Segundo Apellido</td>
-    	            <td align="left" class="etiqueta_form">Primer Nombre</td>
-        	        <td align="left" class="etiqueta_form">Segundo Nombre</td>
+            		<td align="left" class="etiqueta_form">Primer Apellido Deudor</td>
+	                <td align="left" class="etiqueta_form"><!--Segundo Apellido--></td>
+    	            <td align="left" class="etiqueta_form"><!--Primer Nombre--></td>
+        	        <td align="left" class="etiqueta_form"><!--Segundo Nombre--></td>
 			     </tr>
                  <tr>
-                    <td><input type="text" name="txtPrimerApel" id="txtPrimerApel"  size="20" onkeyup='mostrar(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/></td>
-                    <td align="left"><input type="text" name="txtSegundoApel" id="txtSegundoApel"  size="20" onkeyup='mostrar(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/></td>
-                    <td align="left"><input type="text" name="txtPrimerNomb" id="txtPrimerNomb"  size="20" onkeyup='mostrar(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/></td>
-                    <td align="left"><input type="text" name="txtSegundoNomb" id="txtSegundoNomb"  size="20" onkeyup='mostrar(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/></td>
+                    <td><input type="text" name="txtPrimerApel" id="txtPrimerApel"  size="20" onkeyup='mostrar()' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/></td>
+                    <td align="left"><!--<input type="text" name="txtSegundoApel" id="txtSegundoApel"  size="20" onkeyup='mostrar(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/>--></td>
+                    <td align="left"><!--<input type="text" name="txtPrimerNomb" id="txtPrimerNomb"  size="20" onkeyup='mostrar(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/>--></td>
+                    <td align="left"><!--<input type="text" name="txtSegundoNomb" id="txtSegundoNomb"  size="20" onkeyup='mostrar(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/>--></td>
                 </tr>
              </table>
           </td>
