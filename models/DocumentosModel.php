@@ -1400,13 +1400,12 @@ class DocumentosModel extends ModelBase
 									d.fecha_creacion fecha_creacion, 
 									d.monto monto "); 
 	  	$sqlpersonal->set_from(" documentos d ,tipodocumento td, estadodocumentos ed,
-        						 mandantes m, deudores dd, direccion_deudores dds ");
+        						 mandantes m, deudores dd left join direccion_deudores dds on dd.id_deudor = dds.id_deudor and dds.vigente = 'S'");
       	$sqlpersonal->set_where(" d.id_tipo_doc = td.id_tipo_documento
 							and   d.id_estado_doc = ed.id_estado_doc
 							and   d.id_deudor = dd.id_deudor
 							and   d.id_mandatario = m.id_mandante
 							and   dd.id_deudor = dds.id_deudor
-							and   dds.vigente = 'S'
 							and   d.id_documento in ".$array.
 							" order by id_deudor ");
 	
