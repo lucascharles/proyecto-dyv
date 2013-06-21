@@ -82,6 +82,7 @@
 				var value = arrD[i];
 				url = url + "&arr"+i+"="+value;
 			}
+
 			document.getElementById("frmlistdocumentos").src = url;	
 		}
 
