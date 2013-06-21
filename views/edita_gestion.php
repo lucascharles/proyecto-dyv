@@ -337,7 +337,7 @@
 				return false;
 			}
 //			alert('index.php?controlador=Gestiones&accion=gestiona_liquidacion&iddeudor='+iddeudor);
-			$("#pagina").load('index.php?controlador=Gestiones&accion=gestiona_liquidacion&iddeudor='+iddeudor);		
+			$("#pagina").load('index.php?controlador=Gestiones&accion=gestiona_liquidacion&iddeudor='+iddeudor+"&control_volver=Gestiones&accion_volver=gestionar&param_volver=idgestion&val_volver="+$("#id_gestion").val());		
 		}
 		
 	</script>
