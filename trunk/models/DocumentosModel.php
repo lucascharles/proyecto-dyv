@@ -891,6 +891,11 @@ class DocumentosModel extends ModelBase
 			{
 				$where .= " and dd.rut_deudor like '".trim($array["des_int"])."%'";
 			}
+			
+			if(trim($array["rutmandante"]) <> "")
+			{
+				$where .= " and m.rut_mandante like '".trim($array["rutmandante"])."%'";
+			}
 				
 			if(trim($array["desApel1"]) <> "")
 			{
