@@ -10,6 +10,7 @@
 		function mostrar(obj)
 		{
 			var url = "index.php?controlador=Deudores&accion=listar_fichas&rutdeudor="+obj.value;
+			url += "&id_partida=0";
 			document.getElementById("frmlistfichas").src = url;
 		}
 		
@@ -24,6 +25,7 @@
 		function buscar()
 		{
 			var url = "index.php?controlador=Deudores&accion=listar_fichas&rutdeudor="+document.getElementById("txtrut").value;
+			url += "&id_partida=0";
 			document.getElementById("frmlistfichas").src = url;
 		}
 		
@@ -64,8 +66,6 @@
 			
 			$("#pagina").load('index.php?controlador=Deudores&accion=deudor_ficha&id='+id+'&tipope=M');
 		}
-
-		
 	</script>
 </head>
 <body>
@@ -107,7 +107,7 @@
  <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
     <tr>
 		<td colspan="2" width="90%">
-        	<iframe id="frmlistfichas" src="index.php?controlador=Deudores&accion=listar_fichas" width="100%" align="middle" height="220" scrolling="auto" frameborder="0"></iframe>
+        	<iframe id="frmlistfichas" src="index.php?controlador=Deudores&accion=listar_fichas&id_partida=0" width="100%" align="middle" height="220" scrolling="auto" frameborder="0"></iframe>
         </td>
         <td width="10%">
         	<div style="position:relative; margin-left:10px;">
