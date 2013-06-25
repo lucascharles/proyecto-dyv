@@ -457,6 +457,8 @@ class DeudoresController extends ControllerBase
 		echo($html);
 	}
 	
+	
+	
 	public function listar($array)
     {
 		require 'models/DeudoresModel.php';
@@ -613,14 +615,81 @@ class DeudoresController extends ControllerBase
     	
 		$this->view->show("admin_fichas.php", $data);
 	}
+	                
+	public function listar_mas_registros_fichas($array)
+    {
+		require 'models/DeudoresModel.php';
+		$deudor = new DeudoresModel();
+		$dato = $deudor->getTodasFichas($array);
+		
+		if($dato->get_count() > 0)
+		{
+			$datoTmp = &$dato->items[($dato->get_count()-1)];
+			$array["id_partida"] = $datoTmp->get_data("id_ficha");
+			$datoAux = $deudor->getTodasFichas($array);
+		}
+		
+		$html = "<table width='100%' cellpadding='2' cellspacing='2' align='center' border='0' bgcolor='#FFFFFF'>";
+		
+		for($j=0; $j<$dato->get_count(); $j++) 
+		{
+			$datoTmp = &$dato->items[$j];
+			
+			$html .= "<tr bgcolor='#FFFFFF'>";
+    		$html .= "<td width='1%' align='center' height='25'><input type='radio' id='".$datoTmp->get_data("id_ficha")."' name='checktipdoc' value='' onclick='seleccionado(".$datoTmp->get_data("id_ficha").")'></td>";
+        	$html .= "<td width='9%' align='left' class='dato_lista'>&nbsp;&nbsp;".$datoTmp->get_data("id_ficha")."</td>";
+			$html .= "<td width='12%' align='left' class='dato_lista'>&nbsp;&nbsp;".$datoTmp->get_data("rut_deudor")."-".$datoTmp->get_data("dv_deudor")."</td>";
+			$html .= "<td width='28%' align='left' class='dato_lista'>&nbsp;&nbsp;".utf8_decode($datoTmp->get_data("d_primer_apellido")." ".$datoTmp->get_data("d_segundo_apellido")." ".$datoTmp->get_data("d_primer_nombre")." ".$datoTmp->get_data("d_segundo_nombre"))."</td>";
+        	$html .= "<td width='14%' align='left' class='dato_lista'>&nbsp;&nbsp;".$datoTmp->get_data("rut_mandante")."-".$datoTmp->get_data("dv_mandante")."</td>";
+        	$html .= "<td width='20%' align='left' class='dato_lista'>&nbsp;&nbsp;".$datoTmp->get_data("nombre")."</td>";
+			$html .= "<td width='16%' align='left' class='dato_lista'>&nbsp;&nbsp;".formatoFecha($datoTmp->get_data("ingreso"),"yyyy-mm-dd","dd/mm/yyyy")."</td>";
+			$html .= "</tr>";
+			$html .= "<tr bgcolor='#FFFFFF'>";
+    		$html .= "<td colspan='7' style='border-bottom:solid; border-bottom-width:2px; border-bottom-color:#CCCCCC;'></td>";
+			$html .= "</tr>";
+		}
+		
+		$cant_datos = 0;
+		if($dato->get_count() > 0)
+		{
+			$datoTmp = &$dato->items[($dato->get_count()-1)];
+			$cant_datos = $datoAux->get_count();
+		}
+		
+		if($cant_datos > 0)
+		{
+			$html .= "<tr bgcolor='#FFFFFF'>";
+    		$html .= "<td colspan='6' align='center'>";
+        	$html .= "<div id='btnvermas_".$datoTmp->get_data("id_ficha")."' onclick='verMasRegistros(".$datoTmp->get_data("id_ficha").")' style='cursor:pointer;'>Ver mas </div>";
+			$html .= "</td>";
+			$html .= "</tr>";
+	    }
+		
+		if($cant_datos > 0)
+		{
+	    	$html .= "</table>";
+			$html .= "<div  mascom='masdatcom' id='masdatos_".$datoTmp->get_data("id_ficha")."' style='display:none;'>";
+		    $html .= "</div>";
+		}
+		
+		echo($html);
+	}
 	
 	public function listar_fichas($array)
 	{
     	require 'models/DeudoresModel.php';
 		$deudor = new DeudoresModel();
-		$dato = $deudor->getTodasFichas($array["rutdeudor"]);
-				
+		$dato = $deudor->getTodasFichas($array);
+		$cant_datos = 0;
+		if($dato->get_count() > 0)
+		{
+			$datoTmp = &$dato->items[($dato->get_count()-1)];
+			$array["id_partida"] = $datoTmp->get_data("id_ficha");
+			$datoAux = $deudor->getTodasFichas($array);
+			$cant_datos = $datoAux->get_count();
+		}
 		$data['objTodasFichas'] = $dato;
+		$data['cant_mas'] = $cant_datos;
 
 		$this->view->show("lista_fichas.php", $data);
 	}
