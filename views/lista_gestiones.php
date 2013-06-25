@@ -6,10 +6,36 @@
 	
 	<title></title>
     <link rel="stylesheet" href="css/general.css" type="text/css" />
+    <script src="js/jquery-1.7.1.min.js" type="text/javascript"></script>
     <script language="javascript"> 
 		function seleccionado(id)
 		{
 			window.parent.seleccionado(id);
+		}
+		
+		function verMasRegistros(id, pantalla)
+		{
+			var datos = "controlador=Gestiones&accion=listar_mas_registros";
+			var tipoG = window.parent.document.getElementById("tipo_gestion").value;
+			datos += "&rut_d="+window.parent.document.getElementById("txtrutdeudor").value+"&rut_m="+window.parent.document.getElementById("txtrutmandante").value+"&tipoGestion="+tipoG;
+			datos += "&id_partida="+id;
+			
+			$.ajax({
+					url: "index.php",
+					type: "GET",
+					data: datos,
+					cache: false,
+					success: function(res)
+					{
+						$("#btnvermas_"+id).hide("slow"); 
+						$("#masdatos_"+id).html(res); 
+						$("#masdatos_"+id).slideDown("slow"); 
+					},
+					error: function()
+					{
+						//alert("Ha ocurrido un error y no se ha podido agregar el registro.");
+					}
+				});
 		}
 		
 	</script>
@@ -51,7 +77,29 @@
 	</tr>
 	<?php
 	}
+	$datoTmp = &$colleccionGestiones->items[($colleccionGestiones->get_count()-1)];
+
+	if($cant_mas > 0)
+	{
+		$pantalla = "ADMIN";
+
+	?>
+     <tr bgcolor="#FFFFFF">
+    	<td colspan="11" align="center">
+        <div id='btnvermas_<? echo($datoTmp->get_data("id_gestion")) ?>' onclick="verMasRegistros(<? echo($datoTmp->get_data("id_gestion")) ?>,'<? echo($pantalla) ?>')" style="cursor:pointer;" >Ver mas </div></td>
+	</tr>
+    <?
+    }
 	?>
 </table>
+<?
+	if($cant_mas > 0)
+	{
+?>
+<div  mascom='masdatcom' id="masdatos_<? echo($datoTmp->get_data("id_gestion")) ?>" style="display:none;">
+    </div>
+<?
+	}
+?>
 </body>
 </html>

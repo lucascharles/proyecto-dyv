@@ -6,12 +6,37 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<title></title>
      <link rel="stylesheet" href="css/general.css" type="text/css" />
+      <script src="js/jquery-1.7.1.min.js" type="text/javascript"></script>
     <script language="javascript"> 
 		function seleccionado(id)
 		{
 			window.parent.seleccionado(id);
 		}
 		
+		
+		function verMasRegistros(id, pantalla)
+		{
+			var datos = "controlador=Deudores&accion=listar_mas_registros_fichas";
+			datos += "&rutdeudor="+window.parent.document.getElementById("txtrut").value;
+			datos += "&id_partida="+id;
+			
+			$.ajax({
+					url: "index.php",
+					type: "GET",
+					data: datos,
+					cache: false,
+					success: function(res)
+					{
+						$("#btnvermas_"+id).hide("slow"); 
+						$("#masdatos_"+id).html(res); 
+						$("#masdatos_"+id).slideDown("slow"); 
+					},
+					error: function()
+					{
+						//alert("Ha ocurrido un error y no se ha podido agregar el registro.");
+					}
+				});
+		}
 	</script>
 </head>
 <body>
@@ -42,9 +67,35 @@
 		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo (formatoFecha($datoTmp->get_data("ingreso"),"yyyy-mm-dd","dd/mm/yyyy")) ?></td>
 
 	</tr>
+    <tr bgcolor="#FFFFFF" >
+    	<td colspan="7" style="border-bottom:solid; border-bottom-width:2px; border-bottom-color:#CCCCCC; "></td>
+	</tr>
 	<?php
 	}
+	
+	$datoTmp = &$objTodasFichas->items[($objTodasFichas->get_count()-1)];
+
+	if($cant_mas > 0)
+	{
+		$pantalla = "ADMIN";
+
+	?>
+     <tr bgcolor="#FFFFFF">
+    	<td colspan="11" align="center">
+        <div id='btnvermas_<? echo($datoTmp->get_data("id_ficha")) ?>' onclick="verMasRegistros(<? echo($datoTmp->get_data("id_ficha")) ?>,'<? echo($pantalla) ?>')" style="cursor:pointer;" >Ver mas </div></td>
+	</tr>
+    <?
+    }
 	?>
 </table>
+<?
+	if($cant_mas > 0)
+	{
+?>
+<div  mascom='masdatcom' id="masdatos_<? echo($datoTmp->get_data("id_ficha")) ?>" style="display:none;">
+    </div>
+<?
+	}
+?>
 </body>
 </html>

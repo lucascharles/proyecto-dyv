@@ -26,10 +26,9 @@
 			
 			if(pantalla == "ADMIN")
 			{
+				datos += "&des_int="+window.parent.document.getElementById("txtrut").value;
 				datos += "&desApel1="+window.parent.document.getElementById("txtPrimerApel").value;
-				datos += "&desApel2="+window.parent.document.getElementById("txtSegundoApel").value;
-				datos += "&desNomb1="+window.parent.document.getElementById("txtPrimerNomb").value;
-				datos += "&desNomb2="+window.parent.document.getElementById("txtSegundoNomb").value;
+				datos += "&rutmandante="+window.parent.document.getElementById("txtrutmandante").value;
 			}
 			
 			datos += "&id_partida="+id;
@@ -98,7 +97,7 @@
 	<?php
 	}
 	$datoTmp = &$colleccionDatosDocumentos->items[($colleccionDatosDocumentos->get_count()-1)];
-	//echo("<br> cant: ".$cant_mas);
+
 	if($cant_mas > 0)
 	{
 		$pantalla = "ADMIN";
