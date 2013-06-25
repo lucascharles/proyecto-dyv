@@ -787,7 +787,7 @@ class DocumentosModel extends ModelBase
 		$where .= " and d.id_documento > ".$array["id_partida"];
 		
 //		$sqlpersonal->set_top(10); // PARA SQLSERVER 
-//		$sqlpersonal->set_limit(0,10); // PARA MYSQL
+		$sqlpersonal->set_limit(0,30); // PARA MYSQL
 		
 		if(count($array) > 0)
 		{
@@ -957,7 +957,7 @@ class DocumentosModel extends ModelBase
 		$where .= " and d.id_documento > ".$array["id_partida"];
 	
 		//		$sqlpersonal->set_top(10); // PARA SQLSERVER
-		//		$sqlpersonal->set_limit(0,10); // PARA MYSQL
+		$sqlpersonal->set_limit(0,30); // PARA MYSQL
 	
 		if(count($array) > 0)
 		{

@@ -47,12 +47,13 @@ class GestionesModel extends ModelBase
 		$where = $where . $cond;
 	}
 	*/
+	$where .= " and g.id_gestion > ".$param["id_partida"];
 
 	$where = $where ." ORDER by fecha_prox_gestion asc ";
 	
 	
 	$sqlpersonal->set_where( $where );
-	
+	$sqlpersonal->set_limit(0,30); // PARA MYSQL
     $sqlpersonal->load();
 
     return $sqlpersonal;	
@@ -105,12 +106,12 @@ class GestionesModel extends ModelBase
 		$where = $where . $cond;
 	}
 	*/
-
+	$where .= " and g.id_gestion > ".$param["id_partida"];
 	$where = $where ." ORDER by fecha_prox_gestion asc ";
 	
 	
 	$sqlpersonal->set_where( $where );
-	
+	$sqlpersonal->set_limit(0,30); // PARA MYSQL
     $sqlpersonal->load();
 
     return $sqlpersonal;	
