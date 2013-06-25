@@ -13,7 +13,7 @@
 			var datos = "controlador=Mandantes&accion=listar_mas_registros";
 			datos += "&des_int="+window.parent.document.getElementById("txtrut_m").value;
 			datos += "&desApel1="+window.parent.document.getElementById("txtPrimerApel").value;
-			datos += "&desNomb1="+window.parent.document.getElementById("txtPrimerNomb").value;
+			//datos += "&desNomb1="+window.parent.document.getElementById("txtPrimerNomb").value;
 			datos += "&id_partida="+id;
 			datos += "&pantalla="+document.getElementById("pantalla").value;
 			
