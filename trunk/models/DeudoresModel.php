@@ -998,7 +998,7 @@ ORDER BY orden ASC ";
 		}
 
 //		$dato->add_top(3);      //es para sqlserver
-//		$dato->add_limit(0,15);  //es para mysql
+		$dato->add_limit(0,30);  //es para mysql
 		$dato->load();
 	
 		return $dato;
@@ -1095,7 +1095,7 @@ ORDER BY orden ASC ";
     	return $sqlpersonal;	
 	}
 	
-	public function getTodasFichas($rutdeudor)
+	public function getTodasFichas($array)
 	{
 		include("config.php");
 
@@ -1113,10 +1113,13 @@ ORDER BY orden ASC ";
 		$where = " f.id_deudor = d.id_deudor and f.id_mandante = m.id_mandante  ";
 		if($rutdeudor != "")
 		{
-			$where = $where." and d.rut_deudor LIKE '".$rutdeudor."%'";
+			$where = $where." and d.rut_deudor LIKE '".$array["rutdeudor"]."%'";
 		}
-		$sqlpersonal->set_where($where);
 		
+		$where .= " and f.id_ficha > ".$array["id_partida"];
+		
+		$sqlpersonal->set_where($where);
+		$sqlpersonal->set_limit(0,30); // PARA MYSQL
     	$sqlpersonal->load();
 
     	return $sqlpersonal;	
