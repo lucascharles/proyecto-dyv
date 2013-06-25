@@ -121,11 +121,15 @@ class GestionesController extends ControllerBase
     {
 		require 'models/GestionesModel.php';
 		$gestiones = new GestionesModel();
-		$dato = $gestiones->getListaGestiones($array["des_int"]);
+		
 
 		if($array["tipoGestion"] == "D")
 		{
 			$dato = $gestiones->getListaGestionesDia($array["des_int"]);			
+		}
+		else
+		{
+			$dato = $gestiones->getListaGestiones($array["des_int"]);
 		}
 		$data['nom_sistema'] = "SISTEMA DyV";
 		$data['colleccionGestiones'] = $dato;
@@ -222,15 +226,117 @@ class GestionesController extends ControllerBase
 		{
 			$dato = $gestiones->getListaGestiones($array["des_int"],$array);
 		}
+		$cant_datos = 0;
+		if($dato->get_count() > 0)
+		{
+			$datoTmp = &$dato->items[($dato->get_count()-1)];
+			$array["id_partida"] = $datoTmp->get_data("id_gestion");
+			
+			if($array["tipoGestion"]=="D")
+			{
+				$datoAux = $gestiones->getListaGestionesDia($array["des_int"],$array);	
+			}
+			else
+			{
+				$datoAux = $gestiones->getListaGestiones($array["des_int"],$array);
+			}
+
+			$cant_datos = $datoAux->get_count();
+		}
 		
 		
 
-		
+		$data['cant_mas'] = $cant_datos;
 		$data['nom_sistema'] = "SISTEMA DyV";
 		$data['colleccionGestiones'] = $dato;
 		
 		$this->view->show("lista_gestiones.php", $data);
 	} 
+	
+	
+	public function listar_mas_registros($array)
+    {
+		require 'models/GestionesModel.php';
+		$gestiones = new GestionesModel();
+		if($array["tipoGestion"]=="D")
+		{
+			$dato = $gestiones->getListaGestionesDia($array["des_int"],$array);	
+		}
+		else
+		{
+			$dato = $gestiones->getListaGestiones($array["des_int"],$array);
+		}
+		
+		if($dato->get_count() > 0)
+		{
+			$datoTmp = &$dato->items[($dato->get_count()-1)];
+			$array["id_partida"] = $datoTmp->get_data("id_gestion");
+			if($array["tipoGestion"]=="D")
+			{
+				$datoAux = $gestiones->getListaGestionesDia($array["des_int"],$array);	
+			}
+			else
+			{
+				$datoAux = $gestiones->getListaGestiones($array["des_int"],$array);
+			}
+		}
+		
+		$html = "<table width='100%' cellpadding='2' cellspacing='2' align='center' border='0' bgcolor='#FFFFFF'>";
+		
+		for($j=0; $j<$dato->get_count(); $j++) 
+		{
+			$datoTmp = &$dato->items[$j];
+			
+			$html .= "<tr bgcolor='#FFFFFF'>";
+    		$html .= "<td width='1%' align='center' height='25'><input type='radio' id='".$datoTmp->get_data("id_gestion")."' name='checktipdoc' value='' onclick='seleccionado(".$datoTmp->get_data("id_gestion").")'></td>";
+        	$html .= "<td width='8%' align='left' class='dato_lista'>&nbsp;&nbsp;".$datoTmp->get_data("rut_mandante")."-".$datoTmp->get_data("dv_mandante")."</td>";
+			$html .= "<td width='8%' align='left' class='dato_lista'>&nbsp;&nbsp;".$datoTmp->get_data("rut_deudor")."-".$datoTmp->get_data("dv_deudor")."</td>";
+			$html .= "<td width='10%' align='left' class='dato_lista'>&nbsp;&nbsp;".$datoTmp->get_data("primer_apellido")."</td>";
+        	$html .= "<td width='10%' align='left' class='dato_lista'>&nbsp;&nbsp;".$datoTmp->get_data("segundo_apellido")."</td>";
+        	$html .= "<td width='10%' align='left' class='dato_lista'>&nbsp;&nbsp;".$datoTmp->get_data("primer_nombre")."</td>";
+			$html .= "<td width='10%' align='left' class='dato_lista'>&nbsp;&nbsp;".$datoTmp->get_data("segundo_nombre")."</td>";
+			$html .= "<td width='10%' align='left' class='dato_lista'>&nbsp;&nbsp;".formatoFecha($datoTmp->get_data("fecha_prox_gestion"),"yyyy-mm-dd","dd/mm/yyyy")."</td>";
+			if(trim($datoTmp->get_data("estado"))<>"")
+			{
+			 $valor = $datoTmp->get_data("estado");
+			}
+			else
+			{
+			$valor = "&nbsp;&nbsp;&nbsp;&nbsp;";
+			}
+			$html .= "<td width='23%' align='left' class='dato_lista'>&nbsp;&nbsp;".$valor
+			."</td>";
+			$html .= "</tr>";
+			$html .= "<tr bgcolor='#FFFFFF'>";
+    		$html .= "<td colspan='9' style='border-bottom:solid; border-bottom-width:2px; border-bottom-color:#CCCCCC;'></td>";
+			$html .= "</tr>";
+		}
+		
+		$cant_datos = 0;
+		if($dato->get_count() > 0)
+		{
+			$datoTmp = &$dato->items[($dato->get_count()-1)];
+			$cant_datos = $datoAux->get_count();
+		}
+		
+		if($cant_datos > 0)
+		{
+			$html .= "<tr bgcolor='#FFFFFF'>";
+    		$html .= "<td colspan='6' align='center'>";
+        	$html .= "<div id='btnvermas_".$datoTmp->get_data("id_gestion")."' onclick='verMasRegistros(".$datoTmp->get_data("id_gestion").")' style='cursor:pointer;'>Ver mas </div>";
+			$html .= "</td>";
+			$html .= "</tr>";
+	    }
+		
+		if($cant_datos > 0)
+		{
+	    	$html .= "</table>";
+			$html .= "<div  mascom='masdatcom' id='masdatos_".$datoTmp->get_data("id_gestion")."' style='display:none;'>";
+		    $html .= "</div>";
+		}
+		
+		echo($html);
+	}
 	
 	public function listarDocumentos($array)
     {
