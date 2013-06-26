@@ -308,7 +308,7 @@ class GestionesController extends ControllerBase
 			."</td>";
 			$html .= "</tr>";
 			$html .= "<tr bgcolor='#FFFFFF'>";
-    		$html .= "<td colspan='9' style='border-bottom:solid; border-bottom-width:2px; border-bottom-color:#CCCCCC;'></td>";
+    		$html .= "<td colspan='10' style='border-bottom:solid; border-bottom-width:2px; border-bottom-color:#CCCCCC;'></td>";
 			$html .= "</tr>";
 		}
 		
@@ -322,7 +322,7 @@ class GestionesController extends ControllerBase
 		if($cant_datos > 0)
 		{
 			$html .= "<tr bgcolor='#FFFFFF'>";
-    		$html .= "<td colspan='6' align='center'>";
+    		$html .= "<td colspan='10' align='center'>";
         	$html .= "<div id='btnvermas_".$datoTmp->get_data("id_gestion")."' onclick='verMasRegistros(".$datoTmp->get_data("id_gestion").")' style='cursor:pointer;'>Ver mas </div>";
 			$html .= "</td>";
 			$html .= "</tr>";
