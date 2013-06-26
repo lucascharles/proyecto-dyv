@@ -73,7 +73,7 @@
         
 	</tr>
     <tr bgcolor="#FFFFFF" >
-    	<td colspan="9" style="border-bottom:solid; border-bottom-width:2px; border-bottom-color:#CCCCCC; "></td>
+    	<td colspan="10" style="border-bottom:solid; border-bottom-width:2px; border-bottom-color:#CCCCCC; "></td>
 	</tr>
 	<?php
 	}
@@ -85,7 +85,7 @@
 
 	?>
      <tr bgcolor="#FFFFFF">
-    	<td colspan="11" align="center">
+    	<td colspan="10" align="center">
         <div id='btnvermas_<? echo($datoTmp->get_data("id_gestion")) ?>' onclick="verMasRegistros(<? echo($datoTmp->get_data("id_gestion")) ?>,'<? echo($pantalla) ?>')" style="cursor:pointer;" >Ver mas </div></td>
 	</tr>
     <?
