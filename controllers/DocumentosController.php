@@ -119,34 +119,48 @@ class DocumentosController extends ControllerBase
 		require 'models/DocumentosModel.php';
 		$documentos = new DocumentosModel();
 		$dato = $documentos->getListaDocumentos("","",$array);
-
+		$id_cab = $array["id_partida"];
 		$datoTmp = &$dato->items[($dato->get_count()-1)];
 		$array["id_partida"] = $datoTmp->get_data("id_documento");
 		$datoAux = $documentos->getListaDocumentos("","",$array);
 		
-		$html = "<table width='100%' cellpadding='2' cellspacing='2' align='center' border='0' bgcolor='#FFFFFF'>";
-		
+		$html = "<table width='1073' cellpadding='2' cellspacing='2' align='center' border='0' bgcolor='#FFFFFF'>";
+		$html .= "<tr class='' id='cabecera_pag_".$id_cab."' >";
+		$html .= "<th align='center' width='3' height='0'></th>";
+		$html .= "<th align='center' width='150'><font class='titulolistado'>CORRELATIVO</font></th>";
+        $html .= "<th align='center' width='100'><font class='titulolistado'>DEUDOR</font></th>";
+		$html .= "<th align='center' width='100'><font class='titulolistado'>MANDANTE</font></th>";
+        $html .= "<th align='center' width='100'><font class='titulolistado'>F. PROTESTO</font></th>";
+		$html .= "<th align='center' width='100'><font class='titulolistado'>ESTADO</font></th>";
+        $html .= "<th align='center' width='100'><font class='titulolistado'>NRO. DOC.</font></th>";
+        $html .= "<th align='center' width='90'><font class='titulolistado'>TIPO DOC.</font></th>";
+		$html .= "<th align='center' width='80'><font class='titulolistado'>MONTO</font></th>";
+        $html .= "<th align='center' width='90'><font class='titulolistado'>BANCO</font></th>";
+        $html .= "<th align='center' width='90'><font class='titulolistado'>CTA. CTE.</font></th>";
+        $html .= "<th align='center' width='70'><font class='titulolistado'>RECIBIDO</font></th>";
+    	$html .= "</tr>";
 		for($j=0; $j<$dato->get_count(); $j++) 
 		{
 			$datoTmp = &$dato->items[$j];
 			
 			$html .= "<tr bgcolor='#FFFFFF'>";
-    		$html .= "<td  width='3%'>";
+    		$html .= "<td  width='3'>";
 			$html .= "<input type='radio' id='".$datoTmp->get_data("id_documento")."' name='checktipdoc' value='' onclick='seleccionado(".$datoTmp->get_data("id_documento").")'>";
 			$html .= "</td>";
-			$html .= "<td align='left' width='12%' class='dato_lista'>&nbsp;&nbsp;".$datoTmp->get_data("id_documento")."</td>";
-			$html .= "<td align='left' width='10%' class='dato_lista'>&nbsp;&nbsp;".$datoTmp->get_data("ape1_deudor")." ".$datoTmp->get_data("ape2_deudor").$datoTmp->get_data("nom1_deudor")."</td>";
-			$html .= "<td align='left' width='10%' class='dato_lista'>&nbsp;&nbsp;".$datoTmp->get_data("nombre_mandante")."</td>";
-			$html .= "<td align='left' width='10%' class='dato_lista'>&nbsp;&nbsp;".formatoFecha($datoTmp->get_data("fecha_siniestro"),"dd-mm-yyyy","dd/mm/yyyy")."</td>";
-			$html .= "<td align='left' width='10%' class='dato_lista'>&nbsp;&nbsp;".$datoTmp->get_data("id_estado_doc")."</td>";
-			$html .= "<td align='left' width='10%' class='dato_lista'>&nbsp;&nbsp;".$datoTmp->get_data("numero_documento")."</td>";
-			$html .= "<td align='left' width='9%' class='dato_lista'>&nbsp;&nbsp;".$datoTmp->get_data("id_tipo_doc")."</td>";
-			$html .= "<td align='left' width='8%' class='dato_lista'>&nbsp;&nbsp;".$datoTmp->get_data("monto")."</td>";
-			$html .= "<td align='left' width='9%' class='dato_lista'>&nbsp;&nbsp;".$datoTmp->get_data("id_banco")."</td>";
-			$html .= "<td align='left' width='9%' class='dato_lista'>&nbsp;&nbsp;".$datoTmp->get_data("cta_cte")."</td>";
+			$html .= "<td align='left' width='150' class='dato_lista'>&nbsp;&nbsp;".strtoupper($datoTmp->get_data("id_documento"))."</td>";
+			$html .= "<td align='left' width='100' class='dato_lista'>&nbsp;&nbsp;".strtoupper(utf8_decode($datoTmp->get_data("ape1_deudor")." ".$datoTmp->get_data("ape2_deudor")." ".$datoTmp->get_data("nom1_deudor")))."</td>";
+			$html .= "<td align='left' width='100' class='dato_lista'>&nbsp;&nbsp;".strtoupper($datoTmp->get_data("nombre_mandante"))."</td>";
+			$html .= "<td align='left' width='100' class='dato_lista'>&nbsp;&nbsp;".strtoupper(formatoFecha($datoTmp->get_data("fecha_protesto"),"dd-mm-yyyy","dd/mm/yyyy"))."</td>";
+			$html .= "<td align='left' width='100' class='dato_lista'>&nbsp;&nbsp;".strtoupper($datoTmp->get_data("id_estado_doc"))."</td>";
+			$html .= "<td align='left' width='100' class='dato_lista'>&nbsp;&nbsp;".strtoupper($datoTmp->get_data("numero_documento"))."</td>";
+			$html .= "<td align='left' width='90' class='dato_lista'>&nbsp;&nbsp;".strtoupper($datoTmp->get_data("id_tipo_doc"))."</td>";
+			$html .= "<td align='left' width='80' class='dato_lista'>&nbsp;&nbsp;".strtoupper($datoTmp->get_data("monto"))."</td>";
+			$html .= "<td align='left' width='90' class='dato_lista'>&nbsp;&nbsp;".strtoupper($datoTmp->get_data("id_banco"))."</td>";
+			$html .= "<td align='left' width='90' class='dato_lista'>&nbsp;&nbsp;".strtoupper($datoTmp->get_data("cta_cte"))."</td>";
+			$html .= "<td align='left' width='70' class='dato_lista'>&nbsp;&nbsp;".strtoupper(formatoFecha($datoTmp->get_data("fecha_recibido"),"yyyy-mm-dd","dd/mm/yyyy"))."</td>";
 			$html .= "</tr>";
     		$html .= "<tr bgcolor='#FFFFFF'>";
-			$html .= "<td colspan='11' style='border-bottom:solid; border-bottom-width:2px; border-bottom-color:#CCCCCC;'></td>";
+			$html .= "<td colspan='12' style='border-bottom:solid; border-bottom-width:2px; border-bottom-color:#CCCCCC;'></td>";
 			$html .= "</tr>";
 		
 		}
@@ -156,7 +170,7 @@ class DocumentosController extends ControllerBase
 		if($datoAux->get_count() > 0)
 		{
 			$html .= "<tr bgcolor='#FFFFFF'>";
-    		$html .= "<td colspan='11' align='center'>";
+    		$html .= "<td colspan='12' align='center'>";
         	$html .= "<div id='btnvermas_".$datoTmp->get_data("id_documento")."' onclick='verMasRegistros(".$datoTmp->get_data("id_documento").")' style='cursor:pointer;'>Ver mas </div>";
 			$html .= "</td>";
 			$html .= "</tr>";
@@ -168,6 +182,7 @@ class DocumentosController extends ControllerBase
 		echo($html);
 	}
 	
+
 	public function listar($array)
     {
 		require 'models/DocumentosModel.php';
@@ -186,7 +201,7 @@ class DocumentosController extends ControllerBase
 		
 		$data['nom_sistema'] = "SISTEMA DyV";
 		$data['colleccionDatosDocumentos'] = $dato;
-		$data['cant_mas'] = $cant_datos = 0;
+		$data['cant_mas'] = $cant_datos;
 		
 		$this->view->show("lista_documentos.php", $data);
 	}    
