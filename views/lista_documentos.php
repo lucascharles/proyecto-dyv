@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 	
-	<title>MVC - Modelo, Vista, Controlador - Jourmoly</title>
+	<title></title>
      <link rel="stylesheet" href="css/general.css" type="text/css" />
      <script src="js/jquery-1.7.1.min.js" type="text/javascript"></script>
     <script language="javascript"> 
@@ -43,6 +43,8 @@
 						$("#btnvermas_"+id).hide("slow"); 
 						$("#masdatos_"+id).html(res); 
 						$("#masdatos_"+id).slideDown("slow"); 
+						//$("#cabecera_pag_"+id).hide("slow"); 
+						
 					},
 					error: function()
 					{
@@ -54,20 +56,20 @@
 	</script>
 </head>
 <body>
-<table width="100%" cellpadding="2" cellspacing="2" align="center" border="0" bgcolor="#FFFFFF">
+<table width="1073" cellpadding="2" cellspacing="2" align="center" border="0" bgcolor="#FFFFFF">
 	<tr class="cabecera_listado" >
-		<th align="center" width="3%"></th>
-		<th align="center" width="10%"><font class="titulolistado">CORRELATIVO</font></th>
-        <th align="center" width="10%"><font class="titulolistado">DEUDOR</font></th>
-		<th align="center" width="10%"><font class="titulolistado">MANDANTE</font></th>
-        <th align="center" width="10%"><font class="titulolistado">F. PROTESTO</font></th>
-		<th align="center" width="10%"><font class="titulolistado">ESTADO</font></th>
-        <th align="center" width="10%"><font class="titulolistado">NRO. DOC.</font></th>
-        <th align="center" width="8%"><font class="titulolistado">TIPO DOC.</font></th>
-		<th align="center" width="8%"><font class="titulolistado">MONTO</font></th>
-        <th align="center" width="8%"><font class="titulolistado">BANCO</font></th>
-        <th align="center" width="8%"><font class="titulolistado">CTA. CTE.</font></th>
-        <th align="center" width="7%"><font class="titulolistado">RECIBIDO</font></th>
+		<th align="center" width="3"></th>
+		<th align="center" width="150"><font class="titulolistado">CORRELATIVO</font></th>
+        <th align="center" width="100"><font class="titulolistado">DEUDOR</font></th>
+		<th align="center" width="100"><font class="titulolistado">MANDANTE</font></th>
+        <th align="center" width="100"><font class="titulolistado">F. PROTESTO</font></th>
+		<th align="center" width="100"><font class="titulolistado">ESTADO</font></th>
+        <th align="center" width="100"><font class="titulolistado">NRO. DOC.</font></th>
+        <th align="center" width="90"><font class="titulolistado">TIPO DOC.</font></th>
+		<th align="center" width="80"><font class="titulolistado">MONTO</font></th>
+        <th align="center" width="90"><font class="titulolistado">BANCO</font></th>
+        <th align="center" width="90"><font class="titulolistado">CTA. CTE.</font></th>
+        <th align="center" width="70"><font class="titulolistado">RECIBIDO</font></th>
     </tr>
 	<?php
 	
@@ -77,19 +79,19 @@
 			
 	?>
 	<tr bgcolor="#FFFFFF">
-    	<td><input type="radio" id="<? echo($datoTmp->get_data("id_documento")) ?>" name="checktipdoc" value="" onclick="seleccionado(<? echo($datoTmp->get_data("id_documento")) ?>)"></td>		
+    	<td width="3"><input type="radio" id="<? echo($datoTmp->get_data("id_documento")) ?>" name="checktipdoc" value="" onclick="seleccionado(<? echo($datoTmp->get_data("id_documento")) ?>)"></td>		
 		
-		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo (strtoupper($datoTmp->get_data("id_documento"))) ?></td>
-		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo (strtoupper(utf8_decode($datoTmp->get_data("ape1_deudor")." ".$datoTmp->get_data("ape2_deudor").$datoTmp->get_data("nom1_deudor")))) ?></td>
-		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo (strtoupper(utf8_decode($datoTmp->get_data("nombre_mandante")))) ?></td>
-		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo (strtoupper(formatoFecha($datoTmp->get_data("fecha_protesto"),"yyyy-mm-dd","dd/mm/yyyy"))) ?></td>
-		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo (strtoupper($datoTmp->get_data("id_estado_doc"))) ?></td>
-		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo (strtoupper($datoTmp->get_data("numero_documento"))) ?></td>
-		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo (strtoupper($datoTmp->get_data("id_tipo_doc"))) ?></td>
-		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo (strtoupper($datoTmp->get_data("monto"))) ?></td>
-		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo (strtoupper($datoTmp->get_data("id_banco"))) ?></td>
-		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo (strtoupper($datoTmp->get_data("cta_cte"))) ?></td>
-		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo (strtoupper(formatoFecha($datoTmp->get_data("fecha_recibido"),"yyyy-mm-dd","dd/mm/yyyy"))) ?></td>
+		<td align="left" width="150" class="dato_lista">&nbsp;&nbsp;<?php echo (strtoupper($datoTmp->get_data("id_documento"))) ?></td>
+		<td align="left" width="100" class="dato_lista">&nbsp;&nbsp;<?php echo (strtoupper(utf8_decode($datoTmp->get_data("ape1_deudor")." ".$datoTmp->get_data("ape2_deudor")." ".$datoTmp->get_data("nom1_deudor")))) ?></td>
+		<td align="left" width="100" class="dato_lista">&nbsp;&nbsp;<?php echo (strtoupper(utf8_decode($datoTmp->get_data("nombre_mandante")))) ?></td>
+		<td align="left" width="100" class="dato_lista">&nbsp;&nbsp;<?php echo (strtoupper(formatoFecha($datoTmp->get_data("fecha_protesto"),"yyyy-mm-dd","dd/mm/yyyy"))) ?></td>
+		<td align="left" width="100" class="dato_lista">&nbsp;&nbsp;<?php echo (strtoupper($datoTmp->get_data("id_estado_doc"))) ?></td>
+		<td align="left" width="100" class="dato_lista">&nbsp;&nbsp;<?php echo (strtoupper($datoTmp->get_data("numero_documento"))) ?></td>
+		<td align="left" width="90" class="dato_lista">&nbsp;&nbsp;<?php echo (strtoupper($datoTmp->get_data("id_tipo_doc"))) ?></td>
+		<td align="left" width="80" class="dato_lista">&nbsp;&nbsp;<?php echo (strtoupper($datoTmp->get_data("monto"))) ?></td>
+		<td align="left" width="90" class="dato_lista">&nbsp;&nbsp;<?php echo (strtoupper($datoTmp->get_data("id_banco"))) ?></td>
+		<td align="left" width="90" class="dato_lista">&nbsp;&nbsp;<?php echo (strtoupper($datoTmp->get_data("cta_cte"))) ?></td>
+		<td align="left" width="70" class="dato_lista">&nbsp;&nbsp;<?php echo (strtoupper(formatoFecha($datoTmp->get_data("fecha_recibido"),"yyyy-mm-dd","dd/mm/yyyy"))) ?></td>
 	</tr>
     <tr bgcolor="#FFFFFF" >
     	<td colspan="12" style="border-bottom:solid; border-bottom-width:2px; border-bottom-color:#CCCCCC; "></td>
@@ -108,7 +110,7 @@
 		
 	?>
     <tr bgcolor="#FFFFFF">
-    	<td colspan="11" align="center">
+    	<td colspan="12" align="center">
         <div id='btnvermas_<? echo($datoTmp->get_data("id_documento")) ?>' onclick="verMasRegistros(<? echo($datoTmp->get_data("id_documento")) ?>,'<? echo($pantalla) ?>')" style="cursor:pointer;" >Ver mas </div></td>
 	</tr>
     <?
@@ -124,5 +126,6 @@
 <?
 	}
 ?>
+
 </body>
 </html>
