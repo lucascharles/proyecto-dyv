@@ -42,13 +42,13 @@
 <body>
 <table width="100%" cellpadding="2" cellspacing="2" align="center" border="0" bgcolor="#FFFFFF">
 	<tr class="cabecera_listado" >
-		<th align="center"><font class="titulolistado"></font></th>
-		<th align="center"><font class="titulolistado">Numero</font></th>
-        <th align="center"><font class="titulolistado">Rut Deudor</font></th>
-        <th align="center"><font class="titulolistado">Nombre Deudor</font></th>
-        <th align="center"><font class="titulolistado">Rut Mandante</font></th>
-        <th align="center"><font class="titulolistado">Nombre Mandante</font></th>
-        <th align="center"><font class="titulolistado">Fecha Ingreso</font></th>
+		<th align="center" width='1%'><font class="titulolistado"></font></th>
+		<th align="center" width='9%'><font class="titulolistado">Numero</font></th>
+        <th align="center" width='12%'><font class="titulolistado">Rut Deudor</font></th>
+        <th align="center" width='28%'><font class="titulolistado">Nombre Deudor</font></th>
+        <th align="center" width='14%'><font class="titulolistado">Rut Mandante</font></th>
+        <th align="center" width='20%'><font class="titulolistado">Nombre Mandante</font></th>
+        <th align="center" width='16%'><font class="titulolistado">Fecha Ingreso</font></th>
     </tr>
 	<?php
 	
