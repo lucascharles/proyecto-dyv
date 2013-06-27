@@ -99,13 +99,15 @@ class DocumentosModel extends ModelBase
 					// cero
 					if((int)$arraydatos[14] == 0)
 					{
-						$error_rutmandante[] = 1;					
+						$error_rutmandante[] = 1;	
+						break;				
 					}
 					
 					// vacio
 					if(trim($arraydatos[14]) == "")
 					{
 						$error_rutmandante[] = 2;
+						break;
 					}
 					
 					// digito verificador
@@ -116,7 +118,7 @@ class DocumentosModel extends ModelBase
 				
 					// no existe mandante
 					$mandante = new Mandantes();
-					//echo("rut_mandante 14".$arraydatos[14]);
+//					echo("rut_mandante 14".$arraydatos[14]);
 					$mandante->add_filter("rut_mandante","=",trim(substr($arraydatos[14],0,-1)));
 					$mandante->load();
 					if(is_null($mandante->get_data("id_mandante")))
