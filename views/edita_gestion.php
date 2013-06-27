@@ -151,6 +151,9 @@
 					if(document.getElementById("iddocumento").value != "" 
 						&& ((document.getElementById('selGestion').options[document.getElementById('selGestion').selectedIndex].text == "DEMANDA")
 								|| (document.getElementById('selGestion').options[document.getElementById('selGestion').selectedIndex].text == "CASTIGADO")
+								|| (document.getElementById('selGestion').options[document.getElementById('selGestion').selectedIndex].text == "DDA/RECUPERADO")
+								|| (document.getElementById('selGestion').options[document.getElementById('selGestion').selectedIndex].text == "DDA/CASTIGADO")
+								|| (document.getElementById('selGestion').options[document.getElementById('selGestion').selectedIndex].text == "FACTURADO")
 								|| (document.getElementById('selGestion').options[document.getElementById('selGestion').selectedIndex].text == "RECUPERADO")))
 							
 					{
