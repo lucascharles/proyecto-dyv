@@ -41,6 +41,10 @@ class GestionesModel extends ModelBase
 	{
 		$where .= " and m.rut_mandante like '".trim($param["rut_m"])."%'";
 	}
+	if(trim($param["id_estado"]) <> "")
+	{
+		$where .= " and g.estado = ".trim($param["id_estado"]);
+	}
 	/*
 	if($des != ""){
 		
@@ -101,6 +105,11 @@ class GestionesModel extends ModelBase
 		$where .= " and m.rut_mandante like '".trim($param["rut_m"])."%'";
 	}
 
+	if(trim($param["id_estado"]) <> "")
+	{
+		$where .= " and g.estado = ".trim($param["id_estado"]);
+	}
+	
 	/*
 	if($des != ""){
 		
