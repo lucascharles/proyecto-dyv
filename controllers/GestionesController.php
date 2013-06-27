@@ -5,7 +5,10 @@ class GestionesController extends ControllerBase
     public function admin($array)
     {
 		require 'models/GestionesModel.php';
-    	$gestiones = new GestionesModel();
+    	require 'models/DocumentosModel.php';
+		
+		$documentos = new DocumentosModel();
+		$gestiones = new GestionesModel();
     	$cantidad = $gestiones->cuentaGestionesDia();
     	$cuenta = $cantidad->items[0];
 		$cant = $cuenta->get_data("cantidad");
@@ -18,12 +21,17 @@ class GestionesController extends ControllerBase
 		$detalleDocs = $gestiones->getDetalleDocs();
 		$data['detalleDocs'] = $detalleDocs;
 		
+		$data['coleccion_estadoGes'] = $documentos->getListaEstadoDoc("");
+		
 		$this->view->show("admin_gestiones.php", $data);
 	}
 
 	public function admin_grales($array)
     {
 		require 'models/GestionesModel.php';
+		require 'models/DocumentosModel.php';
+		
+		$documentos = new DocumentosModel();
     	$gestiones = new GestionesModel();
     	$cantidad = $gestiones->cuentaGestionesTotal();
     	$cuenta = $cantidad->items[0];
@@ -37,6 +45,7 @@ class GestionesController extends ControllerBase
 		$data['cantGestion'] = $cant;
 		
 		$data['detalleDocs'] = $detalleDocs;
+		$data['coleccion_estadoGes'] = $documentos->getListaEstadoDoc("");
 		
 		$this->view->show("admin_gestiones.php", $data);
 	}
@@ -310,16 +319,17 @@ class GestionesController extends ControllerBase
         	$html .= "<td width='10%' align='left' class='dato_lista'>&nbsp;&nbsp;".$datoTmp->get_data("primer_nombre")."</td>";
 			$html .= "<td width='10%' align='left' class='dato_lista'>&nbsp;&nbsp;".$datoTmp->get_data("segundo_nombre")."</td>";
 			$html .= "<td width='10%' align='left' class='dato_lista'>&nbsp;&nbsp;".formatoFecha($datoTmp->get_data("fecha_prox_gestion"),"yyyy-mm-dd","dd/mm/yyyy")."</td>";
-			if(trim($datoTmp->get_data("estado"))<>"")
-			{
-			 $valor = $datoTmp->get_data("estado");
-			}
-			else
-			{
-			$valor = "&nbsp;&nbsp;&nbsp;&nbsp;";
-			}
-			$html .= "<td width='23%' align='left' class='dato_lista'>&nbsp;&nbsp;".$valor
-			."</td>";
+			$html .= "<td width='10%' align='left' class='dato_lista'>&nbsp;&nbsp;".$datoTmp->get_data("estado")."</td>";
+//			if(trim($datoTmp->get_data("estado"))<>"")
+//			{
+//			 $valor = $datoTmp->get_data("estado");
+//			}
+//			else
+//			{
+//			$valor = "&nbsp;&nbsp;&nbsp;&nbsp;";
+//			}
+//			$html .= "<td width='23%' align='left' class='dato_lista'>&nbsp;&nbsp;".$valor
+//			."</td>";
 			$html .= "</tr>";
 			$html .= "<tr bgcolor='#FFFFFF'>";
     		$html .= "<td colspan='10' style='border-bottom:solid; border-bottom-width:2px; border-bottom-color:#CCCCCC;'></td>";
