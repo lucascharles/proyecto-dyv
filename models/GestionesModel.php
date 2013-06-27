@@ -21,6 +21,7 @@ class GestionesModel extends ModelBase
 					  d.segundo_apellido segundo_apellido,
 					  d.primer_nombre primer_nombre,
 					  d.segundo_nombre segundo_nombre,
+					  d.razonsocial razonsocial,
 					  g.fecha_gestion fecha_gestion,
 					  g.fecha_prox_gestion fecha_prox_gestion,
 					  eg.estado estado  
@@ -77,6 +78,7 @@ class GestionesModel extends ModelBase
 					  d.segundo_apellido segundo_apellido,
 					  d.primer_nombre primer_nombre,
 					  d.segundo_nombre segundo_nombre,
+					  d.razonsocial razonsocial,
 					  g.fecha_gestion fecha_gestion,
 					  g.fecha_prox_gestion fecha_prox_gestion,
 					  eg.estado estado ");
@@ -194,6 +196,26 @@ class GestionesModel extends ModelBase
 		return $dato;
 	
 	}
+	
+	public function getDetalleDocs()
+	{
+	
+		include("config.php");
+	
+		$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
+	
+		$sqlpersonal->set_select(" td.tipo_documento documento, ed.estado estado,COUNT(d.id_documento) cantidad, SUM(d.monto) monto "); 
+	  	$sqlpersonal->set_from(" documentos d,tipodocumento td, estadodocumentos ed ");
+	  	$sqlpersonal->set_where(" d.id_tipo_doc = td.id_tipo_documento
+								AND d.id_estado_doc = ed.id_estado_doc
+								AND d.activo = 'S'
+								GROUP BY td.tipo_documento, ed.estado ");
+	
+    	$sqlpersonal->load();
+
+    	return $sqlpersonal;
+	}
+	
 	
 	public function getDetalleGestion($iddeudor,$idmandante)
 	{
@@ -320,6 +342,7 @@ class GestionesModel extends ModelBase
 								   m.id_mandante id_mandante,
 								   d.rut_deudor rut_deudor,
 								   d.dv_deudor dv_deudor,
+								   d.razonsocial razonsocial,
 								   d.primer_apellido primer_apellido,
 								   d.segundo_apellido segundo_apellido,
 								   d.primer_nombre primer_nombre,
