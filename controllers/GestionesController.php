@@ -15,6 +15,9 @@ class GestionesController extends ControllerBase
 		$data['tipoGestion'] = "D";
 		$data['cantGestion'] = $cant;
 		
+		$detalleDocs = $gestiones->getDetalleDocs();
+		$data['detalleDocs'] = $detalleDocs;
+		
 		$this->view->show("admin_gestiones.php", $data);
 	}
 
@@ -26,10 +29,14 @@ class GestionesController extends ControllerBase
     	$cuenta = $cantidad->items[0];
 		$cant = $cuenta->get_data("cantidad");
     	
+		$detalleDocs = $gestiones->getDetalleDocs();
+		
     	$data['nom_sistema'] = "SISTEMA DyV";
 		$data['accion_form'] = "";
 		$data['tipoGestion'] = "";
 		$data['cantGestion'] = $cant;
+		
+		$data['detalleDocs'] = $detalleDocs;
 		
 		$this->view->show("admin_gestiones.php", $data);
 	}
@@ -50,6 +57,12 @@ class GestionesController extends ControllerBase
 		$cab = $cabecera->items[0];
 		$rutDeudor = $cab->get_data("rut_deudor")."-".$cab->get_data("dv_deudor");
 		$nomDeudor = $cab->get_data("primer_apellido")." ".$cab->get_data("segundo_apellido")." ".$cab->get_data("primer_nombre");
+		
+		if($nomDeudor =="  ")
+		{
+			$nomDeudor = $cab->get_data("razonsocial");
+		}
+		
 		$rutMandante = $cab->get_data("rut_mandante")."-".$cab->get_data("dv_mandante");
 		$rutMand = $cab->get_data("rut_mandante");
 		$rutDvMand = $cab->get_data("dv_mandante");
@@ -291,6 +304,7 @@ class GestionesController extends ControllerBase
     		$html .= "<td width='1%' align='center' height='25'><input type='radio' id='".$datoTmp->get_data("id_gestion")."' name='checktipdoc' value='' onclick='seleccionado(".$datoTmp->get_data("id_gestion").")'></td>";
         	$html .= "<td width='8%' align='left' class='dato_lista'>&nbsp;&nbsp;".$datoTmp->get_data("rut_mandante")."-".$datoTmp->get_data("dv_mandante")."</td>";
 			$html .= "<td width='8%' align='left' class='dato_lista'>&nbsp;&nbsp;".$datoTmp->get_data("rut_deudor")."-".$datoTmp->get_data("dv_deudor")."</td>";
+			$html .= "<td width='10%' align='left' class='dato_lista'>&nbsp;&nbsp;".$datoTmp->get_data("razonsocial")."</td>";
 			$html .= "<td width='10%' align='left' class='dato_lista'>&nbsp;&nbsp;".$datoTmp->get_data("primer_apellido")."</td>";
         	$html .= "<td width='10%' align='left' class='dato_lista'>&nbsp;&nbsp;".$datoTmp->get_data("segundo_apellido")."</td>";
         	$html .= "<td width='10%' align='left' class='dato_lista'>&nbsp;&nbsp;".$datoTmp->get_data("primer_nombre")."</td>";
