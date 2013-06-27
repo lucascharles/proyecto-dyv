@@ -28,8 +28,12 @@
 		
 		function buscar()
 		{
-			var url = "index.php?controlador=Gestiones&accion=listarGestiones&des_int="+document.getElementById("txtrutdeudor").value;
+			var tipoG = document.getElementById("tipo_gestion").value;
+			var idestado = document.getElementById("selEstadoGes").value;
+			var url = "index.php?controlador=Gestiones&accion=listarGestiones&rut_d="+document.getElementById("txtrutdeudor").value+"&rut_m="+document.getElementById("txtrutmandante").value+"&tipoGestion="+tipoG;
 			url +="&id_partida=0";
+			url +="&id_estado="+idestado;
+//			alert(url);
 			document.getElementById("frmlistgestiones").src = url;
 		}
 		
@@ -92,6 +96,19 @@
         <td align="right" class="etiqueta_form" width="20">Rut Deudor:</td>
         <td>&nbsp;&nbsp;&nbsp;<input type="text" name="txtrutdeudor" id="txtrutdeudor"  size="40" onkeyup='mostrar(this)' class="input_form"  onFocus="resaltar(this)" onBlur="noresaltar(this)"/> &nbsp;
         </td>
+        <td align="right" class="etiqueta_form" width="20">Estado:</td>
+        <td>&nbsp;&nbsp;&nbsp;
+        	<select name="selEstadoGes" grabar="S" tipovalida="texto" id="selEstadoGes" onchange="" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" >
+        		<?
+			        for($j=0; $j<$coleccion_estadoGes->get_count(); $j++)
+			        {
+						
+			            $datoTmp = &$coleccion_estadoGes->items[$j];						
+			            echo("<option value=".$datoTmp->get_data("id_estado_doc")." ".$selected." >".strtoupper(utf8_encode($datoTmp->get_data("estado")))."</option>");           
+			        }
+    			?>
+			</select></td>
+
         <td> <input  type="button" name="btnbuscar" id="btnbuscar" onclick="buscar()"  value="Buscar" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/>&nbsp;
          	 <input  type="button" name="btnlimpiar" id="btnlimpiar" value="Limpiar" class="boton_form" onclick="limpiar()" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/>
         </td>
