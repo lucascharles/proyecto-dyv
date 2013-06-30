@@ -114,16 +114,16 @@
 		function grabar()
 		{
 			
-			if(document.getElementById("iddocumento").value == "" 
-				&& ((document.getElementById('selGestion').options[document.getElementById('selGestion').selectedIndex].text == "DEMANDA")
-						|| (document.getElementById('selGestion').options[document.getElementById('selGestion').selectedIndex].text == "CASTIGADO")
-						|| (document.getElementById('selGestion').options[document.getElementById('selGestion').selectedIndex].text == "DDA/RECUPERADO")
-						|| (document.getElementById('selGestion').options[document.getElementById('selGestion').selectedIndex].text == "DDA/CASTIGADO")
-						|| (document.getElementById('selGestion').options[document.getElementById('selGestion').selectedIndex].text == "FACTURADO")
-						|| (document.getElementById('selGestion').options[document.getElementById('selGestion').selectedIndex].text == "RECUPERADO")))
+			if(document.getElementById("iddocumento").value == "" )
+//				&& ((document.getElementById('selGestion').options[document.getElementById('selGestion').selectedIndex].text == "DEMANDA")
+//						|| (document.getElementById('selGestion').options[document.getElementById('selGestion').selectedIndex].text == "CASTIGADO")
+//						|| (document.getElementById('selGestion').options[document.getElementById('selGestion').selectedIndex].text == "DDA/RECUPERADO")
+//						|| (document.getElementById('selGestion').options[document.getElementById('selGestion').selectedIndex].text == "DDA/CASTIGADO")
+//						|| (document.getElementById('selGestion').options[document.getElementById('selGestion').selectedIndex].text == "FACTURADO")
+//						|| (document.getElementById('selGestion').options[document.getElementById('selGestion').selectedIndex].text == "RECUPERADO")))
 					
 			{
-				alert('Debe Seleccionar un Documento para una Demanda, Castigo o Recupero.');
+				alert('Debe Seleccionar un Documento para registrar la bitacora.');
 			}
 			else
 			{
@@ -148,13 +148,13 @@
 					datos += "&txtfechaproxgestion="+$("#txtfechaproxgestion").val();
 					datos += "&txtusuario="+$("#txtusuario").val();
 
-					if(document.getElementById("iddocumento").value != "" 
-						&& ((document.getElementById('selGestion').options[document.getElementById('selGestion').selectedIndex].text == "DEMANDA")
-								|| (document.getElementById('selGestion').options[document.getElementById('selGestion').selectedIndex].text == "CASTIGADO")
-								|| (document.getElementById('selGestion').options[document.getElementById('selGestion').selectedIndex].text == "DDA/RECUPERADO")
-								|| (document.getElementById('selGestion').options[document.getElementById('selGestion').selectedIndex].text == "DDA/CASTIGADO")
-								|| (document.getElementById('selGestion').options[document.getElementById('selGestion').selectedIndex].text == "FACTURADO")
-								|| (document.getElementById('selGestion').options[document.getElementById('selGestion').selectedIndex].text == "RECUPERADO")))
+					if(document.getElementById("iddocumento").value != "") 
+//						&& ((document.getElementById('selGestion').options[document.getElementById('selGestion').selectedIndex].text == "DEMANDA")
+//								|| (document.getElementById('selGestion').options[document.getElementById('selGestion').selectedIndex].text == "CASTIGADO")
+//								|| (document.getElementById('selGestion').options[document.getElementById('selGestion').selectedIndex].text == "DDA/RECUPERADO")
+//								|| (document.getElementById('selGestion').options[document.getElementById('selGestion').selectedIndex].text == "DDA/CASTIGADO")
+//								|| (document.getElementById('selGestion').options[document.getElementById('selGestion').selectedIndex].text == "FACTURADO")
+//								|| (document.getElementById('selGestion').options[document.getElementById('selGestion').selectedIndex].text == "RECUPERADO")))
 							
 					{
 						datos += "&iddocumento="+$("#iddocumento").val();
@@ -167,7 +167,8 @@
 					cache: false,
 					success: function(res)
 					{
-					document.getElementById("frmlistagestiones").src="index.php?controlador=Gestiones&accion=listar_bitacora_gestion&idgestion="+$("#id_gestion").val();
+//					document.getElementById("frmlistagestiones").src="index.php?controlador=Gestiones&accion=listar_bitacora_gestion&idgestion="+$("#id_gestion").val();
+					document.getElementById("frmlistagestiones").src="index.php?controlador=Gestiones&accion=listar_bitacora_gestion&idgestion="+$("#id_gestion").val()+"&iddocumento="+$("#iddocumento").val();
 					},
 					error: function()
 					{
@@ -225,7 +226,8 @@
 		{
 			document.getElementById("iddocumento").value = id;
 			document.getElementById("id_gestion").value = <? echo($objGestion->get_data("id_gestion")) ?>;
-						
+//			alert("index.php?controlador=Gestiones&accion=listar_bitacora_gestion&idgestion="+<? echo($objGestion->get_data("id_gestion")) ?>+"&iddocumento="+id);
+			document.getElementById("frmlistagestiones").src="index.php?controlador=Gestiones&accion=listar_bitacora_gestion&idgestion="+<? echo($objGestion->get_data("id_gestion")) ?>+"&iddocumento="+id;			
 		}
 		
 		
@@ -342,6 +344,9 @@
 //			alert('index.php?controlador=Gestiones&accion=gestiona_liquidacion&iddeudor='+iddeudor);
 			$("#pagina").load('index.php?controlador=Gestiones&accion=gestiona_liquidacion&iddeudor='+iddeudor+"&control_volver=Gestiones&accion_volver=gestionar&param_volver=idgestion&val_volver="+$("#id_gestion").val());		
 		}
+
+
+		
 		
 	</script>
 </head>
