@@ -121,7 +121,7 @@
 			}
 			$sql .= ";";
 			
-//			echo("<br>sql: ".$sql);
+			//echo("<br>sql: ".$sql);
 			
 //			$select = mssql_query($sql,$this->db_connect_id_s);//sql_server
 			$select = mysql_query($sql,$this->db_connect_id_s);
@@ -557,6 +557,7 @@
 						$existeId = true;
 					}
 					
+
 					$value = $this->sql_escape($field, $value);
 					$field = $data_objects[$this->db_key]->sql_escape_fieldname($field);
 					
@@ -568,7 +569,7 @@
 					}
 						
 					$sql_fields .= $field;
-					$sql_values .= $value;
+					$sql_values .= utf8_decode($value);
 				}
 			}
 			
