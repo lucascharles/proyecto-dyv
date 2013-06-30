@@ -226,7 +226,7 @@ class GestionesModel extends ModelBase
 	}
 	
 	
-	public function getDetalleGestion($iddeudor,$idmandante)
+	public function getDetalleGestion($iddeudor,$idmandante,$iddocumento)
 	{
 	
 	include("config.php");
@@ -246,13 +246,20 @@ class GestionesModel extends ModelBase
 	   						   eg.notas notas,
 	   						   eg.usuario usuario "); 
 	  $sqlpersonal->set_from(" estados_x_gestion eg, gestiones g, mandantes m, deudores d, estadosgestion ed ");
-	  $sqlpersonal->set_where(" eg.id_gestion = g.id_gestion
+	  $vwhere = " eg.id_gestion = g.id_gestion
 								and	  g.id_mandante = m.id_mandante
 								and	  g.id_deudor = d.id_deudor
 								and   eg.id_estado = ed.id_estado
 								and   g.id_deudor= ".$iddeudor 
-	  						 ." and g.id_mandante = " .$idmandante
-	  						 ." order by eg.fecha_gestion desc ");
+	  						 ." and g.id_mandante = " .$idmandante ;
+	  						 
+	  						 if($iddocumento != ""){
+	  						 	$vwhere = $vwhere ." and (eg.id_documento = " .$iddocumento." or eg.id_documento = 0)";
+	  						 }
+	  						 
+	  						 $vwhere = $vwhere ." order by eg.fecha_gestion desc ";
+	  						 	
+	  $sqlpersonal->set_where($vwhere);
 	
     $sqlpersonal->load();
 
@@ -307,7 +314,7 @@ class GestionesModel extends ModelBase
 	  $dato->set_data("id_gestion",$array["idgestion"]);
 	  $dato->set_data("id_estado",$array["selGestion"]);
 	  $dato->set_data("id_mandante",$array["selMandantes"]);
-	  
+	  $dato->set_data("id_documento",$array["iddocumento"]);
 	  
 	  $dato->set_data("fecha_gestion",$array["txtfechagestion"]);
 	  
