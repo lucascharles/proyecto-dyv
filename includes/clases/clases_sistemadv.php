@@ -936,6 +936,7 @@
 					"id_gestion" => array("int"),
 					"id_estado" => array("int"),
 					"id_mandante" => array("int"),
+					"id_documento" => array("int"),
 					"fecha_gestion" => array("date"),
 					"fecha_prox_gestion" => array("date"),
 					"notas" => array("varchar"),
