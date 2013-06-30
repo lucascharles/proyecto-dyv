@@ -34,7 +34,7 @@
 			var datos = "controlador=Deudores";
 				datos += "&accion=getdirtmp";
 				datos += "&iddir="+$("#id_dir").val();
-				alert(datos);
+				//alert(datos);
 				$.ajax({
 					url: "index.php",
 					type: "GET",
