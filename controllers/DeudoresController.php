@@ -725,7 +725,11 @@ class DeudoresController extends ControllerBase
 		$dato = $deudor->getDeudorDatos($array["id_deudor"]);
 		$arrayr[] = $dato->get_data("rut_deudor");
 		$arrayr[] = $dato->get_data("dv_deudor");
-		
+		$arrayr[] = $dato->get_data("primer_apellido");
+		$arrayr[] = $dato->get_data("segundo_apellido");
+		$arrayr[] = $dato->get_data("primer_nombre");
+		$arrayr[] = $dato->get_data("segundo_nombre");
+				
 		echo(json_encode($arrayr));		
 	}
 	
@@ -891,6 +895,14 @@ class DeudoresController extends ControllerBase
 		$data['documento'] = $datodocumento;
 		$data['valoruf'] = $parametros->getParametro(array("nom_param"=>"valor_uf"));// 22700;  		//crear metodo en la base para este parametro
 		$data['interes_base'] = $parametros->getParametro(array("nom_param"=>"interes_diario_normal")); //"2";    //crear metodo en la base para este parametro
+		$data['interes_simulacion'] = $parametros->getParametro(array("nom_param"=>"interes_simulacion")); //"1.5";    //crear metodo en la base para este parametro	
+		$data['cuotas_simulacion'] = $parametros->getParametro(array("nom_param"=>"cuotas_simulacion")); //"2";    //crear metodo en la base para este parametro
+		$fecha = date('Y-m-d');
+		$nuevafecha = strtotime ( '+30 day' , strtotime ( $fecha ) ) ;
+		$nuevafecha = date ( 'd/m/Y' , $nuevafecha );
+		$data['fecha_pago'] = $nuevafecha ;
+		
+		
 		
 		$data['control_volver'] = $array["control_volver"];
 		$data['accion_volver'] = $array["accion_volver"];
