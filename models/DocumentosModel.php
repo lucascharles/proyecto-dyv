@@ -268,7 +268,7 @@ class DocumentosModel extends ModelBase
 			      		$datoG->set_data("fecha_modificacion",date("Y-m-d"));
 			      		$datoG->set_data("usuario_creacion",$_SESSION["idusuario"]);
 			      		$datoG->set_data("fecha_creacion",date("Y-m-d"));      	
-			      		$datoG->set_data("estado","PENDIENTE DE ENVIAR CARTA");
+			      		$datoG->set_data("estado",999);
 			      		$datoG->save();
 					} 	
 					// VALIDACION IMPORTE
