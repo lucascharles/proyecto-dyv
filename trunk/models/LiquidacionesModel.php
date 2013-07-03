@@ -59,6 +59,7 @@ class LiquidacionesModel extends ModelBase
 	
 	public function getCalculoPrestamo($array)
 	{	
+		$interes_mensual = $array["txtinteresmensual"];
 		$saldo_inicial = $array["txtimporte"];
 		$array_pagos = array();
 
@@ -70,15 +71,23 @@ class LiquidacionesModel extends ModelBase
 			$array_aux = array();
 			$array_aux["num"] = $i+1;
 			$array_aux["fecha_pago"] = $fecha;
-			$array_aux["saldo_ini"] = round($saldo_inicial, array(0, PHP_ROUND_HALF_UP));
-			$array_aux["pago"] = round($array["txtpagomensual"], array(2, PHP_ROUND_HALF_UP));
-			$interes = round(($saldo_inicial * 2)/100, array(0, PHP_ROUND_HALF_UP));
-			$capital = round($array["txtpagomensual"], array(0, PHP_ROUND_HALF_UP)) - $interes;
+//			$array_aux["saldo_ini"] = round($saldo_inicial, array(0, PHP_ROUND_HALF_UP));
+//			$array_aux["pago"] = round($array["txtpagomensual"], array(2, PHP_ROUND_HALF_UP));
+//			$interes = round(($saldo_inicial * $interes_mensual)/100, array(0, PHP_ROUND_HALF_UP));
+//			$capital = round($array["txtpagomensual"], array(0, PHP_ROUND_HALF_UP)) - $interes;
+//	        $array_aux["capital"] = $capital;
+//        	$array_aux["interes"] = $interes;
+//        	$array_aux["saldo_final"] = round($saldo_inicial - $capital, array(0, PHP_ROUND_HALF_UP));
+//			$saldo_inicial = $saldo_inicial - $capital;
+			
+			$array_aux["saldo_ini"] = ceil($saldo_inicial);
+			$array_aux["pago"] = ceil($array["txtpagomensual"]);
+			$interes = ceil(($saldo_inicial * $interes_mensual)/100);
+			$capital = ceil($array["txtpagomensual"]) - $interes;
 	        $array_aux["capital"] = $capital;
         	$array_aux["interes"] = $interes;
-        	$array_aux["saldo_final"] = round($saldo_inicial - $capital, array(0, PHP_ROUND_HALF_UP));
+        	$array_aux["saldo_final"] = ceil($saldo_inicial - $capital);
 			$saldo_inicial = $saldo_inicial - $capital;
-			
 			$array_pagos[] = $array_aux;
 		}
 		
