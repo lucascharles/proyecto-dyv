@@ -301,10 +301,10 @@
 			
 			var arraySel = new Array();
 			
-			if(!validarArray(arrayin, arraySel,"N"))
-			{
-				return false;
-			}
+//			if(!validarArray(arrayin, arraySel,"N"))
+//			{
+//				return false;
+//			}
 			
 			
 				var datos = "controlador=Deudores";
@@ -341,7 +341,7 @@
 				{
 					datos += "&repacta=N";
 				}
-				
+
 				$.ajax({
 					url: "index.php",
 					type: "GET",	
@@ -481,7 +481,7 @@
 			{
 				document.getElementById("docs").value += ","+id;
 			}
-			
+
 			document.getElementById("txttotal").value = monto;
 			document.getElementById("txtfechavenc").value = fecha;
 			document.getElementById("txtdiasatraso").value = dias;
@@ -524,12 +524,20 @@
 		function calculadora_prestamo()
 		{
 			//CALCULADORA PRESTAMO
-			document.getElementById("txtimporte").value = parseInt(document.getElementById("txttotal").value)+parseFloat(document.getElementById("txtinteresacumulado").value);
-			document.getElementById("txtinteresmensual").value = document.getElementById("txtinteres").value;
+			
+			var porcentaje_prestamo = (parseFloat(document.getElementById("txttotal").value)+parseFloat(document.getElementById("txtinteresacumulado").value))*30/100;
+			
+			document.getElementById("txtimporte").value = (parseInt(document.getElementById("txttotal").value)+parseFloat(document.getElementById("txtinteresacumulado").value))- parseFloat(porcentaje_prestamo);
+//			document.getElementById("txtinteresmensual").value = document.getElementById("txtinteres").value;
 			document.getElementById("txtimpcalc").value = 0; //definir formula
+
 			var pagomensual = (parseFloat($.trim($("#txtimporte").val())) + parseFloat($.trim($("#txtimpcalc").val()))) / parseInt($.trim($("#txtcuotascalc").val()));
 			document.getElementById("txtpagomensual").value = pagomensual;
 			document.getElementById("txtcostoprestamo").value = parseFloat(document.getElementById("txtimporte").value)+parseFloat(document.getElementById("txtimpcalc").value)+parseFloat(document.getElementById("txthonorarios").value);
+
+			
+			var pagocontado = parseFloat(porcentaje_prestamo) + parseFloat(document.getElementById("txthonorarios").value);
+			document.getElementById("txtpagocontado").value = pagocontado;
 		}
 
 
@@ -546,6 +554,24 @@
 
 		function calcular()
 		{
+			var interes;
+			var capital;
+			var imp = 0;
+			var cuotas = document.getElementById("txtcuotascalc").value;	
+			var saldo_inicial = document.getElementById("txtimporte").value;
+			var interes_mensual = document.getElementById("txtinteresmensual").value;
+			var pago_mensual = document.getElementById("txtpagomensual").value;
+		
+
+			for($i=0; $i<cuotas; $i++)
+			{
+				interes = (parseInt(saldo_inicial) * parseInt(interes_mensual))/100;
+				capital = parseInt(pago_mensual) - parseInt(interes);
+				imp = imp + parseInt(interes);
+				saldo_inicial = parseInt(saldo_inicial) - parseInt(capital);
+			}
+
+			document.getElementById("txtimpcalc").value = imp;
 			var url = "index.php?controlador=Deudores&accion=calcular";
 			url += "&txtimporte="+$("#txtimporte").val();
 			url += "&txtinteresmensual="+$("#txtinteresmensual").val();
@@ -878,13 +904,18 @@
         			</td>
 				</tr>
 				<tr>	
+					<td align="left" class="etiqueta_form">Pago Contado&nbsp;&nbsp;&nbsp;&nbsp;</td>
+					<td align="left"><input type="text" name="txtpagocontado" id="txtpagocontado" size="15" class="input_form" onFocus="resaltar(this)" valida="requerido" tipovalida="moneda" value="<?=conDecimales($interes_simulacion)?>" tabindex="2"/>
+        			</td>
+				</tr>
+				<tr>	
 					<td align="left" class="etiqueta_form">Interes mensual&nbsp;&nbsp;&nbsp;&nbsp;</td>
-					<td align="left"><input type="text" name="txtinteresmensual" id="txtinteresmensual" size="15" class="input_form" onFocus="resaltar(this)" valida="requerido" tipovalida="moneda" value="" tabindex="2"/>
+					<td align="left"><input type="text" name="txtinteresmensual" id="txtinteresmensual" size="15" class="input_form" onFocus="resaltar(this)" valida="requerido" tipovalida="moneda" value="<?=$interes_simulacion?>" tabindex="2"/>
         			</td>
 				</tr>
 				<tr>	
 					<td align="left" class="etiqueta_form">Cuotas&nbsp;&nbsp;&nbsp;&nbsp;</td>
-					<td align="left"><input type="text" name="txtcuotascalc" id="txtcuotascalc" size="15" class="input_form" onblur="actualizar()" onFocus="resaltar(this)" valida="requerido" tipovalida="entero" value="1" tabindex="3"/>
+					<td align="left"><input type="text" name="txtcuotascalc" id="txtcuotascalc" size="15" class="input_form" onblur="actualizar()" onFocus="resaltar(this)" valida="requerido" tipovalida="entero" value="<?=$cuotas_simulacion?>" tabindex="3"/>
         			</td>        			
         		</tr>
 				<tr>	
@@ -894,7 +925,7 @@
         		</tr>
 				<tr>	
 					<td align="left" class="etiqueta_form">Fecha Pago&nbsp;&nbsp;&nbsp;&nbsp;</td>
-					<td align="left"><input type="text" name="txtfechainicial" id="txtfechainicial" size="15" class="input_form_medio" onFocus="resaltar(this)" value="<? echo(date("d/m/Y")) ?>" valida="requerido" tipovalida="fecha" tabindex="4" onKeyUp="this.value=formateafecha(this.value)"/>
+					<td align="left"><input type="text" name="txtfechainicial" id="txtfechainicial" size="15" class="input_form_medio" onFocus="resaltar(this)" value="<?=$fecha_pago?>" valida="requerido" tipovalida="fecha" tabindex="4" onKeyUp="this.value=formateafecha(this.value)"/>
         			</td>        			
         		</tr>
 

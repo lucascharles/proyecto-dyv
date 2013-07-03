@@ -134,11 +134,22 @@
 $id_deudor = "";
 $rutdeudor = "";
 $dvdeudor = "";
+$pndeudor = "";
+$sndeudor = "";
+$padeudor = "";
+$sadeudor = "";
+
+
 if(!is_null($deudor))
 {
 	$id_deudor = $deudor->get_data("id_deudor");
 	$rutdeudor = $deudor->get_data("rut_deudor");
 	$dvdeudor = $deudor->get_data("dv_deudor");	
+	$pndeudor = $deudor->get_data("primer_nombre");
+	$sndeudor = $deudor->get_data("segundo_nombre");
+	$padeudor = $deudor->get_data("primer_apellido");
+	$sadeudor = $deudor->get_data("segundo_apellido");
+	
 }
 			
 ?>
@@ -236,9 +247,6 @@ if(!is_null($deudor))
 <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
 	<tr>
 		<td width="" align="left" class="etiqueta_form">
-        <!--
-        R.U.T. Deudor:&nbsp;&nbsp;&nbsp; <input type="text" name="txtrut" id="txtrut"  size="20" onkeyup='mostrar(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" />
-        -->
         R.U.T. Deudor:&nbsp;&nbsp;&nbsp; <input type="text" name="txtrut_deudor" id="txtrut_deudor" class="input_form" value="<?=$rutdeudor?>"  onblur="validaDeudor(); generadvrut('txtrut_deudor','txtdv_deudor'); validarRut('D');" />&nbsp;
 	            		<input type="text" name="txtdv_deudor" id="txtdv_deudor" class="input_form_min" value="<?=$dvdeudor?>" onblur="" disabled="disabled" />&nbsp;
                         <img src="images/buscar.png" title="Buscar Deudor" style="cursor:pointer" onclick="ventanaBusqueda('D')"/>

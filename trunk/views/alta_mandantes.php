@@ -90,10 +90,10 @@
 			arraySel[0] = document.getElementById("selbanco1");
 			arraySel[0] = document.getElementById("selbanco2");
 			
-			if(!validarArray(arrayin, arraySel,"N"))
-			{
-				return false;
-			}
+//			if(!validarArray(arrayin, arraySel,"N"))
+//			{
+//				return false;
+//			}
 				
 				
 				var datos = "controlador=Mandantes";
@@ -117,7 +117,6 @@
 				datos += "&telefono1="+$("#txttelefono1").val();
 				datos += "&telefono2="+$("#txttelefono2").val();
 				datos += getDatosModoPago();
-			
 				$.ajax({
 					url: "index.php",
 					type: "GET",
