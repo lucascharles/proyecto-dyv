@@ -1,7 +1,7 @@
 <?php
-	function conDecimales($valor, $decimales=2)
+	function conDecimales($valor, $decimales=0)
 	{
-		return number_format($valor,$decimales,'.',',');
+		return number_format($valor,$decimales,'.','.');
 	}
 
 	function getUltimoId($obj, $clave)
