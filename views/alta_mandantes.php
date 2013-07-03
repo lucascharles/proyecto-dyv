@@ -43,7 +43,7 @@
 			$("#txtrut_mandante").val("");
 			$("#txtdv_mandante").val("");
 			$("#txtapellido").val("");
-			$("#txtnombre").val("");
+			//$("#txtnombre").val("");
 			$("#txtcalle").val("");
 			$("#txtnumero").val("");
 			$("#txtpiso").val("");
@@ -68,23 +68,23 @@
 		function grabarAltaMand()
 		{
 		
-			var arrayin = new Array(15);
+			var arrayin = new Array(14);
 			
 			arrayin[0] = document.getElementById("txtrut_mandante");
 			arrayin[1] = document.getElementById("txtdv_mandante");
 			arrayin[2] = document.getElementById("txtapellido");
-			arrayin[3] = document.getElementById("txtnombre");
-			arrayin[4] = document.getElementById("txtcalle");
-			arrayin[5] = document.getElementById("txtnumero");
-			arrayin[6] = document.getElementById("txtpiso");
-			arrayin[7] = document.getElementById("txtdpto");
-			arrayin[8] = document.getElementById("txtcomuna");
-			arrayin[9] = document.getElementById("txtciudad");
-			arrayin[10] = document.getElementById("txtregion");
-			arrayin[11] = document.getElementById("txtcuenta_corriente1");
-			arrayin[12] = document.getElementById("txtcuenta_corriente2");
-			arrayin[13] = document.getElementById("txttelefono1");
-			arrayin[14] = document.getElementById("txttelefono2");
+			//arrayin[3] = document.getElementById("txtnombre");
+			arrayin[3] = document.getElementById("txtcalle");
+			arrayin[4] = document.getElementById("txtnumero");
+			arrayin[5] = document.getElementById("txtpiso");
+			arrayin[6] = document.getElementById("txtdpto");
+			arrayin[7] = document.getElementById("txtcomuna");
+			arrayin[8] = document.getElementById("txtciudad");
+			arrayin[9] = document.getElementById("txtregion");
+			arrayin[10] = document.getElementById("txtcuenta_corriente1");
+			arrayin[11] = document.getElementById("txtcuenta_corriente2");
+			arrayin[12] = document.getElementById("txttelefono1");
+			arrayin[13] = document.getElementById("txttelefono2");
 			
 			var arraySel = new Array();
 			arraySel[0] = document.getElementById("selbanco1");
@@ -102,7 +102,7 @@
 			    datos += "&rut_mandante="+$("#txtrut_mandante").val();
 				datos += "&dv_mandante="+$("#txtdv_mandante").val();
 				datos += "&apellido="+$("#txtapellido").val();
-				datos += "&nombre="+$("#txtnombre").val();
+				//datos += "&nombre="+$("#txtnombre").val();
 				datos += "&calle="+$("#txtcalle").val();
 				datos += "&numero="+$("#txtnumero").val();
 				datos += "&piso="+$("#txtpiso").val();
