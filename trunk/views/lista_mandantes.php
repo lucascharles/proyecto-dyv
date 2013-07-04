@@ -56,8 +56,8 @@
 	<tr class="cabecera_listado">
     	<th width="3%" align="center"></th>
       <th align="center" width="17%"><font class="titulolistado">Rut</font></th>
-      <th align="center" width="15%"><font class="titulolistado">Apellido</font></th>
-      <th align="center" width="15%"><font class="titulolistado">Nombre</font></th>
+      <th align="center" width="15%"><font class="titulolistado">Raz&oacute;n Social</font></th>
+      <!--<th align="center" width="15%"><font class="titulolistado">Nombre</font></th>-->
       <th align="center" width="15%"><font class="titulolistado">Banco 1</font></th>
       <th align="center" width="10%"><font class="titulolistado">Cta Cte1</font></th>
       <th align="center" width="15%"><font class="titulolistado">Banco2</font></th>
@@ -101,7 +101,7 @@
       
       <td align="left"  class="dato_lista"><?php echo ($datoTmp->get_data("rut_mandante")."-".$datoTmp->get_data("dv_mandante"))?></td>      
       <td align="left" class="dato_lista"><?php echo (utf8_decode($datoTmp->get_data("apellido"))) ?></td>
-      <td align="left" class="dato_lista"><?php echo (utf8_decode($datoTmp->get_data("nombre"))) ?></td>           
+      <!--<td align="left" class="dato_lista"><?php //echo (utf8_decode($datoTmp->get_data("nombre"))) ?></td>-->
   
       <td align="left" class="dato_lista">
 	  <?php 
