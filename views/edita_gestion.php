@@ -159,7 +159,6 @@
 					{
 						datos += "&iddocumento="+$("#iddocumento").val();
 					}
-//					alert(datos);
 					$.ajax({
 					url: "index.php",
 					type: "GET",
@@ -167,8 +166,12 @@
 					cache: false,
 					success: function(res)
 					{
-//					document.getElementById("frmlistagestiones").src="index.php?controlador=Gestiones&accion=listar_bitacora_gestion&idgestion="+$("#id_gestion").val();
-					document.getElementById("frmlistagestiones").src="index.php?controlador=Gestiones&accion=listar_bitacora_gestion&idgestion="+$("#id_gestion").val()+"&iddocumento="+$("#iddocumento").val();
+						if(document.getElementById('selGestion').options[document.getElementById('selGestion').selectedIndex].text == "DEMANDA")
+						{	
+							alert("Se generara una FICHA para el deudor.");
+							$("#pagina").load('index.php?controlador=Deudores&accion=deudor_ficha&id='+$("#id_deudor").val()+'&id_doc='+$("#iddocumento").val()+'&tipope=A'+'&idGes='+$("#id_gestion").val());
+						}
+						document.getElementById("frmlistagestiones").src="index.php?controlador=Gestiones&accion=listar_bitacora_gestion&idgestion="+$("#id_gestion").val()+"&iddocumento="+$("#iddocumento").val();
 					},
 					error: function()
 					{
@@ -426,6 +429,7 @@
 </table>
 </div>
 <form name="frmadmgestion">
+	<input  type="hidden" name="id_deudor" id="id_deudor" value="<? echo($objGestion->get_data("id_deudor")) ?>"/>
 	<input  type="hidden" name="id_gestion" id="id_gestion" value="<? echo($objGestion->get_data("id_gestion")) ?>"/>
 	<input  type="hidden" name="iddireccion" id="iddireccion" value=""/>
     <input  type="hidden" name="id_mandante" id="id_mandante" value="<? $var = &$idMandante; echo($var); ?>"/>

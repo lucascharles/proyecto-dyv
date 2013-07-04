@@ -1395,6 +1395,8 @@ class DocumentosModel extends ModelBase
 									dds.ciudad ciudad,
 									m.nombre nombre_mandante,
 									m.apellido apellido_mandante,
+									m.rut_mandante rut_mandante,
+									m.dv_mandante dv_mandante,
 									d.id_documento id_documento, td.tipo_documento tipo_documento,
 									d.numero_documento numero_documento,ed.estado estado,
 									d.fecha_protesto fecha_protesto,

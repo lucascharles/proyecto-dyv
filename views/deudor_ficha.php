@@ -114,12 +114,12 @@
 					cache: false,
 					success: function(res)
 					{
-						$("#pagina").load('views/default.php');
-						/*
-						$("#mensaje").text("Los datos de la ficha se han guardado con éxito.");
-						setTimeout("$('#mensaje').text('')",3000);
-						$("#id_alta").val(res);
-						*/
+//						$("#pagina").load('views/default.php');
+						alert("Los datos de la Ficha se han guardado correctamente.");
+//						$("#mensaje").text("Los datos de la Ficha se han guardado correctamente.");
+//						setTimeout("$('#mensaje').text('')",3000);
+//						$("#id_alta").val(res);
+						
 					},
 					error: function()
 					{
@@ -134,7 +134,9 @@
 			
 		function cancelarFichaDeudor()
 		{
-			$("#pagina").load('views/default.php');
+			var idGes = document.getElementById("idGes").value;
+			alert('index.php?controlador=Gestiones&accion=gestionar&idgestion='+idGes);
+			$("#pagina").load('index.php?controlador=Gestiones&accion=gestionar&idgestion='+idGes);
 		}
 		
 		$(document).ready(function() 
@@ -364,6 +366,7 @@
 <input  type="hidden" name="tipoperacion" id="tipoperacion" value="<? echo($tipoperacion) ?>" grabar="S"/>
 <input  type="hidden" grabar="S" name="id_alta" id="id_alta" value="<? echo($id_alta) ?>" />
 <input  type="hidden" grabar="S" name="id_doc" id="id_doc" value="<? echo($id) ?>" />
+<input  type="hidden" name="idGes" id="idGes" value="<? echo($idGes) ?>" />
 
 
   <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="titulopantalla">
@@ -483,7 +486,7 @@
     <tr>
 		<td colspan="4" align="right"> 
         <input  type="button" name="btngrabar" id="btngrabar" onClick="grabarFichaDeudor()"  value="Confirmar" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/>&nbsp;
-         	<input  type="button" name="btncancelar" id="btncancelar" onClick="cancelarFichaDeudor()"value="Cancelar" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/>&nbsp;
+         	<input  type="button" name="btncancelar" id="btncancelar" onClick="cancelarFichaDeudor()"value="Volver" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/>&nbsp;
         </td>
     </tr>
     
