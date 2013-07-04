@@ -32,7 +32,7 @@
 		
 		$nombreDeudor = $deudorTmp->get_data("primer_apellido_deudor")." ".$deudorTmp->get_data("segundo_apellido_deudor")." ".
 						$deudorTmp->get_data("primer_nombre_deudor")." ".$deudorTmp->get_data("segundo_nombre_deudor");
-		$direccionDeudor = $deudorTmp->get_data("calle")." ".$deudorTmp->get_data("numero")." ".$deudorTmp->get_data("piso"); 
+		$direccionDeudor = $deudorTmp->get_data("calle")." ".$deudorTmp->get_data("numero"); 
 							
 		if($deudorTmp->get_data("depto")!= ""){
 			$direccionDeudor = $direccionDeudor ." Dep./Of. ".$deudorTmp->get_data("depto");
@@ -42,7 +42,7 @@
 		$comunaDeudor = $deudorTmp->get_data("comuna");		
 		$ciudadDeudor = $deudorTmp->get_data("ciudad");
 		
-		$mandante = $deudorTmp->get_data("nombre_mandante")." ".$deudorTmp->get_data("apellido_mandante");
+		$mandante = $deudorTmp->get_data("nombre_mandante")." ".$deudorTmp->get_data("apellido_mandante")." ".$deudorTmp->get_data("rut_mandante")."-".$deudorTmp->get_data("dv_mandante");
 	  	$rutDeudor =   number_format($deudorTmp->get_data("rut_deudor"), 0, '', '.')."-".$deudorTmp->get_data("dv_deudor");
 		
 		//detalle de la carta

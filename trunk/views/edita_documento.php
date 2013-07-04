@@ -641,7 +641,7 @@
         <td align="left"><input type="text" grabar="S" name="txtmontoprotesto" id="txtmontoprotesto" value="<? echo($datoDoc->get_data("gastos_protesto"))?>"  size="15" onkeyup='mostrar(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" tipovalida="entero"/></td>
 		<td width="70" align="left" class="etiqueta_form">Causal Protesto:</td>
         <td> 
-        	<select name="selCausalProtesta" grabar="S" valida="requerido" tipovalida="texto" id="selCausalProtesta" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)">
+        	<select name="selCausalProtesta" grabar="S"  tipovalida="texto" id="selCausalProtesta" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)">
      			<option value="<? echo($datoDoc->get_data("id_causa_protesto"))?>"> <? echo($datoDoc->get_data("causa_protesto")) ?></option>
         		<?
 			        for($j=0; $j<$coleccion_causalProtesta->get_count(); $j++)

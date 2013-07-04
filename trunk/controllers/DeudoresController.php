@@ -226,6 +226,7 @@ class DeudoresController extends ControllerBase
 		$data['mandante'] = $datomandante;
 		$data['documento'] = $datodocumento;
 		$data['direccion'] = $datodir;
+		$data['idGes'] = $array["idGes"];
 		
 		$this->view->show("deudor_ficha.php", $data);
 	}
