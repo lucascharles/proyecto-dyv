@@ -200,7 +200,7 @@
 		{
 			if (array_key_exists($field, $this->datasoporte))
 			{
-				return utf8_encode($this->datasoporte[$field]);
+				return utf8_encode(strtoupper($this->datasoporte[$field]));
 			}
 			else
 
@@ -252,7 +252,7 @@
 			}
 			else if (array_key_exists($field, $this->data))
 			{
-				return utf8_encode($this->data[$field]);
+				return utf8_encode(strtoupper($this->data[$field]));
 			}
 			else
 			{
@@ -557,7 +557,6 @@
 						$existeId = true;
 					}
 					
-
 					$value = $this->sql_escape($field, $value);
 					$field = $data_objects[$this->db_key]->sql_escape_fieldname($field);
 					
@@ -1117,6 +1116,7 @@
 				return null;
 			}
 			else if (array_key_exists($field, $this->data))
+
 			{
 				return $this->data[$field];
 			}
