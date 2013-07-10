@@ -196,11 +196,16 @@
 			$this->datasoporte = $arr;
 		}
 		
-		function get_data($field)
+		function get_data($field,$tipo="U")
 		{
+			$func = "strtoupper";
+			if($tipo == "L")
+			{
+				$func = "strtolower";
+			}
 			if (array_key_exists($field, $this->datasoporte))
 			{
-				return utf8_encode(strtoupper($this->datasoporte[$field]));
+				return utf8_encode(call_user_func($func,$this->datasoporte[$field]));
 			}
 			else
 
@@ -244,15 +249,21 @@
 			}
 		}
 		
-		function get_data($field)
+		function get_data($field,$tipo="U")
 		{
+			$func = "strtoupper";
+			if($tipo == "L")
+			{
+				$func = "strtolower";
+			}
+			
 			if (is_null($this->data)) 
 			{
 				return null;
 			}
 			else if (array_key_exists($field, $this->data))
 			{
-				return utf8_encode(strtoupper($this->data[$field]));
+				return utf8_encode(call_user_func($func,$this->data[$field]));
 			}
 			else
 			{
@@ -732,6 +743,7 @@
 				
 				$field = $data_objects[$this->db_key]->sql_escape_fieldname($field);
 				
+
 				$this->sort[$field] = ($sortAsc ? "ASC" : "DESC");
 			}
 			else 
@@ -1116,7 +1128,6 @@
 				return null;
 			}
 			else if (array_key_exists($field, $this->data))
-
 			{
 				return $this->data[$field];
 			}
