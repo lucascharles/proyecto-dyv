@@ -71,7 +71,7 @@ class UsuarioModel extends ModelBase
 					$arraydetop = array();
 					$arraydetop[] = $datoomTmp->get_data("id");
 					$arraydetop[] = $datoomTmp->get_data("nombre");
-					$arraydetop[] = $datoomTmp->get_data("acceso","L");
+					$arraydetop[] = $datoomTmp->get_data("acceso","N");
 					$arrayopcion[] = $arraydetop;
 				}
 			}
