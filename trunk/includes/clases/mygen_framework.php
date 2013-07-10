@@ -198,14 +198,26 @@
 		
 		function get_data($field,$tipo="U")
 		{
-			$func = "strtoupper";
 			if($tipo == "L")
 			{
 				$func = "strtolower";
 			}
+	
+			if($tipo == "U")
+			{
+				$func = "strtoupper";
+			}
+		
 			if (array_key_exists($field, $this->datasoporte))
 			{
-				return utf8_encode(call_user_func($func,$this->datasoporte[$field]));
+				if($tipo <> "N")
+				{
+					return utf8_encode(call_user_func($func,$this->datasoporte[$field]));
+				}
+				else
+				{
+					return utf8_encode($this->datasoporte[$field]);
+				}
 			}
 			else
 
@@ -263,7 +275,14 @@
 			}
 			else if (array_key_exists($field, $this->data))
 			{
-				return utf8_encode(call_user_func($func,$this->data[$field]));
+				if($tipo <> "N")
+				{
+					return utf8_encode(call_user_func($func,$this->data[$field]));
+				}
+				else
+				{
+					return utf8_encode($this->data[$field]);
+				}
 			}
 			else
 			{
