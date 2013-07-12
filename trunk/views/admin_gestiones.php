@@ -37,9 +37,11 @@
 			document.getElementById("frmlistgestiones").src = url;
 		}
 		
-		function seleccionado(id)
+		function seleccionado(id,idest)
 		{
 			document.getElementById("id_gestion").value = id;
+			document.getElementById("id_estado").value = idest;
+
 		}
 		
 		
@@ -57,8 +59,8 @@
 				return false;
 			}
 			var id = document.getElementById("id_gestion").value;
-			
-			$("#pagina").load('index.php?controlador=Gestiones&accion=gestionar&idgestion='+id+'&tipoGestion='+document.getElementById("tipo_gestion").value);
+
+			$("#pagina").load('index.php?controlador=Gestiones&accion=gestionar&idgestion='+id+'&tipoGestion='+document.getElementById("tipo_gestion").value+'&estadoGes='+document.getElementById("id_estado").value);
 			
 		}
 	</script>
@@ -66,7 +68,9 @@
 <body>
 <form name="frmadmgestiones">
 <input  type="hidden" name="id_gestion" id="id_gestion" value=""/>
+<input  type="hidden" name="id_estado" id="id_estado" value=""/>
 <input  type="hidden" name="tipo_gestion" id="tipo_gestion" value="<?php $var = &$tipoGestion; echo($var); ?>"/>
+<input  type="hidden" name="estadoGes" id="estadoGes" value="<?php $var = &$estadoGestion; echo($var); ?>"/>
 <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="titulopantalla">
 	<tr>
 		<th align="left" height="30">&nbsp;Gestiones<?php $var = &$tipoGestion; if($var == "D"){echo(" del dia");} ?></th>

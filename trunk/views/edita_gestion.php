@@ -19,7 +19,6 @@
 		{
 			$("#selecMandante").slideDown(1000);	
 			document.getElementById("txtrut_m").focus();
-			//alert($(document).height());
 			setTimeout("window.scrollTo(0,$(document).height())",1000);
 			//$(window).scrollTop();
 			 //$("html, body").animate({ scrollTop: $(document).height() }, "slow");
@@ -71,7 +70,7 @@
 			}
 			else
 			{
-				$("#pagina").load('views/admin_gestiones.php');
+				$("#pagina").load('index.php?controlador=Gestiones&accion=admin_grales&proc=1');
 			}
 		}
 		
@@ -115,13 +114,7 @@
 		{
 			
 			if(document.getElementById("iddocumento").value == "" )
-//				&& ((document.getElementById('selGestion').options[document.getElementById('selGestion').selectedIndex].text == "DEMANDA")
-//						|| (document.getElementById('selGestion').options[document.getElementById('selGestion').selectedIndex].text == "CASTIGADO")
-//						|| (document.getElementById('selGestion').options[document.getElementById('selGestion').selectedIndex].text == "DDA/RECUPERADO")
-//						|| (document.getElementById('selGestion').options[document.getElementById('selGestion').selectedIndex].text == "DDA/CASTIGADO")
-//						|| (document.getElementById('selGestion').options[document.getElementById('selGestion').selectedIndex].text == "FACTURADO")
-//						|| (document.getElementById('selGestion').options[document.getElementById('selGestion').selectedIndex].text == "RECUPERADO")))
-					
+				
 			{
 				alert('Debe Seleccionar un Documento para registrar la bitacora.');
 			}
@@ -140,7 +133,7 @@
 
 					var datos = "controlador=Gestiones";
 					datos += "&accion=grabaEditar";
-					datos += "&idgestion="+$("#id_gestion").val();
+					datos += "&idgestion="+document.getElementById("id_gestion").value;
 					datos += "&selGestion="+$("#selGestion").val();
 					datos += "&txtfechagestion="+$("#txtfechagestion").val();
 					datos += "&txtcomentarios="+$("#txtcomentarios").val();
@@ -149,15 +142,15 @@
 					datos += "&txtusuario="+$("#txtusuario").val();
 
 					if(document.getElementById("iddocumento").value != "") 
-//						&& ((document.getElementById('selGestion').options[document.getElementById('selGestion').selectedIndex].text == "DEMANDA")
-//								|| (document.getElementById('selGestion').options[document.getElementById('selGestion').selectedIndex].text == "CASTIGADO")
-//								|| (document.getElementById('selGestion').options[document.getElementById('selGestion').selectedIndex].text == "DDA/RECUPERADO")
-//								|| (document.getElementById('selGestion').options[document.getElementById('selGestion').selectedIndex].text == "DDA/CASTIGADO")
-//								|| (document.getElementById('selGestion').options[document.getElementById('selGestion').selectedIndex].text == "FACTURADO")
-//								|| (document.getElementById('selGestion').options[document.getElementById('selGestion').selectedIndex].text == "RECUPERADO")))
-							
 					{
-						datos += "&iddocumento="+$("#iddocumento").val();
+
+						var arrdoc = document.getElementById("docCartas").value;
+						arrD = arrdoc.split(" ");						
+						for(var i=1; i<arrD.length; i++) {
+							var value = arrD[i];
+							datos += "&iddocumento"+i+"="+value;
+						}
+						//						datos += "&iddocumento="+$("#iddocumento").val();
 					}
 					$.ajax({
 					url: "index.php",
@@ -225,11 +218,10 @@
 			document.getElementById("iddireccion").value = id;
 		}
 
-		function seleccionado_doc(id)
+		function seleccionado_doc(id,arrdoc)
 		{
+			document.getElementById("docCartas").value = arrdoc;
 			document.getElementById("iddocumento").value = id;
-			document.getElementById("id_gestion").value = <? echo($objGestion->get_data("id_gestion")) ?>;
-//			alert("index.php?controlador=Gestiones&accion=listar_bitacora_gestion&idgestion="+<? echo($objGestion->get_data("id_gestion")) ?>+"&iddocumento="+id);
 			document.getElementById("frmlistagestiones").src="index.php?controlador=Gestiones&accion=listar_bitacora_gestion&idgestion="+<? echo($objGestion->get_data("id_gestion")) ?>+"&iddocumento="+id;			
 		}
 		
@@ -340,14 +332,20 @@
 
 		function liquidar(iddeudor)
 		{
+
 			if(iddeudor == "")
 			{
 				return false;
 			}
-//			alert('index.php?controlador=Gestiones&accion=gestiona_liquidacion&iddeudor='+iddeudor);
 			$("#pagina").load('index.php?controlador=Gestiones&accion=gestiona_liquidacion&iddeudor='+iddeudor+"&control_volver=Gestiones&accion_volver=gestionar&param_volver=idgestion&val_volver="+$("#id_gestion").val());		
 		}
 
+		function enviarCartas(idmandante,iddeudor)
+		{
+			
+			var url = "index.php?controlador=Gestiones&accion=listarDocumentoMandante&iddeudor="+iddeudor+"&idmandante="+idmandante+"&enviarCarta=S";
+			document.getElementById("frmlistdocumentos").src = url;
+		}
 
 		
 		
@@ -430,10 +428,11 @@
 </div>
 <form name="frmadmgestion">
 	<input  type="hidden" name="id_deudor" id="id_deudor" value="<? echo($objGestion->get_data("id_deudor")) ?>"/>
-	<input  type="hidden" name="id_gestion" id="id_gestion" value="<? echo($objGestion->get_data("id_gestion")) ?>"/>
+	<input  type="hidden" name="id_gestion" id="id_gestion" value="<? $var = &$idgestion; echo($var); ?>"/>
 	<input  type="hidden" name="iddireccion" id="iddireccion" value=""/>
     <input  type="hidden" name="id_mandante" id="id_mandante" value="<? $var = &$idMandante; echo($var); ?>"/>
     <input  type="hidden" name="iddocumento" id="iddocumento" value=""/>
+    <input  type="hidden" name="docCartas" id="docCartas" value=""/>
     <input  type="hidden" name="tipoGestion" id="tipoGestion" value="<? $var = &$tipoGestion; echo($var); ?>"/>
     
 <div id="datos" style="">
@@ -526,10 +525,17 @@
      </tr>
     <tr>
     	<td align="right" valign="top" >
-        			<iframe id="frmlistdocumentos" src="index.php?controlador=Gestiones&accion=listarDocumentoMandante&iddeudor=<? echo($objGestion->get_data("id_deudor")) ?>&idmandante=<? echo($objGestion->get_data("id_mandante")) ?>" frameborder="0" align="middle" width="100%" height="120" scrolling="auto"></iframe>
+        			<iframe id="frmlistdocumentos" src="index.php?controlador=Gestiones&accion=listarDocumentoMandante&iddeudor=<? echo($objGestion->get_data("id_deudor")) ?>&idmandante=<? echo($objGestion->get_data("id_mandante")) ?>&idestadoges=<? $var = &$idestadoges; echo($var); ?>" frameborder="0" align="middle" width="100%" height="120" scrolling="auto"></iframe>
         </td>
         <td align="center" width="100">
-					<input  type="button" name="btnLiquidacion" id="btnLiquidacion" onclick="liquidar(<? echo($objGestion->get_data("id_deudor")) ?>)" class="boton_form" value="Liquidaci&oacute;n" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)' />
+			<table>
+				<tr>
+						<input  type="button" name="btnLiquidacion" id="btnLiquidacion" onclick="liquidar(<? echo($objGestion->get_data("id_deudor")) ?>)" class="boton_form" value="Liquidaci&oacute;n" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)' />
+				</tr>
+				<tr>	
+						<input  type="button" name="btnCartas" id="btnCartas" onclick="enviarCartas(<? echo($objGestion->get_data("id_mandante")) ?>,<? echo($objGestion->get_data("id_deudor")) ?>)" class="boton_form" value="Enviar Cartas" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)' />
+				</tr>	
+        	</table>
         </td>
     </tr>
 </table>

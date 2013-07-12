@@ -347,9 +347,9 @@
         			</td>
     				<td align="left"><input type="text" name="txtapellido" id="txtapellido" size="80"  class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto"/>
                     </td>
-                    <td align="left"><input type="text" name="txttelefono1" id="txttelefono1" size="30"  class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto"/>
+                    <td align="left"><input type="text" name="txttelefono1" id="txttelefono1" size="30"  class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" tipovalida="texto"/>
                     </td>
-                    <td align="left"><input type="text" name="txttelefono2" id="txttelefono2" size="30"  class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto"/>
+                    <td align="left"><input type="text" name="txttelefono2" id="txttelefono2" size="30"  class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" tipovalida="texto"/>
                     </td>
 <!--    				<td align="left"><input type="text" name="txtnombre" id="txtnombre" size="40"  class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto"/>-->
 <!--                    </td>-->
@@ -370,20 +370,20 @@
                     <td align="left" class="etiqueta_form">Region</td>
                  </tr>
                  <tr>
-                    <td><input type="text" name="txtcalle" id="txtcalle" size="40" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto"/>
+                    <td><input type="text" name="txtcalle" id="txtcalle" size="40" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" tipovalida="texto"/>
                     </td>
-                    <td><input type="text" name="txtnumero" id="txtnumero" size="20" class="input_form_min" valida="requerido" tipovalida="entero"/>
+                    <td><input type="text" name="txtnumero" id="txtnumero" size="20" class="input_form_min" tipovalida="entero"/>
                     </td>
                     <td>
-                    <input type="text" name="txtpiso" id="txtpiso" size="20"  class="input_form_min" valida="requerido" tipovalida="texto"/>
+                    <input type="text" name="txtpiso" id="txtpiso" size="20"  class="input_form_min" tipovalida="texto"/>
                     </td>
-                    <td><input type="text" name="txtdpto" id="txtdpto" size="20"  class="input_form_min" valida="requerido" tipovalida="texto"/>
+                    <td><input type="text" name="txtdpto" id="txtdpto" size="20"  class="input_form_min" tipovalida="texto"/>
                     </td>                 
-                    <td><input type="text" name="txtcomuna" id="txtcomuna" size="40"  class="input_form_medio" valida="requerido" tipovalida="texto"/>
+                    <td><input type="text" name="txtcomuna" id="txtcomuna" size="40"  class="input_form_medio" tipovalida="texto"/>
                     </td>                   
-                    <td><input type="text" name="txtciudad" id="txtciudad" size="40"  class="input_form_medio" valida="requerido" tipovalida="texto"/>
+                    <td><input type="text" name="txtciudad" id="txtciudad" size="40"  class="input_form_medio"  tipovalida="texto"/>
                     </td>
-                    <td><input type="text" name="txtregion" id="txtregion" size="40"  class="input_form_medio" valida="requerido" tipovalida="texto"/>
+                    <td><input type="text" name="txtregion" id="txtregion" size="40"  class="input_form_medio"  tipovalida="texto"/>
                     </td>
                  </tr>
              </table>

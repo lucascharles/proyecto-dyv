@@ -135,8 +135,9 @@
 		function cancelarFichaDeudor()
 		{
 			var idGes = document.getElementById("idGes").value;
-			alert('index.php?controlador=Gestiones&accion=gestionar&idgestion='+idGes);
-			$("#pagina").load('index.php?controlador=Gestiones&accion=gestionar&idgestion='+idGes);
+//			alert('index.php?controlador=Gestiones&accion=gestionar&idgestion='+idGes);
+//			$("#pagina").load('index.php?controlador=Gestiones&accion=gestionar&idgestion='+idGes);
+			$("#pagina").load('index.php?controlador=Gestiones&accion=gestionar&idgestion='+idGes+'&estadoGes=7');
 		}
 		
 		$(document).ready(function() 
