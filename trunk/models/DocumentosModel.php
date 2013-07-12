@@ -312,7 +312,7 @@ class DocumentosModel extends ModelBase
 					
 					// VALIDACION BANCO				
 					// vacio
-					if(trim($arraydatos[18]) == "")
+					if(trim($arraydatos[20]) == "")
 					{
 						$error_banco[] = 14;
 						$banco_default = 0;
@@ -320,7 +320,7 @@ class DocumentosModel extends ModelBase
 					
 					// no existe banco
 					$banco = new Bancos();
-					$banco->add_filter("codigo","=",trim($arraydatos[18]));
+					$banco->add_filter("banco","=",trim($arraydatos[20]));
 					$banco->load();
 					$banco_default = $banco->get_data("id_banco");
 					if(is_null($banco->get_data("id_banco")))
@@ -360,24 +360,24 @@ class DocumentosModel extends ModelBase
 					
 				// VALIDACION CUENTA CORRIENTE, puede no existir la cuenta 
 					// cero
-					if((int)$arraydatos[20] == 0)
+					if((int)$arraydatos[21] == 0)
 					{
 						$cta_cte = NULL;
 					}
 					else
 					{
-						$cta_cte =trim($arraydatos[20]);
+						$cta_cte =trim($arraydatos[21]);
 					}
 					
 					
 					// vacio
-					if(trim($arraydatos[20]) == "")
+					if(trim($arraydatos[21]) == "")
 					{
 						$cta_cte = NULL;
 					}
 					else
 					{
-						$cta_cte =trim($arraydatos[20]);
+						$cta_cte =trim($arraydatos[21]);
 					}
 					
 					//Validacion de fecha de protesto
@@ -423,11 +423,11 @@ class DocumentosModel extends ModelBase
 						$datodoc->set_data("numero_documento",$nrodocumento);
 						$datodoc->set_data("monto",$monto_doc);
 						$datodoc->set_data("cta_cte",$cta_cte);
-						$datodoc->set_data("fecha_siniestro",date("Y-m-d"));
+//						$datodoc->set_data("fecha_siniestro",date("Y-m-d"));
 						
 						$date = new DateTime($fecha_protesto);
 						$fechaProtesto = $date->format('Y-m-d'); 
-						$datodoc->set_data("fecha_protesto",$fechaProtesto);
+						$datodoc->set_data("fecha_siniestro",$fechaProtesto);
 
 						$datodoc->set_data("id_causa_protesto",$causal_protesto);
 						$datodoc->set_data("gastos_protesto",$gasto_protesto);
@@ -832,7 +832,7 @@ class DocumentosModel extends ModelBase
 	
 	}
 	
-	public function getListaDocMandanteDeudor($iddeudor,$idmandante)
+	public function getListaDocMandanteDeudor($iddeudor,$idmandante,$idestado)
 	{
 	
 		include("config.php");
@@ -850,10 +850,9 @@ class DocumentosModel extends ModelBase
 		$where = " d.id_deudor = dd.id_deudor
 				and m.id_mandante = d.id_mandatario
 				and d.id_estado_doc = ed.id_estado_doc
-				and d.id_tipo_doc = td.id_tipo_documento
-				and ed.estado not in ('RECUPERADO','CASTIGADO')
+				and d.id_tipo_doc = td.id_tipo_documento				
 				and d.activo = 'S'
-				and m.id_mandante = ". $idmandante." and d.id_deudor = ".$iddeudor ;
+				and m.id_mandante = ". $idmandante." and d.id_deudor = ".$iddeudor." and d.id_estado_doc in(999, ".$idestado.")" ;
 	
 		$sqlpersonal->set_where($where);
 	
@@ -1416,6 +1415,53 @@ class DocumentosModel extends ModelBase
     	$sqlpersonal->load();
 
     	return $sqlpersonal;	
+	}
+	
+	public function getDocEnviarGestion($array)
+	{
+
+		include("config.php");
+
+		$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
+	
+		$sqlpersonal->set_select(" d.id_deudor id_deudor,
+									dd.rut_deudor rut_deudor,
+									dd.dv_deudor dv_deudor,
+									dd.primer_nombre primer_nombre_deudor,
+									dd.segundo_nombre segundo_nombre_deudor,
+									dd.primer_apellido primer_apellido_deudor,
+									dd.segundo_apellido segundo_apellido_deudor,
+									dds.calle calle,
+									dds.numero numero,
+									dds.piso piso,
+									dds.depto depto,
+									dds.comuna comuna,
+									dds.ciudad ciudad,
+									m.nombre nombre_mandante,
+									m.apellido apellido_mandante,
+									m.rut_mandante rut_mandante,
+									m.dv_mandante dv_mandante,
+									d.id_documento id_documento, td.tipo_documento tipo_documento,
+									d.numero_documento numero_documento,ed.estado estado,
+									d.fecha_protesto fecha_protesto,
+									d.fecha_siniestro fecha_siniestro,
+									d.fecha_creacion fecha_creacion, 
+									d.monto monto "); 
+	  	$sqlpersonal->set_from(" documentos d ,tipodocumento td, estadodocumentos ed,
+        						 mandantes m, deudores dd left join direccion_deudores dds on dd.id_deudor = dds.id_deudor ");
+      	$sqlpersonal->set_where(" d.id_tipo_doc = td.id_tipo_documento
+							and   d.id_estado_doc = ed.id_estado_doc
+							and   d.id_deudor = dd.id_deudor
+							and   d.id_mandatario = m.id_mandante
+							and   dd.id_deudor = dds.id_deudor
+							and   d.id_deudor = ".$array["iddeudor"].
+      					  " and   d.id_mandatario = ".$array["idmandante"].
+      					  " and   d.activo = 'S'" .
+							" order by id_deudor ");
+	
+    	$sqlpersonal->load();
+
+    	return $sqlpersonal;
 	}
 	
 	public function getDocLiquidar($id_deudor)
