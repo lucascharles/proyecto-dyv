@@ -122,6 +122,8 @@ class GestionesController extends ControllerBase
 		
 		
 		$ultimaGestion = $gestiones->getUltimaGestion($array["idgestion"]);
+		$data['idestadoges'] = $array["estadoGes"];
+		$data['idgestion'] = $array["idgestion"];
 		
 		if($ultimaGestion->get_count() > 0)
 		{
@@ -226,7 +228,7 @@ class GestionesController extends ControllerBase
 				
 		$gestiones = new GestionesModel();
 		$gestiones->editarGestiones($array);
-			
+//		$gestiones->cambiarEstadoDocGestion($array);	
 	}
 
 	public function grabarDir($array)
@@ -382,13 +384,23 @@ class GestionesController extends ControllerBase
     {
 		require 'models/DocumentosModel.php';
 		$documentos = new DocumentosModel();
-			
-		$dato = $documentos->getListaDocMandanteDeudor($array["iddeudor"],$array["idmandante"]);
+
+		$docCartas = new DocumentosModel();
+		if($array["enviarCarta"]=="S")
+		{
+			$listaDoc = $docCartas->getDocEnviarGestion($array);
+			$data['nom_sistema'] = "SISTEMA DyV";
+			$data['accion_form'] = "";
+			$data['colleccionDocumentos'] = $listaDoc; //$listaIdDocs;
+			$this->view->show("carta_pdf.php", $data);
+		}
+		
+		$dato = $documentos->getListaDocMandanteDeudor($array["iddeudor"],$array["idmandante"],$array["idestadoges"]);
 		
 		$data['nom_sistema'] = "SISTEMA DyV";
 		$data['colleccionDatosDocumentos'] = $dato;
 		
-		$this->view->show("lista_documentos.php", $data);
+		$this->view->show("lista_documentos_gestion.php", $data);
 	}
 	public function getMandantesDeudor($array)
     {
@@ -418,5 +430,29 @@ class GestionesController extends ControllerBase
 		
 		$this->view->show("gestiona_liquidaciones.php", $data);
 	}
+	
+	public function enviarCartas($array)
+	{
+		require 'models/DocumentosModel.php';
+		$docCartas = new DocumentosModel();
+		
+		$listaDoc = $docCartas->getDocEnviarGestion($array);
+		$listaIdDocs = " ( ";
+		for ($i = 1; $i <= $listaDoc->get_count(); $i++) {
+    		//genera lista de Ids para generar cartas
+    			$datoTmp = &$listaDoc->items[$i];
+    			$listaIdDocs = $listaIdDocs . $datoTmp->get_data("id_documento");
+    			if($i < $listaDoc->get_count()){
+    				$listaIdDocs = $listaIdDocs . ",";
+    			}
+		}
+			$listaIdDocs =  $listaIdDocs .  " ) ";
+		
+			$data['nom_sistema'] = "SISTEMA DyV";
+			$data['accion_form'] = "";
+			$data['colleccionDocumentos'] = $listaDoc; //$listaIdDocs;
+			$this->view->show("carta_pdf.php", $data);
+	
+		}
 }
 ?>
