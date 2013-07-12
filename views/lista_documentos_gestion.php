@@ -9,9 +9,19 @@
      <script src="js/jquery-1.7.1.min.js" type="text/javascript"></script>
     <script language="javascript"> 
 		function seleccionado(id)
-		{
-			window.parent.seleccionado(id);	
-			window.parent.seleccionado_doc(id);		
+		{		
+				
+//			window.parent.seleccionado(id);	
+			var boxes = document.getElementsByName("checktipdoc");
+			var arrdoc = '';
+			for (var i = 0; i < boxes.length; i++) {
+			    if (boxes[i].checked == true) {
+			        arrdoc = arrdoc + ' ' + boxes[i].value; 
+			    }
+			}
+			window.parent.seleccionado_doc(id,arrdoc);	
+			
+			
 		}
 		
 		function verMasRegistros(id, pantalla)
@@ -69,7 +79,7 @@
 		<th align="center" width="80"><font class="titulolistado">MONTO</font></th>
         <th align="center" width="90"><font class="titulolistado">BANCO</font></th>
         <th align="center" width="90"><font class="titulolistado">CTA. CTE.</font></th>
-        <th align="center" width="70"><font class="titulolistado">VENCE</font></th>
+        <th align="center" width="70"><font class="titulolistado">RECIBIDO</font></th>
     </tr>
 	<?php
 	
@@ -79,7 +89,7 @@
 			
 	?>
 	<tr bgcolor="#FFFFFF">
-    	<td width="3"><input type="radio" id="<? echo($datoTmp->get_data("id_documento")) ?>" name="checktipdoc" value="" onclick="seleccionado(<? echo($datoTmp->get_data("id_documento")) ?>)"></td>		
+    	<td width="3"><input type="checkbox"  name="checktipdoc" value="<? echo($datoTmp->get_data("id_documento")) ?>" onclick="seleccionado(<? echo($datoTmp->get_data("id_documento")) ?>)"></td>		
 		
 		<td align="left" width="150" class="dato_lista">&nbsp;&nbsp;<?php echo (strtoupper($datoTmp->get_data("id_documento"))) ?></td>
 		<td align="left" width="100" class="dato_lista">&nbsp;&nbsp;<?php echo (strtoupper(utf8_decode($datoTmp->get_data("ape1_deudor")." ".$datoTmp->get_data("ape2_deudor")." ".$datoTmp->get_data("nom1_deudor")))) ?></td>

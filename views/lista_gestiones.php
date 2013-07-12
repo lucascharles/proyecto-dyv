@@ -8,9 +8,9 @@
     <link rel="stylesheet" href="css/general.css" type="text/css" />
     <script src="js/jquery-1.7.1.min.js" type="text/javascript"></script>
     <script language="javascript"> 
-		function seleccionado(id)
+		function seleccionado(id,idest)
 		{
-			window.parent.seleccionado(id);
+			window.parent.seleccionado(id,idest);
 		}
 		
 		function verMasRegistros(id, pantalla)
@@ -19,7 +19,7 @@
 			var tipoG = window.parent.document.getElementById("tipo_gestion").value;
 			datos += "&rut_d="+window.parent.document.getElementById("txtrutdeudor").value+"&rut_m="+window.parent.document.getElementById("txtrutmandante").value+"&tipoGestion="+tipoG;
 			datos += "&id_partida="+id;
-			
+			alert(datos);
 			$.ajax({
 					url: "index.php",
 					type: "GET",
@@ -62,7 +62,7 @@
 			
 	?>
 	<tr bgcolor="#FFFFFF" >
-    	<td height="25"><input type="radio" id="<? echo($datoTmp->get_data("id_gestion")) ?>" name="checktipdoc" value="" onclick="seleccionado(<? echo($datoTmp->get_data("id_gestion")) ?>)"></td>
+    	<td height="25"><input type="radio" id="<? echo($datoTmp->get_data("id_gestion")) ?>" name="checktipdoc" value="" onclick="seleccionado(<? echo($datoTmp->get_data("id_gestion")) ?>,<? echo($datoTmp->get_data("id_estado")) ?>)"></td>
         <td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("rut_mandante")."-".$datoTmp->get_data("dv_mandante")) ?></td>
         <td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("rut_deudor")."-".$datoTmp->get_data("dv_deudor")) ?></td>
 		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo (utf8_decode($datoTmp->get_data("razonsocial"))) ?></td>
