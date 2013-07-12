@@ -24,13 +24,16 @@ class GestionesModel extends ModelBase
 					  d.razonsocial razonsocial,
 					  g.fecha_gestion fecha_gestion,
 					  g.fecha_prox_gestion fecha_prox_gestion,
-					  eg.estado estado  
+					  esg.estado estado,
+					  esg.id_estado id_estado 
 					  ");
-	$sqlpersonal->set_from( " gestiones g LEFT JOIN estadosgestion eg ON g.estado = eg.id_estado, deudores d, mandantes m ");
+	$sqlpersonal->set_from( " gestiones g, estados_x_gestion eg, deudores d, estadosgestion esg, mandantes m ");
 
-	$where = " g.id_deudor = d.id_deudor
-	  	   and g.id_mandante = m.id_mandante
-		   and g.activo = 'S' ";
+	$where = " g.id_gestion = eg.id_gestion
+				AND g.id_deudor = d.id_deudor
+				AND d.id_mandante = m.id_mandante
+				AND eg.id_estado = esg.id_estado
+				AND g.activo = 'S' ";
 //		   and d.id_deudor in (select d1.id_deudor from documentos d1 where d1.id_deudor = d.id_deudor and d1.id_estado_doc not in( 2,3 )) ";
 	
 	if(trim($param["rut_d"]) <> "")
@@ -54,15 +57,14 @@ class GestionesModel extends ModelBase
 	*/
 	$where .= " and g.id_gestion > ".$param["id_partida"];
 
-	$where = $where ." ORDER by fecha_prox_gestion asc ";
+	$where = $where ." GROUP BY eg.id_estado ORDER BY eg.fecha_prox_gestion ASC ";
 	
 	
 	$sqlpersonal->set_where( $where );
 	$sqlpersonal->set_limit(0,30); // PARA MYSQL
     $sqlpersonal->load();
 
-    return $sqlpersonal;	
-	
+    return $sqlpersonal;		
 	}
 	
 	public function getListaGestionesDia($des, $param=array())
@@ -311,21 +313,26 @@ class GestionesModel extends ModelBase
 	  $dato = new Estados_x_Gestion();
 	  $datoGes = new Gestiones();
 	  
-	  $dato->set_data("id_gestion",$array["idgestion"]);
-	  $dato->set_data("id_estado",$array["selGestion"]);
-	  $dato->set_data("id_mandante",$array["selMandantes"]);
-	  $dato->set_data("id_documento",$array["iddocumento"]);
-	  
-	  $dato->set_data("fecha_gestion",$array["txtfechagestion"]);
-	  
-	  $date = str_replace('/', '-',$array["txtfechaproxgestion"]); 
-	  $dato->set_data("fecha_prox_gestion",date('Y-m-d', strtotime($date)));
-	  
-	  $dato->set_data("notas",$array["txtcomentarios"]);
-	  $dato->set_data("usuario",$array["txtusuario"]);
-	  
-	  $dato->save();
-
+	  for ($i = 1; $i <= count($array); $i++) {
+					
+		  if($array["iddocumento".$i] != "")
+		  {
+			  $dato->set_data("id_gestion",$array["idgestion"]);
+			  $dato->set_data("id_estado",$array["selGestion"]);
+			  $dato->set_data("id_mandante",$array["selMandantes"]);
+			  $dato->set_data("id_documento",$array["iddocumento".$i]);
+			  
+			  $dato->set_data("fecha_gestion",$array["txtfechagestion"]);
+			  
+			  $date = str_replace('/', '-',$array["txtfechaproxgestion"]); 
+			  $dato->set_data("fecha_prox_gestion",date('Y-m-d', strtotime($date)));
+			  
+			  $dato->set_data("notas",$array["txtcomentarios"]);
+			  $dato->set_data("usuario",$array["txtusuario"]);
+			  
+			  $dato->save();
+		  }
+	  }
 	  $datoGes->add_filter("id_gestion","=",$array["idgestion"]);
 	  $datoGes->load();
 	  
@@ -335,7 +342,34 @@ class GestionesModel extends ModelBase
 	  $datoGes->set_data("estado",$array["selGestion"]);
 	  $datoGes->save();
 	  
+	  
+	  for ($i = 1; $i <= count($array); $i++) {
+					
+		  if($array["iddocumento".$i] != "")
+		  {
+		  	$documento = new Documentos();
+		  	$documento->add_filter("id_documento","=",$array["iddocumento".$i]);
+		  	$documento->load();
+		  	$documento->set_data("id_estado_doc",$array["selGestion"]);
+		  	$documento->save();
+		  }
+	  }
+	  
 	  //modifica estado de documento si la gestion es una DEMANDA, CASTIGO o RECUPERO
+//	  if($array["iddocumento"] != "")
+//	  {
+//	  	$documento = new Documentos();
+//	  	$documento->add_filter("id_documento","=",$array["iddocumento"]);
+//	  	$documento->load();
+//	  	$documento->set_data("id_estado_doc",$array["selGestion"]);
+//	  	$documento->save();
+//	  }
+	  
+	}
+	
+	public function cambiarEstadoDocGestion($array)
+	{
+	//modifica estado de documento si la gestion es una DEMANDA, CASTIGO o RECUPERO
 	  if($array["iddocumento"] != "")
 	  {
 	  	$documento = new Documentos();
@@ -344,7 +378,6 @@ class GestionesModel extends ModelBase
 	  	$documento->set_data("id_estado_doc",$array["selGestion"]);
 	  	$documento->save();
 	  }
-	  
 	}
 	
 	public function getCabeceraGestion($idgestion)
