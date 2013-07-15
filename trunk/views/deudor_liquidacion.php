@@ -462,7 +462,7 @@
 			var capital = document.getElementById("txttotal").value;
 			var interes = document.getElementById("txtinteresacumulado").value;
 			var protesto = document.getElementById("txtprotesto").value;
-			alert(capital+" / "+interes+" / "+protesto)
+//			alert(capital+" / "+interes+" / "+protesto)
 			var honorarios = ((parseInt(capital) + parseFloat(interes) + parseInt(protesto))*10/100).toFixed(2);
 
 			document.getElementById("txthonorarios").value = honorarios;
@@ -543,7 +543,7 @@
 
 		function actualizar()
 		{
-			var total = document.getElementById("txtimporte").value;
+			var total = document.getElementById("txtcostoprestamo").value;
 			var cuotas = document.getElementById("txtcuotascalc").value;
 			var valoruf = document.getElementById("txtvaloruf").value;
 
@@ -558,7 +558,7 @@
 			var capital;
 			var imp = 0;
 			var cuotas = document.getElementById("txtcuotascalc").value;	
-			var saldo_inicial = document.getElementById("txtimporte").value;
+			var saldo_inicial = document.getElementById("txtcostoprestamo").value;
 			var interes_mensual = document.getElementById("txtinteresmensual").value;
 			var pago_mensual = document.getElementById("txtpagomensual").value;
 		
@@ -581,7 +581,7 @@
 			url += "&txtnumpagos="+$("#txtcuotascalc").val();
 			url += "&txtimp="+$("#txtimpcalc").val();
 			url += "&txtcostoprestamo="+$("#txtcostoprestamo").val();
-			
+//			alert(url);
 			document.getElementById("frmcalculos").src = url;
 		}
 	

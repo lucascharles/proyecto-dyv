@@ -87,7 +87,8 @@ class GestionesModel extends ModelBase
 					  d.razonsocial razonsocial,
 					  g.fecha_gestion fecha_gestion,
 					  g.fecha_prox_gestion fecha_prox_gestion,
-					  eg.estado estado ");
+					  eg.estado estado,
+					  eg.id_estado id_estado ");
 	$sqlpersonal->set_from( " gestiones g LEFT JOIN estadosgestion eg ON g.estado = eg.id_estado, deudores d, mandantes m ");
 
 	$where = " g.id_deudor = d.id_deudor

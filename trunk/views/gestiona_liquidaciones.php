@@ -42,7 +42,8 @@
 		{
 			if($.trim($("#control_volver").val()) != "")
 			{
-				$("#pagina").load('index.php?controlador='+$("#control_volver").val()+'&accion='+$("#accion_volver").val()+'&'+$("#param_volver").val()+'='+$("#val_volver").val());
+//				alert('index.php?controlador='+$("#control_volver").val()+'&accion='+$("#accion_volver").val()+'&'+$("#param_volver").val()+'='+$("#val_volver").val()+'&estadoGes='+$.trim($("#idestadoges").val()));
+				$("#pagina").load('index.php?controlador='+$("#control_volver").val()+'&accion='+$("#accion_volver").val()+'&'+$("#param_volver").val()+'='+$("#val_volver").val()+'&estadoGes='+$.trim($("#idestadoges").val()));
 			}
 			else
 			{
@@ -154,6 +155,7 @@
 <input type="hidden" name="accion_volver" id="accion_volver" value="<? echo($accion_volver) ?>" />
 <input type="hidden" name="param_volver" id="param_volver" value="<? echo($param_volver) ?>" />
 <input type="hidden" name="val_volver" id="val_volver" value="<? echo($val_volver) ?>" />
+<input type="hidden" name="idestadoges" id="idestadoges" value="<? echo($idestadoges) ?>" />
 <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="titulopantalla">
 	<tr>
 		<th align="left" height="30">&nbsp;Liquidaciones</th>

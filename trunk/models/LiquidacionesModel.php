@@ -60,7 +60,7 @@ class LiquidacionesModel extends ModelBase
 	public function getCalculoPrestamo($array)
 	{	
 		$interes_mensual = $array["txtinteresmensual"];
-		$saldo_inicial = $array["txtimporte"];
+		$saldo_inicial = $array["txtcostoprestamo"];
 		$array_pagos = array();
 
 		for($i=0; $i<$array["txtnumpagos"]; $i++)

@@ -337,7 +337,8 @@
 			{
 				return false;
 			}
-			$("#pagina").load('index.php?controlador=Gestiones&accion=gestiona_liquidacion&iddeudor='+iddeudor+"&control_volver=Gestiones&accion_volver=gestionar&param_volver=idgestion&val_volver="+$("#id_gestion").val());		
+//			alert('index.php?controlador=Gestiones&accion=gestiona_liquidacion&iddeudor='+iddeudor+"&control_volver=Gestiones&accion_volver=gestionar&param_volver=idgestion&val_volver="+$("#id_gestion").val()+"&idestadoges=<? $var = &$idestadoges; echo($var); ?>");
+			$("#pagina").load('index.php?controlador=Gestiones&accion=gestiona_liquidacion&iddeudor='+iddeudor+"&control_volver=Gestiones&accion_volver=gestionar&param_volver=idgestion&val_volver="+$("#id_gestion").val()+"&idestadoges=<? $var = &$idestadoges; echo($var); ?>");		
 		}
 
 		function enviarCartas(idmandante,iddeudor)
@@ -429,6 +430,7 @@
 <form name="frmadmgestion">
 	<input  type="hidden" name="id_deudor" id="id_deudor" value="<? echo($objGestion->get_data("id_deudor")) ?>"/>
 	<input  type="hidden" name="id_gestion" id="id_gestion" value="<? $var = &$idgestion; echo($var); ?>"/>
+	<input  type="hidden" name="idestadoges" id="idestadoges" value="<? $var = &$idestadoges; echo($var); ?>"/>
 	<input  type="hidden" name="iddireccion" id="iddireccion" value=""/>
     <input  type="hidden" name="id_mandante" id="id_mandante" value="<? $var = &$idMandante; echo($var); ?>"/>
     <input  type="hidden" name="iddocumento" id="iddocumento" value=""/>
@@ -509,7 +511,9 @@
 			</select>
         </th>
         
-        <th align="left" height="30"> Deuda Neta:&nbsp;&nbsp;<? $var = &$deudaNeta; echo($var); ?></th> 
+        <th align="left" height="30"> Deuda Neta:&nbsp;&nbsp;<? $var = &$deudaNeta; echo($var); ?></th>
+        
+        <th align="left" height="30"> Liquidaciones:&nbsp;&nbsp;<? $var = &$cantidadLiquidacion; echo($var); ?></th> 
         
     </tr>
  </table>

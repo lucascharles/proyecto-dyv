@@ -28,6 +28,15 @@ class DeudoresModel extends ModelBase
 		return $cantidad;
 	}
 	
+	public function getCantLiquidaciones($iddeudor)
+	{
+		$dato = new LiquidacionesCollection();
+		$dato->add_filter("id_deudor","=",$iddeudor);
+		$dato->load();
+		$cantidad = $dato->get_count();		
+		return $cantidad;
+	}
+	
 	public function altaFicha($param)
 	{
 		$deudor = new Deudores();
