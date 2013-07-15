@@ -98,6 +98,7 @@ class GestionesController extends ControllerBase
 		$MandantesXDeudor = $mandantes->getMandanteDeudor($iddeudor);
 		$cantDemandas = $deudor->getCantFicha($iddeudor);
 		
+		$existeLiquidacion = $deudor->getCantLiquidaciones($iddeudor);
 		
 		$data['nom_sistema'] = "SISTEMA DyV";
 		$data['objGestion'] = $dato;
@@ -115,6 +116,7 @@ class GestionesController extends ControllerBase
 		$data['idMandante'] = $idmandante;
 		$data['nomMandante'] = $nomMandante;
 		$data['deudaNeta'] = $deuda;
+		$data['cantidadLiquidacion'] = $existeLiquidacion;
 		$data['deudaNetaMandante'] = $deudaMandante;
 		$data['tipoGestion'] = $array["tipoGestion"];
 		$data['cantidadDemandas'] = $cantDemandas;
@@ -426,6 +428,7 @@ class GestionesController extends ControllerBase
 		$data['accion_volver'] = $array["accion_volver"];
 		$data['param_volver'] = $array["param_volver"];
 		$data['val_volver'] = $array["val_volver"];
+		$data['idestadoges'] = $array["idestadoges"];
 	
 		
 		$this->view->show("gestiona_liquidaciones.php", $data);
