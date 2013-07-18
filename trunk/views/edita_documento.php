@@ -98,7 +98,8 @@
 				datos += "&selCausalProtesta="+$("#selCausalProtesta").val();
 				datos += "&selEstadoDoc="+$("#selEstadoDoc").val();
 				datos += "&montoProtesto="+$("#txtmontoprotesto").val();
-				//alert("datos: "+datos);
+				datos += "&fechaVencimiento="+$("#txtfechavenc").val();
+//				alert("datos: "+datos);
 				//return false;
 				$.ajax({
 					url: "index.php",
@@ -115,12 +116,14 @@
 							}
 							else
 							{
-								$("#pagina").load('index.php?controlador=Documentos&accion=admin');	
+								$("#pagina").load('index.php?controlador=Documentos&accion=admin&rutDeudor='+$("#txtrut_deudor").val());
+//								alert('index.php?controlador=Documentos&accion=admin&rutDeudor='+$("#txtrut_deudor").val());	
 							}
 						}
 						else
 						{
-							$("#pagina").load('index.php?controlador=Documentos&accion=admin');
+							$("#pagina").load('index.php?controlador=Documentos&accion=admin&rutDeudor='+$("#txtrut_deudor").val());
+//									alert('index.php?controlador=Documentos&accion=admin&rutDeudor='+$("#txtrut_deudor").val());		
 						}
 					},
 					error: function()
