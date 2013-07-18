@@ -96,6 +96,7 @@
 <body>
 <form name="frmadmdocumentos">
 <input  type="hidden" name="id_documento" id="id_documento" value=""/>
+
 <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="titulopantalla">
 	<tr>
 		<th align="left" height="30">&nbsp;B&uacute;squeda Documentos</th>
@@ -163,7 +164,7 @@
  <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
     <tr>
 		<td colspan="2" width="90%">
-        	<iframe id="frmlistdocumentos" src="index.php?controlador=Documentos&accion=listar&id_partida=0" width="100%" align="middle" height="220" scrolling="auto" frameborder="0"></iframe>
+        	<iframe id="frmlistdocumentos" src="index.php?controlador=Documentos&accion=listar&id_partida=0&rutDeudor=<? $var = &$rutDeudor; echo($var); ?>" width="100%" align="middle" height="220" scrolling="auto" frameborder="0"></iframe>
         </td>
         <td width="10%">
         	<div style="position:relative; margin-left:10px;">

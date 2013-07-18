@@ -650,10 +650,17 @@ class DocumentosModel extends ModelBase
       $dato->set_data("id_mandatario",$array["mandante"]);
       $dato->set_data("id_deudor",$array["deudor"]);
       $dato->set_data("numero_documento",$array["txtnrodoc"]);
-      $dato->set_data("fecha_protesto",$array["txtfechaprotesto"]);
+      
+      $date = str_replace('/', '-',$array["txtfechaprotesto"]); 
+      $dato->set_data("fecha_protesto",date('Y-m-d', strtotime($date)));
+      
       $dato->set_data("monto",$array["txtmonto"]);
       $dato->set_data("cta_cte",$array["txtctacte"]);
       $dato->set_data("gastos_protesto",$array["montoProtesto"]);
+      
+      
+      $date = str_replace('/', '-',$array["fechaVencimiento"]); 
+      $dato->set_data("fecha_siniestro",date('Y-m-d', strtotime($date)));
 	  $dato->save();
 	}
 
@@ -956,7 +963,12 @@ class DocumentosModel extends ModelBase
 				and d.activo = 'S' ";
 	
 		$where .= " and d.id_documento > ".$array["id_partida"];
-	
+		
+		if($array["rutDeudor"] != "")
+		{
+			$where .= " and dd.rut_deudor like '".$array["rutDeudor"]."%'";
+		}
+			
 		//		$sqlpersonal->set_top(10); // PARA SQLSERVER
 		$sqlpersonal->set_limit(0,30); // PARA MYSQL
 	

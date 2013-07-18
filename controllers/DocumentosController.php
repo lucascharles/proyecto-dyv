@@ -7,6 +7,7 @@ class DocumentosController extends ControllerBase
     {
 		$data['nom_sistema'] = "SISTEMA DyV";
 		$data['accion_form'] = "";
+		$data['rutDeudor'] = $array["rutDeudor"];
 		
 		$this->view->show("admin_documentos.php", $data);
 	}
@@ -118,12 +119,15 @@ class DocumentosController extends ControllerBase
     {
 		require 'models/DocumentosModel.php';
 		$documentos = new DocumentosModel();
-		$dato = $documentos->getListaDocumentos("","",$array);
+//		$dato = $documentos->getListaDocumentos("","",$array);
+		$dato = $documentos->getListaDocumentos2($array);
 		$id_cab = $array["id_partida"];
+		if($dato->get_count() > 0)
+		{
 		$datoTmp = &$dato->items[($dato->get_count()-1)];
 		$array["id_partida"] = $datoTmp->get_data("id_documento");
-		$datoAux = $documentos->getListaDocumentos("","",$array);
-		
+//		$datoAux = $documentos->getListaDocumentos("","",$array);
+		$datoAux = $documentos->getListaDocumentos2($array);
 		$html = "<table width='1073' cellpadding='2' cellspacing='2' align='center' border='0' bgcolor='#FFFFFF'>";
 		$html .= "<tr class='' id='cabecera_pag_".$id_cab."' >";
 		$html .= "<th align='center' width='3' height='0'></th>";
@@ -137,7 +141,7 @@ class DocumentosController extends ControllerBase
 		$html .= "<th align='center' width='80'><font class='titulolistado'>MONTO</font></th>";
         $html .= "<th align='center' width='90'><font class='titulolistado'>BANCO</font></th>";
         $html .= "<th align='center' width='90'><font class='titulolistado'>CTA. CTE.</font></th>";
-        $html .= "<th align='center' width='70'><font class='titulolistado'>RECIBIDO</font></th>";
+        $html .= "<th align='center' width='70'><font class='titulolistado'>VENCE</font></th>";
     	$html .= "</tr>";
 		for($j=0; $j<$dato->get_count(); $j++) 
 		{
@@ -180,6 +184,8 @@ class DocumentosController extends ControllerBase
 	    $html .= "</div>";
 		
 		echo($html);
+		
+		}
 	}
 	
 
@@ -202,6 +208,7 @@ class DocumentosController extends ControllerBase
 		$data['nom_sistema'] = "SISTEMA DyV";
 		$data['colleccionDatosDocumentos'] = $dato;
 		$data['cant_mas'] = $cant_datos;
+		$data['rutDeudor'] = $array["rutDeudor"];
 		
 		$this->view->show("lista_documentos.php", $data);
 	}    

@@ -28,7 +28,13 @@
 			{
 				datos += "&des_int="+window.parent.document.getElementById("txtrut").value;
 				datos += "&desApel1="+window.parent.document.getElementById("txtPrimerApel").value;
-				datos += "&rutmandante="+window.parent.document.getElementById("txtrutmandante").value;
+				if(window.parent.document.getElementById("txtrutmandante").value != ""){
+					datos += "&rutmandante="+window.parent.document.getElementById("txtrutmandante").value;
+				}
+				else
+				{
+					datos += "&rutmandante=<? $var = &$rutDeudor; echo($var); ?>";
+				}
 			}
 			
 			datos += "&id_partida="+id;
