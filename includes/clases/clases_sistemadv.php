@@ -717,7 +717,8 @@
 					"depto" => array("varchar"),
 					"comuna" => array("varchar"),
 					"ciudad" => array("varchar"),
-					"otros" => array("varchar")
+					"otros" => array("varchar"),
+					"vigente" => array("varchar"),
 				);
 			parent::BusinessObject();
 		}

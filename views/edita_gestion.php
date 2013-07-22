@@ -112,7 +112,7 @@
 		
 		function grabar()
 		{
-			
+			var doc ="";
 			if(document.getElementById("iddocumento").value == "" )
 				
 			{
@@ -143,12 +143,13 @@
 
 					if(document.getElementById("iddocumento").value != "") 
 					{
-
+							
 						var arrdoc = document.getElementById("docCartas").value;
 						arrD = arrdoc.split(" ");						
 						for(var i=1; i<arrD.length; i++) {
 							var value = arrD[i];
 							datos += "&iddocumento"+i+"="+value;
+							doc+="&iddocumento"+i+"="+value;
 						}
 						//						datos += "&iddocumento="+$("#iddocumento").val();
 					}
@@ -162,7 +163,7 @@
 						if(document.getElementById('selGestion').options[document.getElementById('selGestion').selectedIndex].text == "DEMANDA")
 						{	
 							alert("Se generara una FICHA para el deudor.");
-							$("#pagina").load('index.php?controlador=Deudores&accion=deudor_ficha&id='+$("#id_deudor").val()+'&id_doc='+$("#iddocumento").val()+'&tipope=A'+'&idGes='+$("#id_gestion").val());
+							$("#pagina").load('index.php?controlador=Deudores&accion=deudor_ficha&id='+$("#id_deudor").val()+'&id_doc='+$("#iddocumento").val()+'&tipope=A'+'&idGes='+$("#id_gestion").val()+doc);
 						}
 						document.getElementById("frmlistagestiones").src="index.php?controlador=Gestiones&accion=listar_bitacora_gestion&idgestion="+$("#id_gestion").val()+"&iddocumento="+$("#iddocumento").val();
 					},
@@ -322,12 +323,13 @@
 
 		function modDeudor(iddeudor)
 		{
+			var estadoGes = document.getElementById("idestadoges").value; 
 			if(iddeudor == "")
 			{
 				return false;
 			}
 
-			$("#pagina").load('index.php?controlador=Deudores&accion=editar&iddeudor='+iddeudor+"&control_volver=Gestiones&accion_volver=gestionar&param_volver=idgestion&val_volver="+$("#id_gestion").val());
+			$("#pagina").load('index.php?controlador=Deudores&accion=editar&estadoGes='+estadoGes+'&iddeudor='+iddeudor+"&control_volver=Gestiones&accion_volver=gestionar&param_volver=idgestion&val_volver="+$("#id_gestion").val());
 		}
 
 		function liquidar(iddeudor)

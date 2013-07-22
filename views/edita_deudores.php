@@ -186,7 +186,7 @@
 		{
 			if($.trim($("#control_volver").val()) != "")
 			{
-				$("#pagina").load('index.php?controlador='+$("#control_volver").val()+'&accion='+$("#accion_volver").val()+'&'+$("#param_volver").val()+'='+$("#val_volver").val());
+				$("#pagina").load('index.php?controlador='+$("#control_volver").val()+'&accion='+$("#accion_volver").val()+'&'+$("#param_volver").val()+'='+$("#val_volver").val()+'&estadoGes='+$("#estadoGes").val());
 			}
 			else
 			{
@@ -259,8 +259,15 @@
 			datos += "&telefono="+$("#txttelefono").val();
 			datos += "&email="+$("#txtemail").val();
 			datos += "&tipo="+$("#tipo").val();
-
-			
+			datos += "&id_dir="+$("#id_dir").val();
+			if(document.getElementById("chkvigente").checked == true)
+			{
+				datos += "&vigente=S";
+			}
+			else
+			{
+				datos += "&vigente=N";
+			}
 			$.ajax({
 					url: "index.php",
 					type: "GET",
@@ -270,7 +277,8 @@
 					{
 						if($.trim($("#control_volver").val()) != "")
 						{
-							$("#pagina").load('index.php?controlador='+$("#control_volver").val()+'&accion='+$("#accion_volver").val()+'&'+$("#param_volver").val()+'='+$("#val_volver").val());
+							$("#pagina").load('index.php?controlador='+$("#control_volver").val()+'&accion='+$("#accion_volver").val()+'&'+$("#param_volver").val()+'='+$("#val_volver").val()+'&estadoGes='+$("#estadoGes").val());
+//							alert('index.php?controlador='+$("#control_volver").val()+'&accion='+$("#accion_volver").val()+'&'+$("#param_volver").val()+'='+$("#val_volver").val()+'&estadoGes='+$("#estadoGes").val());
 						}
 						else
 						{
@@ -452,6 +460,7 @@
 <input type="hidden" name="accion_volver" id="accion_volver" value="<? echo($accion_volver) ?>" />
 <input type="hidden" name="param_volver" id="param_volver" value="<? echo($param_volver) ?>" />
 <input type="hidden" name="val_volver" id="val_volver" value="<? echo($val_volver) ?>" />
+<input type="hidden" name="estadoGes" id="estadoGes" value="<? echo($estadoGes) ?>" />
 
 <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="titulopantalla">
 	<tr>
@@ -601,6 +610,7 @@
             	<tr>
                 	<td class="etiqueta_form">Calle</td>
                     <td><input type="text" name="txtcalle" id="txtcalle" size="40"  tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtcalle" class="msjdato_incomp"></span></td>
+					<td>&nbsp;Vigente&nbsp;<input type="checkbox" name="chkvigente" id="chkvigente" <? echo($chkvigente) ?>  /></td>                    
                 </tr>
                 <tr>
                 	<td class="etiqueta_form">N&uacute;mero</td>
