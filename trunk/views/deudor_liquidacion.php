@@ -524,10 +524,13 @@
 		function calculadora_prestamo()
 		{
 			//CALCULADORA PRESTAMO
+			var pagocontado = (parseFloat(document.getElementById("txttotalsimulacion").value) - parseFloat(document.getElementById("txthonorarios").value))*30/100;
+			document.getElementById("txtpagocontado").value = pagocontado;
 			
 			var porcentaje_prestamo = (parseFloat(document.getElementById("txttotal").value)+parseFloat(document.getElementById("txtinteresacumulado").value))*30/100;
 			
-			document.getElementById("txtimporte").value = (parseInt(document.getElementById("txttotal").value)+parseFloat(document.getElementById("txtinteresacumulado").value))- parseFloat(porcentaje_prestamo);
+//			document.getElementById("txtimporte").value = (parseInt(document.getElementById("txttotal").value)+parseFloat(document.getElementById("txtinteresacumulado").value))- parseFloat(porcentaje_prestamo);
+			document.getElementById("txtimporte").value = (parseInt(document.getElementById("txttotalsimulacion").value)- parseInt(document.getElementById("txtpagocontado").value)-parseInt(document.getElementById("txthonorarios").value));
 //			document.getElementById("txtinteresmensual").value = document.getElementById("txtinteres").value;
 			document.getElementById("txtimpcalc").value = 0; //definir formula
 
@@ -536,8 +539,7 @@
 			document.getElementById("txtcostoprestamo").value = parseFloat(document.getElementById("txtimporte").value)+parseFloat(document.getElementById("txtimpcalc").value)+parseFloat(document.getElementById("txthonorarios").value);
 
 			
-			var pagocontado = parseFloat(porcentaje_prestamo) + parseFloat(document.getElementById("txthonorarios").value);
-			document.getElementById("txtpagocontado").value = pagocontado;
+			
 		}
 
 

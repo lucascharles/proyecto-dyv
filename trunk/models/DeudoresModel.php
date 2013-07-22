@@ -765,6 +765,16 @@ ORDER BY orden ASC ";
 			$dirdeu->set_data("comuna", $datoTmp->get_data("comuna"));
 			$dirdeu->set_data("ciudad", $datoTmp->get_data("ciudad"));
 			$dirdeu->set_data("otros", $datoTmp->get_data("otros"));
+			
+			if($arrayParam["id_dir"] == $datoTmp->get_data("id_direccion"))
+			{
+				$dirdeu->set_data("vigente", $arrayParam["vigente"]);	
+			}
+			else
+			{
+				$dirdeu->set_data("vigente", "N");
+			}
+			
 			$dirdeu->save();
 		}
 		

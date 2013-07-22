@@ -1469,6 +1469,7 @@ class DocumentosModel extends ModelBase
 							and   d.id_deudor = ".$array["iddeudor"].
       					  " and   d.id_mandatario = ".$array["idmandante"].
       					  " and   d.activo = 'S'" .
+      					  " and   dds.vigente = 'S'" .	
 							" order by id_deudor ");
 	
     	$sqlpersonal->load();

@@ -565,6 +565,7 @@ class DeudoresController extends ControllerBase
 		$data['accion_volver'] = $array["accion_volver"];
 		$data['param_volver'] = $array["param_volver"];
 		$data['val_volver'] = $array["val_volver"];
+		$data['estadoGes'] = $array["estadoGes"];
 		
 		$this->view->show("edita_deudores.php", $data);
 	}
