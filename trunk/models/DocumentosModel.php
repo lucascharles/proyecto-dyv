@@ -777,7 +777,7 @@ class DocumentosModel extends ModelBase
 		$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
 		$sqlpersonal->set_select(" d.id_documento id_documento, c.banco id_banco, dd.primer_apellido ape1_deudor, dd.segundo_apellido ape2_deudor, 
 							  		dd.primer_nombre nom1_deudor, dd.segundo_nombre nom2_deudor,
-									m.nombre nombre_mandante, ed.estado id_estado_doc, td.tipo_documento id_tipo_doc,
+									ifnull(m.nombre , m.apellido) nombre_mandante, ed.estado id_estado_doc, td.tipo_documento id_tipo_doc,
 									d.numero_documento numero_documento,d.fecha_protesto fecha_siniestro, d.cta_cte cta_cte,d.monto monto,
 									d.fecha_siniestro fecha_recibido"); 
 	  	$sqlpersonal->set_from(" documentos d, 
@@ -847,7 +847,7 @@ class DocumentosModel extends ModelBase
 		$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
 		$sqlpersonal->set_select(" d.id_documento id_documento, c.banco id_banco, dd.primer_apellido ape1_deudor, dd.segundo_apellido ape2_deudor,
 							  		dd.primer_nombre nom1_deudor, dd.segundo_nombre nom2_deudor,
-									m.nombre nombre_mandante, ed.estado id_estado_doc, td.tipo_documento id_tipo_doc,
+									ifnull(m.nombre, m.apellido) nombre_mandante, ed.estado id_estado_doc, td.tipo_documento id_tipo_doc,
 									d.numero_documento numero_documento,d.fecha_protesto fecha_protesto, d.cta_cte cta_cte,d.monto monto , d.fecha_siniestro fecha_recibido");
 		$sqlpersonal->set_from(" documentos d left join bancos c on d.id_banco = c.id_banco,
 	 								deudores dd,
@@ -946,8 +946,9 @@ class DocumentosModel extends ModelBase
 	
 		$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
 		$sqlpersonal->set_select(" d.id_documento id_documento, c.banco id_banco, dd.primer_apellido ape1_deudor, dd.segundo_apellido ape2_deudor,
-							  		dd.primer_nombre nom1_deudor, dd.segundo_nombre nom2_deudor,
-									m.nombre nombre_mandante, ed.estado id_estado_doc, td.tipo_documento id_tipo_doc,
+				ifnull(dd.primer_nombre , dd.razonsocial) nom1_deudor,
+				dd.primer_nombre nomX_deudor, dd.segundo_nombre nom2_deudor,
+									ifnull(m.nombre, m.apellido) nombre_mandante, ed.estado id_estado_doc, td.tipo_documento id_tipo_doc,
 									d.numero_documento numero_documento,d.fecha_protesto fecha_protesto, d.fecha_siniestro fecha_siniestro, d.cta_cte cta_cte,d.monto monto, d.fecha_siniestro fecha_recibido ");
 		$sqlpersonal->set_from(" documentos d,
 	 								bancos c,
@@ -1029,7 +1030,7 @@ class DocumentosModel extends ModelBase
 	
 	$sqlselect = "d.id_documento id_documento, c.banco id_banco, dd.primer_apellido ape1_deudor, dd.segundo_apellido ape2_deudor, 
 							  		dd.primer_nombre nom1_deudor, dd.segundo_nombre nom2_deudor,dd.rut_deudor rut_deudor, dd.dv_deudor dv_deudor,
-									m.nombre nombre_mandante, ed.estado id_estado_doc, td.tipo_documento id_tipo_doc,
+									ifnull(m.nombre,m.apellido) nombre_mandante, ed.estado id_estado_doc, td.tipo_documento id_tipo_doc,
 									d.numero_documento numero_documento,d.fecha_siniestro fecha_siniestro, d.cta_cte cta_cte,d.monto monto";
 	$sqlfrom = " documentos d, 
 	 								bancos c,
