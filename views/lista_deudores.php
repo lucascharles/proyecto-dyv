@@ -49,6 +49,7 @@
 	<tr class="cabecera_listado" >
     	<th width="3%" align="center" height="25"></th>
 		<th align="center" width="17%"><font class="titulolistado">RUT</font></th>
+        <th align="center" width="20%"><font class="titulolistado">RAZON SOCIAL</font></th>
         <th align="center" width="20%"><font class="titulolistado">PRIMER APELLIDO</font></th>
         <th align="center" width="20%"><font class="titulolistado">SEGUNDO APELLIDO</font></th>
         <th align="center" width="20%"><font class="titulolistado">PRIMER NOMBRE</font></th>
@@ -64,6 +65,7 @@
 	<tr bgcolor="#FFFFFF" >
     	<td height="25"><input type="radio" id="<? echo($datoTmp->get_data("id_deudor")) ?>" name="checktipdoc" value="" onclick="seleccionado(<? echo($datoTmp->get_data("id_deudor")) ?>)"></td>
         <td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo (strtoupper($datoTmp->get_data("rut_deudor"))) ?></td>
+        <td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo (strtoupper(utf8_decode($datoTmp->get_data("razonsocial")))) ?></td>
 		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo (strtoupper(utf8_decode($datoTmp->get_data("primer_apellido")))) ?></td>
 		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo (strtoupper(utf8_decode($datoTmp->get_data("segundo_apellido")))) ?></td>
         <td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo (strtoupper(utf8_decode($datoTmp->get_data("primer_nombre")))) ?></td>
