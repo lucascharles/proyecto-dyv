@@ -422,6 +422,7 @@ class DeudoresController extends ControllerBase
 			$html .= "<tr bgcolor='#FFFFFF'>";
     		$html .= "<td width='3%' align='center' height='25'><input type='radio' id='".$datoTmp->get_data("id_deudor")."' name='checktipdoc' value='' onclick='seleccionado(".$datoTmp->get_data("id_deudor").")'></td>";
         	$html .= "<td width='17%' align='left' class='dato_lista'>&nbsp;&nbsp;".$datoTmp->get_data("rut_deudor")."</td>";
+        	$html .= "<td width='17%' align='left' class='dato_lista'>&nbsp;&nbsp;".$datoTmp->get_data("razonsocial")."</td>";
 			$html .= "<td width='20%' align='left' class='dato_lista'>&nbsp;&nbsp;".$datoTmp->get_data("primer_apellido")."</td>";
 			$html .= "<td width='20%' align='left' class='dato_lista'>&nbsp;&nbsp;".$datoTmp->get_data("segundo_apellido")."</td>";
         	$html .= "<td width='20%' align='left' class='dato_lista'>&nbsp;&nbsp;".$datoTmp->get_data("primer_nombre")."</td>";
