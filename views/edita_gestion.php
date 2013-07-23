@@ -162,10 +162,15 @@
 					{
 						if(document.getElementById('selGestion').options[document.getElementById('selGestion').selectedIndex].text == "DEMANDA")
 						{	
-							alert("Se generara una FICHA para el deudor.");
-							$("#pagina").load('index.php?controlador=Deudores&accion=deudor_ficha&id='+$("#id_deudor").val()+'&id_doc='+$("#iddocumento").val()+'&tipope=A'+'&idGes='+$("#id_gestion").val()+doc);
+							var conf = confirm("Generar FICHA para deudor?");
+
+						    if(conf == true){
+								$("#pagina").load('index.php?controlador=Deudores&accion=deudor_ficha&id='+$("#id_deudor").val()+'&id_doc='+$("#iddocumento").val()+'&tipope=A'+'&idGes='+$("#id_gestion").val()+doc);
+						    }
 						}
 						document.getElementById("frmlistagestiones").src="index.php?controlador=Gestiones&accion=listar_bitacora_gestion&idgestion="+$("#id_gestion").val()+"&iddocumento="+$("#iddocumento").val();
+
+						document.getElementById("frmlistdocumentos").src="index.php?controlador=Gestiones&accion=listarDocumentoMandante&iddeudor="+$("#id_deudor").val()+"&idmandante="+$("#id_mandante").val()+"&idestadoges="+$("#idestadoges").val();
 					},
 					error: function()
 					{
