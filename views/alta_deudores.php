@@ -624,27 +624,27 @@
 			<table width="100%" align="center" border="0" cellpadding="5" cellspacing="5">
             	<tr>
                 	<td class="etiqueta_form">Calle</td>
-                    <td><input type="text" name="txtcalle" id="txtcalle" size="40" valida="requerido" tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtcalle" class="msjdato_incomp"></span></td>
+                    <td><input type="text" name="txtcalle" id="txtcalle" size="40"  tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtcalle" class="msjdato_incomp"></span></td>
                 </tr>
                 <tr>
                 	<td class="etiqueta_form">N&uacute;mero</td>
-                    <td><input type="text" name="txtnumero" id="txtnumero" size="40" valida="requerido" tipovalida="entero" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtnumero" class="msjdato_incomp"></span></td>
+                    <td><input type="text" name="txtnumero" id="txtnumero" size="40"  tipovalida="entero" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtnumero" class="msjdato_incomp"></span></td>
                 </tr>
                 <tr>
                 	<td class="etiqueta_form">Piso</td>
-                    <td><input type="text" name="txtpiso" id="txtpiso" size="40" valida="requerido" tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtpiso" class="msjdato_incomp"></span></td>
+                    <td><input type="text" name="txtpiso" id="txtpiso" size="40"  tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtpiso" class="msjdato_incomp"></span></td>
                 </tr>
                 <tr>
                 	<td class="etiqueta_form">Departamento</td>
-                    <td><input type="text" name="txtdepartamento" id="txtdepartamento" size="40" valida="requerido" tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtdepartamento" class="msjdato_incomp"></span></td>
+                    <td><input type="text" name="txtdepartamento" id="txtdepartamento" size="40"  tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtdepartamento" class="msjdato_incomp"></span></td>
                 </tr>
                 <tr>
                 	<td class="etiqueta_form">Comuna</td>
-                    <td><input type="text" name="txtcomuna" id="txtcomuna" size="40" valida="requerido" tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtcomuna" class="msjdato_incomp"></span></td>
+                    <td><input type="text" name="txtcomuna" id="txtcomuna" size="40"  tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtcomuna" class="msjdato_incomp"></span></td>
                 </tr>
                 <tr>
                 	<td class="etiqueta_form">Ciudad</td>
-                    <td><input type="text" name="txtciudad" id="txtciudad" size="40" valida="requerido" tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtciudad" class="msjdato_incomp"></span></td>
+                    <td><input type="text" name="txtciudad" id="txtciudad" size="40"  tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtciudad" class="msjdato_incomp"></span></td>
                 </tr>
                 <tr>
                 	<td class="etiqueta_form">Otros</td>
