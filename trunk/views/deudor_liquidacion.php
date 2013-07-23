@@ -513,8 +513,10 @@
 			var interes = document.getElementById("txtinteresacumulado").value;
 			var protesto = document.getElementById("txtprotesto").value;
 			var honorarios = Math.ceil(((parseInt(capital) + parseFloat(interes) + parseInt(protesto))*10/100));
+			var total_mandante = parseInt(document.getElementById("txttotal").value) + parseInt(document.getElementById("txtinteresacumulado").value);
 
 			document.getElementById("txthonorarios").value = honorarios;
+			document.getElementById("txttotalmandante").value = total_mandante;
 
 			var total = Math.ceil((parseFloat(capital) + parseFloat(interes) + parseFloat(protesto) + parseFloat(honorarios))); 
 			document.getElementById("txttotalsimulacion").value = total;
@@ -529,9 +531,7 @@
 			
 			var porcentaje_prestamo = (parseFloat(document.getElementById("txttotal").value)+parseFloat(document.getElementById("txtinteresacumulado").value))*30/100;
 			
-//			document.getElementById("txtimporte").value = (parseInt(document.getElementById("txttotal").value)+parseFloat(document.getElementById("txtinteresacumulado").value))- parseFloat(porcentaje_prestamo);
 			document.getElementById("txtimporte").value = (parseInt(document.getElementById("txttotalsimulacion").value)- parseInt(document.getElementById("txtpagocontado").value)-parseInt(document.getElementById("txthonorarios").value));
-//			document.getElementById("txtinteresmensual").value = document.getElementById("txtinteres").value;
 			document.getElementById("txtimpcalc").value = 0; //definir formula
 
 			var pagomensual = (parseFloat($.trim($("#txtimporte").val())) + parseFloat($.trim($("#txtimpcalc").val()))) / parseInt($.trim($("#txtcuotascalc").val()));
@@ -604,6 +604,29 @@
 			$("#txtnumpagos").val($.trim($("#txtcuotascalc").val()));
 			
 		}
+
+		function mostrar()
+		{
+			var importe_prestamo = document.getElementById("txtimporte").value;
+			var pago_contado = document.getElementById("txtpagocontado").value;
+			var importe_final = parseInt(importe_prestamo) - parseInt(pago_contado);
+			$("#txtimporte").val(importe_final);
+
+
+			if($.trim($("#txtimp").val()) == "")
+			{
+				imp = 0;
+			}
+			
+			var costoprestamo = parseFloat($.trim($("#txtimporte").val())) + parseFloat(document.getElementById("txtimpcalc").value);
+			var pagomensual =  (parseFloat($.trim($("#txtimporte").val())) + parseFloat(document.getElementById("txtimpcalc").value)) / parseInt($.trim($("#txtcuotascalc").val()));
+					
+			$("#txtcostoprestamo").val(costoprestamo);
+			$("#txtpagomensual").val(pagomensual);
+			$("#txtnumpagos").val($.trim($("#txtcuotascalc").val()));
+
+		}
+		
 	</script>
 </head>
 <body>
@@ -860,6 +883,12 @@
                         <input type="text" name="txtinteresacumulado" id="txtinteresacumulado" valida="requerido" tipovalida="moneda" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" value="<? echo($interes_acumulado) ?>"/>
                     </td>
                 </tr>
+                <tr>   
+                    <td align="right" class="etiqueta_form">Total Mandante&nbsp;</td>
+                    <td align="left">
+                        <input type="text" name="txttotalmandante" id="txttotalmandante"  tipovalida="moneda" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" value=""/>
+                    </td>
+                </tr>
                  <tr>	
 					<td align="right" class="etiqueta_form">Honorarios DyV&nbsp;</td>
 					<td align="left"><input type="text" name="txthonorarios" id="txthonorarios" size="15" class="input_form" onFocus="resaltar(this)" value="" tabindex="7" valida="requerido" tipovalida="moneda"/>
@@ -907,7 +936,7 @@
 				</tr>
 				<tr>	
 					<td align="left" class="etiqueta_form">Pago Contado&nbsp;&nbsp;&nbsp;&nbsp;</td>
-					<td align="left"><input type="text" name="txtpagocontado" id="txtpagocontado" size="15" class="input_form" onFocus="resaltar(this)" valida="requerido" tipovalida="moneda" value="<?=conDecimales($interes_simulacion)?>" tabindex="2"/>
+					<td align="left"><input type="text" name="txtpagocontado" id="txtpagocontado" size="15" onkeyup='mostrar()' class="input_form" onFocus="resaltar(this)" valida="requerido" tipovalida="moneda" value="<?=conDecimales($interes_simulacion)?>" tabindex="2"/>
         			</td>
 				</tr>
 				<tr>	
