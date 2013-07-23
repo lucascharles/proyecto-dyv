@@ -457,27 +457,27 @@
 			<table width="100%" align="center" border="0" cellpadding="5" cellspacing="5">
             	<tr>
                 	<td class="etiqueta_form">Contacto</td>
-                    <td><input type="text" name="txtcontacto" id="txtcontacto" size="40" valida="requerido" tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtcontacto" class="msjdato_incomp"></span></td>
+                    <td><input type="text" name="txtcontacto" id="txtcontacto" size="40"  tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtcontacto" class="msjdato_incomp"></span></td>
                 </tr>
                 <tr>
                 	<td class="etiqueta_form">E-mail</td>
-                    <td><input type="text" name="txtemail" id="txtemail" size="40" valida="requerido" tipovalida="mail" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtemail" class="msjdato_incomp"></span></td>
+                    <td><input type="text" name="txtemail" id="txtemail" size="40"  tipovalida="mail" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtemail" class="msjdato_incomp"></span></td>
                 </tr>
                 <tr>
                 	<td class="etiqueta_form">Celular</td>
-                    <td><input type="text" name="txtcelular" id="txtcelular" size="40" valida="requerido" tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtcelular" class="msjdato_incomp"></span></td>
+                    <td><input type="text" name="txtcelular" id="txtcelular" size="40"  tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtcelular" class="msjdato_incomp"></span></td>
                 </tr>
                 <tr>
                 	<td class="etiqueta_form">Tel&eacute;fono</td>
-                    <td><input type="text" name="txttelefono" id="txttelefono" size="40" valida="requerido" tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txttelefono" class="msjdato_incomp"></span></td>
+                    <td><input type="text" name="txttelefono" id="txttelefono" size="40"  tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txttelefono" class="msjdato_incomp"></span></td>
                 </tr>
                 <tr>
                 	<td class="etiqueta_form">Fax</td>
-                    <td><input type="text" name="txtfax" id="txtfax" size="40" valida="requerido" tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtfax" class="msjdato_incomp"></span></td>
+                    <td><input type="text" name="txtfax" id="txtfax" size="40"  tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtfax" class="msjdato_incomp"></span></td>
                 </tr>
                 <tr>
                 	<td class="etiqueta_form">Observaci&oacute;n</td>
-                    <td><input type="text" name="txtobservacion" id="txtobservacion" size="40" valida="requerido" tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtobservacion" class="msjdato_incomp"></span></td>
+                    <td><input type="text" name="txtobservacion" id="txtobservacion" size="40"  tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtobservacion" class="msjdato_incomp"></span></td>
                 </tr>
                 <tr>
                     <td colspan="2" align="right">
