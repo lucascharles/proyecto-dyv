@@ -24,18 +24,18 @@ class GestionesModel extends ModelBase
 					  d.razonsocial razonsocial,
 					  g.fecha_gestion fecha_gestion,
 					  g.fecha_prox_gestion fecha_prox_gestion,
-					  esg.estado estado,
-					  esg.id_estado id_estado 
+  					  esg.estado estado,
+					  esg.id_estado id_estado
 					  ");
-	$sqlpersonal->set_from( " gestiones g, estados_x_gestion eg, deudores d, estadosgestion esg, mandantes m ");
-
-	$where = " g.id_gestion = eg.id_gestion
-				AND g.id_deudor = d.id_deudor
-				AND d.id_mandante = m.id_mandante
-				AND eg.id_estado = esg.id_estado
-				AND eg.id_estado IN ( SELECT doc.id_estado_doc FROM documentos doc WHERE doc.id_deudor = d.id_deudor )
-				AND g.activo = 'S' ";
-//		   and d.id_deudor in (select d1.id_deudor from documentos d1 where d1.id_deudor = d.id_deudor and d1.id_estado_doc not in( 2,3 )) ";
+	$sqlpersonal->set_from( " gestiones g , estados_x_gestion eg, 
+							  deudores d, mandantes m, estadosgestion esg ");
+	$where = " g.id_deudor = d.id_deudor 
+			  AND d.id_mandante = m.id_mandante 
+			  AND g.id_gestion = eg.id_gestion
+			  AND eg.id_estado = esg.id_estado     
+			   AND ( eg.id_estado IN (SELECT CASE doc.id_estado_doc WHEN 999 THEN 1 ELSE doc.id_estado_doc END FROM documentos doc WHERE doc.id_deudor = d.id_deudor) OR eg.id_estado IS NULL 
+  					) 
+  			   AND g.activo = 'S'  ";
 	
 	if(trim($param["rut_d"]) <> "")
 	{
@@ -58,7 +58,7 @@ class GestionesModel extends ModelBase
 	*/
 	$where .= " and g.id_gestion > ".$param["id_partida"];
 
-	$where = $where ." GROUP BY eg.id_estado ORDER BY eg.fecha_prox_gestion ASC ";
+	$where = $where ." GROUP BY g.id_deudor , eg.id_estado ORDER BY eg.fecha_prox_gestion ASC ";
 	
 	
 	$sqlpersonal->set_where( $where );

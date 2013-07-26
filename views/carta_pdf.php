@@ -32,6 +32,11 @@
 		
 		$nombreDeudor = $deudorTmp->get_data("primer_apellido_deudor")." ".$deudorTmp->get_data("segundo_apellido_deudor")." ".
 						$deudorTmp->get_data("primer_nombre_deudor")." ".$deudorTmp->get_data("segundo_nombre_deudor");
+		
+		if(trim($nombreDeudor) ==""){
+			$nombreDeudor = $deudorTmp->get_data("razonsocial");
+		}
+						
 		$direccionDeudor = $deudorTmp->get_data("calle")." ".$deudorTmp->get_data("numero"); 
 							
 		if($deudorTmp->get_data("depto")!= ""){

@@ -725,6 +725,8 @@ class DocumentosModel extends ModelBase
       $dato->set_data("usuario_modificacion",$array["usuario_modificacion"]);
    	  $dato->set_data("activo","S");		
 	  $dato->save();
+	  
+	  //Recupera el documento para asociar a la gestion.
 	
 	  $dato2 = new GestionesCollection();
       $dato2->add_filter("id_deudor","=",$array["deudor"]);
@@ -734,15 +736,21 @@ class DocumentosModel extends ModelBase
       $dato2->add_filter("activo","=","S");
 	  $dato2->load();
 	  
-	  if($dato2->get_count() == 0)
-	  {
-	  	$fechaHoy = date("Y-m-d");
+	    $fechaHoy = date("Y-m-d");
 		$dias = 3;
 
 		$calculoHoy = strtotime("$fechaHoy +0 days");
 		$calculoFuturo = strtotime("$fechaHoy +$dias days");
+	  
+	  if($dato2->get_count() == 0)
+	  {
+//	  	$fechaHoy = date("Y-m-d");
+//		$dias = 3;
+//
+//		$calculoHoy = strtotime("$fechaHoy +0 days");
+//		$calculoFuturo = strtotime("$fechaHoy +$dias days");
 	  	
-	  	
+	  	//registra la gestion incial
 	  	$dato3 = new Gestiones();
 	  	$dato3->set_data("id_deudor",$array["deudor"]);
       	$dato3->set_data("id_mandante",$array["mandante"]);
@@ -750,13 +758,45 @@ class DocumentosModel extends ModelBase
       	$dato3->set_data("nota_gestion","Inicia Gestion");
 	    $dato3->set_data("fecha_prox_gestion",date("Y-m-d", $calculoFuturo));
       	$dato3->set_data("activo","S");
-//      	$dato3->set_data("usuario_modificacion",$_SESSION["idusuario"]);
       	$dato3->set_data("fecha_modificacion",date("Y-m-d"));
-//      	$dato3->set_data("usuario_creacion",$_SESSION["idusuario"]);
       	$dato3->set_data("fecha_creacion",date("Y-m-d"));      	
       	$dato3->set_data("estado",1);
       
       	$dato3->save();
+      	//recupera la cabecera de la gestion inicial
+      	$ges = new Gestiones();
+      	$ges->add_filter("id_deudor","=",$array["deudor"]);
+      	$ges->add_filter("AND");
+      	$ges->add_filter("id_mandante","=",$array["mandante"]);
+      	$ges->add_filter("AND");
+      	$ges->add_filter("activo","=","S");
+      	$ges->add_filter("AND");
+      	$ges->add_filter("estado","=","1");
+	  	$ges->load();
+	  	
+	  	//Recupera el id del documento que se da de alta
+  	  	$doc = new Documentos();
+	    $doc->add_filter("id_deudor","=",$array["deudor"]);
+	    $doc->add_filter("AND");
+	    $doc->add_filter("id_mandatario","=",$array["mandante"]);
+	    $doc->add_filter("AND");
+	    $doc->add_filter("id_estado_doc","=",999);
+	    $doc->add_filter("AND");
+	    $doc->add_filter("numero_documento","=",$array["txtnrodoc"]);
+	  	$doc->load();
+  	  
+	  	
+	  	//genera la bitacora de la gestion incial
+	    $estGes = new Estados_x_Gestion();
+	    $estGes->set_data("id_gestion",$ges->get_data("id_gestion"));
+	    $estGes->set_data("id_estado",1);
+	    $estGes->set_data("id_mandante",$array["mandante"]);
+	    $estGes->set_data("id_documento",$doc->get_data("id_documento"));
+	    $estGes->set_data("fecha_gestion",date("Y-m-d"));
+	    $estGes->set_data("fecha_prox_gestion",date("Y-m-d", $calculoFuturo));
+	    $estGes->set_data("notas","Inicia Gestion");
+	    $estGes->set_data("usuario","SISTEMA");
+	    $estGes->save();  	
 	  }
 	  else
 	  {
@@ -765,6 +805,7 @@ class DocumentosModel extends ModelBase
       	$dato3->set_data("id_mandante",$array["mandante"]);
       	$dato3->set_data("nota_gestion","Inicia Gestion");
       	$dato3->save();
+      	
 	  }
 
 	}
@@ -1399,6 +1440,7 @@ class DocumentosModel extends ModelBase
 									dd.segundo_nombre segundo_nombre_deudor,
 									dd.primer_apellido primer_apellido_deudor,
 									dd.segundo_apellido segundo_apellido_deudor,
+									dd.razonsocial razonsocial,
 									dds.calle calle,
 									dds.numero numero,
 									dds.piso piso,
@@ -1444,6 +1486,7 @@ class DocumentosModel extends ModelBase
 									dd.segundo_nombre segundo_nombre_deudor,
 									dd.primer_apellido primer_apellido_deudor,
 									dd.segundo_apellido segundo_apellido_deudor,
+									dd.razonsocial razonsocial,
 									dds.calle calle,
 									dds.numero numero,
 									dds.piso piso,
