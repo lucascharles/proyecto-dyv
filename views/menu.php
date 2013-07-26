@@ -51,6 +51,20 @@ function outClass(obj)
 	$(obj).removeClass('seleccionado');
 	$(obj).addClass('menu_head');
 }
+
+function overClassItem(obj)
+{
+	$(obj).removeClass('menu_body');
+	$(obj).addClass('menu_body_hover');
+}
+
+function outClassItem(obj)
+{
+	$(obj).removeClass('menu_body_hover');
+	$(obj).addClass('menu_body');
+}
+
+
 function verDetalle(obj)
 {
 	$("#pagina").load($(obj).attr("acceso_op"));
@@ -67,7 +81,7 @@ function verDetalle(obj)
 	}
 	
 	$(obj).addClass('menu_body_sel');
-	document.getElementById(obj.id).style.color="#333333";
+	document.getElementById(obj.id).style.color="#ffffff";
 	
 }
 
@@ -173,26 +187,28 @@ function retraerMenu()
 .menu_body a
 {
 	display:block;
-	color:#666666; /* Color de los enlaces */
-	/*background-color:#BDBDBD;  Color de fondo de los enlaces */
-	/*padding-left:10px;*/
+	color:#666666; 
 	padding: 5px 5px;
-	/*font-weight:bold;*/
 	text-decoration:none;
 	font-size:15px;
 	font-family:Tahoma;
 }
+/*
 .menu_body a:hover{
-color: #333333; /* Color de los enlaces al pasar el cursor */
-/*text-decoration:underline;*/
-/*background:#CCCCCC;*/
+color: #333333; 
 background:url(images/selected.png);
 }
+*/
 
+.menu_body_hover{
+color: #333333; 
+background:url(images/selected.png);
+}
 .menu_body_sel 
 {
 	/*color: #333333; */
-	background:url(images/selected.png);
+	background:url(images/selected_more.png);
+	font-weight:bold;
 }
 </style>
 
@@ -227,7 +243,7 @@ background:url(images/selected.png);
 			for($j=0; $j<count($arrayopcion);$j++)
 			{
 				$arraydetop = $arrayopcion[$j];
-                echo("<a href='#' id='item_".$arraydetop[0]."' acceso_op='".$arraydetop[2]."' onClick='verDetalle(this)'>&nbsp; ".$arraydetop[1]."</a>");
+                echo("<a href='#' id='item_".$arraydetop[0]."' acceso_op='".$arraydetop[2]."' onClick='verDetalle(this)' onMouseOver='overClassItem(this)' onMouseOut='outClassItem(this)'>&nbsp; ".$arraydetop[1]."</a>");
 			}
 			echo("</div>");
 		}
