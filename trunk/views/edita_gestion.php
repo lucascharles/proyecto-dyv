@@ -344,8 +344,11 @@
 			{
 				return false;
 			}
-//			alert('index.php?controlador=Gestiones&accion=gestiona_liquidacion&iddeudor='+iddeudor+"&control_volver=Gestiones&accion_volver=gestionar&param_volver=idgestion&val_volver="+$("#id_gestion").val()+"&idestadoges=<? $var = &$idestadoges; echo($var); ?>");
-			$("#pagina").load('index.php?controlador=Gestiones&accion=gestiona_liquidacion&iddeudor='+iddeudor+"&control_volver=Gestiones&accion_volver=gestionar&param_volver=idgestion&val_volver="+$("#id_gestion").val()+"&idestadoges=<? $var = &$idestadoges; echo($var); ?>");		
+
+			var estadoGes = document.getElementById("idestadoges").value; 
+			
+
+			$("#pagina").load('index.php?controlador=Gestiones&accion=gestiona_liquidacion&iddeudor='+iddeudor+"&control_volver=Gestiones&accion_volver=gestionar&param_volver=idgestion&val_volver="+$("#id_gestion").val()+"&idestadoges="+estadoGes);		
 		}
 
 		function enviarCartas(idmandante,iddeudor)

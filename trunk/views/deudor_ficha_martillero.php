@@ -32,6 +32,14 @@
 		
 		$(function () {
 			$("#txtfecha_remate").datepicker({changeYear: true});
+			$("#txtingreso").datepicker({changeYear: true});
+			$("#txtprovidencia").datepicker({changeYear: true});
+			$("#txtingreso").datepicker({changeYear: true});
+			$("#txtprovidencia").datepicker({changeYear: true});
+			$("#txtentrega_receptor").datepicker({changeYear: true});
+			$("#txtembargo").datepicker({changeYear: true});
+			$("#txtprovidencia").datepicker({changeYear: true});
+			$("#txtfecha_remate").datepicker({changeYear: true});
 		});
 		
 		$(document).ready(function(){
@@ -68,7 +76,7 @@
 			}
 		
 			datos += "&"+getParametros();
-			// alert(datos);
+			 alert(datos);
 			//return false;
 			$.ajax({
 					url: "index.php",
@@ -125,7 +133,16 @@
 
   <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="titulopantalla">
 	<tr>
-		<th align="left" height="30">&nbsp;Martillero</th>
+		<th align="left" height="30">&nbsp;Embargo y Martillero
+        
+                    
+                    		<select name="txtembargomartillero" grabar="S" tipovalida="texto" id="txtnotificacion"  onFocus="resaltar(this)" onBlur="noresaltar(this)">
+			     				<option value=""> Seleccione </option>
+			     				<option value="Protesto Pagare"> Con Fuerza Publica </option>
+			     				<option value="Protesto Letra"> Sin Fuerza Publica </option>
+					  		</select>
+					
+        </th>
         <th></th>
         <th align="right">
         <div style="position:relative; margin-right:10px;">
@@ -145,25 +162,33 @@
     	<td width="40%" valign="top">
         	<table cellpadding="0" cellspacing="2" border="0" align="center" width="100%">
             	<tr>
-                	<td align="left" class="etiqueta_form">Aceptaci&oacute;n cargo</td>
-                    <td align="left" ><input type="text" grabar="S" name="txtaceptacion_cargo" id="txtaceptacion_cargo" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo($aceptacion_cargo) ?>"/></td>
+                	<td align="left" class="etiqueta_form">Ingreso</td>
+                    <td align="left" ><input type="text" grabar="S" name="txtingreso" id="txtingreso" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)"  tipovalida="fecha" value="<? echo($aceptacion_cargo) ?>"/></td>
+                </tr>
+            	<tr>
+                	<td align="left" class="etiqueta_form">Providencia</td>
+                    <td align="left" ><input type="text" grabar="S" name="txtprovidencia" id="txtprovidencia" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)"  tipovalida="fecha" value="<? echo($aceptacion_cargo) ?>"/></td>
+                </tr>
+            	<tr>
+                	<td align="left" class="etiqueta_form">Oficio</td>
+                    <td align="left" ><input type="text" grabar="S" name="txtoficio" id="txtoficio" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)"  tipovalida="texto" value="<? echo($aceptacion_cargo) ?>"/></td>
+                </tr>
+
+                <tr>
+					<td align="left" class="etiqueta_form">Receptor</td>
+                    <td align="left" ><input type="text" grabar="S" name="txtreceptor" id="txtreceptor" size="40" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"  tipovalida="texto" value="<? echo($nombre) ?>"/></td>
                 </tr>
                 <tr>
-					<td align="left" class="etiqueta_form">Nombre martillero</td>
-                    <td align="left" ><input type="text" grabar="S" name="txtnombre" id="txtnombre" size="40" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo($nombre) ?>"/></td>
-                </tr>
-                <tr>
-					<td align="left" class="etiqueta_form">Rut martilero </td>
-                      <td align="left" ><input type="text" grabar="S" name="txtrut_martilero" id="txtrut_martilero" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="entero" value="<? echo($rut_martilero) ?>"/>&nbsp;
-                      <input type="text" grabar="S" name="txtdv_martillero" id="txtdv_martillero" size="40" class="input_form_min" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="entero" value="<? echo($dv_martillero) ?>"/></td>
+					<td align="left" class="etiqueta_form">Email/Telefono </td>
+                      <td align="left" ><input type="text" grabar="S" name="txtemailreceptor" id="txtemailreceptor" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)"  tipovalida="texto" value="<? echo($rut_martilero) ?>"/>&nbsp;
                  </tr>   
                  <tr>
-					<td align="left" class="etiqueta_form">Notificaci&oacute;n</td>
-                    <td align="left" ><input type="text" grabar="S" name="txtnotificacion" id="txtnotificacion" size="40" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo($notificacion) ?>"/></td>
+					<td align="left" class="etiqueta_form">Resultado</td>
+                    <td align="left" ><input type="text" grabar="S" name="txtresultado" id="txtresultado" size="40" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"  tipovalida="texto" value="<? echo($notificacion) ?>"/></td>
                  </tr>
                  <tr>
-					<td align="left" class="etiqueta_form">Retirio Especies con F.P.</td>
-                    <td align="left" ><input type="text" grabar="S" name="txtretirio_especies_fp" id="txtretirio_especies_fp" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo($retirio_especies_fp) ?>"/></td>
+					<td align="left" class="etiqueta_form">Embargo</td>
+                    <td align="left" ><input type="text" grabar="S" name="txtembargo" id="txtembargo" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)"  tipovalida="texto" value="<? echo($retirio_especies_fp) ?>"/></td>
 
                  </tr>
 
@@ -172,55 +197,58 @@
     
         <td width="40%" valign="top"> 
         	<table cellpadding="0" cellspacing="2" border="0" align="center" width="100%"  style="position:relative; margin-left:5px;">
-            	<tr>
-                	<td align="left" class="etiqueta_form">Providencia</td>
-                    <td align="left" ><input type="text" grabar="S" name="txtprovidencia" id="txtprovidencia" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo($providencia) ?>"/></td>
-                </tr>
                 <tr>
 					<td align="left" class="etiqueta_form">Entrega receptor</td>
-                    <td align="left" ><input type="text" grabar="S" name="txtentrega_receptor" id="txtentrega_receptor" size="40" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo($entrega_receptor) ?>"/></td>
+                    <td align="left" ><input type="text" grabar="S" name="txtentrega_receptor" id="txtentrega_receptor" size="20" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"  tipovalida="texto" value="<? echo($entrega_receptor) ?>"/></td>
+                </tr>
+            	<tr>
+                	<td align="left" class="etiqueta_form">Nombre Receptor</td>
+                    <td align="left" ><input type="text" grabar="S" name="txtreceptor2" id="txtreceptor2" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)"  tipovalida="texto" value="<? echo($providencia) ?>"/></td>
+                	<td align="left" class="etiqueta_form">Email/Telefono</td>
+                    <td align="left" ><input type="text" grabar="S" name="txtemailreceptor2" id="txtemailreceptor2" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)"  tipovalida="texto" value="<? echo($providencia) ?>"/></td>
+                </tr>
+                <tr>
+					<td align="left" class="etiqueta_form">Embargo</td>
+                    <td align="left" ><input type="text" grabar="S" name="txtembargo" id="txtembargo" size="20" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"  tipovalida="texto" value="<? echo($entrega_receptor) ?>"/></td>
+					<td align="left" class="etiqueta_form">def2</td>
+                    <td align="left" ><input type="text" grabar="S" name="txtdef2" id="txtdef2" size="40" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"  tipovalida="texto" value="<? echo($entrega_receptor) ?>"/></td>                
+                </tr>
+                 <tr>
+					<td align="left" class="etiqueta_form">def3 Martillero</td>
+                    <td align="left" ><input type="text" grabar="S" name="txtdef3" id="txtdef3" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)"  tipovalida="fecha" value="<? echo($fecha_remate) ?>" onKeyUp="this.value=formateafecha(this.value)"/></td>
+                 </tr>
+                 <tr>
+					<td align="left" class="etiqueta_form">Providencia</td>
+                    <td align="left" ><input type="text" grabar="S" name="txtprovidencia" id="txtprovidencia" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)"  tipovalida="fecha" value="<? echo($fecha_remate) ?>" onKeyUp="this.value=formateafecha(this.value)"/></td>
+                 </tr>
+            	<tr>
+                	<td align="left" class="etiqueta_form">Nombre Martillero</td>
+                    <td align="left" ><input type="text" grabar="S" name="txtmartillero" id="txtmartillero" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)"  tipovalida="texto" value="<? echo($providencia) ?>"/></td>
+                	<td align="left" class="etiqueta_form">Email/Telefono</td>
+                    <td align="left" ><input type="text" grabar="S" name="txtemailmartillero" id="txtemailmartillero" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)"  tipovalida="texto" value="<? echo($providencia) ?>"/></td>
+                </tr>
+				<tr>
+					<td align="left" class="etiqueta_form">Notificacion Martillero</td>
+                    <td align="left" ><input type="text" grabar="S" name="txtnotificacionmartillero" id="txtnotificacionmartillero" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)"  tipovalida="fecha" value="<? echo($fecha_remate) ?>" onKeyUp="this.value=formateafecha(this.value)"/></td>
                 </tr>
                 <tr>
 					<td align="left" class="etiqueta_form">Retiro especies</td>
-                      <td align="left" ><input type="text" grabar="S" name="txtretiro_especies" id="txtretiro_especies" size="40" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo($retiro_especies) ?>"/></td>
+                      <td align="left" ><input type="text" grabar="S" name="txtretiro_especies" id="txtretiro_especies" size="40" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"  tipovalida="texto" value="<? echo($retiro_especies) ?>"/></td>
                  </tr>   
+
                  <tr>
-					<td align="left" class="etiqueta_form">Oposici&oacute;n retiro</td>
-                    <td align="left" ><input type="text" grabar="S" name="txtoposicion_retiro" id="txtoposicion_retiro" size="40" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo($oposicion_retiro) ?>"/></td>
+					<td align="left" class="etiqueta_form">Fuerza Publica</td>
+                    <td align="left" ><input type="text" grabar="S" name="txtoposicion_retiro" id="txtoposicion_retiro" size="40" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"  tipovalida="texto" value="<? echo($oposicion_retiro) ?>"/></td>
                  </tr>
                  <tr>
-					<td align="left" class="etiqueta_form">Fecha remate</td>
-                    <td align="left" ><input type="text" grabar="S" name="txtfecha_remate" id="txtfecha_remate" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="fecha" value="<? echo($fecha_remate) ?>" onKeyUp="this.value=formateafecha(this.value)"/></td>
+					<td align="left" class="etiqueta_form">Remate</td>
+                    <td align="left" ><input type="text" grabar="S" name="txtfecha_remate" id="txtfecha_remate" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)"  tipovalida="fecha" value="<? echo($fecha_remate) ?>" onKeyUp="this.value=formateafecha(this.value)"/></td>
 
                  </tr>
 
             	</table>
         </td>
-        <td width="20%" valign="top"> 
-        	<div style="border:solid; border-width:2px; position:relative; margin-left:10px;">
-            
-        	<table cellpadding="0" cellspacing="2" border="0" align="center" width="100%" style="position:relative; margin-left:5px;">
-            <tr>
-                	<td align="center" class="etiqueta_form" colspan="3">
-                    	GASTOS
-                    </td>
-                </tr>
-            <?
-            for($j=0; $j<$colGastosMartillero->get_count(); $j++) 
-			{
-				$datoTmp = &$colGastosMartillero->items[$j];  
-			?>
-            	<tr>
-                	<td align="left" class="etiqueta_form"><? echo($datoTmp->get_data("gasto")) ?></td>
-                    <td align="left" ><input type="text" grabar="S" name="txtgasto_<? echo($datoTmp->get_data("id_gasto")) ?>" id="txtgasto_<? echo($datoTmp->get_data("id_gasto")) ?>" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="moneda" value="<? echo(conDecimales($datoTmp->get_data("importe"))) ?>"/></td>
-                    <td width="5"></td>
-                </tr>
-           <?
-           }
-		   ?>
-             </table>
-             </div>
-        </td>
+        
     </tr>		
     <tr>
         <td colspan="3">

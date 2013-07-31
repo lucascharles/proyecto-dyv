@@ -231,6 +231,39 @@ class DeudoresController extends ControllerBase
 		$this->view->show("deudor_ficha.php", $data);
 	}
 	
+	public function ficha_ddaejecutiva($array)
+	{
+		require 'models/DeudoresModel.php';
+		$deudor = new DeudoresModel();
+		$idconsig = 0;
+		
+		if($array["tipoperacion"] == "M")
+		{
+			$datoconsig = $deudor->getConsignacion($array["ident"]);
+			$data['consignacion'] = $datoconsig;
+			$idconsig = $datoconsig->get_data("id_consignacion");
+		}
+		
+		if($array["tipoperacion"] == "A")
+		{
+			if($array["id_alta"] > 0)
+			{
+				$datoconsig = $deudor->getConsignacion($array["id_alta"]);
+				$data['consignacion'] = $datoconsig;
+				$idconsig = $datoconsig->get_data("id_consignacion");
+			}
+		}
+						
+		$data['nom_sistema'] = "SISTEMA DyV";
+		$data['tipoperacion'] = $array["tipoperacion"];
+		$data['ident'] = $array["ident"];
+		$data['id_alta'] = $array["id_alta"];
+		
+		$data['colGastosConsignacion'] = $deudor->getGastosConsignacion($idconsig);
+									
+		$this->view->show("deudor_ficha_ddaejec.php", $data);
+	}
+	
 	public function grabarReceptorA($array)
 	{
 		require 'models/DeudoresModel.php';
@@ -906,7 +939,7 @@ class DeudoresController extends ControllerBase
 		$data['fecha_pago'] = $nuevafecha ;
 		
 		
-		
+		$data['idestadoges'] = $array["idestadoges"];
 		$data['control_volver'] = $array["control_volver"];
 		$data['accion_volver'] = $array["accion_volver"];
 		$data['param_volver'] = $array["param_volver"];

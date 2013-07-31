@@ -31,6 +31,10 @@
 		$(document).ready(function(){
 			
   			$('form').validator();
+  			$("#txtprovidencia").datepicker({changeYear: true});
+  			$("#txtprovidencia_1").datepicker({changeYear: true});
+  			$("#txtprovidencia_2").datepicker({changeYear: true});
+  			$("#txtprovidencia_3").datepicker({changeYear: true});
 			$("#txtfecha_mandamiento").datepicker({changeYear: true});	
 			$("#txtfecha_domicilio").datepicker({changeYear: true});	
 			$("#txtfecha_domicilio_1").datepicker({changeYear: true});	
@@ -69,7 +73,7 @@
 			}
 		
 			datos += "&"+getParametros();
-			//alert(datos);
+			alert(datos);
 			//return false;
 			$.ajax({
 					url: "index.php",
@@ -81,7 +85,7 @@
 						//alert(res);
 						window.parent.pasarIdFicha(res);
 						$("#id_alta").val(res);
-						window.parent.mensajeConfirmacion("Los datos Martillero se guardaron con éxito");
+						window.parent.mensajeConfirmacion("La Notificacion/Citacion se guardo con éxito");
 					},
 					error: function()
 					{
@@ -109,6 +113,7 @@
 	$id_receptor = ($id_alta > 0) ? $receptor->get_data("id_receptor") : "";
 	$id_ficha = ($id_alta > 0) ? $receptor->get_data("id_ficha") : "";
 	$fecha_mandamiento = ($id_alta > 0) ? formatoFecha($receptor->get_data("fecha_mandamiento"),"yyyy-mm-dd","dd/mm/yyyy") : "";
+	$fecha_providencia = ($id_alta > 0) ? formatoFecha($receptor->get_data("fecha_providencia"),"yyyy-mm-dd","dd/mm/yyyy") : "";
 	$receptor_view = ($id_alta > 0) ? $receptor->get_data("receptor") : "";
 	$busqueda = ($id_alta > 0) ? $receptor->get_data("busqueda") : "";
 	$notificacion = ($id_alta > 0) ? $receptor->get_data("notificacion") : "";
@@ -135,7 +140,9 @@
 	$providencia_3 = ($id_alta > 0) ? $receptor->get_data("providencia_3") : "";
 	$entrega_receptor_4 = ($id_alta > 0) ? $receptor->get_data("entrega_receptor_4") : "";
 	$embargo = ($id_alta > 0) ? $receptor->get_data("embargo") : "";
-	$articulo_431044 = ($id_alta > 0) ? $receptor->get_data("articulo_431044") : "";
+	$notificacion_ficha = ($id_alta > 0) ? $receptor->get_data("notificacion_ficha") : "";
+	$citacion = ($id_alta > 0) ? $receptor->get_data("citacion") : "";
+	$art1044 = ($id_alta > 0) ? $receptor->get_data("articulo_431044") : "";
 ?>
 <form name="frmreceptor">
 <input  type="hidden" name="tipoperacion" id="tipoperacion" value="<? echo($tipoperacion) ?>" grabar="S"/>
@@ -144,14 +151,33 @@
 
 <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="titulopantalla">
 	<tr>
-		<th align="left" height="30">&nbsp;Receptor</th>
+		<th align="left" height="30">&nbsp;</th>
         <th></th>
+        <td align="left" >Notificacion</td>
+                    <td align="left" >
+                    		<select name="txtnotificacion_ficha" grabar="S" tipovalida="texto" id="txtnotificacion_ficha"  onFocus="resaltar(this)" onBlur="noresaltar(this)">
+			     				<option value=""> <?php if($notificacion_ficha ==""){?>Seleccione<?php }else{echo($notificacion_ficha);} ?> </option>
+			     				<option value="Protesto Pagare"> Protesto Pagare </option>
+			     				<option value="Protesto Letra"> Protesto Letra </option>
+			     				<option value="Protesto Letra"> Protesto Cheque </option>
+			     				<option value="Protesto Letra"> Protesto Factura </option>
+					  		</select>
+					</td>
+                    <td align="left" >Citacion</td>
+                    <td align="left" >
+                    		<select name="txtcitacion" grabar="S" tipovalida="texto" id="txtcitacion"  onFocus="resaltar(this)" onBlur="noresaltar(this)">
+			     				<option value=""> <?php if($citacion ==""){?>Seleccione<?php }else{echo($citacion);} ?> </option>
+			     				<option value="Confesa Deuda"> Confesar Deuda </option>
+			     				<option value="Reconocer Firma y Confesar Deuda"> Reconocer Firma y Confesar Deuda </option>
+					  		</select>
+		</td>
         <th align="right">
         	<div style="position:relative; margin-right:10px;">
         	<img src="images/grabar.gif" onClick="grabarReceptor()" title="Grabar" style="cursor:pointer;">&nbsp;&nbsp;
             <img src="images/limpiar.gif" onClick="limpiarReceptor()" title="Limpiar" style="cursor:pointer;">
             </div>
         </th>
+        
     </tr>
  </table>
 <!--<div id="datos" style="">-->
@@ -164,6 +190,12 @@
     <tr>
     	<td width="40%" valign="top">
         	<table cellpadding="0" cellspacing="2" border="0" align="center" width="100%">
+            	<tr>
+                	<td align="left" class="etiqueta_form">Providencia</td>
+                    <td align="left" ><input type="text" grabar="S" name="txtfecha_providencia" id="txtfecha_providencia" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="fecha" value="<? echo($fecha_providencia) ?>" onKeyUp="this.value=formateafecha(this.value)" /></td>
+                    
+                </tr>
+            	
             	<tr>
                 	<td align="left" class="etiqueta_form">Fecha mandamiento</td>
                     <td align="left" ><input type="text" grabar="S" name="txtfecha_mandamiento" id="txtfecha_mandamiento" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="fecha" value="<? echo($fecha_mandamiento) ?>" onKeyUp="this.value=formateafecha(this.value)" /></td>
@@ -228,12 +260,18 @@
                     <td align="left" ><input type="text" grabar="S" name="txtentrega_receptor_1" id="txtentrega_receptor_1" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo($entrega_receptor_1) ?>"/></td>
                 </tr>
                 <tr>
-					<td align="left" class="etiqueta_form">Fono receptor</td>
+					<td align="left" class="etiqueta_form">Fono/Email Receptor</td>
                     <td align="left" ><input type="text" grabar="S" name="txtfono_receptor" id="txtfono_receptor" size="40" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo($fono_receptor) ?>"/></td>
                 </tr>
                 <tr>
 					<td align="left" class="etiqueta_form">Resultado B&uacute;squeda</td>
-                      <td align="left" ><input type="text" grabar="S" name="txtresultado_busqueda" id="txtresultado_busqueda" size="40" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo($resultado_busqueda) ?>"/></td>
+                      <td align="left" >
+                      	<select name="txtresultado_busqueda" grabar="S" tipovalida="texto" id="txtresultado_busqueda" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)">
+			     			<option value="Positiva"> <?php if($resultado_busqueda == ""){?>Positiva<?php }else{echo($resultado_busqueda);}?> </option>
+			     			<option value="Negativa"> Negativa </option>
+			        		
+					  	</select>
+					  </td>
                  </tr>   
                  <tr>
 					<td align="left" class="etiqueta_form">Resultado Notificaci&oacute;n 1</td>
@@ -241,7 +279,7 @@
                  </tr>
                  <tr>
 					<td align="left" class="etiqueta_form">Providencia 1</td>
-                    <td align="left" ><input type="text" grabar="S" name="txtprovidencia_1" id="txtprovidencia_1" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo($providencia_1) ?>"/></td>
+                    <td align="left" ><input type="text" grabar="S" name="txtprovidencia_1" id="txtprovidencia_1" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="fecha" value="<? echo($providencia_1) ?>"/></td>
 
                  </tr>
                  <tr>
@@ -254,7 +292,7 @@
                   </tr>  
                   <tr>
 					<td align="left" class="etiqueta_form">Providencia 2</td>
-                    <td align="left" ><input type="text" grabar="S" name="txtprovidencia_2" id="txtprovidencia_2" size="40" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo($providencia_2) ?>"/></td>
+                    <td align="left" ><input type="text" grabar="S" name="txtprovidencia_2" id="txtprovidencia_2" size="40" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="fecha" value="<? echo($providencia_2) ?>"/></td>
                   </tr>  
                   <tr>
 					<td align="left" class="etiqueta_form">B&uacute;squeda 3</td>
@@ -266,7 +304,7 @@
                   </tr>  
                   <tr>
 					<td align="left" class="etiqueta_form">Providencia 3</td>
-                    <td align="left" ><input type="text" grabar="S" name="txtprovidencia_3" id="txtprovidencia_3" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo($providencia_3) ?>"/></td>
+                    <td align="left" ><input type="text" grabar="S" name="txtprovidencia_3" id="txtprovidencia_3" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="fecha" value="<? echo($providencia_3) ?>"/></td>
                   </tr>  
                   <tr>
 					<td align="left" class="etiqueta_form">Entrega receptor 4</td>
@@ -277,13 +315,13 @@
                     <td align="left" ><input type="text" grabar="S" name="txtembargo" id="txtembargo" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo($embargo) ?>"/></td>
                 </tr>
                 <tr>
-					<td align="left" class="etiqueta_form">Art&iacute;culo 431044</td>
-                    <td align="left" ><input type="text" grabar="S" name="txtarticulo_431044" id="txtarticulo_431044" size="40" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo($articulo_431044) ?>"/></td>
+					<td align="left" class="etiqueta_form">Art. 1044</td>
+                    <td align="left" ><input type="text" grabar="S" name="txtarticulo_431044" id="txtarticulo_431044" size="40" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo($art1044) ?>"/></td>
                 </tr>
                 
             	</table>
         </td>
-        <td width="20%" valign="top"> 
+        <td width="20%" valign="top"><!-- 
         	<div style="border:solid; border-width:2px; position:relative; margin-left:10px;">
         	<table cellpadding="0" cellspacing="2" border="0" align="center" width="100%" style="position:relative; margin-left:5px;">
             	<tr>
@@ -306,7 +344,7 @@
 		   ?>
              </table>
              </div>
-        </td>
+        --></td>
     </tr>		
     <tr>
         <td colspan="3">
