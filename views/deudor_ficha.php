@@ -168,7 +168,11 @@
 			document.getElementById("btnGastos").setAttribute("seleccionado","");
 			$(document.getElementById("btnGastos")).removeClass('boton_form_brillante');
 			$(document.getElementById("btnGastos")).addClass('boton_form');
-		
+
+			document.getElementById("btnDDAEjecutiva").setAttribute("seleccionado","");
+			$(document.getElementById("btnDDAEjecutiva")).removeClass('boton_form_brillante');
+			$(document.getElementById("btnDDAEjecutiva")).addClass('boton_form');
+			
 			if(opt == "DOCUMENTOS")
 			{
 				accion = "ficha_documentos";
@@ -200,11 +204,19 @@
 				document.getElementById("btnGastos").setAttribute("seleccionado","S");
 				$(document.getElementById("btnGastos")).addClass('boton_form_brillante');
 			}
+			if(opt == "DDAEJECUTIVA")
+			{
+				accion = "ficha_ddaejecutiva";
+				document.getElementById("btnDDAEjecutiva").setAttribute("seleccionado","S");
+				$(document.getElementById("btnDDAEjecutiva")).addClass('boton_form_brillante');
+				
+			}
+			
 			url += accion+"&ident="+$("#ident").val();
 			url += "&tipoperacion="+$("#tipoperacion").val(); 
 			url += "&id_alta="+$("#id_alta").val(); 
 			url += "&id_partida=0"; 
-			
+
 			document.getElementById("frmsubpantalla").src = url;
 		}
 		
@@ -412,36 +424,37 @@
 </div>
 
 <div id="datos" style="">
+	<table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="titulopantalla">
+	<tr>
+		<th align="center" height="30">&nbsp;General</th>
+        <th></th>
+        <th></th>
+    </tr>
+ 	</table>
 	<table width="100%" align="center" border="0" cellpadding="2" cellspacing="2">
-     
+     <tr>
+     </tr>
 	 <tr>
 		<td align="left" class="etiqueta_form">Abogado</td>
-        <td align="left" class="etiqueta_form">Firma</td>
-        <td align="left" class="etiqueta_form">Ingreso</td>
-        <td align="left" class="etiqueta_form">Providencia_1</td>
+        <td align="left" class="etiqueta_form">Abogado (2)</td>
     </tr>
     <tr>
         <td><input type="text" grabar="S" name="txtabogado"  value="<? echo($abogado) ?>" id="txtabogado"  size="20" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" />
         </td>
-        <td><input type="text" grabar="S" name="txtfirma" id="txtfirma"  value="<? echo($firma) ?>" size="20" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" />
-        </td>
-        <td><input type="text" grabar="S" name="txtingreso" id="txtingreso"  value="<? echo($ingreso) ?>" size="20" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" onKeyUp="this.value=formateafecha(this.value)" />
-        </td>
-        <td><input type="text" grabar="S" name="txtprovidencia_1"  value="<? echo($providencia_1) ?>" id="txtprovidencia_1"  size="20" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" />
+        <td><input type="text" grabar="S" name="txtabogado2" id="txtabogado2"  value="<? echo($abogado) ?>" size="20" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" />
         </td>
     </tr>
     <tr>
 		<td align="left" class="etiqueta_form">Distribuci&oacute;n Corte</td>
         <td align="left" class="etiqueta_form">Rol</td>
-        <td align="left" class="etiqueta_form">Juzgado Nro.</td>
-        <td align="left" class="etiqueta_form">J. Comuna</td>
+        <td align="left" class="etiqueta_form">Poder Judicial</td>
     </tr>
     <tr>
         <td><input type="text" grabar="S" name="txtdist_corte" value="<? echo($dist_corte) ?>" id="txtdist_corte"  size="20" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" onKeyUp="this.value=formateafecha(this.value)" />
         </td>
         <td><input type="text" grabar="S" name="txtrol"  value="<? echo($rol) ?>"id="txtrol"  size="20" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" />
         </td>
-        <td><select name="selJuzgadoNro" grabar="S"  id="selJuzgadoNro" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)">
+        <td><select name="selJuzgadoNro" grabar="S"  id="selJuzgadoNro"  class= "input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)">
      			<option value="0"><? print utf8_encode("") ?></option>
         		<?
 					
@@ -454,26 +467,6 @@
 							$selected = "selected";
 						}
 			            echo("<option value=".$datoTmp->get_data("id_juzgado")." ".$selected.">".utf8_encode($datoTmp->get_data("descripcion"))."</option>");           
-			        }
-					
-    			?>
-			</select>
-        </td>
-        <td><select name="selJComuna" grabar="S"  id="selJComuna" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)">
-     			<option value="0"><? print utf8_encode("") ?></option>
-        		<?
-				
-			        for($j=0; $j<$coleccion_jcomuna->get_count(); $j++)
-			        {
-						$selected = "";
-						
-			            $datoTmp = &$coleccion_jcomuna->items[$j];
-						if($datoTmp->get_data("id_juzgado_comuna") == $jComuna)
-						{
-							$selected = "selected";
-						}
-						
-			            echo("<option value=".$datoTmp->get_data("id_juzgado_comuna")." ".$selected.">".utf8_encode($datoTmp->get_data("descripcion"))."</option>");           
 			        }
 					
     			?>
@@ -507,13 +500,16 @@
                     	Documentos
                     </td>
                     <td class="boton_form" id="btnReceptor" onMouseOver='overClassBotonMenu(this)' onMouseOut='outClassBotonMenu(this)' onclick="cargarPantalla('RECEPTOR')">
-                    	Receptor
+                    	Notificacion / Citacion
+                    </td>
+                    <td class="boton_form" id="btnDDAEjecutiva" onMouseOver='overClassBotonMenu(this)' onMouseOut='outClassBotonMenu(this)' onclick="cargarPantalla('DDAEJECUTIVA')">
+                    	DDA Ejecutiva
                     </td>
                     <td class="boton_form" id="btnMartillero" onMouseOver='overClassBotonMenu(this)' onMouseOut='outClassBotonMenu(this)' onclick="cargarPantalla('MARTILLERO')">
-                    	Martillero
+                    	Embargo y Martillero
                     </td>
                     <td class="boton_form" id="btnConsignacion" onMouseOver='overClassBotonMenu(this)' onMouseOut='outClassBotonMenu(this)' onclick="cargarPantalla('CONSIGNACION')">
-                    	Consignaci&oacute;n
+                    	Consignaciones / Devoluciones
                     </td>
                     <td class="boton_form"  id="btnGastos" onMouseOver='overClassBotonMenu(this)' onMouseOut='outClassBotonMenu(this)' onclick="cargarPantalla('GASTOS')">
                     	Gastos

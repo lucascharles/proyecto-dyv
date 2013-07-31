@@ -42,7 +42,6 @@
 		{
 			if($.trim($("#control_volver").val()) != "")
 			{
-//				alert('index.php?controlador='+$("#control_volver").val()+'&accion='+$("#accion_volver").val()+'&'+$("#param_volver").val()+'='+$("#val_volver").val()+'&estadoGes='+$.trim($("#idestadoges").val()));
 				$("#pagina").load('index.php?controlador='+$("#control_volver").val()+'&accion='+$("#accion_volver").val()+'&'+$("#param_volver").val()+'='+$("#val_volver").val()+'&estadoGes='+$.trim($("#idestadoges").val()));
 			}
 			else
@@ -72,9 +71,11 @@
 		function nuevaliquidacion()
 		{
 			var iddeudor = document.getElementById("id_deudor").value;
+
 			if($.trim($("#control_volver").val()) != "")
 			{
-				$("#pagina").load('index.php?controlador=Deudores&accion=nueva_liquidacion&id='+iddeudor+"&control_volver=Gestiones&accion_volver=gestionar&param_volver=idgestion&val_volver="+$("#val_volver").val());
+//				alert("id_estadoges"+document.getElementById("idestadoges").value);
+				$("#pagina").load('index.php?controlador=Deudores&accion=nueva_liquidacion&id='+iddeudor+"&control_volver=Gestiones&accion_volver=gestionar&param_volver=idgestion&val_volver="+$("#val_volver").val()+'&idestadoges='+document.getElementById("idestadoges").value);
 			}
 			else
 			{

@@ -105,34 +105,40 @@ class DeudoresModel extends ModelBase
 			}	
 			
 			$dator->set_data("id_ficha",$resp);
-			$dator->set_data("fecha_mandamiento",$param["txtfecha_mandamiento"]);
+			$dator->set_data("fecha_mandamiento",formatoFecha($param["txtfecha_mandamiento"],"dd/mm/yyyy","yyyy-mm-dd"));
+			$dator->set_data("fecha_providencia",formatoFecha($param["txtfecha_providencia"],"dd/mm/yyyy","yyyy-mm-dd"));
 			$dator->set_data("receptor",$param["txtreceptor"]);
 			$dator->set_data("busqueda",$param["txtbusqueda"]);
 			$dator->set_data("notificacion",$param["txtnotificacion"]);
 			$dator->set_data("notificacion_2",$param["txtnotificacion_2"]);
 			$dator->set_data("notificacion_3",$param["txtnotificacion_3"]);
-			$dator->set_data("fecha_domicilio",$param["txtfecha_domicilio"]);
-			$dator->set_data("fecha_domicilio_1",$param["txtfecha_domicilio_1"]);
+			$dator->set_data("fecha_domicilio",formatoFecha($param["txtfecha_domicilio"],"dd/mm/yyyy","yyyy-mm-dd"));
+			$dator->set_data("fecha_domicilio_1",formatoFecha($param["txtfecha_domicilio_1"],"dd/mm/yyyy","yyyy-mm-dd"));
 			$dator->set_data("entrega_receptor_1",$param["txtentrega_receptor_1"]);
 			$dator->set_data("entrega_receptor_2",$param["txtentrega_receptor_2"]);
 			$dator->set_data("entrega_receptor_3",$param["txtentrega_receptor_3"]);
 			$dator->set_data("entrega_receptor_4",$param["txtentrega_receptor_4"]);
 			$dator->set_data("notificacion_1",$param["txtnotificacion_1"]);
-			$dator->set_data("fecha_embargo_fp",$param["txtfecha_embargo_fp"]);
-			$dator->set_data("fecha_oficio",$param["txtfecha_oficio"]);
-			$dator->set_data("fecha_traba_emb",$param["txtfecha_traba_emb"]);
+			$dator->set_data("fecha_embargo_fp",formatoFecha($param["txtfecha_embargo_fp"],"dd/mm/yyyy","yyyy-mm-dd"));
+			$dator->set_data("fecha_oficio",formatoFecha($param["txtfecha_oficio"],"dd/mm/yyyy","yyyy-mm-dd"));
+			$dator->set_data("fecha_traba_emb",formatoFecha($param["txtfecha_traba_emb"],"dd/mm/yyyy","yyyy-mm-dd"));
 			$dator->set_data("fono_receptor",$param["txtfono_receptor"]);
 			$dator->set_data("resultado_busqueda",$param["txtresultado_busqueda"]);
-			$dator->set_data("resultado_notificacion_1",$param["txtresultado_busqueda"]);
+			$dator->set_data("resultado_notificacion_1",$param["txtresultado_notificacion_1"]);
 			$dator->set_data("resultado_notificacion_2",$param["txtresultado_notificacion_2"]);
 			$dator->set_data("resultado_notificacion_3",$param["txtresultado_notificacion_3"]);
+			
 			$dator->set_data("providencia_1",$param["txtprovidencia_1"]);
 			$dator->set_data("providencia_2",$param["txtprovidencia_2"]);
 			$dator->set_data("providencia_3",$param["txtprovidencia_3"]);
-			$dator->set_data("fecha_busqueda_2",$param["txtfecha_busqueda_2"]);
+			$dator->set_data("fecha_busqueda_2",formatoFecha($param["txtfecha_busqueda_2"],"dd/mm/yyyy","yyyy-mm-dd"));
 			$dator->set_data("busqueda_3",$param["txtbusqueda_3"]);
 			$dator->set_data("embargo",$param["txtembargo"]);
 			$dator->set_data("articulo_431044",$param["txtarticulo_431044"]);
+			
+			$dator->set_data("notificacion_ficha",$param["txtnotificacion_ficha"]);
+			$dator->set_data("citacion",$param["txtcitacion"]);
+			
 			$dator->save();		
 			
 			if($val->get_count() == 0)
@@ -445,17 +451,17 @@ class DeudoresModel extends ModelBase
 			}	
 			
 			$datom->set_data("id_ficha",$resp);
-			$datom->set_data("aceptacion_cargo",$param["txtaceptacion_cargo"]);
-			$datom->set_data("nombre",$param["txtnombre"]);
-			$datom->set_data("rut_martilero",$param["txtrut_martilero"]);
-			$datom->set_data("dv_martillero",$param["txtdv_martillero"]);
-			$datom->set_data("notificacion",$param["txtnotificacion"]);
+			$datom->set_data("ingreso",$param["txtaceptacion_cargo"]);
+			$datom->set_data("providencia",$param["txtnombre"]);
+			$datom->set_data("oficio",$param["txtrut_martilero"]);
+			$datom->set_data("receptor",$param["txtdv_martillero"]);
+			$datom->set_data("receptor_email",$param["txtnotificacion"]);
 			$datom->set_data("retirio_especies_fp",$param["txtretirio_especies_fp"]);
-			$datom->set_data("providencia",$param["txtprovidencia"]);
-			$datom->set_data("entrega_receptor",$param["txtentrega_receptor"]);
-			$datom->set_data("retiro_especies",$param["txtretiro_especies"]);
-			$datom->set_data("oposicion_retiro",$param["txtoposicion_retiro"]);
-			$datom->set_data("fecha_remate",$param["txtfecha_remate"]);
+			$datom->set_data("resultado",$param["txtprovidencia"]);
+			$datom->set_data("embargo",$param["txtentrega_receptor"]);
+			$datom->set_data("entrega_receptor",$param["txtretiro_especies"]);
+			$datom->set_data("nombre_receptor",$param["txtoposicion_retiro"]);
+			$datom->set_data("embargo",$param["txtfecha_remate"]);
 			$datom->save();	
 			
 			if($val->get_count() == 0)
@@ -1306,6 +1312,7 @@ ORDER BY orden ASC ";
 		$dato->set_data("id_mandante",$deudor->get_data("id_mandante"));
 		$dato->set_data("interes",$array["interes"]);
 		$dato->set_data("valor_uf",$array["valoruf"]);
+		
 		$dato->set_data("fecha_simulacion",formatoFecha($array["fechasimulacion"],"dd/mm/yyyy","yyyy-mm-dd"));
 		$dato->set_data("capital",$array["capital"]);
 		$dato->set_data("protesto",$array["protesto"]);
@@ -1316,6 +1323,7 @@ ORDER BY orden ASC ";
 		$dato->set_data("honorarios_dyv",$array["honoraiorsdyv"]);
 		$dato->set_data("total_simulacion",$array["total"]);
 		$dato->set_data("repacta",$array["repacta"]);
+		
 		if($array["repacta"] == "S")
 		{
 			$dato->set_data("importe_prestamo",$array["importeprestamo"]);
@@ -1327,6 +1335,7 @@ ORDER BY orden ASC ";
 			$dato->set_data("pago_mensual",$array["pagomensual"]);
 			$dato->set_data("costo_total",$array["costototal"]);
 		}
+	
 			$dato->set_data("fecha_creacion",date("Y-m-d"));
 			$dato->set_data("usuario_creacion",$array["id_usuario"]);
 		$dato->save();	

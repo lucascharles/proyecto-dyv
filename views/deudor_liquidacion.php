@@ -243,7 +243,8 @@
 		{
 			if($.trim($("#control_volver").val()) != "")
 			{
-				$("#pagina").load('index.php?controlador='+$("#control_volver").val()+'&accion='+$("#accion_volver").val()+'&'+$("#param_volver").val()+'='+$("#val_volver").val());
+
+				$("#pagina").load('index.php?controlador='+$("#control_volver").val()+'&accion='+$("#accion_volver").val()+'&'+$("#param_volver").val()+'='+$("#val_volver").val()+'&estadoGes='+$.trim($("#idestadoges").val()));
 			}
 			else
 			{
@@ -351,7 +352,8 @@
 					{	
 						if($.trim($("#control_volver").val()) != "")
 						{
-							$("#pagina").load('index.php?controlador='+$("#control_volver").val()+'&accion='+$("#accion_volver").val()+'&'+$("#param_volver").val()+'='+$("#val_volver").val());
+//							alert('index.php?controlador='+$("#control_volver").val()+'&accion='+$("#accion_volver").val()+'&'+$("#param_volver").val()+'='+$("#val_volver").val()+'&estadoGes='+$.trim($("#idestadoges").val()));
+							$("#pagina").load('index.php?controlador='+$("#control_volver").val()+'&accion='+$("#accion_volver").val()+'&'+$("#param_volver").val()+'='+$("#val_volver").val()+'&estadoGes='+$.trim($("#idestadoges").val()));
 						}
 						else
 						{					
@@ -437,7 +439,7 @@
 			document.getElementById("txtdiasatraso").value = dias;
 			
 			// CALCULO INTERES DIARIO 
-			var interes = ((parseFloat($("#txtinteres").val()) * parseFloat(document.getElementById("txttotal").value) ) / 100)/30;
+			var interes = ((parseFloat($("#txtinteres").val()) * parseInt(document.getElementById("txttotal").value) ) / 100)/30;
 			if(interes == 0)
 			{
 				$("#txtinteresdiario").val(0);
@@ -467,7 +469,7 @@
 
 			document.getElementById("txthonorarios").value = honorarios;
 
-			var total = (parseFloat(capital) + parseFloat(interes) + parseFloat(protesto) + parseFloat(honorarios)).toFixed(2); 
+			var total = (parseFloat(capital) + parseFloat(interes) + parseInt(protesto) + parseFloat(honorarios)).toFixed(2); 
 			document.getElementById("txttotalsimulacion").value = total;
 		}
 
@@ -487,7 +489,7 @@
 			document.getElementById("txtdiasatraso").value = dias;
 
 			// CALCULO INTERES DIARIO 
-			var interes = Math.ceil(((parseFloat($("#txtinteres").val()) * parseFloat(document.getElementById("txttotal").value) ) / 100)/30);
+			var interes = Math.ceil(((parseFloat($("#txtinteres").val()) * parseInt(document.getElementById("txttotal").value) ) / 100)/30);
 			if(interes == 0)
 			{
 				$("#txtinteresdiario").val("");
@@ -518,7 +520,7 @@
 			document.getElementById("txthonorarios").value = honorarios;
 			document.getElementById("txttotalmandante").value = total_mandante;
 
-			var total = Math.ceil((parseFloat(capital) + parseFloat(interes) + parseFloat(protesto) + parseFloat(honorarios))); 
+			var total = Math.ceil((parseFloat(capital) + parseFloat(interes) + parseInt(protesto) + parseInt(honorarios))); 
 			document.getElementById("txttotalsimulacion").value = total;
 			
 		}
@@ -534,9 +536,9 @@
 			document.getElementById("txtimporte").value = (parseInt(document.getElementById("txttotalsimulacion").value)- parseInt(document.getElementById("txtpagocontado").value)-parseInt(document.getElementById("txthonorarios").value));
 			document.getElementById("txtimpcalc").value = 0; //definir formula
 
-			var pagomensual = (parseFloat($.trim($("#txtimporte").val())) + parseFloat($.trim($("#txtimpcalc").val()))) / parseInt($.trim($("#txtcuotascalc").val()));
+			var pagomensual = (parseInt($.trim($("#txtimporte").val())) + parseInt($.trim($("#txtimpcalc").val()))) / parseInt($.trim($("#txtcuotascalc").val()));
 			document.getElementById("txtpagomensual").value = pagomensual;
-			document.getElementById("txtcostoprestamo").value = parseFloat(document.getElementById("txtimporte").value)+parseFloat(document.getElementById("txtimpcalc").value)+parseFloat(document.getElementById("txthonorarios").value);
+			document.getElementById("txtcostoprestamo").value = parseInt(document.getElementById("txtimporte").value)+parseInt(document.getElementById("txtimpcalc").value);
 
 			
 			
@@ -549,8 +551,8 @@
 			var cuotas = document.getElementById("txtcuotascalc").value;
 			var valoruf = document.getElementById("txtvaloruf").value;
 
-			document.getElementById("txtpagomensual").value = parseFloat(parseInt(total) / parseInt(cuotas)).toFixed(2);
-			document.getElementById("txtcostoprestamo").value = parseFloat(document.getElementById("txtimporte").value)+parseFloat(document.getElementById("txtimpcalc").value)+parseFloat(document.getElementById("txthonorarios").value);
+			document.getElementById("txtpagomensual").value = parseInt(parseInt(total) / parseInt(cuotas)).toFixed(2);
+			document.getElementById("txtcostoprestamo").value = parseInt(document.getElementById("txtimporte").value)+parseInt(document.getElementById("txtimpcalc").value)+parseInt(document.getElementById("txthonorarios").value);
 
 		}
 
@@ -563,7 +565,8 @@
 			var saldo_inicial = document.getElementById("txtcostoprestamo").value;
 			var interes_mensual = document.getElementById("txtinteresmensual").value;
 			var pago_mensual = document.getElementById("txtpagomensual").value;
-		
+
+			 
 
 			for($i=0; $i<cuotas; $i++)
 			{
@@ -574,6 +577,7 @@
 			}
 
 			document.getElementById("txtimpcalc").value = imp;
+			
 			var url = "index.php?controlador=Deudores&accion=calcular";
 			url += "&txtimporte="+$("#txtimporte").val();
 			url += "&txtinteresmensual="+$("#txtinteresmensual").val();
@@ -583,8 +587,13 @@
 			url += "&txtnumpagos="+$("#txtcuotascalc").val();
 			url += "&txtimp="+$("#txtimpcalc").val();
 			url += "&txtcostoprestamo="+$("#txtcostoprestamo").val();
-//			alert(url);
 			document.getElementById("frmcalculos").src = url;
+
+			var x = parseInt(document.getElementById("txtimporte").value)+parseInt(document.getElementById("txtimpcalc").value); 
+			document.getElementById("txtcostoprestamo").value = x;
+
+			document.getElementById("txthonorariosrepac").value = parseInt($.trim($("#txthonorarios").val()));
+			document.getElementById("txttotalpagocont").value = parseInt($.trim($("#txthonorarios").val())) + parseInt($.trim($("#txtpagocontado").val()));
 		}
 	
 	
@@ -596,12 +605,14 @@
 			}
 			
 			
-			var costoprestamo = parseFloat($.trim($("#txtimporte").val())) + parseFloat($.trim($("#txtimp").val()));
-			var pagomensual =  (parseFloat($.trim($("#txtimporte").val())) + parseFloat($.trim($("#txtimp").val()))) / parseInt($.trim($("#txtcuotascalc").val()));
+			var costoprestamo = parseInt($.trim($("#txtimporte").val())) + parseInt($.trim($("#txtimp").val()));
+			var pagomensual =  (parseInt($.trim($("#txtimporte").val())) + parseInt($.trim($("#txtimp").val()))) / parseInt($.trim($("#txtcuotascalc").val()));
 					
 			$("#txtcostoprestamo").val(costoprestamo);
 			$("#txtpagomensual").val(pagomensual);
 			$("#txtnumpagos").val($.trim($("#txtcuotascalc").val()));
+
+//			document.getElementById("txtcostoprestamo").value = parseInt(document.getElementById("txtimporte").value)+parseInt(document.getElementById("txtimpcalc").value);
 			
 		}
 
@@ -618,8 +629,8 @@
 				imp = 0;
 			}
 			
-			var costoprestamo = parseFloat($.trim($("#txtimporte").val())) + parseFloat(document.getElementById("txtimpcalc").value);
-			var pagomensual =  (parseFloat($.trim($("#txtimporte").val())) + parseFloat(document.getElementById("txtimpcalc").value)) / parseInt($.trim($("#txtcuotascalc").val()));
+			var costoprestamo = parseInt($.trim($("#txtimporte").val())) + parseInt(document.getElementById("txtimpcalc").value);
+			var pagomensual =  (parseInt($.trim($("#txtimporte").val())) + parseInt(document.getElementById("txtimpcalc").value)) / parseInt($.trim($("#txtcuotascalc").val()));
 					
 			$("#txtcostoprestamo").val(costoprestamo);
 			$("#txtpagomensual").val(pagomensual);
@@ -736,6 +747,7 @@
 <input type="hidden" name="accion_volver" id="accion_volver" value="<? echo($accion_volver) ?>" />
 <input type="hidden" name="param_volver" id="param_volver" value="<? echo($param_volver) ?>" />
 <input type="hidden" name="val_volver" id="val_volver" value="<? echo($val_volver) ?>" />
+<input  type="hidden" name="idestadoges" id="idestadoges" value="<? $var = &$idestadoges; echo($var); ?>"/>
 
 <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="titulopantalla">
 	<tr>
@@ -936,8 +948,13 @@
 				</tr>
 				<tr>	
 					<td align="left" class="etiqueta_form">Pago Contado&nbsp;&nbsp;&nbsp;&nbsp;</td>
-					<td align="left"><input type="text" name="txtpagocontado" id="txtpagocontado" size="15" onkeyup='mostrar()' class="input_form" onFocus="resaltar(this)" valida="requerido" tipovalida="moneda" value="<?=conDecimales($interes_simulacion)?>" tabindex="2"/>
-        			</td>
+					<td align="left"><input type="text" name="txtpagocontado" id="txtpagocontado" size="15" onkeyup='mostrar()' class="input_form" onFocus="resaltar(this)" valida="requerido" tipovalida="moneda" value="<?=conDecimales($interes_simulacion)?>" tabindex="2"/></td>
+
+					<td align="right" class="etiqueta_form">Honorarios DyV&nbsp;</td>
+					<td align="left"><input type="text" name="txthonorariosrepac" id="txthonorariosrepac" size="15" class="input_form" onFocus="resaltar(this)" value="" tabindex="7" valida="requerido" tipovalida="moneda"/></td>
+
+					<td align="right" class="etiqueta_form">Total Pago Contado&nbsp;</td>
+					<td align="left"><input type="text" name="txttotalpagocont" id="txttotalpagocont" size="15" class="input_form" onFocus="resaltar(this)" value="" tabindex="7" valida="requerido" tipovalida="moneda"/></td>
 				</tr>
 				<tr>	
 					<td align="left" class="etiqueta_form">Interes mensual&nbsp;&nbsp;&nbsp;&nbsp;</td>

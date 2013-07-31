@@ -92,7 +92,9 @@ class GestionesModel extends ModelBase
 					  eg.id_estado id_estado ");
 	$sqlpersonal->set_from( " gestiones g LEFT JOIN estadosgestion eg ON g.estado = eg.id_estado, deudores d, mandantes m ");
 
-	$where = " g.id_deudor = d.id_deudor
+	$where = " 
+			g.estado not in ( 2,3,4,5,7,12,13 )
+		   and g.id_deudor = d.id_deudor
 	  	   and g.id_mandante = m.id_mandante
 		   and g.activo = 'S'
 		   AND ((g.fecha_prox_gestion <= CURDATE()) OR (g.id_gestion NOT IN(SELECT gg.id_gestion FROM estados_x_gestion gg) AND (g.fecha_prox_gestion <= CURDATE()) ))
@@ -424,6 +426,7 @@ class GestionesModel extends ModelBase
 		$sqlpersonal->set_select(" sum(monto) monto "); 
 		$sqlpersonal->set_from(" documentos ");
 		$where = "id_deudor = ". $iddeudor;
+		$where = $where . "	and activo = 'S' ";
 		$where = $where . "	and id_estado_doc not in(
 						select id_estado_doc 
 						from estadodocumentos 
