@@ -248,6 +248,11 @@
 			{
 				tipo = "P";
 			}
+
+			if(document.getElementById("idMandante").value ==""){
+				alert("Debe seleccionar un Mandante para el Deudor.");
+				return false;
+			}	
 			
 			if(document.getElementById("chkempresa").checked == true)
 			{
@@ -347,6 +352,8 @@
 			var datos = "controlador=Deudores";
 			datos += "&accion=agregarMandSesion";
 			datos += "&idmandante="+id;
+
+			document.getElementById("idMandante").value = id;
 			
 			$.ajax({
 					url: "index.php",
@@ -497,6 +504,7 @@
 <input  type="hidden" name="id_dir" id="id_dir" value=""/>
 <input  type="hidden" name="tipo" id="tipo" value=""/>
 <input  type="hidden" name="origen_l" id="origen_l" value="<? echo($origen_l); ?>"/>
+<input  type="hidden" name="idMandante" id="idMandante" value=""/>
 
 <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="titulopantalla">
 	<tr>
@@ -593,7 +601,7 @@
                 </tr>
                 <tr>
                 	<td colspan="2" align="right" >
-                    	<input type="button" name="btnMandante" id="btnMandante" value="Mandante" onclick="ventanaMandante()" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/>
+                    	<input type="button" name="btnMandante" id="btnMandante" valida="requerido" value="Mandante" onclick="ventanaMandante()" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/>
                     </td>
                 </tr>
             </table>

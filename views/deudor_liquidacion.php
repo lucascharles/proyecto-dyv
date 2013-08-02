@@ -868,7 +868,7 @@
                 <tr>
                     <td align="right" class="etiqueta_form">Protesto&nbsp; </td>
                     <td align="left">
-                        <input type="text" name="txtprotesto" id="txtprotesto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"  value="<? echo($protesto) ?>" />
+                        <input type="text" name="txtprotesto" id="txtprotesto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"  value="<? if($protesto == ""){echo("0"); } else {echo($protesto);} ?>" />
                     </td>                                   
                 </tr>
                 <tr>	
