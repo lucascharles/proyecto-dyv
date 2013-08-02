@@ -71,6 +71,7 @@
 <input  type="hidden" name="id_estado" id="id_estado" value=""/>
 <input  type="hidden" name="tipo_gestion" id="tipo_gestion" value="<?php $var = &$tipoGestion; echo($var); ?>"/>
 <input  type="hidden" name="estadoGes" id="estadoGes" value="<?php $var = &$estadoGestion; echo($var); ?>"/>
+<input  type="hidden" name="rut_m" id="rut_m" value="<?php $var = &$rut_m; echo($var); ?>"/>
 <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="titulopantalla">
 	<tr>
 		<th align="left" height="30">&nbsp;Gestiones<?php $var = &$tipoGestion; if($var == "D"){echo(" del dia");} ?></th>
@@ -123,7 +124,11 @@
  <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
     <tr>
 		<td colspan="2">
+		<?php if($rut_m == ""){ ?>
         	<iframe id="frmlistgestiones" src="index.php?controlador=Gestiones&accion=listarGestiones&tipoGestion=<? $var = &$tipoGestion; echo($var); ?>&id_partida=0" width="100%" align="middle" height="220" scrolling="auto" frameborder="0"></iframe>
+        <?php }else{?>
+        	<iframe id="frmlistgestiones" src="index.php?controlador=Gestiones&accion=listarGestiones&rut_m=<? $var = &$rut_m; echo($var); ?>&tipoGestion=<? $var = &$tipoGestion; echo($var); ?>&id_partida=0" width="100%" align="middle" height="220" scrolling="auto" frameborder="0"></iframe>
+        <?php }?>
         </td>
         <td>
         	<div style="position:relative; margin-left:10px;">

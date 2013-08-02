@@ -16,6 +16,7 @@ class GestionesController extends ControllerBase
     	$data['nom_sistema'] = "SISTEMA DyV";
 		$data['accion_form'] = "";
 		$data['tipoGestion'] = "D";
+		$data['rut_m'] = $array["rut_m"];
 		$data['cantGestion'] = $cant;
 		
 		$detalleDocs = $gestiones->getDetalleDocs();
@@ -42,6 +43,7 @@ class GestionesController extends ControllerBase
     	$data['nom_sistema'] = "SISTEMA DyV";
 		$data['accion_form'] = "";
 		$data['tipoGestion'] = "";
+		$data['rut_m'] = $array["rut_m"];
 		$data['cantGestion'] = $cant;
 		
 		$data['detalleDocs'] = $detalleDocs;
