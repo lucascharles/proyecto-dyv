@@ -178,6 +178,7 @@
 				"id_receptor" => array("int"),
 				"id_ficha" => array("int"),
 				"fecha_mandamiento" => array("date"),
+				"fecha_providencia" => array("date"),
 				"receptor" => array("varchar"),
 				"busqueda" => array("varchar"),
 				"notificacion" => array("varchar"),
@@ -204,7 +205,9 @@
 				"fecha_busqueda_2" => array("date"),
 				"busqueda_3" => array("varchar"),
 				"embargo" => array("varchar"),
-				"articulo_431044" => array("varchar")
+				"articulo_431044" => array("varchar"),
+				"notificacion_ficha" => array("varchar"),
+				"citacion" => array("varchar"),
 				);
 			parent::BusinessObject();
 		}
@@ -1441,8 +1444,8 @@
 					  "repacta" => array("varchar"),
 					  "fecha_inicial_calculo"  => array("date"),
 					  "fecha_simulacion" => array("date"),
-					  "capital" => array("decimal"),
-					  "protesto" => array("decimal"),
+					  "capital" => array("int"),
+					  "protesto" => array("int"),
 					  "fecha_venc" => array("date"),
 					  "dias_atraso" => array("int"),
 					  "interes_diario" =>  array("decimal"),
@@ -1450,7 +1453,7 @@
 					  "honorarios_dyv" => array("int"),
 					  "total_simulacion" => array("int"),
 					  "importe_prestamo" => array("int"),
-					  "interes_mensual" => array("decimal"),
+					  "interes_mensual" => array("int"),
 					  "fecha_calculo" => array("date"),
 					  "fecha_pago" => array("date"),
 					  "imp" => array("decimal"),
