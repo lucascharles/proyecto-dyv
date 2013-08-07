@@ -134,66 +134,70 @@
     </tr> 
     <tr>
     	<td width="40%" valign="top">
+    	<div style="border:solid; border-width:2px; position:relative; margin-left:10px;">
         	<table cellpadding="0" cellspacing="2" border="0" align="center" width="100%">
             	<tr>
                 	<td align="left" class="etiqueta_form">Consignaci&oacute;n</td>
                     <td align="left" ><input type="text" grabar="S" name="txtconsignacion" id="txtconsignacion" size="40" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo($consignacion_view) ?>"/></td>
-                </tr>
-                <tr>
 					<td align="left" class="etiqueta_form">Pago Mandante</td>
                     <td align="left" ><input type="text" grabar="S" name="txtabono_1" id="txtabono_1" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="moneda" value="<? echo($abono_1) ?>"/></td>
-                </tr>
-                <tr>
 					<td align="left" class="etiqueta_form">Pago Honorarios D&V</td>
                       <td align="left" ><input type="text" grabar="S" name="txtabono_2" id="txtabono_2" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="moneda" value="<? echo($abono_2) ?>"/></td>
                  </tr>   
                  <tr>
-					<td align="left" class="etiqueta_form">def4</td>
-                    <td align="left" ><input type="text" grabar="S" name="txtabono_3" id="txtabono_3" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="moneda" value="<? echo($abono_3) ?>"/></td>
+					<td align="left" class="etiqueta_form">Se Gire Cheque</td>
+                    <td align="left" ><input type="text" grabar="S" name="txtgirecheque" id="txtgirecheque" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" tipovalida="fecha" tipovalida="moneda" value="<? echo($abono_3) ?>"/></td>
+                 	<td align="left" class="etiqueta_form">Abogado</td>
+                    <td align="left" ><input type="text" grabar="S" name="txtabogado" id="txtabogado" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)"  value="<? echo($abono_3) ?>"/></td>
+                    <td align="left" class="etiqueta_form">Email/Tel</td>
+                    <td align="left" ><input type="text" grabar="S" name="txtemail" id="txtemail" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)"  value="<? echo($abono_3) ?>"/></td>
                  </tr>
                  <tr>
 					<td align="left" class="etiqueta_form">Providencia</td>
-                    <td align="left" ><input type="text" grabar="S" name="txtabono_4" id="txtabono_4" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="moneda" value="<? echo($abono_4) ?>"/></td>
-                 </tr>
-                 <tr>
+                    <td align="left" ><input type="text" grabar="S" name="txtprovidencia" id="txtprovidencia" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)"  tipovalida="fecha" value="<? echo($abono_4) ?>"/></td>
 					<td align="left" class="etiqueta_form">Liquida Costas</td>
-                    <td align="left" ><input type="text" grabar="S" name="txtpago_cliente" id="txtpago_cliente" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="moneda" value="<? echo($pago_cliente) ?>"/></td>
-                  </tr>  
-                  <tr>
+                    <td align="left" ><input type="text" grabar="S" name="txtliquidacosta" id="txtliquidacosta" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)"  tipovalida="fecha" value="<? echo($pago_cliente) ?>"/></td>
 					<td align="left" class="etiqueta_form">Monto</td>
-                    <td align="left" ><input type="text" grabar="S" name="txtgiro_cheque_1" id="txtgiro_cheque_1" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="moneda" value="<? echo($giro_cheque_1) ?>"/></td>
+                    <td align="left" ><input type="text" grabar="S" name="txtmonto" id="txtmonto" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="moneda" value="<? echo($giro_cheque_1) ?>"/></td>
                  </tr>
+              </table>
+              </div>
+       	</td>
+       </tr>   
+       <tr>
+       		<td width="40%" valign="top">
+       		<div style="border:solid; border-width:2px; position:relative; margin-left:10px;">
+              <table cellpadding="0" cellspacing="2" border="0" align="center" width="100%">   
                  <tr>
 					<td align="left" class="etiqueta_form">Devolucion de pago</td>
-                    <td align="left" ><input type="text" grabar="S" name="txtentrega_cheque" id="txtentrega_cheque" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="moneda" value="<? echo($entrega_cheque) ?>"/></td>
+                    <td align="left" ><input type="text" grabar="S" name="txtentrega_cheque" id="txtentrega_cheque" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" tipovalida="fecha" value="<? echo($entrega_cheque) ?>"/></td>
                  </tr>
                   <tr>
-					<td align="left" class="etiqueta_form">Devolucion DDA</td>
-                    <td align="left" ><input type="text" grabar="S" name="txtcostas_procesales" id="txtcostas_procesales" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="moneda" value="<? echo($costas_procesales) ?>"/></td>
+					<td align="left" class="etiqueta_form">Devolucion DDA y/o Devolucion DDA</td>
+                    <td align="left" ><input type="text" grabar="S" name="txtcostas_procesales" id="txtcostas_procesales" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)"  tipovalida="fecha" value="<? echo($costas_procesales) ?>"/></td>
                   </tr>  
                   <tr>
 					<td align="left" class="etiqueta_form">Ingreso Escrito</td>
-                    <td align="left" ><input type="text" grabar="S" name="txtpago_costas" id="txtpago_costas" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="moneda" value="<? echo($pago_costas) ?>"/></td>
+                    <td align="left" ><input type="text" grabar="S" name="txtpago_costas" id="txtpago_costas" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" tipovalida="fecha" value="<? echo($pago_costas) ?>"/></td>
                   </tr> 
                   <tr>
-					<td align="left" class="etiqueta_form">Nombre</td>
-                    <td align="left" ><input type="text" grabar="S" name="txtentrega_cheque_1" id="txtentrega_cheque_1" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="moneda" value="<? echo($entrega_cheque_1) ?>"/></td>
-                    <td align="left" ><input type="text" grabar="S" name="txtdevolucion_documento" id="txtdevolucion_documento" size="40" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo($devolucion_documento) ?>"/></td>
-                    <td align="left" ><input type="text" grabar="S" name="txtentrega_documento" id="txtentrega_documento" size="40" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo($entrega_documento) ?>"/></td>
+					<td align="left" class="etiqueta_form">Nombre (1)</td>
+                    <td align="left" ><input type="text" grabar="S" name="txtentrega_cheque_1" id="txtentrega_cheque_1" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)"  tipovalida="moneda" value="<? echo($entrega_cheque_1) ?>"/></td>
+                    <td align="left" class="etiqueta_form">Nombre (2)</td>
+                    <td align="left" ><input type="text" grabar="S" name="txtdevolucion_documento" id="txtdevolucion_documento" size="40" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" tipovalida="texto" value="<? echo($devolucion_documento) ?>"/></td>
                   </tr>
                   <tr>
 					<td align="left" class="etiqueta_form">Providencia</td>
-                    <td align="left" ><input type="text" grabar="S" name="txtabono_4" id="txtabono_4" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="moneda" value="<? echo($abono_4) ?>"/></td>
+                    <td align="left" ><input type="text" grabar="S" name="txtabono_4" id="txtabono_4" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)"  tipovalida="fecha" value="<? echo($abono_4) ?>"/></td>
                  </tr>
                  <tr>
-					<td align="left" class="etiqueta_form">def5</td>
-                    <td align="left" ><input type="text" grabar="S" name="txtpago_cliente" id="txtpago_cliente" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="moneda" value="<? echo($pago_cliente) ?>"/></td>
+					<td align="left" class="etiqueta_form">Retiro/Devolucion Documento </td>
+                    <td align="left" ><input type="text" grabar="S" name="txtpago_cliente" id="txtpago_cliente" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)"  tipovalida="fecha" value="<? echo($pago_cliente) ?>"/></td>
                   </tr>  
                   
             	</table>
-        </td>
-    
-        
+            	</div>
+        	</td>
         
     </tr>		
     <tr>
