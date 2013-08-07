@@ -415,7 +415,7 @@
     </tr>
      <tr>
 
-		<td align="right" class="etiqueta_form">Nro. doc.:</td><td>&nbsp;&nbsp;&nbsp;<? echo($nro) ?> </td>
+		<td align="right" class="etiqueta_form">Nro. doc.:</td><td>&nbsp;&nbsp;&nbsp;<? echo($ident) ?> </td>
     </tr>
      <tr>
 		<td height="5"> </td>

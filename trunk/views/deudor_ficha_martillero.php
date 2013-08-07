@@ -160,6 +160,8 @@
     </tr>   
     <tr>
     	<td width="40%" valign="top">
+    	
+    		<div style="border:solid; border-width:2px; position:relative; margin-left:10px;">
         	<table cellpadding="0" cellspacing="2" border="0" align="center" width="100%">
             	<tr>
                 	<td align="left" class="etiqueta_form">Ingreso</td>
@@ -174,6 +176,9 @@
                     <td align="left" ><input type="text" grabar="S" name="txtoficio" id="txtoficio" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)"  tipovalida="texto" value="<? echo($aceptacion_cargo) ?>"/></td>
                 </tr>
 
+             </table>
+             </div>
+             <table cellpadding="0" cellspacing="2" border="0" align="center" width="100%">   
                 <tr>
 					<td align="left" class="etiqueta_form">Receptor</td>
                     <td align="left" ><input type="text" grabar="S" name="txtreceptor" id="txtreceptor" size="40" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"  tipovalida="texto" value="<? echo($nombre) ?>"/></td>
