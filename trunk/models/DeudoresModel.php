@@ -1404,5 +1404,160 @@ ORDER BY orden ASC ";
 			$doc_sim->save();
 		}
 	}
+	
+	public function altaDDAEjec($param)
+	{
+		$resp = 0;
+		if($param["id_alta"] <> 0 && trim($param["id_alta"]) <> "")
+		{
+			// graba receptor y devuelve id ficha
+			$resp = $param["id_alta"];
+				
+			$val = new DemandaEjecutiva();
+			$val->add_filter("id_ficha","=",$resp);
+			$val->load();
+				
+			$datoc = new Consignacion_Ficha();
+				
+			if($val->get_count() > 0)
+			{
+				$datoc->add_filter("id_ficha","=",$resp);
+				$datoc->load();
+				$id_consig = $datoc->get_data("id_demanda_ejecutiva");
+			}
+				
+			$datoc->set_data("id_ficha",$resp);
+			$datoc->set_data("nombre_receptor",$param["txtconsignacion"]);
+			$datoc->set_data("email_receptor",$param["txtabono_1"]);
+			$datoc->set_data("fono_receptor",$param["txtabono_2"]);
+			$datoc->set_data("certificado",$param["txtabono_3"]);
+			$datoc->set_data("abono_4",$param["txtabono_4"]);
+			$datoc->set_data("mandamiento",$param["txtpago_cliente"]);
+			$datoc->set_data("fecha_busqueda",$param["txtgiro_cheque_1"]);
+			$datoc->set_data("dda_ejecutiva",$param["txtentrega_cheque"]);
+			$datoc->set_data("encargado_receptor",$param["txtcostas_procesales"]);
+			$datoc->set_data("notificacion",$param["txtpago_costas"]);
+		//	$datoc->set_data("usuario",$param["txtentrega_cheque_1"]);
+		//	$datoc->set_data("fecha_modificacion",$param["txtdevolucion_documento"]);
+			
+			$datoc->save();
+				
+			if($val->get_count() == 0)
+			{
+				$id_consig = getUltimoId(new DemandaEjecutivaCollection(), "id_demanda_ejecutiva");
+			}
+				
+			$colGastoConsignacion = $this->getGastosConsignacion(0);
+				
+			for($j=0; $j<$colGastoConsignacion->get_count(); $j++)
+			{
+			$datoTmp = &$colGastoConsignacion->items[$j];
+	
+			$imp = 0;
+			if(trim($param["txtgasto_".$datoTmp->get_data("id_gasto")]) <> "")
+			{
+			$imp = trim($param["txtgasto_".$datoTmp->get_data("id_gasto")]);
+			}
+			$gastos_cf = new Gastos_Consignacion_Ficha();
+			if($val->get_count() > 0)
+			{
+			$gastos_cf->add_filter("id_ficha","=",$resp);
+			$gastos_cf->add_filter("AND");
+			$gastos_cf->add_filter("id_consignacion","=",$id_consig);
+			$gastos_cf->add_filter("AND");
+			$gastos_cf->add_filter("id_gasto","=",$datoTmp->get_data("id_gasto"));
+					$gastos_cf->load();
+			}
+					$gastos_cf->set_data("id_gasto",$datoTmp->get_data("id_gasto"));
+					$gastos_cf->set_data("id_consignacion",$id_consig);
+					$gastos_cf->set_data("id_ficha",$resp);
+					$gastos_cf->set_data("importe",$imp);
+					$gastos_cf->save();
+	
+					$gasto_ficha = new Gastos_Ficha();
+					if($val->get_count() > 0)
+					{
+					$gasto_ficha->add_filter("id_ficha","=",$resp);
+						$gasto_ficha->add_filter("AND");
+						$gasto_ficha->add_filter("id_gasto","=",$datoTmp->get_data("id_gasto"));
+						$gasto_ficha->load();
+					}
+					$gasto_ficha->set_data("id_gasto",$datoTmp->get_data("id_gasto"));
+					$gasto_ficha->set_data("id_ficha",$resp);
+					$gasto_ficha->set_data("importe",$imp);
+					$gasto_ficha->save();
+			}
+				
+			$ultid_ficha = $resp;
+			}
+			else
+			{
+			// graba ficha, receptor y devuelve id ficha
+				
+			$datof = new Ficha();
+						$datof->set_data("id_deudor",0);
+						$datof->save();
+							
+						$ultid_ficha = getUltimoId(new FichaCollection(), "id_ficha");
+							
+						$datoc = new Consignacion_Ficha();
+						$datoc->set_data("id_ficha",$ultid_ficha);
+						$datoc->set_data("consignacion",$param["txtconsignacion"]);
+			$datoc->set_data("abono_1",$param["txtabono_1"]);
+				$datoc->set_data("abono_2",$param["txtabono_2"]);
+				$datoc->set_data("abono_3",$param["txtabono_3"]);
+				$datoc->set_data("abono_4",$param["txtabono_4"]);
+				$datoc->set_data("pago_cliente",$param["txtpago_cliente"]);
+			$datoc->set_data("giro_cheque_1",$param["txtgiro_cheque_1"]);
+			$datoc->set_data("entrega_cheque",$param["txtentrega_cheque"]);
+			$datoc->set_data("costas_procesales",$param["txtcostas_procesales"]);
+						$datoc->set_data("pago_costas",$param["txtpago_costas"]);
+			$datoc->set_data("entrega_cheque_1",$param["txtentrega_cheque_1"]);
+						$datoc->set_data("devolucion_documento",$param["txtdevolucion_documento"]);
+						$datoc->set_data("entrega_documento",$param["txtentrega_documento"]);
+						$datoc->set_data("monto_consignacion",$param["txtmonto_consignacion"]);
+						$datoc->set_data("monto_1",$param["txtmonto_1"]);
+								$datoc->set_data("monto_2",$param["txtmonto_2"]);
+								$datoc->set_data("monto_3",$param["txtmonto_3"]);
+								$datoc->set_data("monto_4",$param["txtmonto_4"]);
+			$datoc->set_data("pago_dyv",$param["txtpago_dyv"]);
+			$datoc->set_data("providencia_1",$param["txtprovidencia_1"]);
+			$datoc->set_data("providencia_2",$param["txtprovidencia_2"]);
+			$datoc->set_data("giro_cheque_2",$param["txtgiro_cheque_2"]);
+			$datoc->set_data("providencia_3",$param["txtprovidencia_3"]);
+			$datoc->set_data("rendicion_cliente",$param["txtrendicion_cliente"]);
+			$datoc->save();
+					
+				$ultid_consig = getUltimoId(new Consignacion_FichaCollection(), "id_consignacion");
+	
+			$colGastoConsignacion = $this->getGastosConsignacion(0);
+					
+				for($j=0; $j<$colGastoConsignacion->get_count(); $j++)
+				{
+				$datoTmp = &$colGastoConsignacion->items[$j];
+	
+				$imp = 0;
+			if(trim($param["txtgasto_".$datoTmp->get_data("id_gasto")]) <> "")
+				{
+					$imp = trim($param["txtgasto_".$datoTmp->get_data("id_gasto")]);
+			}
+			$gastos_mf = new Gastos_Consignacion_Ficha();
+			$gastos_mf->set_data("id_gasto",$datoTmp->get_data("id_gasto"));
+			$gastos_mf->set_data("id_consignacion",$ultid_consig);
+				$gastos_mf->set_data("id_ficha",$ultid_ficha);
+					$gastos_mf->set_data("importe",$imp);
+					$gastos_mf->save();
+	
+					$gasto_ficha = new Gastos_Ficha();
+			$gasto_ficha->set_data("id_gasto",$datoTmp->get_data("id_gasto"));
+					$gasto_ficha->set_data("id_ficha",$ultid_ficha);
+					$gasto_ficha->set_data("importe",$imp);
+					$gasto_ficha->save();
+			}
+				}
+	
+			return $ultid_ficha;
+		}
+	
 }
 ?>

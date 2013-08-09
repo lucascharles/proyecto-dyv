@@ -64,7 +64,7 @@
 			
 			if($("#tipoperacion").val() == "M")
 			{				
-				datos += "&accion=editarMartillero";	
+				datos += "&accion=editarDDaEjec";	
 			}
 		
 			datos += "&"+getParametros();
