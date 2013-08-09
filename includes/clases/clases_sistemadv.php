@@ -1579,4 +1579,44 @@
 			return $obj;
 		}
 	}
+	
+	class DemandaEjecutiva extends BusinessObject
+	{
+		function DemandaEjecutiva()
+		{
+			$this->table_name = "ficha_demanda_ejecutiva";
+			$this->field_metadata = array(
+					"id_demanda_ejecutiva" => array("int"),
+					"id_ficha" => array("int"),
+					"nombre_receptor" => array("varchar"),
+					"email_receptor" => array("varchar"),
+					"fono_receptor" => array("varchar"),
+					"certificado" => array("date"),
+					"mandamiento" => array("date"),
+					"fecha_busqueda" => array("date"),
+					"dda_ejecutiva" => array("date"),
+					"encargado_receptor" => array("date"),
+					"notificacion" => array("date"),
+					"usuario" => array("varchar"),
+					"fecha_modificacion" => array("date"),
+			);
+			parent::BusinessObject();
+		}
+	}
+	
+	class DemandaEjecutivaCollection extends BusinessObjectCollection
+	{
+		function DemandaEjecutivaCollection()
+		{
+			parent::BusinessObjectCollection();
+		}
+	
+		function create_singular($row)
+		{
+			$obj = new DemandaEjecutiva();
+			$obj->load_from_list($row);
+				
+			return $obj;
+		}
+	}
 ?>

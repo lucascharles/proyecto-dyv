@@ -1129,5 +1129,42 @@ class DeudoresController extends ControllerBase
 		$array["id_usuario"] = $_SESSION["idusuario"];
 		$deudor->grabar_editaLiquidacion($array);
 	}
+	
+	public function grabarDDaEjecA($array)
+	{
+		require 'models/DeudoresModel.php';
+		$deudor = new DeudoresModel();
+			
+		if($array["tipoperacion"] == "A")
+		{
+			$id = $deudor->altaDDAEjec($array);
+				
+			echo($id);
+		}
+	}
+	
+	public function editarDDaEjec($array)
+	{
+		require 'models/DeudoresModel.php';
+		$deudor = new DeudoresModel();
+			
+		$id = $deudor->altaConsignacionFicha($array);
+	
+		echo($id);
+	}
+	
+	public function grabarDDaEjecM($array)
+	{
+		require 'models/DeudoresModel.php';
+		$deudor = new DeudoresModel();
+			
+		if($array["tipoperacion"] == "A")
+		{
+			$id = $deudor->altaConsignacionFicha($array);
+				
+			echo($id);
+		}
+	}
+	
 }
 ?>
