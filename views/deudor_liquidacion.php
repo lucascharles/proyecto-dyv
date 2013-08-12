@@ -475,6 +475,7 @@
 
 		function seleccionado(id,monto,fecha,dias)
 		{
+			
 			if(document.getElementById("docs").value == "")
 			{
 				document.getElementById("docs").value = id;
@@ -482,6 +483,13 @@
 			else
 			{
 				document.getElementById("docs").value += ","+id;
+//				$("#txtfechavenc").hide("slow");
+//				$("#txtdiasatraso").hide("slow");
+//				$("#txtinteresdiario").hide("slow");
+
+				document.all['ocul1'].style.display = "none";
+				document.all['ocul2'].style.display = "none";
+				document.all['ocul3'].style.display = "none";
 			}
 
 			document.getElementById("txttotal").value = monto;
@@ -492,22 +500,26 @@
 			var interes = Math.ceil(((parseFloat($("#txtinteres").val()) * parseInt(document.getElementById("txttotal").value) ) / 100)/30);
 			if(interes == 0)
 			{
-				$("#txtinteresdiario").val("");
+//				$("#txtinteresdiario").val("");
+				document.getElementById("txtinteresdiario").value = "";
 			}
 			else
 			{
-				$("#txtinteresdiario").val(interes);
+//				$("#txtinteresdiario").val(interes);
+				document.getElementById("txtinteresdiario").value = interes; 
 			}
 			
 			// CALCULO INTERES ACUMULADO 
 			var int_acum = interes * parseInt(dias);
 			if(int_acum == 0)
 			{
-				$("#txtinteresacumulado").val("");
+//				$("#txtinteresacumulado").val("");
+				document.getElementById("txtinteresacumulado").value = "";
 			}
 			else
 			{
 				$("#txtinteresacumulado").val(int_acum);
+				document.getElementById("txtinteresacumulado").value = int_acum + parseInt(document.getElementById("txtinteresacumulado").value);
 			}
 
 			//CALCULO DE SIMULACION
@@ -636,6 +648,52 @@
 			$("#txtpagomensual").val(pagomensual);
 			$("#txtnumpagos").val($.trim($("#txtcuotascalc").val()));
 
+		}
+
+		//here you place the ids of every element you want.
+		var ids=new Array('a1','a2','a3','thiscanbeanything');
+
+		function switchid(id){	
+			hideallids();
+			showdiv(id);
+		}
+
+		function hideallids(){
+			//loop through the array and hide each element by id
+			for (var i=0;i<ids.length;i++){
+				hidediv(ids[i]);
+			}		  
+		}
+
+		function hidediv(id) {
+			//safe function to hide an element with a specified id
+			if (document.getElementById) { // DOM3 = IE5, NS6
+				document.getElementById(id).style.display = 'none';
+			}
+			else {
+				if (document.layers) { // Netscape 4
+					document.id.display = 'none';
+				}
+				else { // IE 4
+					document.all.id.style.display = 'none';
+				}
+			}
+		}
+
+		function showdiv(id) {
+			//safe function to show an element with a specified id
+				  
+			if (document.getElementById) { // DOM3 = IE5, NS6
+				document.getElementById(id).style.display = 'block';
+			}
+			else {
+				if (document.layers) { // Netscape 4
+					document.id.display = 'block';
+				}
+				else { // IE 4
+					document.all.id.style.display = 'block';
+				}
+			}
 		}
 		
 	</script>
@@ -871,19 +929,19 @@
                         <input type="text" name="txtprotesto" id="txtprotesto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"  value="<? if($protesto == ""){echo("0"); } else {echo($protesto);} ?>" />
                     </td>                                   
                 </tr>
-                <tr>	
+                <tr id="ocul1">	
                     <td align="right" class="etiqueta_form">Fecha Venc.&nbsp;</td>
                     <td align="left">
                         <input type="text" name="txtfechavenc" id="txtfechavenc" valida="requerido" tipovalida="fecha" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)"  value="<? echo($fecha_venc) ?>" onKeyUp="this.value=formateafecha(this.value)"/>
                     </td>
                 </tr>
-                <tr>    
+                <tr id="ocul2">    
                     <td align="right" class="etiqueta_form">Dias Atraso&nbsp;</td>
                     <td align="left">
                         <input type="text" name="txtdiasatraso" id="txtdiasatraso" valida="requerido" tipovalida="entero" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" value="<? echo($diasatraso) ?>" />
                     </td>
                  </tr>
-                <tr>   
+                <tr id="ocul3">   
                     <td align="right" class="etiqueta_form">Interes Diario&nbsp;</td>
                     <td align="left">
                         <input type="text" name="txtinteresdiario" id="txtinteresdiario" valida="requerido" tipovalida="moneda" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" value="<? echo($interes_diario) ?>" />
