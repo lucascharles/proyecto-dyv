@@ -1105,15 +1105,12 @@ ORDER BY orden ASC ";
 
 		$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
 	
-		$sqlpersonal->set_select( " j.descripcion numero,
-	   								jc.descripcion juzgado,
-	   								f.rol rol,
-	   								f.id_ficha ficha,
-	   								rf.receptor rep,
-	   								f.ingreso fecha ");
-		$sqlpersonal->set_from( " ficha f, juzgado j, juzgadocomuna jc, receptor_ficha rf ");
-	
-		$sqlpersonal->set_where( " f.id_juzgado = j.id_juzgado and f.id_juzgado_comuna = jc.id_juzgado_comuna and f.id_ficha = rf.id_ficha and id_deudor = ".$iddeudor);
+		$sqlpersonal->set_select( "   j.descripcion juzgado,
+									  f.rol rol,
+									  f.id_ficha ficha,
+									  f.ingreso fecha ");
+		$sqlpersonal->set_from( " ficha f LEFT JOIN juzgado j ON f.id_juzgado = j.id_juzgado ");
+		$sqlpersonal->set_where( " f.id_deudor = ".$iddeudor);
 	
     	$sqlpersonal->load();
 

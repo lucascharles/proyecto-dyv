@@ -358,7 +358,23 @@
 			document.getElementById("frmlistdocumentos").src = url;
 		}
 
-		
+		function editarFicha()
+		{
+			
+			if(document.getElementById("iddemanda").value == "")
+			{
+				return false;
+			}
+			var id = document.getElementById("iddemanda").value;
+
+			var idestadoges = document.getElementById("idestadoges").value;
+			var idgestion = document.getElementById("id_gestion").value;
+			$("#pagina").load('index.php?controlador=Deudores&accion=deudor_ficha&id='+id+'&tipope=M&idGes='+idgestion+'&idestadoges='+idestadoges);
+		}
+		function seleccionado(id)
+		{
+			document.getElementById("iddemanda").value = id;
+		}
 		
 	</script>
 </head>
@@ -445,6 +461,7 @@
     <input  type="hidden" name="id_mandante" id="id_mandante" value="<? $var = &$idMandante; echo($var); ?>"/>
     <input  type="hidden" name="iddocumento" id="iddocumento" value=""/>
     <input  type="hidden" name="docCartas" id="docCartas" value=""/>
+    <input  type="hidden" name="iddemanda" id="iddemanda" value=""/>
     <input  type="hidden" name="tipoGestion" id="tipoGestion" value="<? $var = &$tipoGestion; echo($var); ?>"/>
     
 <div id="datos" style="">
@@ -621,7 +638,8 @@
         </td>
 	</tr>
 	<tr>
-    	<input  type="button" name="btnocultardem" id="btnocultardem" onclick="ocultarDemanda()" class="boton_form" value="Ocultar" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)' />
+    		<input  type="button" name="btnocultardem" id="btnocultardem" onclick="ocultarDemanda()" class="boton_form" value="Ocultar" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)' />
+    		<input  type="button" name="editardem" id="editardem" onclick="editarFicha()" class="boton_form" value="Ver/Modificar" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)' />
     </tr>
 </table>
 </div>

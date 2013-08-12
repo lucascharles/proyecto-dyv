@@ -135,9 +135,9 @@
 		function cancelarFichaDeudor()
 		{
 			var idGes = document.getElementById("idGes").value;
-//			alert('index.php?controlador=Gestiones&accion=gestionar&idgestion='+idGes);
-//			$("#pagina").load('index.php?controlador=Gestiones&accion=gestionar&idgestion='+idGes);
-			$("#pagina").load('index.php?controlador=Gestiones&accion=gestionar&idgestion='+idGes+'&estadoGes=7');
+			var idestadoges = document.getElementById("idestadoges").value;
+//			alert('index.php?controlador=Gestiones&accion=gestionar&idgestion='+idGes+'&estadoGes='+idestadoges);
+			$("#pagina").load('index.php?controlador=Gestiones&accion=gestionar&idgestion='+idGes+'&estadoGes='+idestadoges);
 		}
 		
 		$(document).ready(function() 
@@ -380,6 +380,7 @@
 <input  type="hidden" grabar="S" name="id_alta" id="id_alta" value="<? echo($id_alta) ?>" />
 <input  type="hidden" grabar="S" name="id_doc" id="id_doc" value="<? echo($id) ?>" />
 <input  type="hidden" name="idGes" id="idGes" value="<? echo($idGes) ?>" />
+<input  type="hidden" name="idestadoges" id="idestadoges" value="<? echo($idestadoges) ?>" />
 
 
   <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="titulopantalla">

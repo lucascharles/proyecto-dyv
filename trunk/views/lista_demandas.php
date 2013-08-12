@@ -17,11 +17,10 @@
 <body>
 <table width="100%" cellpadding="2" cellspacing="2" align="center" border="0" bgcolor="#FFFFFF">
 	<tr class="cabecera_listado" >
-		<th align="center"><font class="titulolistado">Num.</font></th>
+		<th align="center" width='1%'><font class="titulolistado"></font></th>
+        <th align="center"><font class="titulolistado">Ficha</font></th>
         <th align="center"><font class="titulolistado">Juzgado</font></th>
         <th align="center"><font class="titulolistado">Rol</font></th>
-        <th align="center"><font class="titulolistado">Ficha</font></th>
-        <th align="center"><font class="titulolistado">Rep</font></th>
         <th align="center"><font class="titulolistado">Fecha</font></th>
     </tr>
 	<?php
@@ -32,12 +31,11 @@
 			
 	?>
 	<tr>
-		<td align="left">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("numero")) ?></td>
+		<td><input type="radio" id="<? echo($datoTmp->get_data("ficha")) ?>" name="checkdemanda" value="" onclick="seleccionado(<? echo($datoTmp->get_data("ficha")) ?>)"></td>
+		<td align="left">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("ficha")) ?></td>
 		<td align="left">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("juzgado")) ?></td>
 		<td align="left">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("rol")) ?></td>
-		<td align="left">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("ficha")) ?></td>
-		<td align="left">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("rep")) ?></td>
-		<td align="left">&nbsp;&nbsp;<?php echo (formatFecha($datoTmp->get_data("fecha"),"yyyy-mm-dd","dd/mm/yyyy")) ?></td>
+		<td align="left">&nbsp;&nbsp;<?php echo (($datoTmp->get_data("fecha"))) ?></td>
 
 	</tr>
 	<?php
