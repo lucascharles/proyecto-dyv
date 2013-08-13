@@ -58,7 +58,7 @@ class GestionesModel extends ModelBase
 	*/
 	$where .= " and g.id_gestion > ".$param["id_partida"];
 
-	$where = $where ." GROUP BY g.id_deudor , eg.id_estado ORDER BY eg.fecha_prox_gestion ASC ";
+	$where = $where ." GROUP BY g.id_deudor , eg.id_estado ORDER BY eg.fecha_prox_gestion, g.id_gestion ASC ";
 	
 	
 	$sqlpersonal->set_where( $where );
@@ -124,7 +124,7 @@ class GestionesModel extends ModelBase
 	}
 	*/
 	$where .= " and g.id_gestion > ".$param["id_partida"];
-	$where = $where ." ORDER by fecha_prox_gestion asc ";
+	$where = $where ." ORDER by fecha_prox_gestion, g.id_gestion asc ";
 	
 	
 	$sqlpersonal->set_where( $where );
