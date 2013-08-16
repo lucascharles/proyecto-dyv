@@ -231,6 +231,12 @@
 			document.getElementById("frmlistagestiones").src="index.php?controlador=Gestiones&accion=listar_bitacora_gestion&idgestion="+<? echo($objGestion->get_data("id_gestion")) ?>+"&iddocumento="+id;			
 		}
 		
+
+		function actualizarDocs(idMandante,idDeudor,idestadoges)
+		{
+			alert("index.php?controlador=Gestiones&accion=listarDocumentoMandante&iddeudor="+idDeudor+"&idmandante="+idMandante+"&idestadoges="+idestadoges+"&actDoc=S");
+			document.getElementById("frmlistdocumentos").src="index.php?controlador=Gestiones&accion=listarDocumentoMandante&iddeudor="+idDeudor+"&idmandante="+idMandante+"&idestadoges="+idestadoges+"&actDoc=S";
+		}
 		
 		function validarRut(tipo)
 		{
@@ -565,6 +571,9 @@
 				</tr>
 				<tr>	
 						<input  type="button" name="btnCartas" id="btnCartas" onclick="enviarCartas(<? echo($objGestion->get_data("id_mandante")) ?>,<? echo($objGestion->get_data("id_deudor")) ?>)" class="boton_form" value="Enviar Cartas" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)' />
+				</tr>
+				<tr>	
+						<input  type="button" name="btnActualizar" id="btnActualizar" onclick="actualizarDocs(<? echo($objGestion->get_data("id_mandante")) ?>,<? echo($objGestion->get_data("id_deudor")) ?>,<? $var = &$idestadoges; echo($var); ?>)" class="boton_form" value="Act. Docs." onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)' />
 				</tr>	
         	</table>
         </td>
