@@ -388,7 +388,11 @@ class GestionesController extends ControllerBase
     {
 		require 'models/DocumentosModel.php';
 		$documentos = new DocumentosModel();
-
+		
+		if($array["actDoc"]=='S'){
+			$x = $documentos->actualizaMandanteDocumento($array);
+		}
+		
 		$docCartas = new DocumentosModel();
 		if($array["enviarCarta"]=="S")
 		{

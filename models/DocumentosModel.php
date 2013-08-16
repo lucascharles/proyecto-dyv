@@ -1563,5 +1563,28 @@ class DocumentosModel extends ModelBase
 		return $banco;
 	}
 	
+	public function actualizaMandanteDocumento($array)
+	{
+		include("config.php");
+	
+		$doc = new DocumentosCollection();
+		$doc->add_filter("id_deudor","=",$array["iddeudor"]);
+		$doc->load();
+	
+		for($j=0;$j<$doc->get_count();$j++)
+		{
+			$datoTmp = &$doc->items[$j];
+			
+			$docM = new Documentos();
+			$docM->add_filter("id_documento",$datoTmp->get_data("id_documento"));
+			$docM->load();
+			
+			$docM->set_data("id_mandatario",$array["idmandante"]);
+			$docM->save();
+		}
+	
+		return $doc;
+	}
+	
 }
 ?>
