@@ -1149,7 +1149,7 @@ class DeudoresController extends ControllerBase
 		require 'models/DeudoresModel.php';
 		$deudor = new DeudoresModel();
 			
-		$id = $deudor->altaConsignacionFicha($array);
+		$id = $deudor->altaDdaEjecFicha($array);
 	
 		echo($id);
 	}
@@ -1161,7 +1161,7 @@ class DeudoresController extends ControllerBase
 			
 		if($array["tipoperacion"] == "A")
 		{
-			$id = $deudor->altaConsignacionFicha($array);
+			$id = $deudor->altaDdaEjecFicha($array);
 				
 			echo($id);
 		}

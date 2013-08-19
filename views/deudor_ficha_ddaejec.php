@@ -68,6 +68,7 @@
 			}
 		
 			datos += "&"+getParametros();
+			alert(datos);
 			$.ajax({
 					url: "index.php",
 					type: "GET",
@@ -128,8 +129,8 @@
         <th></th>
         <th align="right">
         <div style="position:relative; margin-right:10px;">
-        	<img src="images/grabar.gif" onClick="grabarMartillero()" title="Grabar" style="cursor:pointer;">&nbsp;&nbsp;
-            <img src="images/limpiar.gif" onClick="limpiarMartillero()" title="Limpiar" style="cursor:pointer;">
+        	<img src="images/grabar.gif" onClick="grabarDDaEjec()" title="Grabar" style="cursor:pointer;">&nbsp;&nbsp;
+            <img src="images/limpiar.gif" onClick="limpiarDDaEjec()" title="Limpiar" style="cursor:pointer;">
             </div>
         </th>
     </tr>
@@ -161,7 +162,7 @@
                 </tr>
                 <tr>
 					<td align="left" class="etiqueta_form">Mandamiento</td>
-                      <td align="left" ><input type="text" grabar="S" name="txtdef1" id="txtdef1" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="entero" value="<? echo($rut_martilero) ?>"/>&nbsp;
+                      <td align="left" ><input type="text" grabar="S" name="txtmandamiento" id="txtmandamiento" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="entero" value="<? echo($rut_martilero) ?>"/>&nbsp;
 					<td align="left" class="etiqueta_form">Encargado a Receptor</td>
                     <td align="left" ><input type="text" grabar="S" name="txtencargado" id="txtencargado" size="40" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo($notificacion) ?>"/></td>
                  </tr>
