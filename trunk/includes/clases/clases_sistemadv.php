@@ -1586,7 +1586,7 @@
 		{
 			$this->table_name = "ficha_demanda_ejecutiva";
 			$this->field_metadata = array(
-					"id_demanda_ejecutiva" => array("int"),
+					"id_dda_ejecutiva" => array("int"),
 					"id_ficha" => array("int"),
 					"nombre_receptor" => array("varchar"),
 					"email_receptor" => array("varchar"),

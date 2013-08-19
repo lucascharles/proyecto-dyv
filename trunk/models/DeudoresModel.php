@@ -1556,5 +1556,13 @@ ORDER BY orden ASC ";
 			return $ultid_ficha;
 		}
 	
+	public function getDdaEjecutiva($idd)
+	{
+		$dato = new DemandaEjecutiva();
+		$dato->add_filter("id_ficha","=",$idd);
+		$dato->load();
+		
+		return $dato;
+	}
 }
 ?>
