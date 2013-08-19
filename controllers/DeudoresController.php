@@ -237,22 +237,22 @@ class DeudoresController extends ControllerBase
 	{
 		require 'models/DeudoresModel.php';
 		$deudor = new DeudoresModel();
-		$idconsig = 0;
+		$iddemanda = 0;
 		
 		if($array["tipoperacion"] == "M")
 		{
-			$datoconsig = $deudor->getConsignacion($array["ident"]);
-			$data['consignacion'] = $datoconsig;
-			$idconsig = $datoconsig->get_data("id_consignacion");
+			$datodemanda = $deudor->getDdaEjecutiva($array["ident"]);
+			$data['demandaejec'] = $datodemanda;
+			$iddemanda = $datodemanda->get_data("id_dda_ejecutiva");
 		}
 		
 		if($array["tipoperacion"] == "A")
 		{
 			if($array["id_alta"] > 0)
 			{
-				$datoconsig = $deudor->getConsignacion($array["id_alta"]);
-				$data['consignacion'] = $datoconsig;
-				$idconsig = $datoconsig->get_data("id_consignacion");
+				$datodemanda = $deudor->getDdaEjecutiva($array["id_alta"]);
+				$data['demandaejec'] = $datodemanda;
+				$iddemanda = $datodemanda->get_data("id_dda_ejecutiva");
 			}
 		}
 						
@@ -261,7 +261,7 @@ class DeudoresController extends ControllerBase
 		$data['ident'] = $array["ident"];
 		$data['id_alta'] = $array["id_alta"];
 		
-		$data['colGastosConsignacion'] = $deudor->getGastosConsignacion($idconsig);
+//		$data['colGastosConsignacion'] = $deudor->getGastosConsignacion($idconsig);
 									
 		$this->view->show("deudor_ficha_ddaejec.php", $data);
 	}

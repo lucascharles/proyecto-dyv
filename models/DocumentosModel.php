@@ -898,7 +898,7 @@ class DocumentosModel extends ModelBase
 		$where = " d.id_deudor = dd.id_deudor
 				and m.id_mandante = d.id_mandatario
 				and d.id_estado_doc = ed.id_estado_doc
-				and d.id_tipo_doc = td.id_tipo_documento				
+				and ifnull(d.id_tipo_doc,6) = td.id_tipo_documento				
 				and d.activo = 'S'
 				and m.id_mandante = ". $idmandante." and d.id_deudor = ".$iddeudor." and d.id_estado_doc in(999, ".$idestado.")" ;
 	
@@ -1578,7 +1578,6 @@ class DocumentosModel extends ModelBase
 			$docM = new Documentos();
 			$docM->add_filter("id_documento",$datoTmp->get_data("id_documento"));
 			$docM->load();
-			
 			$docM->set_data("id_mandatario",$array["idmandante"]);
 			$docM->save();
 		}
