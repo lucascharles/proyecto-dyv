@@ -1598,7 +1598,7 @@
 					"encargado_receptor" => array("date"),
 					"notificacion" => array("date"),
 					"usuario" => array("varchar"),
-					"fecha_modificacion" => array("date"),
+					"fecha_modificacion" => array("date")
 			);
 			parent::BusinessObject();
 		}
