@@ -1588,19 +1588,17 @@ ORDER BY orden ASC ";
 			}
 				
 			$datoc->set_data("id_ficha",$resp);
-			//$datoc->set_data("id_dda_ejecutiva",$id_consig);
 			$datoc->set_data("nombre_receptor",$param["txtnomreceptor"]);
 			$datoc->set_data("email_receptor",$param["txtemailreceptor"]);
 			$datoc->set_data("fono_receptor",$param["txtfonoreceptor"]);
-			$datoc->set_data("certificado",$param["txtcertificado"]);
-			$datoc->set_data("mandamiento",$param["txtmandamiento"]);
-			$datoc->set_data("fecha_busqueda",$param["txtbusqueda"]);
-			$datoc->set_data("dda_ejecutiva",$param["txtddaejec"]);
-			$datoc->set_data("encargado_receptor",$param["txtencargado"]);
-			$datoc->set_data("notificacion",$param["txtnotificacion"]);
-			$datoc->set_data("usuario",$param["txtentrega_cheque_1"]);
-			$datoc->set_data("fecha_modificacion",$param["txtdevolucion_documento"]);
-			$datoc->set_data("usuario",$param["txtdevolucion_documento"]);
+			$datoc->set_data("certificado",formatoFecha($array["txtcertificado"],"dd/mm/yyyy","yyyy-mm-dd"));
+			$datoc->set_data("mandamiento",formatoFecha($array["txtmandamiento"],"dd/mm/yyyy","yyyy-mm-dd"));
+			$datoc->set_data("fecha_busqueda",formatoFecha($array["txtbusqueda"],"dd/mm/yyyy","yyyy-mm-dd"));
+			$datoc->set_data("dda_ejecutiva",formatoFecha($array["txtddaejec"],"dd/mm/yyyy","yyyy-mm-dd"));
+			$datoc->set_data("encargado_receptor",formatoFecha($array["txtencargado"],"dd/mm/yyyy","yyyy-mm-dd"));
+			$datoc->set_data("notificacion",formatoFecha($array["txtnotificacion"],"dd/mm/yyyy","yyyy-mm-dd"));
+			$datoc->set_data("usuario",$param["idusuario"]);
+//			$datoc->set_data("fecha_modificacion",$param["txtdevolucion_documento"]);
 			$datoc->save();
 			/*
 			if($val->get_count() == 0)
@@ -1667,15 +1665,14 @@ ORDER BY orden ASC ";
 			$datoc->set_data("nombre_receptor",$param["txtnomreceptor"]);
 			$datoc->set_data("email_receptor",$param["txtemailreceptor"]);
 			$datoc->set_data("fono_receptor",$param["txtfonoreceptor"]);
-			$datoc->set_data("certificado",$param["txtcertificado"]);
-			$datoc->set_data("mandamiento",$param["txtmandamiento"]);
-			$datoc->set_data("fecha_busqueda",$param["txtbusqueda"]);
-			$datoc->set_data("dda_ejecutiva",$param["txtddaejec"]);
-			$datoc->set_data("encargado_receptor",$param["txtencargado"]);
-			$datoc->set_data("notificacion",$param["txtnotificacion"]);
-			$datoc->set_data("usuario",$param["txtentrega_cheque_1"]);
-			$datoc->set_data("fecha_modificacion",$param["txtdevolucion_documento"]);
-			$datoc->set_data("usuario",$param["txtdevolucion_documento"]);
+			$datoc->set_data("certificado",formatoFecha($array["txtcertificado"],"dd/mm/yyyy","yyyy-mm-dd"));
+			$datoc->set_data("mandamiento",formatoFecha($array["txtmandamiento"],"dd/mm/yyyy","yyyy-mm-dd"));
+			$datoc->set_data("fecha_busqueda",formatoFecha($array["txtbusqueda"],"dd/mm/yyyy","yyyy-mm-dd"));
+			$datoc->set_data("dda_ejecutiva",formatoFecha($array["txtddaejec"],"dd/mm/yyyy","yyyy-mm-dd"));
+			$datoc->set_data("encargado_receptor",formatoFecha($array["txtencargado"],"dd/mm/yyyy","yyyy-mm-dd"));
+			$datoc->set_data("notificacion",formatoFecha($array["txtnotificacion"],"dd/mm/yyyy","yyyy-mm-dd"));
+			$datoc->set_data("usuario",$param["idusuario"]);
+			//			$datoc->set_data("fecha_modificacion",$param["txtdevolucion_documento"]);
 			$datoc->save();
 					
 			$ultid_consig = getUltimoId(new DemandaEjecutivaCollection(), "id_dda_ejecutiva");
