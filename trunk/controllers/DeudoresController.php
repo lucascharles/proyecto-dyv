@@ -260,7 +260,15 @@ class DeudoresController extends ControllerBase
 		$data['tipoperacion'] = $array["tipoperacion"];
 		$data['ident'] = $array["ident"];
 		$data['id_alta'] = $array["id_alta"];
-		
+		$data['nomreceptor'] = $datodemanda->get_data("nombre_receptor");
+		$data['emailreceptor'] = $datodemanda->get_data("email_receptor");
+		$data['fonoreceptor'] = $datodemanda->get_data("fono_receptor");
+		$data['certificado'] = $datodemanda->get_data("certificado");
+		$data['ddaejec'] = $datodemanda->get_data("dda_ejecutiva");
+		$data['mandamiento'] = $datodemanda->get_data("mandamiento");
+		$data['encargado'] = $datodemanda->get_data("encargado_receptor");
+		$data['busqueda'] = $datodemanda->get_data("fecha_busqueda");
+		$data['notificacion'] = $datodemanda->get_data("notificacion");
 //		$data['colGastosConsignacion'] = $deudor->getGastosConsignacion($idconsig);
 									
 		$this->view->show("deudor_ficha_ddaejec.php", $data);
