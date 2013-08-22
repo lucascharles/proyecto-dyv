@@ -73,7 +73,7 @@
 			}
 		
 			datos += "&"+getParametros();
-			alert(datos);
+			//alert(datos);
 			//return false;
 			$.ajax({
 					url: "index.php",
@@ -129,6 +129,7 @@
 		
 	$entrega_receptor_1 = ($id_alta > 0) ? $receptor->get_data("entrega_receptor_1") : "";
 	$fono_receptor = ($id_alta > 0) ? $receptor->get_data("fono_receptor") : "";
+	$fono_receptor2 = ($id_alta > 0) ? $receptor->get_data("fono_receptor2") : "";
 	$resultado_busqueda = ($id_alta > 0) ? $receptor->get_data("resultado_busqueda") : "";
 	$resultado_notificacion_1 = ($id_alta > 0) ? $receptor->get_data("resultado_notificacion_1") : "";
 	$providencia_1 = ($id_alta > 0) ? $receptor->get_data("providencia_1") : "";
@@ -155,20 +156,36 @@
         <th></th>
         <td align="left" >Notificacion</td>
                     <td align="left" >
+                    <?php 
+					$ppagare = "";
+     				$pletra = "";
+     				$pcheque = "";
+     				$pfactura = "";
+					if(trim($notificacion_ficha) == strtoupper("Protesto Pagare")) $ppagare = "selected='selected'";
+					if(trim($notificacion_ficha) == strtoupper("Protesto Letra")) $pletra = "selected='selected'";
+					if(trim($notificacion_ficha) == strtoupper("Protesto Cheque")) $pcheque = "selected='selected'";
+					if(trim($notificacion_ficha) == strtoupper("Protesto Factura")) $pfactura = "selected='selected'";
+					?>
                     		<select name="txtnotificacion_ficha" grabar="S" tipovalida="texto" id="txtnotificacion_ficha"  onFocus="resaltar(this)" onBlur="noresaltar(this)">
-			     				<option value=""> <?php if($notificacion_ficha ==""){?>Seleccione<?php }else{echo($notificacion_ficha);} ?> </option>
-			     				<option value="Protesto Pagare"> Protesto Pagare </option>
-			     				<option value="Protesto Letra"> Protesto Letra </option>
-			     				<option value="Protesto Letra"> Protesto Cheque </option>
-			     				<option value="Protesto Letra"> Protesto Factura </option>
+			     				<option value=""> Seleccione</option>
+			     				<option value="Protesto Pagare" <?=$ppagare?>> Protesto Pagare </option>
+			     				<option value="Protesto Letra" <?=$pletra?>> Protesto Letra </option>
+			     				<option value="Protesto Letra" <?=$pcheque?>> Protesto Cheque </option>
+			     				<option value="Protesto Letra" <?=$pfactura?>> Protesto Factura </option>
 					  		</select>
 					</td>
                     <td align="left" >Citacion</td>
                     <td align="left" >
+                    		<?php 
+							$cconfesa = "";
+							$creconocer = "";
+							if(trim($citacion) == strtoupper("Confesa Deuda")) $cconfesa = "selected='selected'";
+							if(trim($citacion) == strtoupper("Reconocer Firma y Confesar Deuda")) $creconocer = "selected='selected'";
+							?>
                     		<select name="txtcitacion" grabar="S" tipovalida="texto" id="txtcitacion"  onFocus="resaltar(this)" onBlur="noresaltar(this)">
-			     				<option value=""> <?php if($citacion ==""){?>Seleccione<?php }else{echo($citacion);} ?> </option>
-			     				<option value="Confesa Deuda"> Confesar Deuda </option>
-			     				<option value="Reconocer Firma y Confesar Deuda"> Reconocer Firma y Confesar Deuda </option>
+			     				<option value="">Seleccione</option>
+			     				<option value="Confesa Deuda" <?=$cconfesa?>> Confesar Deuda </option>
+			     				<option value="Reconocer Firma y Confesar Deuda" <?=$creconocer?>> Reconocer Firma y Confesar Deuda </option>
 					  		</select>
 		</td>
         <th align="right">
@@ -211,9 +228,15 @@
                     <td align="left" ><input type="text" grabar="S" name="txtbusqueda" id="txtbusqueda" size="40" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo($busqueda) ?>"/></td>
                     <td align="left" class="etiqueta_form">Resultado B&uacute;squeda</td>
                       <td align="left" >
+                      <?php 
+							$positivo = "";
+							$negativo = "";
+							if(trim($resultado_busqueda) == strtoupper("Positiva")) $positivo = "selected='selected'";
+							if(trim($resultado_busqueda) == strtoupper("Negativa")) $negativo = "selected='selected'";
+							?>
                       	<select name="txtresultado_busqueda" grabar="S" tipovalida="texto" id="txtresultado_busqueda" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)">
-			     			<option value="Positiva"> <?php if($resultado_busqueda == ""){?>Positiva<?php }else{echo($resultado_busqueda);}?> </option>
-			     			<option value="Negativa"> Negativa </option>
+			     			<option value="Positiva" <?=$positivo?>> Positiva</option>
+			     			<option value="Negativa" <?=$negativo?>> Negativa </option>
 			        		
 					  	</select>
 					</td>
@@ -235,7 +258,7 @@
 					<td align="left" class="etiqueta_form">Nombre Receptor </td>
                     <td align="left" ><input type="text" grabar="S" name="txtnombreceptor2" id="txtnombreceptor2" size="40" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo($receptor_view) ?>"/></td>
                     <td align="left" class="etiqueta_form">Fono/Email Receptor</td>
-                    <td align="left" ><input type="text" grabar="S" name="txtfono_receptor2" id="txtfono_receptor2" size="40" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo($fono_receptor) ?>"/></td>
+                    <td align="left" ><input type="text" grabar="S" name="txtfono_receptor2" id="txtfono_receptor2" size="40" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo($fono_receptor2) ?>"/></td>
                   
                   </tr>  
                  <tr>
@@ -266,9 +289,9 @@
                  	<td align="left" class="etiqueta_form">Providencia (3)</td>
                     <td align="left" ><input type="text" grabar="S" name="txtprovidencia_3" id="txtprovidencia_3" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="fecha" value="<? echo($providencia_3) ?>"/></td>                 
 					<td align="left" class="etiqueta_form">Nombre Receptor</td>
-                    <td align="left" ><input type="text" grabar="S" name="txtnombrereceptor3" id="txtnombrereceptor3" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="fecha" value="<? echo($fecha_domicilio_1) ?>" onKeyUp="this.value=formateafecha(this.value)"/></td>
+                    <td align="left" ><input type="text" grabar="S" name="txtnombrereceptor3" id="txtnombrereceptor3" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="fecha" value="<? echo($fecha_domicilio_1) ?>" /></td>
 					<td align="left" class="etiqueta_form">Fono/Email Receptor</td>
-                    <td align="left" ><input type="text" grabar="S" name="txtemailtel_recep3" id="txtemailtel_recep3" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="fecha" value="<? echo($fecha_domicilio_1) ?>" onKeyUp="this.value=formateafecha(this.value)"/></td>
+                    <td align="left" ><input type="text" grabar="S" name="txtemailtel_recep3" id="txtemailtel_recep3" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="fecha" value="<? echo($fecha_domicilio_1) ?>" /></td>
 
                  </tr>
                   <tr>

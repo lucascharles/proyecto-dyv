@@ -74,7 +74,7 @@
 		
 			datos += "&"+getParametros();
 			datos += "&"+"idusuario=usuarioX";
-			alert(datos);
+			//alert(datos);
 			$.ajax({
 					url: "index.php",
 					type: "GET",
@@ -162,23 +162,23 @@
 
             	<tr>
                 	<td align="left" class="etiqueta_form">Certificado</td>
-                    <td align="left" ><input type="text" grabar="S" name="txtcertificado" id="txtcertificado" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" tipovalida="fecha" value="<? echo($certificado) ?>"/></td>
+                    <td align="left" ><input type="text" grabar="S" name="txtcertificado" id="txtcertificado" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" tipovalida="fecha" value="<? echo(formatoFecha($certificado,"yyyy-mm-dd","dd/mm/yyyy")) ?>"/></td>
                
 					<td align="left" class="etiqueta_form">DDA Ejecutiva</td>
-                    <td align="left" ><input type="text" grabar="S" name="txtddaejec" id="txtddaejec" size="40" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" tipovalida="fecha" value="<? echo($ddaejec) ?>"/></td>
+                    <td align="left" ><input type="text" grabar="S" name="txtddaejec" id="txtddaejec" size="40" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" tipovalida="fecha" value="<? echo(formatoFecha($ddaejec,"yyyy-mm-dd","dd/mm/yyyy")) ?>"/></td>
                 </tr>
                 <tr>
 					<td align="left" class="etiqueta_form">Mandamiento</td>
-                      <td align="left" ><input type="text" grabar="S" name="txtmandamiento" id="txtmandamiento" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" tipovalida="fecha" value="<? echo($mandamiento) ?>"/>&nbsp;
+                      <td align="left" ><input type="text" grabar="S" name="txtmandamiento" id="txtmandamiento" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" tipovalida="fecha" value="<? echo(formatoFecha($mandamiento,"yyyy-mm-dd","dd/mm/yyyy")) ?>"/>&nbsp;
 					<td align="left" class="etiqueta_form">Encargado a Receptor</td>
-                    <td align="left" ><input type="text" grabar="S" name="txtencargado" id="txtencargado" size="40" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" tipovalida="fecha" value="<? echo($encargado) ?>"/></td>
+                    <td align="left" ><input type="text" grabar="S" name="txtencargado" id="txtencargado" size="40" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" tipovalida="fecha" value="<? echo(formatoFecha($encargado,"yyyy-mm-dd","dd/mm/yyyy")) ?>"/></td>
                  </tr>
 
                	<tr>
                 	<td align="left" class="etiqueta_form">Fecha Busqueda</td>
-                    <td align="left" ><input type="text" grabar="S" name="txtbusqueda" id="txtbusqueda" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" tipovalida="fecha" value="<? echo($busqueda) ?>"/></td>
+                    <td align="left" ><input type="text" grabar="S" name="txtbusqueda" id="txtbusqueda" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" tipovalida="fecha" value="<? echo(formatoFecha($busqueda,"yyyy-mm-dd","dd/mm/yyyy")) ?>"/></td>
            			<td align="left" class="etiqueta_form">Fecha Notificacion</td>
-                    <td align="left" ><input type="text" grabar="S" name="txtnotificacion" id="txtnotificacion" size="40" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" tipovalida="fecha" value="<? echo($notificacion) ?>"/></td>
+                    <td align="left" ><input type="text" grabar="S" name="txtnotificacion" id="txtnotificacion" size="40" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" tipovalida="fecha" value="<? echo(formatoFecha($notificacion,"yyyy-mm-dd","dd/mm/yyyy")) ?>"/></td>
                 </tr>
             </table>
         </td>
