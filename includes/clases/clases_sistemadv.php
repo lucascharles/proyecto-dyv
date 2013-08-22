@@ -195,6 +195,7 @@
 				"fecha_oficio" => array("date"),
 				"fecha_traba_emb" => array("date"),
 				"fono_receptor" => array("varchar"),
+				"fono_receptor2" => array("varchar"),
 				"resultado_busqueda" => array("varchar"),
 				"resultado_notificacion_1" => array("varchar"),
 				"resultado_notificacion_2" => array("varchar"),
@@ -310,7 +311,30 @@
 				"entrega_receptor" => array("varchar"),
 				"retiro_especies" => array("varchar"),
 				"oposicion_retiro" => array("varchar"),
-				"fecha_remate" => array("date")
+				"fecha_remate" => array("date"),
+				"embargomartillero" => array("varchar"),
+				"resultado" => array("varchar"),
+				"oficio" => array("varchar"),
+				"receptor" => array("varchar"),
+				"emailreceptor" => array("varchar"),
+				"embargo_1" => array("varchar"),
+				"receptor2" => array("varchar"),
+				"emailreceptor2" => array("varchar"),
+				"embargo2" => array("varchar"),
+				"def2" => array("varchar"),
+				"def3" => array("varchar"),
+				"emailmartillero" => array("varchar"),
+				"ingreso" => array("date"),
+				"providencia1" => array("varchar"),
+				"resultado1" => array("varchar"),
+				"oficio1" => array("varchar"),
+				"receptor1" => array("varchar"),
+				"emailreceptor1" => array("varchar"),
+				"embargo1" => array("varchar"),
+				"martillero" => array("varchar")
+				
+				
+				
 			);
 			parent::BusinessObject();
 		}
