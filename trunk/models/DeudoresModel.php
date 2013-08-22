@@ -123,6 +123,7 @@ class DeudoresModel extends ModelBase
 			$dator->set_data("fecha_oficio",formatoFecha($param["txtfecha_oficio"],"dd/mm/yyyy","yyyy-mm-dd"));
 			$dator->set_data("fecha_traba_emb",formatoFecha($param["txtfecha_traba_emb"],"dd/mm/yyyy","yyyy-mm-dd"));
 			$dator->set_data("fono_receptor",$param["txtfono_receptor"]);
+			$dator->set_data("fono_receptor2",$param["txtfono_receptor2"]);
 			$dator->set_data("resultado_busqueda",$param["txtresultado_busqueda"]);
 			$dator->set_data("resultado_notificacion_1",$param["txtresultado_notificacion_1"]);
 			$dator->set_data("resultado_notificacion_2",$param["txtresultado_notificacion_2"]);
@@ -451,17 +452,36 @@ class DeudoresModel extends ModelBase
 			}	
 			
 			$datom->set_data("id_ficha",$resp);
-			$datom->set_data("ingreso",$param["txtaceptacion_cargo"]);
-			$datom->set_data("providencia",$param["txtnombre"]);
-			$datom->set_data("oficio",$param["txtrut_martilero"]);
-			$datom->set_data("receptor",$param["txtdv_martillero"]);
-			$datom->set_data("receptor_email",$param["txtnotificacion"]);
-			$datom->set_data("retirio_especies_fp",$param["txtretirio_especies_fp"]);
-			$datom->set_data("resultado",$param["txtprovidencia"]);
-			$datom->set_data("embargo",$param["txtentrega_receptor"]);
-			$datom->set_data("entrega_receptor",$param["txtretiro_especies"]);
-			$datom->set_data("nombre_receptor",$param["txtoposicion_retiro"]);
-			$datom->set_data("embargo",$param["txtfecha_remate"]);
+			$datom->set_data("embargomartillero",$param["txtembargomartillero"]);
+			$datom->set_data("aceptacion_cargo",formatoFecha($param["txtaceptacion_cargo"],"dd/mm/yyyy","yyyy-mm-dd"));
+			$datom->set_data("providencia",$param["txtprovidencia"]);
+			$datom->set_data("resultado",$param["txtresultado"]);
+			$datom->set_data("oficio",$param["txtoficio"]);
+			$datom->set_data("receptor",$param["txtreceptor"]);
+			$datom->set_data("emailreceptor",$param["txtemailreceptor"]);
+			$datom->set_data("embargo_1",$param["txtembargo"]);
+			
+			$datom->set_data("entrega_receptor",formatoFecha($param["txtentrega_receptor"],"dd/mm/yyyy","yyyy-mm-dd"));
+			$datom->set_data("receptor2",$param["txtreceptor2"]);
+			$datom->set_data("emailreceptor2",$param["txtemailreceptor2"]);
+			$datom->set_data("embargo2",$param["txtembargo2"]);
+			$datom->set_data("def2",$param["txtdef2"]);
+			$datom->set_data("def3",$param["txtdef3"]);
+			$datom->set_data("martillero",$param["txtmartillero"]);
+			$datom->set_data("emailmartillero",$param["txtemailmartillero"]);
+			$datom->set_data("notificacion",$param["txtnotificacionmartillero"]);
+			$datom->set_data("retiro_especies",$param["txtretiro_especies"]);
+			$datom->set_data("fecha_remate",$param["txtfecha_remate"]);
+			
+			$datom->set_data("ingreso",formatoFecha($param["txtingreso"],"dd/mm/yyyy","yyyy-mm-dd"));
+			$datom->set_data("providencia1",$param["txtprovidencia1"]);
+			$datom->set_data("resultado1",$param["txtresultado1"]);
+			$datom->set_data("oficio1",$param["txtoficio1"]);
+			$datom->set_data("receptor1",$param["txtreceptor1"]);
+			$datom->set_data("emailreceptor1",$param["txtemailreceptor1"]);
+			$datom->set_data("embargo1",$param["txtembargo1"]);
+			$datom->set_data("oposicion_retiro",$param["txtoposicion_retiro"]);
+			
 			$datom->save();	
 			
 			if($val->get_count() == 0)
@@ -521,21 +541,38 @@ class DeudoresModel extends ModelBase
 			$datof->save();
 			
 			$ultid_ficha = getUltimoId(new FichaCollection(), "id_ficha");
-			
+			echo("<br> txtprovidencia1: ".$param["txtprovidencia1"]."<br>");
 			$datom = new Martillero_Ficha();
 			$datom->set_data("id_ficha",$ultid_ficha);
-			$datom->set_data("aceptacion_cargo",$param["txtaceptacion_cargo"]);
-			$datom->set_data("nombre",$param["txtnombre"]);
-			$datom->set_data("rut_martilero",$param["txtrut_martilero"]);
-			$datom->set_data("dv_martillero",$param["txtdv_martillero"]);
-			$datom->set_data("notificacion",$param["txtnotificacion"]);
-			$datom->set_data("retirio_especies_fp",$param["txtretirio_especies_fp"]);
+			$datom->set_data("embargomartillero",$param["txtembargomartillero"]);
+			$datom->set_data("aceptacion_cargo",formatoFecha($param["txtaceptacion_cargo"],"dd/mm/yyyy","yyyy-mm-dd"));
 			$datom->set_data("providencia",$param["txtprovidencia"]);
-			$datom->set_data("entrega_receptor",$param["txtentrega_receptor"]);
+			$datom->set_data("resultado",$param["txtresultado"]);
+			$datom->set_data("oficio",$param["txtoficio"]);
+			$datom->set_data("receptor",$param["txtreceptor"]);
+			$datom->set_data("emailreceptor",$param["txtemailreceptor"]);
+			$datom->set_data("embargo_1",$param["txtembargo"]);
+			
+			$datom->set_data("entrega_receptor",formatoFecha($param["txtentrega_receptor"],"dd/mm/yyyy","yyyy-mm-dd"));
+			$datom->set_data("receptor2",$param["txtreceptor2"]);
+			$datom->set_data("emailreceptor2",$param["txtemailreceptor2"]);
+			$datom->set_data("embargo2",$param["txtembargo2"]);
+			$datom->set_data("def2",$param["txtdef2"]);
+			$datom->set_data("def3",$param["txtdef3"]);
+			$datom->set_data("martillero",$param["txtmartillero"]);
+			$datom->set_data("emailmartillero",$param["txtemailmartillero"]);
+			$datom->set_data("notificacion",$param["txtnotificacionmartillero"]);
 			$datom->set_data("retiro_especies",$param["txtretiro_especies"]);
-			$datom->set_data("oposicion_retiro",$param["txtoposicion_retiro"]);
 			$datom->set_data("fecha_remate",$param["txtfecha_remate"]);
-			$datom->save();
+			
+			$datom->set_data("ingreso",formatoFecha($param["txtingreso"],"dd/mm/yyyy","yyyy-mm-dd"));
+			$datom->set_data("providencia1",$param["txtprovidencia1"]);
+			$datom->set_data("resultado1",$param["txtresultado1"]);
+			$datom->set_data("oficio1",$param["txtoficio1"]);
+			$datom->set_data("receptor1",$param["txtreceptor1"]);
+			$datom->set_data("emailreceptor1",$param["txtemailreceptor1"]);
+			$datom->set_data("embargo1",$param["txtembargo1"]);
+			$datom->set_data("oposicion_retiro",$param["txtoposicion_retiro"]);
 			
 			$ultid_mart = getUltimoId(new Martillero_FichaCollection(), "id_martillero");
 
@@ -564,6 +601,7 @@ class DeudoresModel extends ModelBase
 				$gasto_ficha->save();
 				
 			}
+			
 		}
 		
 		return $ultid_ficha;
@@ -1579,7 +1617,7 @@ ORDER BY orden ASC ";
 			$val->load();
 				
 			$datoc = new DemandaEjecutiva();
-				
+			
 			if($val->get_count() > 0)
 			{
 				$datoc->add_filter("id_ficha","=",$resp);
@@ -1591,62 +1629,15 @@ ORDER BY orden ASC ";
 			$datoc->set_data("nombre_receptor",$param["txtnomreceptor"]);
 			$datoc->set_data("email_receptor",$param["txtemailreceptor"]);
 			$datoc->set_data("fono_receptor",$param["txtfonoreceptor"]);
-			$datoc->set_data("certificado",formatoFecha($array["txtcertificado"],"dd/mm/yyyy","yyyy-mm-dd"));
-			$datoc->set_data("mandamiento",formatoFecha($array["txtmandamiento"],"dd/mm/yyyy","yyyy-mm-dd"));
-			$datoc->set_data("fecha_busqueda",formatoFecha($array["txtbusqueda"],"dd/mm/yyyy","yyyy-mm-dd"));
-			$datoc->set_data("dda_ejecutiva",formatoFecha($array["txtddaejec"],"dd/mm/yyyy","yyyy-mm-dd"));
-			$datoc->set_data("encargado_receptor",formatoFecha($array["txtencargado"],"dd/mm/yyyy","yyyy-mm-dd"));
-			$datoc->set_data("notificacion",formatoFecha($array["txtnotificacion"],"dd/mm/yyyy","yyyy-mm-dd"));
+			$datoc->set_data("certificado",formatoFecha($param["txtcertificado"],"dd/mm/yyyy","yyyy-mm-dd"));
+			$datoc->set_data("mandamiento",formatoFecha($param["txtmandamiento"],"dd/mm/yyyy","yyyy-mm-dd"));
+			$datoc->set_data("fecha_busqueda",formatoFecha($param["txtbusqueda"],"dd/mm/yyyy","yyyy-mm-dd"));
+			$datoc->set_data("dda_ejecutiva",formatoFecha($param["txtddaejec"],"dd/mm/yyyy","yyyy-mm-dd"));
+			$datoc->set_data("encargado_receptor",formatoFecha($param["txtencargado"],"dd/mm/yyyy","yyyy-mm-dd"));
+			$datoc->set_data("notificacion",formatoFecha($param["txtnotificacion"],"dd/mm/yyyy","yyyy-mm-dd"));
 			$datoc->set_data("usuario",$param["idusuario"]);
-//			$datoc->set_data("fecha_modificacion",$param["txtdevolucion_documento"]);
 			$datoc->save();
-			/*
-			if($val->get_count() == 0)
-			{
-				$id_consig = getUltimoId(new Consignacion_FichaCollection(), "id_consignacion");
-			}
-				
-			$colGastoConsignacion = $this->getGastosConsignacion(0);
-				
-			for($j=0; $j<$colGastoConsignacion->get_count(); $j++)
-			{
-				$datoTmp = &$colGastoConsignacion->items[$j];
-	
-				$imp = 0;
-				if(trim($param["txtgasto_".$datoTmp->get_data("id_gasto")]) <> "")
-				{
-					$imp = trim($param["txtgasto_".$datoTmp->get_data("id_gasto")]);
-				}
-				$gastos_cf = new Gastos_Consignacion_Ficha();
-				if($val->get_count() > 0)
-				{
-					$gastos_cf->add_filter("id_ficha","=",$resp);
-					$gastos_cf->add_filter("AND");
-					$gastos_cf->add_filter("id_consignacion","=",$id_consig);
-					$gastos_cf->add_filter("AND");
-					$gastos_cf->add_filter("id_gasto","=",$datoTmp->get_data("id_gasto"));
-					$gastos_cf->load();
-				}
-				$gastos_cf->set_data("id_gasto",$datoTmp->get_data("id_gasto"));
-				$gastos_cf->set_data("id_consignacion",$id_consig);
-				$gastos_cf->set_data("id_ficha",$resp);
-				$gastos_cf->set_data("importe",$imp);
-				$gastos_cf->save();
-	
-				$gasto_ficha = new Gastos_Ficha();
-				if($val->get_count() > 0)
-				{
-					$gasto_ficha->add_filter("id_ficha","=",$resp);
-						$gasto_ficha->add_filter("AND");
-						$gasto_ficha->add_filter("id_gasto","=",$datoTmp->get_data("id_gasto"));
-						$gasto_ficha->load();
-					}
-					$gasto_ficha->set_data("id_gasto",$datoTmp->get_data("id_gasto"));
-					$gasto_ficha->set_data("id_ficha",$resp);
-					$gasto_ficha->set_data("importe",$imp);
-					$gasto_ficha->save();
-			}
-			*/	
+
 			$ultid_ficha = $resp;
 			}
 			else
@@ -1665,42 +1656,17 @@ ORDER BY orden ASC ";
 			$datoc->set_data("nombre_receptor",$param["txtnomreceptor"]);
 			$datoc->set_data("email_receptor",$param["txtemailreceptor"]);
 			$datoc->set_data("fono_receptor",$param["txtfonoreceptor"]);
-			$datoc->set_data("certificado",formatoFecha($array["txtcertificado"],"dd/mm/yyyy","yyyy-mm-dd"));
-			$datoc->set_data("mandamiento",formatoFecha($array["txtmandamiento"],"dd/mm/yyyy","yyyy-mm-dd"));
-			$datoc->set_data("fecha_busqueda",formatoFecha($array["txtbusqueda"],"dd/mm/yyyy","yyyy-mm-dd"));
-			$datoc->set_data("dda_ejecutiva",formatoFecha($array["txtddaejec"],"dd/mm/yyyy","yyyy-mm-dd"));
-			$datoc->set_data("encargado_receptor",formatoFecha($array["txtencargado"],"dd/mm/yyyy","yyyy-mm-dd"));
-			$datoc->set_data("notificacion",formatoFecha($array["txtnotificacion"],"dd/mm/yyyy","yyyy-mm-dd"));
+			$datoc->set_data("certificado",formatoFecha($param["txtcertificado"],"dd/mm/yyyy","yyyy-mm-dd"));
+			$datoc->set_data("mandamiento",formatoFecha($param["txtmandamiento"],"dd/mm/yyyy","yyyy-mm-dd"));
+			$datoc->set_data("fecha_busqueda",formatoFecha($param["txtbusqueda"],"dd/mm/yyyy","yyyy-mm-dd"));
+			$datoc->set_data("dda_ejecutiva",formatoFecha($param["txtddaejec"],"dd/mm/yyyy","yyyy-mm-dd"));
+			$datoc->set_data("encargado_receptor",formatoFecha($param["txtencargado"],"dd/mm/yyyy","yyyy-mm-dd"));
+			$datoc->set_data("notificacion",formatoFecha($param["txtnotificacion"],"dd/mm/yyyy","yyyy-mm-dd"));
 			$datoc->set_data("usuario",$param["idusuario"]);
-			//			$datoc->set_data("fecha_modificacion",$param["txtdevolucion_documento"]);
 			$datoc->save();
 					
 			$ultid_consig = getUltimoId(new DemandaEjecutivaCollection(), "id_dda_ejecutiva");
-			/*
-			$colGastoConsignacion = $this->getGastosConsignacion(0);
-					
-			for($j=0; $j<$colGastoConsignacion->get_count(); $j++)
-			{
-				$datoTmp = &$colGastoConsignacion->items[$j];
-	
-				$imp = 0;
-				if(trim($param["txtgasto_".$datoTmp->get_data("id_gasto")]) <> "")
-				{
-					$imp = trim($param["txtgasto_".$datoTmp->get_data("id_gasto")]);
-				}
-				$gastos_mf = new Gastos_Consignacion_Ficha();
-				$gastos_mf->set_data("id_gasto",$datoTmp->get_data("id_gasto"));
-				$gastos_mf->set_data("id_consignacion",$ultid_consig);
-				$gastos_mf->set_data("id_ficha",$ultid_ficha);
-				$gastos_mf->set_data("importe",$imp);
-				$gastos_mf->save();
-	
-				$gasto_ficha = new Gastos_Ficha();
-				$gasto_ficha->set_data("id_gasto",$datoTmp->get_data("id_gasto"));
-				$gasto_ficha->set_data("id_ficha",$ultid_ficha);
-				$gasto_ficha->set_data("importe",$imp);
-				$gasto_ficha->save();
-			}*/
+
 			}
 	
 			return $ultid_ficha;
