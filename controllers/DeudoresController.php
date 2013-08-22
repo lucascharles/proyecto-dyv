@@ -263,14 +263,13 @@ class DeudoresController extends ControllerBase
 		$data['nomreceptor'] = $datodemanda->get_data("nombre_receptor");
 		$data['emailreceptor'] = $datodemanda->get_data("email_receptor");
 		$data['fonoreceptor'] = $datodemanda->get_data("fono_receptor");
-		$data['certificado'] = $datodemanda->get_data("certificado");
-		$data['ddaejec'] = $datodemanda->get_data("dda_ejecutiva");
-		$data['mandamiento'] = $datodemanda->get_data("mandamiento");
-		$data['encargado'] = $datodemanda->get_data("encargado_receptor");
-		$data['busqueda'] = $datodemanda->get_data("fecha_busqueda");
-		$data['notificacion'] = $datodemanda->get_data("notificacion");
-//		$data['colGastosConsignacion'] = $deudor->getGastosConsignacion($idconsig);
-									
+		$data['certificado'] = (trim($datodemanda->get_data("certificado")) <> "0000-00-00") ? $datodemanda->get_data("certificado") : "";
+		$data['ddaejec'] = (trim($datodemanda->get_data("dda_ejecutiva")) <> "0000-00-00") ? $datodemanda->get_data("dda_ejecutiva") : "";
+		$data['mandamiento'] = (trim($datodemanda->get_data("mandamiento")) <> "0000-00-00") ? $datodemanda->get_data("mandamiento") : "";
+		$data['encargado'] = (trim($datodemanda->get_data("encargado_receptor")) <> "0000-00-00") ? $datodemanda->get_data("encargado_receptor") : "";
+		$data['busqueda'] = (trim($datodemanda->get_data("fecha_busqueda")) <> "0000-00-00") ? $datodemanda->get_data("fecha_busqueda") : "";
+		$data['notificacion'] = (trim($datodemanda->get_data("notificacion")) <> "0000-00-00") ? $datodemanda->get_data("notificacion") : "";
+								
 		$this->view->show("deudor_ficha_ddaejec.php", $data);
 	}
 	
