@@ -101,10 +101,13 @@
 	$monto_4 = ($id_alta > 0) ? $consignacion->get_data("monto_4") : "";
 	$pago_dyv = ($id_alta > 0) ? $consignacion->get_data("pago_dyv") : "";
 	$providencia_1 = ($id_alta > 0) ? $consignacion->get_data("providencia_1") : "";
-	$providencia_2 = ($id_alta > 0) ? $consignacion->get_data("providencia_2") : "";
+	//$providencia_2 = ($id_alta > 0) ? $consignacion->get_data("providencia_2") : "";
 	$giro_cheque_2 = ($id_alta > 0) ? $consignacion->get_data("giro_cheque_2") : "";
 	$providencia_3 = ($id_alta > 0) ? $consignacion->get_data("providencia_3") : "";
 	$rendicion_cliente = ($id_alta > 0) ? $consignacion->get_data("rendicion_cliente") : "";
+	$abogado = ($id_alta > 0) ? $consignacion->get_data("abogado") : "";
+	$liquidacosta = ($id_alta > 0) ? $consignacion->get_data("liquidacosta") : "";
+	$email = ($id_alta > 0) ? $consignacion->get_data("email") : "";
 	
 ?>
 <form name="frmconsignacion">
@@ -146,17 +149,19 @@
                  </tr>   
                  <tr>
 					<td align="left" class="etiqueta_form">Se Gire Cheque</td>
-                    <td align="left" ><input type="text" grabar="S" name="txtgirecheque" id="txtgirecheque" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" tipovalida="fecha" tipovalida="moneda" value="<? echo($abono_3) ?>"/></td>
+                    <td align="left">
+                    <input type="text" grabar="S" name="txtgirecheque" id="txtgirecheque" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" tipovalida="fecha" tipovalida="moneda" value="<? echo($giro_cheque_1) ?>"/>
+                    </td>
                  	<td align="left" class="etiqueta_form">Abogado</td>
-                    <td align="left" ><input type="text" grabar="S" name="txtabogado" id="txtabogado" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)"  value="<? echo($abono_3) ?>"/></td>
+                    <td align="left" ><input type="text" grabar="S" name="txtabogado" id="txtabogado" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)"  value="<? echo($abogado) ?>"/></td>
                     <td align="left" class="etiqueta_form">Email/Tel</td>
-                    <td align="left" ><input type="text" grabar="S" name="txtemail" id="txtemail" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)"  value="<? echo($abono_3) ?>"/></td>
+                    <td align="left" ><input type="text" grabar="S" name="txtemail" id="txtemail" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)"  value="<? echo($email) ?>"/></td>
                  </tr>
                  <tr>
 					<td align="left" class="etiqueta_form">Providencia</td>
-                    <td align="left" ><input type="text" grabar="S" name="txtprovidencia" id="txtprovidencia" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)"  tipovalida="fecha" value="<? echo($abono_4) ?>"/></td>
+                    <td align="left" ><input type="text" grabar="S" name="txtprovidencia" id="txtprovidencia" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)"  tipovalida="fecha" value="<? echo($providencia_1) ?>"/></td>
 					<td align="left" class="etiqueta_form">Liquida Costas</td>
-                    <td align="left" ><input type="text" grabar="S" name="txtliquidacosta" id="txtliquidacosta" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)"  tipovalida="fecha" value="<? echo($pago_cliente) ?>"/></td>
+                    <td align="left" ><input type="text" grabar="S" name="txtliquidacosta" id="txtliquidacosta" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)"  tipovalida="fecha" value="<? echo($liquidacosta) ?>"/></td>
 					<td align="left" class="etiqueta_form">Monto</td>
                     <td align="left" ><input type="text" grabar="S" name="txtmonto" id="txtmonto" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="moneda" value="<? echo($giro_cheque_1) ?>"/></td>
                  </tr>
