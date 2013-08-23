@@ -419,7 +419,10 @@
 				"providencia_1" => array("varchar"),
 				"providencia_2" => array("varchar"),
 				"providencia_3" => array("varchar"),
-				"rendicion_cliente" => array("decimal")
+				"rendicion_cliente" => array("decimal"),
+				"abogado" => array("varchar"),
+				"liquidacosta" => array("decimal"),
+				"email" => array("varchar")
 			);
 			parent::BusinessObject();
 		}
