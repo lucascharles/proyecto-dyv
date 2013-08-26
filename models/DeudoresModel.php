@@ -62,10 +62,11 @@ class DeudoresModel extends ModelBase
 		$dato->set_data("id_documento",$param["id_doc"]);
 		$dato->set_data("monto",$param["txtmonto"]);
 		$dato->set_data("abogado",$param["txtabogado"]);
+		$dato->set_data("abogado2",$param["txtabogado2"]);
 		$dato->set_data("firma",$param["txtfirma"]);
 		$dato->set_data("ingreso",$param["txtingreso"]);
 		$dato->set_data("providencia",$param["txtprovidencia_1"]);
-		$dato->set_data("distribucion_corte",$param["txtdist_corte"]);
+		$dato->set_data("distribucion_corte",formatoFecha($param["txtdist_corte"],"dd/mm/yyyy","yyyy-mm-dd"));
 		$dato->set_data("rol",$param["txtrol"]);
 		$dato->set_data("id_juzgado",$param["selJuzgadoNro"]);
 		$dato->set_data("id_juzgado_comuna",$param["selJComuna"]);

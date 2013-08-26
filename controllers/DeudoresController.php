@@ -200,20 +200,22 @@ class DeudoresController extends ControllerBase
 		$direcciones = new DireccionDeudoresModel();
 		
 		$data['nom_sistema'] = "SISTEMA DyV";
-		$data['ident'] = $array["id"];
+		
 		$data['tipoperacion'] = $array["tipope"];
 		$data['coleccion_juzgado'] = $juzgado->getListaJuzgados();
 		$data['coleccion_jcomuna'] = $jcomuna->getListaJuzgadosComuna();
 		
+		$datodeudor = $deudor->getDeudorFicha($array["id"]);
 		if($array["tipope"] == "M")
 		{
-			$datodeudor = $deudor->getDeudorFicha($array["id"]);
-			$data['ficha'] = $deudor->getDatosFicha($array["id"]);		
+			$data['ficha'] = $deudor->getDatosFicha($array["id"]);
+			$data['nro'] = $array["id"];		
 		}	
 		
 		if($array["tipope"] == "A")
 		{
-			$datodeudor = $deudor->getDeudorDatos($array["id"]);	
+			$datodeudor = $deudor->getDeudorDatos($array["id"]);
+			$data['nro'] = "";
 		}	
 		
 		$datomandante = $mandate->getMandanteDatos($datodeudor->get_data("id_mandante"));
@@ -221,14 +223,15 @@ class DeudoresController extends ControllerBase
 		$datodocumento = $documentos->getDatoDocumento($array["id_doc"]);
 		
 		$datodir = $direcciones->getDirActualDeudor($datodeudor->get_data("id_deudor"));
-		
+
+		$data['ident'] = $array["id"];
 		$data['deudor'] = $datodeudor;
 		$data['mandante'] = $datomandante;
 		$data['documento'] = $datodocumento;
 		$data['direccion'] = $datodir;
 		$data['idGes'] = $array["idGes"];
 		$data['idestadoges'] = $array["idestadoges"];
-		$data['nro'] = $array["id"];
+		
 		
 		$this->view->show("deudor_ficha.php", $data);
 	}

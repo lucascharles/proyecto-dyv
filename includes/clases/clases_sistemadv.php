@@ -111,6 +111,7 @@
 					"id_documento" => array("int"),
 					"monto" => array("decimal"),
 					"abogado" => array("varchar"),
+					"abogado2" => array("varchar"),
 					"firma" => array("varchar"),
 					"ingreso" => array("datetime"),
 					"providencia" => array("varchar"),

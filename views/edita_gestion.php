@@ -165,7 +165,8 @@
 							var conf = confirm("Generar FICHA para deudor?");
 
 						    if(conf == true){
-								$("#pagina").load('index.php?controlador=Deudores&accion=deudor_ficha&id='+$("#id_deudor").val()+'&id_doc='+$("#iddocumento").val()+'&tipope=A'+'&idGes='+$("#id_gestion").val()+doc);
+							    //calcula monto deuda
+								$("#pagina").load('index.php?controlador=Deudores&accion=deudor_ficha&id='+$("#id_deudor").val()+'&id_doc='+$("#iddocumento").val()+'&tipope=A'+'&idGes='+$("#id_gestion").val()+doc+"montoDemanda=");
 						    }
 						}
 						document.getElementById("frmlistagestiones").src="index.php?controlador=Gestiones&accion=listar_bitacora_gestion&idgestion="+$("#id_gestion").val()+"&iddocumento="+$("#iddocumento").val();
