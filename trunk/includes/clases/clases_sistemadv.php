@@ -209,6 +209,9 @@
 				"articulo_431044" => array("varchar"),
 				"notificacion_ficha" => array("varchar"),
 				"citacion" => array("varchar"),
+				"resultado_busqueda_2" => array("varchar"),
+				"resultado_busqueda_3" => array("varchar")
+			
 				);
 			parent::BusinessObject();
 		}
