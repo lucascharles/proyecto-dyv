@@ -439,7 +439,7 @@
         </td>
     </tr>
     <tr>
-		<td align="right" class="etiqueta_form" width="20">Monto:</td><td>&nbsp;&nbsp;&nbsp; <input type="text" grabar="S" name="txtmonto" id="txtmonto" valida="requerido" value="<? echo(conDecimales($monto)) ?>" tipovalida="moneda" size="20"  class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" />
+		<td align="right" class="etiqueta_form" width="20">Monto:</td><td>&nbsp;&nbsp;&nbsp; <input type="text" grabar="S" name="txtmonto" id="txtmonto" valida="requerido" value="<? echo($monto) ?>"  size="20"  class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" />
         </td>
     </tr>
      <tr>
