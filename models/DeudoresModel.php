@@ -139,6 +139,9 @@ class DeudoresModel extends ModelBase
 			
 			$dator->set_data("notificacion_ficha",$param["txtnotificacion_ficha"]);
 			$dator->set_data("citacion",$param["txtcitacion"]);
+			$dator->set_data("resultado_busqueda_2",$param["txtresultado_busqueda_2"]);
+			$dator->set_data("resultado_busqueda_3",$param["txtresultado_busqueda_3"]);
+			
 			
 			$dator->save();		
 			
@@ -231,6 +234,10 @@ class DeudoresModel extends ModelBase
 			$dator->set_data("busqueda_3",$param["txtbusqueda_3"]);
 			$dator->set_data("embargo",$param["txtembargo"]);
 			$dator->set_data("articulo_431044",$param["txtarticulo_431044"]);
+			$dator->set_data("notificacion_ficha",$param["txtnotificacion_ficha"]);
+			$dator->set_data("citacion",$param["txtcitacion"]);
+			$dator->set_data("resultado_busqueda_2",$param["txtresultado_busqueda_2"]);
+			$dator->set_data("resultado_busqueda_3",$param["txtresultado_busqueda_3"]);
 			$dator->save();
 			
 			$ultid_recep = getUltimoId(new Receptor_FichaCollection(), "id_receptor");
