@@ -68,8 +68,7 @@
 		
 		function grabarFichaDeudor()
 		{
-			var arrayin = new Array(5);
-			
+			var arrayin = new Array(18);
 			arrayin[0] = document.getElementById("txtrut_deudor");
 			arrayin[1] = document.getElementById("txtrut_d_deudor");
 			arrayin[2] = document.getElementById("txtrut_mandante");
@@ -87,13 +86,14 @@
 			arrayin[14] = document.getElementById("tipoperacion");
 			arrayin[15] = document.getElementById("id_alta");
 			arrayin[16] = document.getElementById("id_doc");
-			
+			arrayin[17] = document.getElementById("txtabogado2");
+
 			var arraySel = new Array();
-		
-			if(!validarArray(arrayin, arraySel,"N"))
-			{
-				return false;
-			}
+//			if(!validarArray(arrayin, arraySel,"N"))
+//			{
+//				return false;
+//			}
+
 
 			var datos = "controlador=Deudores";
 			if($("#tipoperacion").val() == "A")
@@ -104,8 +104,34 @@
 			{
 				datos += "&accion=modificarfichadeudor";
 			}
-			datos += "&"+getParametrosArray(arrayin);
-			//alert(datos);
+
+			datos += "&txtrut_deudor="+document.getElementById("txtrut_deudor").value;
+			datos += "&txtrut_d_deudor="+document.getElementById("txtrut_d_deudor").value;
+			datos += "&txtrut_mandante="+document.getElementById("txtrut_mandante").value;
+			datos += "&txtrut_d_mandante="+document.getElementById("txtrut_d_mandante").value;
+			datos += "&txtmonto="+document.getElementById("txtmonto").value;
+			
+			datos += "&txtabogado="+document.getElementById("txtabogado").value;
+			datos += "&txtabogado2="+document.getElementById("txtabogado2").value;
+			datos += "&txtdist_corte="+document.getElementById("txtdist_corte").value;
+			datos += "&txtrol="+document.getElementById("txtrol").value;
+			datos += "&selJuzgadoNro="+document.getElementById("selJuzgadoNro").value;
+			datos += "&id_alta="+document.getElementById("id_alta").value;
+			/*
+			datos += "&txtingreso="+document.getElementById("txtingreso").value;
+			datos += "&txtprovidencia_1="+document.getElementById("txtprovidencia_1").value;
+			datos += "&selJComuna="+document.getElementById("selJComuna").value;
+			datos += "&ident="+document.getElementById("ident").value;
+			datos += "&tipoperacion="+document.getElementById("tipoperacion").value;
+			datos += "&id_alta="+document.getElementById("id_alta").value;
+			datos += "&id_doc="+document.getElementById("id_doc").value;
+*/			
+
+
+			
+			
+//			datos += "&"+getParametrosArray(arrayin);
+			alert(datos);
 			//return false;
 			$.ajax({
 					url: "index.php",
@@ -362,8 +388,9 @@
 		break;
 	}
 
-	$monto = ($tipoperacion == "M") ? $ficha->get_data("monto") : "";
+	$monto = ($tipoperacion == "M") ? $ficha->get_data("monto") : $monto;
 	$abogado = ($tipoperacion == "M") ? $ficha->get_data("abogado") : "";
+	$abogado2 = ($tipoperacion == "M") ? $ficha->get_data("abogado2") : "";
 	$firma = ($tipoperacion == "M") ? $ficha->get_data("firma") : "";
 	$ingreso = ($tipoperacion == "M") ? formatoFecha($ficha->get_data("ingreso"),"yyyy-mm-dd","dd/mm/yyyy") : "";
 	$providencia_1 = ($tipoperacion == "M") ? $ficha->get_data("providencia") : "";
@@ -372,6 +399,7 @@
 	$juzgadoNro = ($tipoperacion == "M") ? $ficha->get_data("id_juzgado") : "";
 	$jComuna = ($tipoperacion == "M") ? $ficha->get_data("id_juzgado_comuna") : "";
 	$id_alta = ($tipoperacion == "M") ? $ficha->get_data("id_ficha") : "";
+//	$ident = ($tipoperacion == "M") ? $ficha->get_data("monto") :"";
 	
 ?>
 <form name="frmadmtipdoc">
@@ -416,7 +444,7 @@
     </tr>
      <tr>
 
-		<td align="right" class="etiqueta_form">Nro. doc.:</td><td>&nbsp;&nbsp;&nbsp;<? echo($ident) ?> </td>
+		<td align="right" class="etiqueta_form">Nro. doc.:</td><td>&nbsp;&nbsp;&nbsp;<? echo($id_alta) ?> </td>
     </tr>
      <tr>
 		<td height="5"> </td>
@@ -442,7 +470,7 @@
     <tr>
         <td><input type="text" grabar="S" name="txtabogado"  value="<? echo($abogado) ?>" id="txtabogado"  size="20" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" />
         </td>
-        <td><input type="text" grabar="S" name="txtabogado2" id="txtabogado2"  value="<? echo($abogado) ?>" size="20" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" />
+        <td><input type="text" grabar="S" name="txtabogado2" id="txtabogado2"  value="<? echo($abogado2) ?>" size="20" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" />
         </td>
     </tr>
     <tr>
