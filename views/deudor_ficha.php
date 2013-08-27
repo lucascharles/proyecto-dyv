@@ -60,6 +60,7 @@
 					error: function()
 					{
 						$("#mensaje").text("Ha ocurrido un error y no se ha podido agregar el registro.");
+						$("#mensaje").show();
 						setTimeout("$('#mensaje').text('')",3000);
 						
 					}
@@ -131,7 +132,7 @@
 			
 			
 //			datos += "&"+getParametrosArray(arrayin);
-			alert(datos);
+			//alert(datos);
 			//return false;
 			$.ajax({
 					url: "index.php",
@@ -141,15 +142,19 @@
 					success: function(res)
 					{
 //						$("#pagina").load('views/default.php');
-						alert("Los datos de la Ficha se han guardado correctamente.");
-//						$("#mensaje").text("Los datos de la Ficha se han guardado correctamente.");
-//						setTimeout("$('#mensaje').text('')",3000);
+						//alert("Los datos de la Ficha se han guardado correctamente.");
+						
+						$("#mensaje").text("Los datos de la Ficha se han guardado correctamente.");
+						$("#mensaje").show();
+						setTimeout("$('#mensaje').text('')",3000);
+						
 //						$("#id_alta").val(res);
 						
 					},
 					error: function()
 					{
 						$("#mensaje").text("Ha ocurrido un error y no se ha podido agregar el registro.");
+						$("#mensaje").show();
 						setTimeout("$('#mensaje').text('')",3000);
 						
 					}
@@ -163,7 +168,9 @@
 			var idGes = document.getElementById("idGes").value;
 			var idestadoges = document.getElementById("idestadoges").value;
 //			alert('index.php?controlador=Gestiones&accion=gestionar&idgestion='+idGes+'&estadoGes='+idestadoges);
-			$("#pagina").load('index.php?controlador=Gestiones&accion=gestionar&idgestion='+idGes+'&estadoGes='+idestadoges);
+			// $("#pagina").load('index.php?controlador=Gestiones&accion=gestionar&idgestion='+idGes+'&estadoGes='+idestadoges);
+			$("#pagina").load('index.php?controlador=Deudores&accion=admin_fichas&proc=1');
+			
 		}
 		
 		$(document).ready(function() 
