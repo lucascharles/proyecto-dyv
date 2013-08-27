@@ -9,10 +9,27 @@
     <script src="js/jquery-1.7.1.min.js" type="text/javascript"></script>
     <script src="js/validacampos.js" type="text/javascript"></script>
     <script src="js/funcionesgral.js" type="text/javascript"></script>
+     <link rel="stylesheet" media="all" type="text/css" href="css/smoothness/jquery-ui-1.8.17.custom.css" />
+    <style type="text/css"> 
+			/* css for timepicker */	
+			#ui-datepicker-div, .ui-datepicker{ font-size: 80%; }
+			.ui-timepicker-div .ui-widget-header { margin-bottom: 8px; }
+			.ui-timepicker-div dl { text-align: left; }
+			.ui-timepicker-div dl dt { height: 25px; margin-bottom: -25px; }
+			.ui-timepicker-div dl dd { margin: 0 10px 10px 65px; }
+			.ui-timepicker-div td { font-size: 90%; }
+			.ui-tpicker-grid-label { background: none; border: none; margin: 0; padding: 0; }
+	</style>
+    
+	<script type="text/javascript" src="js/jquery-ui-1.8.16.custom.min.js"></script>
+	<script type="text/javascript" src="js/jquery-ui-timepicker-addon.js"></script>
+	<script type="text/javascript" src="js/i18n/jquery.ui.datepicker-es.js"></script>
+	<script type="text/javascript" src="js/jquery-ui-sliderAccess.js"></script>
     <script language="javascript">
 		$(document).ready(function(){
   			$('form').validator();
   			$("#txtfechaproxgestion").datepicker({changeYear: true});
+			$("#txtfechagestion").datepicker({changeYear: true});
 		});
 		
 		function ventanaBusqueda()
@@ -698,7 +715,7 @@
 			</select>
         </td>
         <td align="center" class="etiqueta_form">Fecha Gestion</td>
-        <td> <input type="text" name="txtfechagestion" id="txtfechagestion" value="<?php echo (date("Y-m-d")) ?>" class="input_form_medio" valida="requerido" tipovalida="texto" onFocus="resaltar(this)" onBlur="noresaltar(this)"/>
+        <td> <input type="text" name="txtfechagestion" id="txtfechagestion" value="<?php echo (date("d/m/Y")) ?>" class="input_form_medio" valida="requerido" tipovalida="texto" onFocus="resaltar(this)" onBlur="noresaltar(this)"  onKeyUp="this.value=formateafecha(this.value)"/>
         </td>
         <td align="center" class="etiqueta_form">Comentarios</td>
         <td> <input type="text" name="txtcomentarios" id="txtcomentarios" value="" class="input_form" valida="requerido" tipovalida="texto" onFocus="resaltar(this);" onBlur="noresaltar(this)"/>
@@ -722,7 +739,7 @@
         <?php 
         	$fecha = date('Y-m-d');
 			$nuevafecha = strtotime ( '+3 day' , strtotime ( $fecha ) ) ;
-			$nuevafecha = date ( 'Y-m-d' , $nuevafecha );
+			$nuevafecha = date ( 'd/m/Y' , $nuevafecha );
         ?>
         <td align="center" class="etiqueta_form">Prox. Gestion</td>
         <td> <input type="text" name="txtfechaproxgestion" id="txtfechaproxgestion" value="<?php echo($nuevafecha); ?>" class="input_form_medio" valida="requerido" tipovalida="texto" onFocus="resaltar(this)" onBlur="noresaltar(this)" onKeyUp="this.value=formateafecha(this.value)"/>
