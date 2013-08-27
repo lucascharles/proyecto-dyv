@@ -516,7 +516,14 @@
     <tr>
 		<td colspan="4" align="right"> 
         <input  type="button" name="btngrabar" id="btngrabar" onClick="grabarFichaDeudor()"  value="Confirmar" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/>&nbsp;
+        <?
+        if($origen <> "admin_fichas")
+		{
+		?>
          	<input  type="button" name="btncancelar" id="btncancelar" onClick="cancelarFichaDeudor()"value="Volver" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/>&nbsp;
+        <?
+        }
+		?>
         </td>
     </tr>
     
