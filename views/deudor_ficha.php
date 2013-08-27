@@ -168,8 +168,8 @@
 			var idGes = document.getElementById("idGes").value;
 			var idestadoges = document.getElementById("idestadoges").value;
 //			alert('index.php?controlador=Gestiones&accion=gestionar&idgestion='+idGes+'&estadoGes='+idestadoges);
-			// $("#pagina").load('index.php?controlador=Gestiones&accion=gestionar&idgestion='+idGes+'&estadoGes='+idestadoges);
-			$("#pagina").load('index.php?controlador=Deudores&accion=admin_fichas&proc=1');
+			$("#pagina").load('index.php?controlador=Gestiones&accion=gestionar&idgestion='+idGes+'&estadoGes='+idestadoges);
+			//$("#pagina").load('index.php?controlador=Deudores&accion=admin_fichas&proc=1');
 			
 		}
 		
