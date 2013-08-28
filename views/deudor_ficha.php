@@ -118,12 +118,13 @@
 			datos += "&txtrol="+document.getElementById("txtrol").value;
 			datos += "&selJuzgadoNro="+document.getElementById("selJuzgadoNro").value;
 			datos += "&id_alta="+document.getElementById("id_alta").value;
+			datos += "&tipoperacion="+document.getElementById("tipoperacion").value;
 			/*
 			datos += "&txtingreso="+document.getElementById("txtingreso").value;
 			datos += "&txtprovidencia_1="+document.getElementById("txtprovidencia_1").value;
 			datos += "&selJComuna="+document.getElementById("selJComuna").value;
 			datos += "&ident="+document.getElementById("ident").value;
-			datos += "&tipoperacion="+document.getElementById("tipoperacion").value;
+			
 			datos += "&id_alta="+document.getElementById("id_alta").value;
 			datos += "&id_doc="+document.getElementById("id_doc").value;
 */			
@@ -132,7 +133,7 @@
 			
 			
 //			datos += "&"+getParametrosArray(arrayin);
-			//alert(datos);
+//			alert(datos);
 			//return false;
 			$.ajax({
 					url: "index.php",

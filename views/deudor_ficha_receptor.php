@@ -31,6 +31,11 @@
 		$(document).ready(function(){
 			
   			$('form').validator();
+  			$("#txtfecha_providencia").datepicker({changeYear: true});
+  			$("#txtentrega_receptor_1").datepicker({changeYear: true});
+  			$("#txtbusqueda").datepicker({changeYear: true});
+  			$("#txtnotificacion").datepicker({changeYear: true});
+  			
   			$("#txtprovidencia").datepicker({changeYear: true});
   			$("#txtprovidencia_1").datepicker({changeYear: true});
   			$("#txtprovidencia_2").datepicker({changeYear: true});
@@ -227,7 +232,7 @@
                 </tr>
                 <tr>
 					<td align="left" class="etiqueta_form">B&uacute;squeda </td>
-                    <td align="left" ><input type="text" grabar="S" name="txtbusqueda" id="txtbusqueda" size="40" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo($busqueda) ?>"/></td>
+                    <td align="left" ><input type="text" grabar="S" name="txtbusqueda" id="txtbusqueda" size="40" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="fecha" value="<? echo($busqueda) ?>"/></td>
                     <td align="left" class="etiqueta_form">Resultado B&uacute;squeda</td>
                       <td align="left" >
                       <?php 
