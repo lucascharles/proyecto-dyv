@@ -715,7 +715,12 @@
 			</select>
         </td>
         <td align="center" class="etiqueta_form">Fecha Gestion</td>
-        <td> <input type="text" name="txtfechagestion" id="txtfechagestion" value="<?php echo (date("d/m/Y")) ?>" class="input_form_medio" valida="requerido" tipovalida="texto" onFocus="resaltar(this)" onBlur="noresaltar(this)"  onKeyUp="this.value=formateafecha(this.value)"/>
+         <?php 
+        	$fecha = date('Y-m-d');
+			$actualfecha = strtotime ( '+0 day' , strtotime ( $fecha ) ) ;
+			$actualfecha = date ( 'd/m/Y' , $actualfecha );
+        ?>
+        <td> <input type="text" name="txtfechagestion" id="txtfechagestion" value="<?php echo ($actualfecha) ?>" class="input_form_medio" valida="requerido" tipovalida="texto" onFocus="resaltar(this)" onBlur="noresaltar(this)"  onKeyUp="this.value=formateafecha(this.value)"/>
         </td>
         <td align="center" class="etiqueta_form">Comentarios</td>
         <td> <input type="text" name="txtcomentarios" id="txtcomentarios" value="" class="input_form" valida="requerido" tipovalida="texto" onFocus="resaltar(this);" onBlur="noresaltar(this)"/>
