@@ -181,6 +181,8 @@
 				"fecha_mandamiento" => array("date"),
 				"fecha_providencia" => array("date"),
 				"receptor" => array("varchar"),
+				"receptor2" => array("varchar"),
+				"receptor3" => array("varchar"),
 				"busqueda" => array("varchar"),
 				"notificacion" => array("varchar"),
 				"notificacion_2" => array("varchar"),
