@@ -27,7 +27,7 @@ class GestionesModel extends ModelBase
   					  esg.estado estado,
 					  esg.id_estado id_estado
 					  ");
-	$sqlpersonal->set_from( " gestiones g , estados_x_gestion eg, 
+	$sqlpersonal->set_from( " gestiones g LEFT JOIN estados_x_gestion eg ON g.id_gestion = eg.id_gestion,  
 							  deudores d, mandantes m, estadosgestion esg ");
 	$where = " g.id_deudor = d.id_deudor 
 			  AND d.id_mandante = m.id_mandante 
