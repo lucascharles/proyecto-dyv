@@ -326,7 +326,10 @@ class GestionesModel extends ModelBase
 			  $dato->set_data("id_mandante",$array["selMandantes"]);
 			  $dato->set_data("id_documento",$array["iddocumento".$i]);
 			  
-			  $dato->set_data("fecha_gestion",$array["txtfechagestion"]);
+//			  $dato->set_data("fecha_gestion",$array["txtfechagestion"]);
+			  $dateges = str_replace('/', '-',$array["txtfechagestion"]); 
+			  $dato->set_data("fecha_gestion",date('Y-m-d', strtotime($dateges)));
+			  
 			  
 			  $date = str_replace('/', '-',$array["txtfechaproxgestion"]); 
 			  $dato->set_data("fecha_prox_gestion",date('Y-m-d', strtotime($date)));
