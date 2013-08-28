@@ -231,7 +231,13 @@ class DeudoresController extends ControllerBase
 		$data['direccion'] = $datodir;
 		$data['idGes'] = $array["idGes"];
 		$data['idestadoges'] = $array["idestadoges"];
-		$data['origen'] = "admin_fichas";
+		if($array["idGes"]==""){
+			$data['origen'] = "admin_fichas";
+		}
+		else
+		{
+			$data['origen'] = "gestiones";
+		}
 		
 		$this->view->show("deudor_ficha.php", $data);
 	}
