@@ -109,6 +109,8 @@ class DeudoresModel extends ModelBase
 			$dator->set_data("fecha_mandamiento",formatoFecha($param["txtfecha_mandamiento"],"dd/mm/yyyy","yyyy-mm-dd"));
 			$dator->set_data("fecha_providencia",formatoFecha($param["txtfecha_providencia"],"dd/mm/yyyy","yyyy-mm-dd"));
 			$dator->set_data("receptor",$param["txtreceptor"]);
+			$dator->set_data("receptor2",$param["txtnombreceptor2"]);
+			$dator->set_data("receptor3",$param["txtnombrereceptor3"]);
 			$dator->set_data("busqueda",$param["txtbusqueda"]);
 			$dator->set_data("notificacion",$param["txtnotificacion"]);
 			$dator->set_data("notificacion_2",$param["txtnotificacion_2"]);
