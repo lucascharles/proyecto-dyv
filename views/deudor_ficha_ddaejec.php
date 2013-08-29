@@ -166,6 +166,8 @@
                
 					<td align="left" class="etiqueta_form">DDA Ejecutiva</td>
                     <td align="left" ><input type="text" grabar="S" name="txtddaejec" id="txtddaejec" size="40" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" tipovalida="fecha" value="<? echo(formatoFecha($ddaejec,"yyyy-mm-dd","dd/mm/yyyy")) ?>"/></td>
+                    <td align="left" class="etiqueta_form">Gastos</td>
+                    <td align="left" ><input type="text" grabar="S" name="txtgasto" id="txtgasto" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)"  tipovalida="moneda" value="<? echo($gasto) ?>"/></td>
                 </tr>
                 <tr>
 					<td align="left" class="etiqueta_form">Mandamiento</td>
