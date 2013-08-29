@@ -287,7 +287,7 @@ class DeudoresModel extends ModelBase
 			$val->load();
 			
 			$datoc = new Consignacion_Ficha();
-			echo("<br>liqu: ".$param["txtliquidacosta"]."<br>");
+			//echo("<br>liqu: ".$param["txtliquidacosta"]."<br>");
 			if($val->get_count() > 0)
 			{
 				$datoc->add_filter("id_ficha","=",$resp);
@@ -348,9 +348,8 @@ class DeudoresModel extends ModelBase
 			$datoc->set_data("liquidacosta",$liquidacosta);
 			$email = (trim($param["txtemail"]) <> "") ? $param["txtemail"] : NULL;
 			$datoc->set_data("email",$email);
-			
-			
-			
+			$gasto = (trim($param["txtgasto"]) <> "") ? $param["txtgasto"] : NULL;
+			$datoc->set_data("gasto",$gasto);
 			$datoc->save();		
 			
 			if($val->get_count() == 0)
@@ -358,46 +357,19 @@ class DeudoresModel extends ModelBase
 				$id_consig = getUltimoId(new Consignacion_FichaCollection(), "id_consignacion");
 			}	
 			
-			$colGastoConsignacion = $this->getGastosConsignacion(0);
-			
-			for($j=0; $j<$colGastoConsignacion->get_count(); $j++) 
+			$gasto_ficha = new Gastos_Ficha();
+			if($val->get_count() > 0)
 			{
-				$datoTmp = &$colGastoConsignacion->items[$j];  
-				
-				$imp = 0;
-				if(trim($param["txtgasto_".$datoTmp->get_data("id_gasto")]) <> "")
-				{
-					$imp = trim($param["txtgasto_".$datoTmp->get_data("id_gasto")]);
-				}
-				$gastos_cf = new Gastos_Consignacion_Ficha();
-				if($val->get_count() > 0)
-				{
-					$gastos_cf->add_filter("id_ficha","=",$resp);
-					$gastos_cf->add_filter("AND");
-					$gastos_cf->add_filter("id_consignacion","=",$id_consig);
-					$gastos_cf->add_filter("AND");
-					$gastos_cf->add_filter("id_gasto","=",$datoTmp->get_data("id_gasto"));
-					$gastos_cf->load();
-				}
-				$gastos_cf->set_data("id_gasto",$datoTmp->get_data("id_gasto"));
-				$gastos_cf->set_data("id_consignacion",$id_consig);
-				$gastos_cf->set_data("id_ficha",$resp);
-				$gastos_cf->set_data("importe",$imp);
-				$gastos_cf->save();
-				
-				$gasto_ficha = new Gastos_Ficha();
-				if($val->get_count() > 0)
-				{
-					$gasto_ficha->add_filter("id_ficha","=",$resp);
-					$gasto_ficha->add_filter("AND");
-					$gasto_ficha->add_filter("id_gasto","=",$datoTmp->get_data("id_gasto"));
-					$gasto_ficha->load();
-				}
-				$gasto_ficha->set_data("id_gasto",$datoTmp->get_data("id_gasto"));
-				$gasto_ficha->set_data("id_ficha",$resp);
-				$gasto_ficha->set_data("importe",$imp);
-				$gasto_ficha->save();
+				$gasto_ficha->add_filter("id_ficha","=",$resp);
+				$gasto_ficha->add_filter("AND");
+				$gasto_ficha->add_filter("id_gasto","=",12); // gasto consignacion
+				$gasto_ficha->load();
 			}
+			
+			$gasto_ficha->set_data("id_gasto",12);
+			$gasto_ficha->set_data("id_ficha",$resp);
+			$gasto_ficha->set_data("importe",$gasto);
+			$gasto_ficha->save();
 			
 			$ultid_ficha = $resp;	
 		}
@@ -466,34 +438,18 @@ class DeudoresModel extends ModelBase
 			$datoc->set_data("liquidacosta",$liquidacosta);
 			$email = (trim($param["txtemail"]) <> "") ? $param["txtemail"] : NULL;
 			$datoc->set_data("email",$email);
+			$gasto = (trim($param["txtgasto"]) <> "") ? $param["txtgasto"] : NULL;
+			$datoc->set_data("gasto",$gasto);
 			$datoc->save();
 			
 			$ultid_consig = getUltimoId(new Consignacion_FichaCollection(), "id_consignacion");
 
-			$colGastoConsignacion = $this->getGastosConsignacion(0);
-			
-			for($j=0; $j<$colGastoConsignacion->get_count(); $j++) 
-			{
-				$datoTmp = &$colGastoConsignacion->items[$j];  
-				
-				$imp = 0;
-				if(trim($param["txtgasto_".$datoTmp->get_data("id_gasto")]) <> "")
-				{
-					$imp = trim($param["txtgasto_".$datoTmp->get_data("id_gasto")]);
-				}
-				$gastos_mf = new Gastos_Consignacion_Ficha();
-				$gastos_mf->set_data("id_gasto",$datoTmp->get_data("id_gasto"));
-				$gastos_mf->set_data("id_consignacion",$ultid_consig);
-				$gastos_mf->set_data("id_ficha",$ultid_ficha);
-				$gastos_mf->set_data("importe",$imp);
-				$gastos_mf->save();
-				
-				$gasto_ficha = new Gastos_Ficha();
-				$gasto_ficha->set_data("id_gasto",$datoTmp->get_data("id_gasto"));
-				$gasto_ficha->set_data("id_ficha",$ultid_ficha);
-				$gasto_ficha->set_data("importe",$imp);
-				$gasto_ficha->save();
-			}
+			$gasto_ficha = new Gastos_Ficha();
+			$gasto_ficha->set_data("id_gasto",12);
+			$gasto_ficha->set_data("id_ficha",$ultid_ficha);
+			$gasto_ficha->set_data("importe",$gasto);
+			$gasto_ficha->save();
+
 		}
 		
 		return $ultid_ficha;
@@ -541,7 +497,7 @@ class DeudoresModel extends ModelBase
 			$datom->set_data("emailmartillero",$param["txtemailmartillero"]);
 			$datom->set_data("notificacion",$param["txtnotificacionmartillero"]);
 			$datom->set_data("retiro_especies",$param["txtretiro_especies"]);
-			$datom->set_data("fecha_remate",$param["txtfecha_remate"]);
+			$datom->set_data("fecha_remate",formatoFecha($param["txtfecha_remate"],"dd/mm/yyyy","yyyy-mm-dd"));
 			
 			$datom->set_data("ingreso",formatoFecha($param["txtingreso"],"dd/mm/yyyy","yyyy-mm-dd"));
 			$datom->set_data("providencia1",$param["txtprovidencia1"]);
@@ -551,6 +507,7 @@ class DeudoresModel extends ModelBase
 			$datom->set_data("emailreceptor1",$param["txtemailreceptor1"]);
 			$datom->set_data("embargo1",$param["txtembargo1"]);
 			$datom->set_data("oposicion_retiro",$param["txtoposicion_retiro"]);
+			$datom->set_data("gasto",$param["txtgasto"]);
 			
 			$datom->save();	
 			
@@ -559,46 +516,19 @@ class DeudoresModel extends ModelBase
 				$id_mart = getUltimoId(new Martillero_FichaCollection(), "id_martillero");
 			}	
 			
-			$colGastoMartillero = $this->getGastosMartillero(0);
-			
-			for($j=0; $j<$colGastoMartillero->get_count(); $j++) 
+			$gasto_ficha = new Gastos_Ficha();
+			if($val->get_count() > 0)
 			{
-				$datoTmp = &$colGastoMartillero->items[$j];  
-				
-				$imp = 0;
-				if(trim($param["txtgasto_".$datoTmp->get_data("id_gasto")]) <> "")
-				{
-					$imp = trim($param["txtgasto_".$datoTmp->get_data("id_gasto")]);
-				}
-				$gastos_mf = new Gastos_Martillero_Ficha();
-				if($val->get_count() > 0)
-				{
-					$gastos_mf->add_filter("id_ficha","=",$resp);
-					$gastos_mf->add_filter("AND");
-					$gastos_mf->add_filter("id_martillero","=",$id_mart);
-					$gastos_mf->add_filter("AND");
-					$gastos_mf->add_filter("id_gasto","=",$datoTmp->get_data("id_gasto"));
-					$gastos_mf->load();
-				}
-				$gastos_mf->set_data("id_gasto",$datoTmp->get_data("id_gasto"));
-				$gastos_mf->set_data("id_martillero",$id_mart);
-				$gastos_mf->set_data("id_ficha",$resp);
-				$gastos_mf->set_data("importe",$imp);
-				$gastos_mf->save();
-				
-				$gasto_ficha = new Gastos_Ficha();
-				if($val->get_count() > 0)
-				{
-					$gasto_ficha->add_filter("id_ficha","=",$resp);
-					$gasto_ficha->add_filter("AND");
-					$gasto_ficha->add_filter("id_gasto","=",$datoTmp->get_data("id_gasto"));
-					$gasto_ficha->load();
-				}
-				$gasto_ficha->set_data("id_gasto",$datoTmp->get_data("id_gasto"));
-				$gasto_ficha->set_data("id_ficha",$resp);
-				$gasto_ficha->set_data("importe",$imp);
-				$gasto_ficha->save();
+				$gasto_ficha->add_filter("id_ficha","=",$resp);
+				$gasto_ficha->add_filter("AND");
+				$gasto_ficha->add_filter("id_gasto","=",11);// gasto martillero
+				$gasto_ficha->load();
 			}
+			$gasto_ficha->set_data("id_gasto",11);
+			$gasto_ficha->set_data("id_ficha",$resp);
+			$gasto_ficha->set_data("importe",$param["txtgasto"]);
+			$gasto_ficha->save();
+			
 			
 			$ultid_ficha = $resp;	
 		}
@@ -611,7 +541,7 @@ class DeudoresModel extends ModelBase
 			$datof->save();
 			
 			$ultid_ficha = getUltimoId(new FichaCollection(), "id_ficha");
-			echo("<br> txtprovidencia1: ".$param["txtprovidencia1"]."<br>");
+			//echo("<br> txtprovidencia1: ".$param["txtprovidencia1"]."<br>");
 			$datom = new Martillero_Ficha();
 			$datom->set_data("id_ficha",$ultid_ficha);
 			$datom->set_data("embargomartillero",$param["txtembargomartillero"]);
@@ -633,7 +563,7 @@ class DeudoresModel extends ModelBase
 			$datom->set_data("emailmartillero",$param["txtemailmartillero"]);
 			$datom->set_data("notificacion",$param["txtnotificacionmartillero"]);
 			$datom->set_data("retiro_especies",$param["txtretiro_especies"]);
-			$datom->set_data("fecha_remate",$param["txtfecha_remate"]);
+			$datom->set_data("fecha_remate",formatoFecha($param["txtfecha_remate"],"dd/mm/yyyy","yyyy-mm-dd"));
 			
 			$datom->set_data("ingreso",formatoFecha($param["txtingreso"],"dd/mm/yyyy","yyyy-mm-dd"));
 			$datom->set_data("providencia1",$param["txtprovidencia1"]);
@@ -643,35 +573,15 @@ class DeudoresModel extends ModelBase
 			$datom->set_data("emailreceptor1",$param["txtemailreceptor1"]);
 			$datom->set_data("embargo1",$param["txtembargo1"]);
 			$datom->set_data("oposicion_retiro",$param["txtoposicion_retiro"]);
+			$datom->set_data("gasto",$param["txtgasto"]);
 			
 			$ultid_mart = getUltimoId(new Martillero_FichaCollection(), "id_martillero");
 
-			$colGastoMartillero = $this->getGastosMartillero(0);
-			
-			for($j=0; $j<$colGastoMartillero->get_count(); $j++) 
-			{
-				$datoTmp = &$colGastoMartillero->items[$j];  
-				
-				$imp = 0;
-				if(trim($param["txtgasto_".$datoTmp->get_data("id_gasto")]) <> "")
-				{
-					$imp = trim($param["txtgasto_".$datoTmp->get_data("id_gasto")]);
-				}
-				$gastos_mf = new Gastos_Martillero_Ficha();
-				$gastos_mf->set_data("id_gasto",$datoTmp->get_data("id_gasto"));
-				$gastos_mf->set_data("id_martillero",$ultid_mart);
-				$gastos_mf->set_data("id_ficha",$ultid_ficha);
-				$gastos_mf->set_data("importe",$imp);
-				$gastos_mf->save();
-				
-				$gasto_ficha = new Gastos_Ficha();
-				$gasto_ficha->set_data("id_gasto",$datoTmp->get_data("id_gasto"));
-				$gasto_ficha->set_data("id_ficha",$ultid_ficha);
-				$gasto_ficha->set_data("importe",$imp);
-				$gasto_ficha->save();
-				
-			}
-			
+			$gasto_ficha = new Gastos_Ficha();
+			$gasto_ficha->set_data("id_gasto",11); // gasto martillero
+			$gasto_ficha->set_data("id_ficha",$ultid_ficha);
+			$gasto_ficha->set_data("importe",$param["txtgasto"]);
+			$gasto_ficha->save();			
 		}
 		
 		return $ultid_ficha;
@@ -1545,6 +1455,8 @@ ORDER BY orden ASC ";
 		//	$datoc->set_data("usuario",$param["txtentrega_cheque_1"]);
 		//	$datoc->set_data("fecha_modificacion",$param["txtdevolucion_documento"]);
 			
+			
+			
 			$datoc->save();
 				
 			if($val->get_count() == 0)
@@ -1706,12 +1618,26 @@ ORDER BY orden ASC ";
 			$datoc->set_data("encargado_receptor",formatoFecha($param["txtencargado"],"dd/mm/yyyy","yyyy-mm-dd"));
 			$datoc->set_data("notificacion",formatoFecha($param["txtnotificacion"],"dd/mm/yyyy","yyyy-mm-dd"));
 			$datoc->set_data("usuario",$param["idusuario"]);
+			$datoc->set_data("gasto",$param["txtgasto"]);
 			$datoc->save();
+			
+			$gasto_ficha = new Gastos_Ficha();
+			if($val->get_count() > 0)
+			{
+				$gasto_ficha->add_filter("id_ficha","=",$resp);
+				$gasto_ficha->add_filter("AND");
+				$gasto_ficha->add_filter("id_gasto","=",10); // Gasto Demanda ejecutiva
+				$gasto_ficha->load();
+			}
+			$gasto_ficha->set_data("id_gasto",10);
+			$gasto_ficha->set_data("id_ficha",$resp);
+			$gasto_ficha->set_data("importe",$param["txtgasto"]);
+			$gasto_ficha->save();
 
 			$ultid_ficha = $resp;
-			}
-			else
-			{
+		}
+		else
+		{
 			// graba ficha, demanda y devuelve id ficha
 				
 			$datof = new Ficha();
@@ -1733,7 +1659,14 @@ ORDER BY orden ASC ";
 			$datoc->set_data("encargado_receptor",formatoFecha($param["txtencargado"],"dd/mm/yyyy","yyyy-mm-dd"));
 			$datoc->set_data("notificacion",formatoFecha($param["txtnotificacion"],"dd/mm/yyyy","yyyy-mm-dd"));
 			$datoc->set_data("usuario",$param["idusuario"]);
+			$datoc->set_data("gasto",$param["txtgasto"]);
 			$datoc->save();
+			
+			$gasto_ficha = new Gastos_Ficha();
+			$gasto_ficha->set_data("id_gasto",10);
+			$gasto_ficha->set_data("id_ficha",$ultid_ficha);
+			$gasto_ficha->set_data("importe",$param["txtgasto"]);
+			$gasto_ficha->save();
 					
 			$ultid_consig = getUltimoId(new DemandaEjecutivaCollection(), "id_dda_ejecutiva");
 
