@@ -40,7 +40,7 @@
 			$("#txtentrega_receptor").datepicker({changeYear: true});
 			$("#txtembargo").datepicker({changeYear: true});
 			$("#txtprovidencia").datepicker({changeYear: true});
-			$("#txtfecha_remate").datepicker({changeYear: true});
+
 		});
 		
 		$(document).ready(function(){
@@ -139,6 +139,7 @@
 	$emailreceptor1 = ($id_alta > 0) ? $martillero->get_data("emailreceptor1") : "";
 	$embargo1 = ($id_alta > 0) ? $martillero->get_data("embargo1") : "";
 	$oposicion_retiro = ($id_alta > 0) ? $martillero->get_data("oposicion_retiro") : "";
+	$gasto = ($id_alta > 0) ? $martillero->get_data("gasto") : "";
 			
 ?>
 <form name="frmreceptor">
@@ -257,7 +258,14 @@
                     <td align="left" ><input type="text" grabar="S" name="txtfecha_remate" id="txtfecha_remate" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)"  tipovalida="fecha" value="<? echo($fecha_remate) ?>" /></td>
                  
                  </tr>   
-                
+                <tr>
+					<td align="left" class="etiqueta_form">Gastos</td>
+                    <td align="left" ><input type="text" grabar="S" name="txtgasto" id="txtgasto" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" tipovalida="moneda" value="<? echo($gasto) ?>" /></td>
+					<td align="left" class="etiqueta_form"></td>
+                    <td align="left" ></td>
+                    <td align="left" class="etiqueta_form"></td>
+                    <td align="left" ></td>
+                 </tr>  
                 
                 </table>
                 </div>
