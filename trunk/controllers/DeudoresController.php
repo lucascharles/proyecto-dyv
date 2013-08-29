@@ -278,6 +278,7 @@ class DeudoresController extends ControllerBase
 		$data['encargado'] = (trim($datodemanda->get_data("encargado_receptor")) <> "0000-00-00") ? $datodemanda->get_data("encargado_receptor") : "";
 		$data['busqueda'] = (trim($datodemanda->get_data("fecha_busqueda")) <> "0000-00-00") ? $datodemanda->get_data("fecha_busqueda") : "";
 		$data['notificacion'] = (trim($datodemanda->get_data("notificacion")) <> "0000-00-00") ? $datodemanda->get_data("notificacion") : "";
+		$data['gasto'] = (trim($datodemanda->get_data("gasto")) <> "0000-00-00") ? $datodemanda->get_data("gasto") : "";
 								
 		$this->view->show("deudor_ficha_ddaejec.php", $data);
 	}
@@ -1154,7 +1155,7 @@ class DeudoresController extends ControllerBase
 			
 		if($array["tipoperacion"] == "A")
 		{
-			$id = $deudor->altaDDAEjec($array);
+			$id = $deudor->altaDdaEjecFicha($array);
 				
 			echo($id);
 		}
