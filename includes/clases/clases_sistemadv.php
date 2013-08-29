@@ -337,7 +337,8 @@
 				"receptor1" => array("varchar"),
 				"emailreceptor1" => array("varchar"),
 				"embargo1" => array("varchar"),
-				"martillero" => array("varchar")
+				"martillero" => array("varchar"),
+				"gasto" => array("decimal")
 				
 				
 				
@@ -428,7 +429,8 @@
 				"rendicion_cliente" => array("decimal"),
 				"abogado" => array("varchar"),
 				"liquidacosta" => array("decimal"),
-				"email" => array("varchar")
+				"email" => array("varchar"),
+				"gasto" => array("decimal")
 			);
 			parent::BusinessObject();
 		}
@@ -1631,7 +1633,9 @@
 					"encargado_receptor" => array("date"),
 					"notificacion" => array("date"),
 					"usuario" => array("varchar"),
-					"fecha_modificacion" => array("date")
+					"fecha_modificacion" => array("date"),
+					"gasto" => array("decimal")
+					
 			);
 			parent::BusinessObject();
 		}
