@@ -73,6 +73,7 @@
         <th align="center" width="100"><font class="titulolistado">DEUDOR</font></th>
 		<th align="center" width="100"><font class="titulolistado">MANDANTE</font></th>
         <th align="center" width="100"><font class="titulolistado">F. PROTESTO</font></th>
+        <th align="center" width="100"><font class="titulolistado">GASTOS PROTESTO</font></th>
 		<th align="center" width="100"><font class="titulolistado">ESTADO</font></th>
         <th align="center" width="100"><font class="titulolistado">NRO. DOC.</font></th>
         <th align="center" width="90"><font class="titulolistado">TIPO DOC.</font></th>
@@ -95,6 +96,7 @@
 		<td align="left" width="100" class="dato_lista">&nbsp;&nbsp;<?php echo (strtoupper(utf8_decode($datoTmp->get_data("ape1_deudor")." ".$datoTmp->get_data("ape2_deudor")." ".$datoTmp->get_data("nom1_deudor")))) ?></td>
 		<td align="left" width="100" class="dato_lista">&nbsp;&nbsp;<?php echo (strtoupper(utf8_decode($datoTmp->get_data("nombre_mandante")))) ?></td>
 		<td align="left" width="100" class="dato_lista">&nbsp;&nbsp;<?php echo (strtoupper(formatoFecha($datoTmp->get_data("fecha_protesto"),"yyyy-mm-dd","dd/mm/yyyy"))) ?></td>
+		<td align="left" width="100" class="dato_lista">&nbsp;&nbsp;<?php echo (strtoupper($datoTmp->get_data("gastos_protesto"))) ?></td>
 		<td align="left" width="100" class="dato_lista">&nbsp;&nbsp;<?php echo (strtoupper($datoTmp->get_data("id_estado_doc"))) ?></td>
 		<td align="left" width="100" class="dato_lista">&nbsp;&nbsp;<?php echo (strtoupper($datoTmp->get_data("numero_documento"))) ?></td>
 		<td align="left" width="90" class="dato_lista">&nbsp;&nbsp;<?php echo (strtoupper($datoTmp->get_data("id_tipo_doc"))) ?></td>

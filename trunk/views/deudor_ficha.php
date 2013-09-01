@@ -69,25 +69,26 @@
 		
 		function grabarFichaDeudor()
 		{
-			var arrayin = new Array(18);
+			var arrayin = new Array(19);
 			arrayin[0] = document.getElementById("txtrut_deudor");
 			arrayin[1] = document.getElementById("txtrut_d_deudor");
 			arrayin[2] = document.getElementById("txtrut_mandante");
 			arrayin[3] = document.getElementById("txtrut_d_mandante");
 			arrayin[4] = document.getElementById("txtmonto");
 			arrayin[5] = document.getElementById("txtabogado");
-			arrayin[6] = document.getElementById("txtfirma");
+//			arrayin[6] = document.getElementById("txtfirma");
 			arrayin[7] = document.getElementById("txtingreso");
-			arrayin[8] = document.getElementById("txtprovidencia_1");
+//			arrayin[8] = document.getElementById("txtprovidencia_1");
 			arrayin[9] = document.getElementById("txtdist_corte");
 			arrayin[10] = document.getElementById("txtrol");
-			arrayin[11] = document.getElementById("selJuzgadoNro");
-			arrayin[12] = document.getElementById("selJComuna");
+//			arrayin[11] = document.getElementById("selJuzgadoNro");
+//			arrayin[12] = document.getElementById("selJComuna");
 			arrayin[13] = document.getElementById("ident");
 			arrayin[14] = document.getElementById("tipoperacion");
 			arrayin[15] = document.getElementById("id_alta");
 			arrayin[16] = document.getElementById("id_doc");
 			arrayin[17] = document.getElementById("txtabogado2");
+			arrayin[18] = document.getElementById("txtjuzgadoanexo");
 
 			var arraySel = new Array();
 //			if(!validarArray(arrayin, arraySel,"N"))
@@ -116,22 +117,10 @@
 			datos += "&txtabogado2="+document.getElementById("txtabogado2").value;
 			datos += "&txtdist_corte="+document.getElementById("txtdist_corte").value;
 			datos += "&txtrol="+document.getElementById("txtrol").value;
-			datos += "&selJuzgadoNro="+document.getElementById("selJuzgadoNro").value;
 			datos += "&id_alta="+document.getElementById("id_alta").value;
 			datos += "&tipoperacion="+document.getElementById("tipoperacion").value;
-			/*
-			datos += "&txtingreso="+document.getElementById("txtingreso").value;
-			datos += "&txtprovidencia_1="+document.getElementById("txtprovidencia_1").value;
-			datos += "&selJComuna="+document.getElementById("selJComuna").value;
-			datos += "&ident="+document.getElementById("ident").value;
-			
-			datos += "&id_alta="+document.getElementById("id_alta").value;
-			datos += "&id_doc="+document.getElementById("id_doc").value;
-*/			
-
-
-			
-			
+			datos += "&txtjuzgadoanexo="+document.getElementById("txtjuzgadoanexo").value;
+		
 //			datos += "&"+getParametrosArray(arrayin);
 //			alert(datos);
 			//return false;
@@ -167,7 +156,7 @@
 		function cancelarFichaDeudor()
 		{
 			var idGes = document.getElementById("idGes").value;
-			var idestadoges = document.getElementById("idestadoges").value;
+			var idestadoges = 7; // document.getElementById("idestadoges").value;
 //			alert('index.php?controlador=Gestiones&accion=gestionar&idgestion='+idGes+'&estadoGes='+idestadoges);
 			$("#pagina").load('index.php?controlador=Gestiones&accion=gestionar&idgestion='+idGes+'&estadoGes='+idestadoges);
 			//$("#pagina").load('index.php?controlador=Deudores&accion=admin_fichas&proc=1');
@@ -407,6 +396,7 @@
 	$juzgadoNro = ($tipoperacion == "M") ? $ficha->get_data("id_juzgado") : "";
 	$jComuna = ($tipoperacion == "M") ? $ficha->get_data("id_juzgado_comuna") : "";
 	$id_alta = ($tipoperacion == "M") ? $ficha->get_data("id_ficha") : "";
+	$juzgadoanexo = ($tipoperacion == "M") ? $ficha->get_data("juzgado_anexo") : "";
 //	$ident = ($tipoperacion == "M") ? $ficha->get_data("monto") :"";
 	
 ?>
@@ -491,7 +481,10 @@
         </td>
         <td><input type="text" grabar="S" name="txtrol"  value="<? echo($rol) ?>"id="txtrol"  size="20" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" />
         </td>
-        <td><select name="selJuzgadoNro" grabar="S"  id="selJuzgadoNro"  class= "input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)">
+        <td><input type="text" grabar="S" name="txtjuzgadoanexo"  value="<? echo($juzgadoanexo) ?>" id="txtjuzgadoanexo"  size="20" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" />
+        </td>
+        
+        <!--<td><select name="selJuzgadoNro" grabar="S"  id="selJuzgadoNro"  class= "input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)">
      			<option value="0"><? print utf8_encode("") ?></option>
         		<?
 					
@@ -509,7 +502,7 @@
     			?>
 			</select>
         </td>
-    </tr>
+    --></tr>
     
     <tr>
 		<td colspan="4" height="10"> </td>
