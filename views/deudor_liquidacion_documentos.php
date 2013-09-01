@@ -125,6 +125,7 @@
 		<th align="center" width="8%"><font class="titulolistado">Monto</font></th>
 		<th align="center" width="8%"><font class="titulolistado">Estado</font></th>
         <th align="center" width="9%"><font class="titulolistado">Fecha Protesto</font></th>
+        <th align="center" width="9%"><font class="titulolistado">Gastos Protesto</font></th>
         <th align="center" width="8%"><font class="titulolistado">Tipo Doc.</font></th>
     </tr>
 	<?php
@@ -145,6 +146,7 @@
 		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("monto")) ?></td>
 		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("estado")) ?></td>
 		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php  echo (formatoFecha($datoTmp->get_data("fecha_protesto"),"yyyy-mm-dd","dd/mm/yyyy"))?></td>
+		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("gasto_protesto")) ?></td>
 		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("tipo_documento")) ?></td>
 	</tr>
 	<?php

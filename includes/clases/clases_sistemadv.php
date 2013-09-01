@@ -118,7 +118,8 @@
 					"distribucion_corte" => array("datetime"),
 					"rol" => array("varchar"),
 					"id_juzgado" => array("int"),
-					"id_juzgado_comuna" => array("int")
+					"id_juzgado_comuna" => array("int"),
+					"juzgado_anexo" => array("varchar")
 				);
 			parent::BusinessObject();
 		}

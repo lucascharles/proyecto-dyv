@@ -889,7 +889,7 @@ class DocumentosModel extends ModelBase
 		$sqlpersonal->set_select(" d.id_documento id_documento, c.banco id_banco, dd.primer_apellido ape1_deudor, dd.segundo_apellido ape2_deudor,
 							  		dd.primer_nombre nom1_deudor, dd.segundo_nombre nom2_deudor,
 									ifnull(m.nombre, m.apellido) nombre_mandante, ed.estado id_estado_doc, td.tipo_documento id_tipo_doc,
-									d.numero_documento numero_documento,d.fecha_protesto fecha_protesto, d.cta_cte cta_cte,d.monto monto , d.fecha_siniestro fecha_recibido");
+									d.numero_documento numero_documento,d.fecha_protesto fecha_protesto, d.cta_cte cta_cte,d.monto monto , d.fecha_siniestro fecha_recibido, d.gastos_protesto gastos_protesto");
 		$sqlpersonal->set_from(" documentos d left join bancos c on d.id_banco = c.id_banco,
 	 								deudores dd,
 	 								mandantes m,

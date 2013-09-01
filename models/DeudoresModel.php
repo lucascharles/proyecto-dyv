@@ -41,14 +41,14 @@ class DeudoresModel extends ModelBase
 	{
 		$deudor = new Deudores();
 		$deudor->add_filter("rut_deudor","=",trim($param["txtrut_deudor"]));
-		$deudor->add_filter("AND");
-		$deudor->add_filter("dv_deudor","=",trim($param["txtrut_d_deudor"]));
+//		$deudor->add_filter("AND");
+//		$deudor->add_filter("dv_deudor","=",trim($param["txtrut_d_deudor"]));
 		$deudor->load();
 		
 		$mandante = new Mandantes();
 		$mandante->add_filter("rut_mandante","=",trim($param["txtrut_mandante"]));
-		$mandante->add_filter("AND");
-		$mandante->add_filter("dv_mandante","=",trim($param["txtrut_d_mandante"]));
+//		$mandante->add_filter("AND");
+//		$mandante->add_filter("dv_mandante","=",trim($param["txtrut_d_mandante"]));
 		$mandante->load();
 				
 		$dato = new Ficha();
@@ -63,13 +63,9 @@ class DeudoresModel extends ModelBase
 		$dato->set_data("monto",$param["txtmonto"]);
 		$dato->set_data("abogado",$param["txtabogado"]);
 		$dato->set_data("abogado2",$param["txtabogado2"]);
-		$dato->set_data("firma",$param["txtfirma"]);
-		$dato->set_data("ingreso",$param["txtingreso"]);
-		$dato->set_data("providencia",$param["txtprovidencia_1"]);
 		$dato->set_data("distribucion_corte",formatoFecha($param["txtdist_corte"],"dd/mm/yyyy","yyyy-mm-dd"));
 		$dato->set_data("rol",$param["txtrol"]);
-		$dato->set_data("id_juzgado",$param["selJuzgadoNro"]);
-		$dato->set_data("id_juzgado_comuna",$param["selJComuna"]);
+		$dato->set_data("juzgado_anexo",$param["txtjuzgadoanexo"]);
 		$dato->save();
 		
 		if($param["id_alta"] <> 0 && trim($param["id_alta"]) <> "")
