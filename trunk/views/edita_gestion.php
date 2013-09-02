@@ -168,7 +168,6 @@
 							datos += "&iddocumento"+i+"="+value;
 							doc+="&iddocumento"+i+"="+value;
 						}
-						//						datos += "&iddocumento="+$("#iddocumento").val();
 					}
 					$.ajax({
 					url: "index.php",
