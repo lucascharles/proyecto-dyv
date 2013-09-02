@@ -198,6 +198,7 @@ class DeudoresController extends ControllerBase
 		$jcomuna = new JuzgadoComunaModel();
 		$documentos = new DocumentosModel();
 		$direcciones = new DireccionDeudoresModel();
+		$docs = new DocumentosCollection(); 
 		
 		$data['nom_sistema'] = "SISTEMA DyV";
 		
@@ -220,10 +221,23 @@ class DeudoresController extends ControllerBase
 		
 		$datomandante = $mandate->getMandanteDatos($datodeudor->get_data("id_mandante"));
 
-		$datodocumento = $documentos->getDatoDocumento($array["id_doc"]);
+		$datodocumento =  $documentos->getDatoDocumento($array["id_doc"]);
 		
 		$datodir = $direcciones->getDirActualDeudor($datodeudor->get_data("id_deudor"));
+		
+		if($array["tipope"] == "A")
+		{
+			$dtmp = $documentos->getMontoDemanda($array["list_docs"]);
+			$datoTmp = &$dtmp->items[($dtmp->get_count()-1)];
+			$montodemanda = $datoTmp->get_data("monto");
+		}
+		else
+		{
+			$montodemanda = 0;
+		}
+		$data['montodemanda'] = $montodemanda;
 
+		 
 		$data['ident'] = $array["id"];
 		$data['deudor'] = $datodeudor;
 		$data['mandante'] = $datomandante;

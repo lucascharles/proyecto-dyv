@@ -178,11 +178,14 @@
 					{
 						if(document.getElementById('selGestion').options[document.getElementById('selGestion').selectedIndex].text == "DEMANDA")
 						{	
+							var list_docs = (document.getElementById("docCartas").value).trim().split(' ').join(",");
+						
 							var conf = confirm("Generar FICHA para deudor?");
 
 						    if(conf == true){
 							    //calcula monto deuda
-								$("#pagina").load('index.php?controlador=Deudores&accion=deudor_ficha&id='+$("#id_deudor").val()+'&id_doc='+$("#iddocumento").val()+'&tipope=A'+'&idGes='+$("#id_gestion").val()+doc+"montoDemanda=");
+//								$("#pagina").load('index.php?controlador=Deudores&accion=deudor_ficha&id='+$("#id_deudor").val()+'&id_doc='+$("#iddocumento").val()+'&tipope=A'+'&idGes='+$("#id_gestion").val()+doc+"montoDemanda=");
+						    	$("#pagina").load('index.php?controlador=Deudores&accion=deudor_ficha&id='+$("#id_deudor").val()+'&id_doc='+$("#iddocumento").val()+'&tipope=A'+'&idGes='+$("#id_gestion").val()+"&list_docs="+list_docs);
 						    }
 						}
 						document.getElementById("frmlistagestiones").src="index.php?controlador=Gestiones&accion=listar_bitacora_gestion&idgestion="+$("#id_gestion").val()+"&iddocumento="+$("#iddocumento").val();
@@ -383,7 +386,6 @@
 
 		function editarFicha()
 		{
-			
 			if(document.getElementById("iddemanda").value == "")
 			{
 				return false;

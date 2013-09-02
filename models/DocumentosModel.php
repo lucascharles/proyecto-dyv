@@ -1313,6 +1313,24 @@ class DocumentosModel extends ModelBase
 	
 	}
 	
+	public function getMontoDemanda($listadocs)
+	{
+	
+		include("config.php");
+		
+		$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
+		$sqlpersonal->set_select(" SUM(d.monto) monto"); 
+	  	$sqlpersonal->set_from(" documentos d ");
+	  	$where = " d.activo = 'S' ";
+		$where .= " and d.id_documento in (".$listadocs.") ";
+
+		$sqlpersonal->set_where($where);
+	
+    	$sqlpersonal->load();
+
+    	return $sqlpersonal;	
+	
+	}
 	
 	public function generarCartaPdf($listaIdDocs)
 	{
