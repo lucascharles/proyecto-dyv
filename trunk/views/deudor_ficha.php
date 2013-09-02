@@ -385,7 +385,7 @@
 		break;
 	}
 
-	$monto = ($tipoperacion == "M") ? $ficha->get_data("monto") : $monto;
+	$monto = ($tipoperacion == "M") ? $ficha->get_data("monto") : $montodemanda;
 	$abogado = ($tipoperacion == "M") ? $ficha->get_data("abogado") : "";
 	$abogado2 = ($tipoperacion == "M") ? $ficha->get_data("abogado2") : "";
 	$firma = ($tipoperacion == "M") ? $ficha->get_data("firma") : "";
