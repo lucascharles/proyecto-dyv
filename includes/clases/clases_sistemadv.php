@@ -200,6 +200,7 @@
 				"fecha_traba_emb" => array("date"),
 				"fono_receptor" => array("varchar"),
 				"fono_receptor2" => array("varchar"),
+				"fono_receptor3" => array("varchar"),
 				"resultado_busqueda" => array("varchar"),
 				"resultado_notificacion_1" => array("varchar"),
 				"resultado_notificacion_2" => array("varchar"),
