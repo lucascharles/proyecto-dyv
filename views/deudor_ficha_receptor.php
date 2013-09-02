@@ -135,9 +135,11 @@
 	$entrega_receptor_1 = ($id_alta > 0) ? $receptor->get_data("entrega_receptor_1") : "";
 	$fono_receptor = ($id_alta > 0) ? $receptor->get_data("fono_receptor") : "";
 	$fono_receptor2 = ($id_alta > 0) ? $receptor->get_data("fono_receptor2") : "";
+	$fono_receptor3 = ($id_alta > 0) ? $receptor->get_data("fono_receptor3") : "";
 	$resultado_busqueda = ($id_alta > 0) ? $receptor->get_data("resultado_busqueda") : "";
 	$resultado_busqueda_2 = ($id_alta > 0) ? $receptor->get_data("resultado_busqueda_2") : "";
 	$resultado_busqueda_3 = ($id_alta > 0) ? $receptor->get_data("resultado_busqueda_3") : "";
+	$receptor3 = ($id_alta > 0) ? $receptor->get_data("receptor3") : "";
 	$resultado_notificacion_1 = ($id_alta > 0) ? $receptor->get_data("resultado_notificacion_1") : "";
 	$providencia_1 = ($id_alta > 0) ? $receptor->get_data("providencia_1") : "";
 	$fecha_busqueda_2 = ($id_alta > 0) ? formatoFecha($receptor->get_data("fecha_busqueda_2"),"yyyy-mm-dd","dd/mm/yyyy") : "";
@@ -296,9 +298,9 @@
                  	<td align="left" class="etiqueta_form">Providencia (3)</td>
                     <td align="left" ><input type="text" grabar="S" name="txtprovidencia_3" id="txtprovidencia_3" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="fecha" value="<? echo($providencia_3) ?>"/></td>                 
 					<td align="left" class="etiqueta_form">Nombre Receptor</td>
-                    <td align="left" ><input type="text" grabar="S" name="txtnombrereceptor3" id="txtnombrereceptor3" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="fecha" value="<? echo($fecha_domicilio_1) ?>" /></td>
+                    <td align="left" ><input type="text" grabar="S" name="txtnombrereceptor3" id="txtnombrereceptor3" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="fecha" value="<? echo($receptor3) ?>" /></td>
 					<td align="left" class="etiqueta_form">Fono/Email Receptor</td>
-                    <td align="left" ><input type="text" grabar="S" name="txtemailtel_recep3" id="txtemailtel_recep3" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="fecha" value="<? echo($fecha_domicilio_1) ?>" /></td>
+                    <td align="left" ><input type="text" grabar="S" name="txtemailtel_recep3" id="txtemailtel_recep3" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="fecha" value="<? echo($fono_receptor3) ?>" /></td>
 
                  </tr>
                   <tr>
