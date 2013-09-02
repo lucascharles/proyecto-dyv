@@ -107,6 +107,7 @@ class DeudoresModel extends ModelBase
 			$dator->set_data("receptor",$param["txtreceptor"]);
 			$dator->set_data("receptor2",$param["txtnombreceptor2"]);
 			$dator->set_data("receptor3",$param["txtnombrereceptor3"]);
+			$dator->set_data("receptor3",$param["txtnombrereceptor3"]);
 			$dator->set_data("busqueda",$param["txtbusqueda"]);
 			$dator->set_data("notificacion",$param["txtnotificacion"]);
 			$dator->set_data("notificacion_2",$param["txtnotificacion_2"]);
@@ -123,6 +124,7 @@ class DeudoresModel extends ModelBase
 			$dator->set_data("fecha_traba_emb",formatoFecha($param["txtfecha_traba_emb"],"dd/mm/yyyy","yyyy-mm-dd"));
 			$dator->set_data("fono_receptor",$param["txtfono_receptor"]);
 			$dator->set_data("fono_receptor2",$param["txtfono_receptor2"]);
+			$dator->set_data("fono_receptor3",$param["txtemailtel_recep3"]);
 			$dator->set_data("resultado_busqueda",$param["txtresultado_busqueda"]);
 			$dator->set_data("resultado_notificacion_1",$param["txtresultado_notificacion_1"]);
 			$dator->set_data("resultado_notificacion_2",$param["txtresultado_notificacion_2"]);
@@ -222,6 +224,8 @@ class DeudoresModel extends ModelBase
 			$dator->set_data("fecha_oficio",$param["txtfecha_oficio"]);
 			$dator->set_data("fecha_traba_emb",$param["txtfecha_traba_emb"]);
 			$dator->set_data("fono_receptor",$param["txtfono_receptor"]);
+			$dator->set_data("fono_receptor2",$param["txtfono_receptor2"]);
+			$dator->set_data("fono_receptor3",$param["txtemailtel_recep3"]);
 			$dator->set_data("resultado_busqueda",$param["txtresultado_busqueda"]);
 			$dator->set_data("resultado_notificacion_1",$param["txtresultado_busqueda"]);
 			$dator->set_data("resultado_notificacion_2",$param["txtresultado_notificacion_2"]);
