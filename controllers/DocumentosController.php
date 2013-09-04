@@ -83,7 +83,7 @@ class DocumentosController extends ControllerBase
 		$listadocs = $documentos->getListaDocumentos2($array);
 		
 		$data['nom_sistema'] = "SISTEMA DyV";
-		$data['$colleccionDatosDocumentos'] = $listadocs;
+		$data['colleccionDatosDocumentos'] = $listadocs;
 		
 		$this->view->show("lista_documentos.php", $data);
 	} 
