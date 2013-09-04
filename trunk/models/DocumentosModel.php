@@ -1111,10 +1111,13 @@ class DocumentosModel extends ModelBase
 		$datoe->set_data("activo","N");
 		$datoe->save();
 		
-		$dato = new DocumentosCollection();
-		$dato->add_filter("activo","=","S");
 		
-		$dato->load();
+//		$dato = new DocumentosCollection();
+//		$dato->add_filter("activo","=","S");
+//		$dato->add_filter("AND");
+//		$dato->add_filter("id_documento",">","0");
+//		$dato->add_limit(30);
+//		$dato->load();
 		
 		return $dato;
 	}

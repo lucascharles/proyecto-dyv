@@ -76,10 +76,14 @@ class DocumentosController extends ControllerBase
 	
 		require 'models/DocumentosModel.php';
 		$documentos = new DocumentosModel();
-		$dato = $documentos->bajaDocumentos($array["iddocumentos"]);
+//		$listadocs = new DocumentosModel();
+		
+		$docLista = $documentos->bajaDocumentos($array["id_documento"]);
+
+		$listadocs = $documentos->getListaDocumentos2($array);
 		
 		$data['nom_sistema'] = "SISTEMA DyV";
-		$data['colleccionDocumentos'] = $dato;
+		$data['$colleccionDatosDocumentos'] = $listadocs;
 		
 		$this->view->show("lista_documentos.php", $data);
 	} 
