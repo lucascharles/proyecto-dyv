@@ -317,6 +317,7 @@
 				datos += "&fechasimulacion="+$("#txtfecha").val();
 				
 				datos += "&capital="+$("#txttotal").val();
+				datos += "&capitalpagado="+$("#txttotalpagado").val();
 				datos += "&protesto="+$("#txtprotesto").val();
 				datos += "&fechavenc="+$("#txtfechavenc").val();
 				datos += "&diasatraso="+$("#txtdiasatraso").val();
@@ -695,6 +696,50 @@
 				}
 			}
 		}
+
+		function recalcular()
+		{
+			
+			var monto = document.getElementById("txttotal").value;
+			var fecha = document.getElementById("txtfechavenc").value;
+			var dias = document.getElementById("txtdiasatraso").value;
+
+			// CALCULO INTERES DIARIO 
+			var interes = ((parseFloat($("#txtinteres").val()) * parseFloat(document.getElementById("txttotal").value) ) / 100)/30;
+			if(interes == 0)
+			{
+				$("#txtinteresdiario").val("");
+			}
+			else
+			{
+				$("#txtinteresdiario").val(interes.toFixed(2));
+			}
+			
+			// CALCULO INTERES ACUMULADO 
+			var int_acum = interes * parseInt(dias);
+			if(int_acum == 0)
+			{
+				$("#txtinteresacumulado").val("");
+			}
+			else
+			{
+				$("#txtinteresacumulado").val(int_acum.toFixed(2));
+			}
+
+			//CALCULO DE SIMULACION
+			var capital = document.getElementById("txttotal").value;
+			var interes = document.getElementById("txtinteresacumulado").value;
+			var protesto = document.getElementById("txtprotesto").value;
+			var honorarios = ((parseInt(capital) + parseFloat(interes) + parseInt(protesto))*10/100).toFixed(2);
+
+			document.getElementById("txthonorarios").value = honorarios;
+
+			var total = (parseFloat(capital) + parseFloat(interes) + parseFloat(protesto) + parseFloat(honorarios)).toFixed(2); 
+			document.getElementById("txttotalsimulacion").value = total;
+			
+		}
+
+
 		
 	</script>
 </head>
@@ -904,7 +949,7 @@
                 <tr>  
                     <td align="right" class="etiqueta_form">% Interes:&nbsp;</td>
                     <td align="left">
-                        <input type="text" name="txtinteres" id="txtinteres" value="<?=conDecimales($interes_base)?>" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="moneda" />
+                        <input type="text" name="txtinteres" id="txtinteres" value="<?=conDecimales($interes_base)?>" class="input_form_medio" onFocus="resaltar(this)" onBlur="recalcular()" valida="requerido" tipovalida="moneda" />
                     </td>  
                 </tr>
                 <tr>                                     
@@ -922,6 +967,12 @@
                     <td align="left">
                         <input type="text" name="txttotal" id="txttotal" valida="requerido" tipovalida="moneda" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" value="<? echo($monto) ?>" />
                     </td>  
+                    
+                    <td align="right" class="etiqueta_form">Capital pagado&nbsp;</td>
+                    <td align="left">
+                        <input type="text" name="txttotalpagado" id="txttotalpagado"  tipovalida="moneda" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" value="" />
+                    </td>
+                    
                 </tr>
                 <tr>
                     <td align="right" class="etiqueta_form">Protesto&nbsp; </td>

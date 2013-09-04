@@ -15,8 +15,8 @@
 	  {
 	  	$deudorTmp = &$colleccionDocumentos->items[$i];
 		//datos cabecera de la carta
-		$direccionStgoDyV = '11 DE SEPTIEMBRE 1881 of. 2502   PROVIDENCIA - SANTIAGO';
-		$direccionValpaDyV = '11 DE SEPTIEMBRE 1881 of. 2502   PROVIDENCIA - SANTIAGO';
+		$direccionStgoDyV = 'NUEVA PROVIDENCIA 1881 of. 2502   PROVIDENCIA - SANTIAGO';
+		$direccionValpaDyV = 'NUEVA PROVIDENCIA 1881 of. 2502   PROVIDENCIA - SANTIAGO';
 		
 		
 //		$fechaActual = date('dd-mm-YY');

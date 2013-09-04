@@ -58,7 +58,7 @@
 			
 			var id = document.getElementById("id_documento").value;
 
-			var url = "index.php?controlador=Documentos&accion=eliminar&id_documento="+id;
+			var url = "index.php?controlador=Documentos&accion=eliminar&id_documento="+id+"&id_partida=0";
 			
 			document.getElementById("frmlistdocumentos").src = url;
 		}
