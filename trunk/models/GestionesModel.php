@@ -41,6 +41,13 @@ class GestionesModel extends ModelBase
 	{
 		$where .= " and d.rut_deudor like '".trim($param["rut_d"])."%'";
 	}
+	if(trim($param["nombre_deudor"]) <> "")
+	{
+		$where .= " and (d.primer_nombre like '".trim($param["nombre_deudor"])."%' ";
+		$where .= " OR d.segundo_nombre like '".trim($param["nombre_deudor"])."%' ";
+		$where .= " OR d.primer_apellido like '".trim($param["nombre_deudor"])."%' ";
+		$where .= " OR d.segundo_apellido like '".trim($param["nombre_deudor"])."%' )";	
+	}
 	if(trim($param["rut_m"]) <> "")
 	{
 		$where .= " and m.rut_mandante like '".trim($param["rut_m"])."%'";
@@ -106,6 +113,15 @@ class GestionesModel extends ModelBase
 	{
 		$where .= " and d.rut_deudor like '".trim($param["rut_d"])."%'";
 	}
+	
+	if(trim($param["nombre_deudor"]) <> "")
+	{
+		$where .= " and (d.primer_nombre like '".trim($param["nombre_deudor"])."%' ";
+		$where .= " OR d.segundo_nombre like '".trim($param["nombre_deudor"])."%' ";
+		$where .= " OR d.primer_apellido like '".trim($param["nombre_deudor"])."%' ";
+		$where .= " OR d.segundo_apellido like '".trim($param["nombre_deudor"])."%' )";	
+	}
+	
 	if(trim($param["rut_m"]) <> "")
 	{
 		$where .= " and m.rut_mandante like '".trim($param["rut_m"])."%'";
