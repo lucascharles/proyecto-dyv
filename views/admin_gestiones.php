@@ -12,6 +12,7 @@
 			var tipoG = document.getElementById("tipo_gestion").value;
 			var url = "index.php?controlador=Gestiones&accion=listarGestiones&rut_d="+document.getElementById("txtrutdeudor").value+"&rut_m="+document.getElementById("txtrutmandante").value+"&tipoGestion="+tipoG;
 			url +="&id_partida=0";
+			url +="&nombre_deudor="+document.getElementById("txtnombredeudor").value;
 			document.getElementById("frmlistgestiones").src = url;
 
 		}
@@ -33,6 +34,7 @@
 			var url = "index.php?controlador=Gestiones&accion=listarGestiones&rut_d="+document.getElementById("txtrutdeudor").value+"&rut_m="+document.getElementById("txtrutmandante").value+"&tipoGestion="+tipoG;
 			url +="&id_partida=0";
 			url +="&id_estado="+idestado;
+			url +="&nombre_deudor="+document.getElementById("txtnombredeudor").value;
 //			alert(url);
 			document.getElementById("frmlistgestiones").src = url;
 		}
@@ -117,6 +119,16 @@
         <td> <input  type="button" name="btnbuscar" id="btnbuscar" onclick="buscar()"  value="Buscar" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/>&nbsp;
          	 <input  type="button" name="btnlimpiar" id="btnlimpiar" value="Limpiar" class="boton_form" onclick="limpiar()" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/>
         </td>
+    </tr>
+    <tr>
+		<td align="right" class="etiqueta_form" width="20">Deudor:</td>
+        <td>&nbsp;&nbsp;&nbsp;<input type="text" name="txtnombredeudor" id="txtnombredeudor"  onkeyup='mostrar(this)' class="input_form"  onFocus="resaltar(this)" onBlur="noresaltar(this)" /> &nbsp;
+        </td>
+        <td align="right" class="etiqueta_form" width="20"></td>
+        <td></td>
+        <td align="right" class="etiqueta_form" width="20"></td>
+        <td></td>
+        <td></td>
     </tr>
  </table>
  </div>
