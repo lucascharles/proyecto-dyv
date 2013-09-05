@@ -53,16 +53,28 @@
 	<tr>
 		
 		<?php 
-			if(($datoTmp->get_data("id_documento") >= $desde)&&($datoTmp->get_data("id_documento") <= $hasta)){						
+			
+			if($desde != "" && $hasta !="")
+			{	
+		
+				if(($datoTmp->get_data("id_documento") >= $desde)&&($datoTmp->get_data("id_documento") <= $hasta)){						
 		?>		
-    			<td><input type="checkbox" checked="checked"  id="<? echo($datoTmp->get_data("id_documento")) ?>" name="checkdoc[]" value="" onclick="seleccionado(<? echo($datoTmp->get_data("id_documento")) ?>)"></td>
-    			<script type="text/javascript"> seleccionado(<? echo($datoTmp->get_data("id_documento")) ?>); </script>		
+    				<td><input type="checkbox" checked="checked"  id="<? echo($datoTmp->get_data("id_documento")) ?>" name="checkdoc[]" value="" onclick="seleccionado(<? echo($datoTmp->get_data("id_documento")) ?>)"></td>
+    				<script type="text/javascript"> seleccionado(<? echo($datoTmp->get_data("id_documento")) ?>); </script>		
 		<?php
+				}
+				else
+				{
+		?>
+					<td><input type="checkbox"  id="<? echo($datoTmp->get_data("id_documento")) ?>" name="checkdoc[]" value="" onclick="seleccionado(<? echo($datoTmp->get_data("id_documento")) ?>)"></td>
+		<?php 
+				}
 			}
 			else
 			{
-		?>
-				<td><input type="checkbox"  id="<? echo($datoTmp->get_data("id_documento")) ?>" name="checkdoc[]" value="" onclick="seleccionado(<? echo($datoTmp->get_data("id_documento")) ?>)"></td>
+		?>		
+				<td><input type="checkbox" checked="checked"  id="<? echo($datoTmp->get_data("id_documento")) ?>" name="checkdoc[]" value="" onclick="seleccionado(<? echo($datoTmp->get_data("id_documento")) ?>)"></td>
+    			<script type="text/javascript"> seleccionado(<? echo($datoTmp->get_data("id_documento")) ?>); </script>	
 		<?php 
 			}
 		?>
