@@ -121,7 +121,7 @@
         </td>
     </tr>
     <tr>
-		<td align="right" class="etiqueta_form" width="20">Deudor:</td>
+		<td align="right" class="etiqueta_form" width="20">Nombre Deudor:</td>
         <td>&nbsp;&nbsp;&nbsp;<input type="text" name="txtnombredeudor" id="txtnombredeudor"  onkeyup='mostrar(this)' class="input_form"  onFocus="resaltar(this)" onBlur="noresaltar(this)" /> &nbsp;
         </td>
         <td align="right" class="etiqueta_form" width="20"></td>
