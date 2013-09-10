@@ -145,6 +145,38 @@ class GestionesController extends ControllerBase
 	}
 	
 	
+	public function actualizaGestion($array)
+	{
+		require 'models/GestionesModel.php';
+		require 'models/DocumentosModel.php';
+		require 'models/DeudoresModel.php';
+		require 'models/MandantesModel.php';
+		
+		$gestiones = new GestionesModel();
+		$dato = new Gestiones();
+		
+		$ultimaGestion = $gestiones->getUltimaGestion($array["idgestion"]);
+		
+		if($ultimaGestion->get_count() > 0)
+		{
+			$ultGes = $ultimaGestion->items[0];
+			
+			
+			$dato->add_filter("id_gestion","=",$array["idgestion"]);
+			$dato->load();
+			
+			$dato->set_data("estado", $ultGes->get_data("id_estado"));
+		}
+		else
+		{
+			$dato->set_data("estado", 1);
+		}
+		
+		$dato->save();
+		
+	}
+	
+	
 	public function listar($array)
     {
 		require 'models/GestionesModel.php';
