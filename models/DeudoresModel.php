@@ -958,6 +958,7 @@ ORDER BY orden ASC ";
 		$dato->set_data("email",$arrayParam["email"]);
 		$dato->set_data("tipo",$arrayParam["tipo"]);
 		$dato->set_data("activo","S");
+		$dato->set_data("id_mandante",$arrayParam["idmandante"]);
 		$dato->save();
 		
 		$id_deudor = getUltimoId(new DeudoresCollection(), "id_deudor");
@@ -1123,11 +1124,11 @@ ORDER BY orden ASC ";
 
 		$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
 	
-		$sqlpersonal->set_select( "   j.descripcion juzgado,
+		$sqlpersonal->set_select( "   juzgado_anexo juzgado,
 									  f.rol rol,
 									  f.id_ficha ficha,
-									  f.ingreso fecha ");
-		$sqlpersonal->set_from( " ficha f LEFT JOIN juzgado j ON f.id_juzgado = j.id_juzgado ");
+									  f.ingreso fecha  ");
+		$sqlpersonal->set_from( " ficha f ");
 		$sqlpersonal->set_where( " f.id_deudor = ".$iddeudor);
 	
     	$sqlpersonal->load();
