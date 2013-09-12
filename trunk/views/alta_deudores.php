@@ -308,6 +308,7 @@
 			datos += "&telefono="+$("#txttelefono").val();
 			datos += "&email="+$("#txtemail").val();
 			datos += "&tipo="+$("#tipo").val();
+			datos += "&idmandante="+$("#idMandante").val();
 
 			$.ajax({
 					url: "index.php",
