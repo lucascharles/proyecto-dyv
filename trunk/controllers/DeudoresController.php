@@ -650,10 +650,14 @@ class DeudoresController extends ControllerBase
 	{
 		require 'models/DeudoresModel.php';
 		$deudores = new DeudoresModel();
+		require 'models/BancosModel.php';
+		$banco = new BancosModel();
 		$dato = $deudores->getListaMandantesSesion(session_id());
+		
 		
 		$data['nom_sistema'] = "SISTEMA DyV";
 		$data['colleccionMandantes'] = $dato;
+		$data['colleccionBancos'] = $banco->getListaBancos("");
 		if($array["pantalla"] == "pdeudor_s")
 		{
 			$data['pantalla'] = "pdeudor_s";
