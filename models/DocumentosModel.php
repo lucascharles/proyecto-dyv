@@ -820,7 +820,7 @@ class DocumentosModel extends ModelBase
 							  		dd.primer_nombre nom1_deudor, dd.segundo_nombre nom2_deudor,
 									ifnull(m.nombre , m.apellido) nombre_mandante, ed.estado id_estado_doc, td.tipo_documento id_tipo_doc,
 									d.numero_documento numero_documento,d.fecha_protesto fecha_siniestro, d.cta_cte cta_cte,d.monto monto,
-									d.fecha_siniestro fecha_recibido"); 
+									d.fecha_siniestro fecha_recibido, d.gastos_protesto gastos_protesto"); 
 	  	$sqlpersonal->set_from(" documentos d, 
 	 								bancos c,
 	 								deudores dd,
@@ -1263,7 +1263,7 @@ class DocumentosModel extends ModelBase
 							   dd.primer_apellido ape1_deudor, dd.segundo_apellido ape2_deudor, 
 							   dd.primer_nombre nom1_deudor, dd.segundo_nombre nom2_deudor,
 							   m.id_mandante id_mandante, m.rut_mandante rut_mandante,m.dv_mandante dv_mandante, m.nombre nombre_mandante,  
-							   d.id_estado_doc id_estado, ed.estado estado, 
+							   d.id_estado_doc id_estado, ed.estado estado,d.gastos_protesto gastos_protesto, 
 							   d.id_tipo_doc id_tipo_doc, td.tipo_documento tipo_doc,
 							   d.id_causa_protesto id_causa_protesto, cp.causal causa_protesto, d.gastos_protesto gastos_protesto,
 							   d.numero_documento numero_documento,d.fecha_protesto fecha_protesto, d.fecha_siniestro fecha_siniestro,d.cta_cte cta_cte,d.monto monto "); 
