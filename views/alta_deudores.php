@@ -613,7 +613,7 @@
        	</td>
     <tr>
         <td colspan="2">
-        	<span id="mensaje" style="display:none"></span>
+        	<span id="mensaje"></span>
          </td>
     </tr>   
  </table>
