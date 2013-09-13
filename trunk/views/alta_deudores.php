@@ -364,6 +364,8 @@
 					success: function(res)
 					{
 						document.getElementById("frmmandantes_d").src="index.php?controlador=Deudores&accion=listar_mand_sesion&pantalla=pdeudor_s";
+						$("#mensaje").addClass("msj_advertencia");
+						$("#mensaje").text("Para que los cambios persistan antes de salir de esta pantalla debe seleccionar la opción Guardar.");
 					},
 					error: function()
 					{
@@ -388,6 +390,8 @@
 					success: function(res)
 					{
 						document.getElementById("frmmandantes_d").src="index.php?controlador=Deudores&accion=listar_mand_sesion&pantalla=pdeudor_s";
+						$("#mensaje").addClass("msj_advertencia");
+						$("#mensaje").text("Para que los cambios persistan antes de salir de esta pantalla debe seleccionar la opción Guardar.");
 					},
 					error: function()
 					{
@@ -400,7 +404,7 @@
 		
 		function mostrar(obj)
 		{
-			var url = "index.php?controlador=Mandantes&accion=listar&pantalla=pdeudor";
+			var url = "index.php?controlador=Mandantes&accion=listar&pantalla=pdeudor&id_partida=0";
 			url += "&des_int="+$("#txtrut_m").val();
 			url += "&desApel1="+$("#txtPrimerApel").val();
 			url += "&desApel2="+$("#txtsapellido_m").val();
@@ -420,7 +424,7 @@
 	<table cellpadding="10" cellspacing="10" align="center" border="0" width="100%" bgcolor="#FFFFFF">  
     <tr>
     <td>
-	<table width="100%" align="center" border="0" bgcolor="#eee" cellpadding="5" cellspacing="5"> 
+	<table width="100%" align="center" border="0" bgcolor="#f4f4f4" cellpadding="5" cellspacing="5"> 
     	<tr>
         	<td height="" align="right">
             	<div onclick="cerrarVentMand()" style="cursor:pointer; font-weight:bold; color:#000099;"> cerrar </div>

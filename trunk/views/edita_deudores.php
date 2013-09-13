@@ -309,7 +309,7 @@
 		
 		function mostrar(obj)
 		{
-			var url = "index.php?controlador=Mandantes&accion=listar&pantalla=pdeudor";
+			var url = "index.php?controlador=Mandantes&accion=listar&pantalla=pdeudor&id_partida=0";
 			url += "&des_int="+$("#txtrut_m").val();
 			url += "&desApel1="+$("#txtpapellido_m").val();
 			url += "&desApel2="+$("#txtsapellido_m").val();
@@ -333,6 +333,8 @@
 					success: function(res)
 					{
 						document.getElementById("frmmandantes_d").src="index.php?controlador=Deudores&accion=listar_mand_sesion&pantalla=pdeudor_s";
+						$("#mensaje").addClass("msj_advertencia");
+						$("#mensaje").text("Para que los cambios persistan antes de salir de esta pantalla debe seleccionar la opción Guardar.");
 					},
 					error: function()
 					{
@@ -357,6 +359,8 @@
 					success: function(res)
 					{
 						document.getElementById("frmmandantes_d").src="index.php?controlador=Deudores&accion=listar_mand_sesion&pantalla=pdeudor_s";
+						$("#mensaje").addClass("msj_advertencia");
+						$("#mensaje").text("Para que los cambios persistan antes de salir de esta pantalla debe seleccionar la opción Guardar.");
 					},
 					error: function()
 					{
@@ -428,7 +432,7 @@
     	<tr>
         	<td height="">
 	             <div id="datos" style="">
-            	<iframe id="frmmandantes" src="index.php?controlador=Mandantes&accion=listar&pantalla=pdeudor" scrolling="no" frameborder="0" width="100%" height="100%"></iframe>
+            	<iframe id="frmmandantes" src="index.php?controlador=Mandantes&accion=listar&pantalla=pdeudor&id_partida=0" scrolling="no" frameborder="0" width="100%" height="100%"></iframe>
                 </div>
             </td>
         </tr>
@@ -585,7 +589,7 @@
        	</td>
     <tr>
         <td colspan="2">
-        	<span id="mensaje" ></span>
+        	<span id="mensaje"></span>
          </td>
     </tr>   
  </table>
