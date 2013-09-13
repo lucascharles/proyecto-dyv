@@ -25,12 +25,13 @@
 	<script type="text/javascript" src="js/jquery-ui-sliderAccess.js"></script>
     <script language="javascript"> 
 
-		function seleccionado(id,monto,fecha)
+		function seleccionado(id,monto,fecha,gastos)
 		{
 			
 				var v_monto = 0;
 				var v_dias = 0;
 				var v_fecha = "";	
+				var v_protesto = 0;
 				var arraydoc = document.getElementsByTagName('input');
 				for(var i=0; i<arraydoc.length; i++)
 				{	 
@@ -39,6 +40,7 @@
 						if(arraydoc[i].checked == true)
 						{
 							v_monto = v_monto + parseFloat(arraydoc[i].getAttribute('monto'));
+							v_protesto = v_protesto + parseInt(gastos);
 							
 							if(v_fecha == "")
 							{
@@ -74,11 +76,11 @@
 	
 				if(document.getElementById(id).checked == false)
 				{
-					window.parent.quitarDoc(id,v_monto,v_fecha,v_dias);
+					window.parent.quitarDoc(id,v_monto,v_fecha,v_dias,v_protesto);
 				}
 				else
 				{
-					window.parent.seleccionado(id,v_monto,v_fecha,v_dias);
+					window.parent.seleccionado(id,v_monto,v_fecha,v_dias,v_protesto);
 				}
 
 		}
@@ -140,7 +142,7 @@
 		}
 	?>
 	<tr bgcolor="#FFFFFF">
-    	<td><input type="checkbox" monto="<?php echo ($datoTmp->get_data("monto")) ?>" fecha_doc="<?php  echo (formatoFecha($datoTmp->get_data("fecha_siniestro"),"yyyy-mm-dd","dd/mm/yyyy"))?>" id="<? echo($datoTmp->get_data("id_documento")) ?>" name="checkdoc_sim" value="" onclick="seleccionado(<? echo($datoTmp->get_data("id_documento")) ?>,<? echo($datoTmp->get_data("monto")) ?>,'<?php  echo (formatoFecha($datoTmp->get_data("fecha_siniestro"),"yyyy-mm-dd","dd/mm/yyyy"))?>')" <? echo($checked) ?>></td>	
+    	<td><input type="checkbox" monto="<?php echo ($datoTmp->get_data("monto")) ?>" fecha_doc="<?php  echo (formatoFecha($datoTmp->get_data("fecha_siniestro"),"yyyy-mm-dd","dd/mm/yyyy"))?>" id="<? echo($datoTmp->get_data("id_documento")) ?>" name="checkdoc_sim" value="" onclick="seleccionado(<? echo($datoTmp->get_data("id_documento")) ?>,<? echo($datoTmp->get_data("monto")) ?>,'<?php  echo (formatoFecha($datoTmp->get_data("fecha_siniestro"),"yyyy-mm-dd","dd/mm/yyyy"))?>',<? echo($datoTmp->get_data("gasto_protesto")) ?>)" <? echo($checked) ?>></td>	
 		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("numero_documento")) ?></td>
 		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo (formatoFecha($datoTmp->get_data("fecha_siniestro"),"yyyy-mm-dd","dd/mm/yyyy")) ?></td>
 		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("monto")) ?></td>

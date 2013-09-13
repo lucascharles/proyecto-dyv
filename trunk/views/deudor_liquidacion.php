@@ -416,7 +416,7 @@
 			document.getElementById("frmsubpantalla").src = url;
 		}
 		
-		function quitarDoc(id,monto,fecha,dias)
+		function quitarDoc(id,monto,fecha,dias,gasto_protesto)
 		{
 			var array = document.getElementById("docs").value.split(",");
 			document.getElementById("docs").value = "";
@@ -438,6 +438,7 @@
 			document.getElementById("txttotal").value = monto;
 			document.getElementById("txtfechavenc").value = fecha;
 			document.getElementById("txtdiasatraso").value = dias;
+			document.getElementById("txtprotesto").value = gasto_protesto;
 			
 			// CALCULO INTERES DIARIO 
 			var interes = ((parseFloat($("#txtinteres").val()) * parseInt(document.getElementById("txttotal").value) ) / 100)/30;
@@ -474,7 +475,7 @@
 			document.getElementById("txttotalsimulacion").value = total;
 		}
 
-		function seleccionado(id,monto,fecha,dias)
+		function seleccionado(id,monto,fecha,dias,protesto)
 		{
 			
 			if(document.getElementById("docs").value == "")
@@ -496,6 +497,7 @@
 			document.getElementById("txttotal").value = monto;
 			document.getElementById("txtfechavenc").value = fecha;
 			document.getElementById("txtdiasatraso").value = dias;
+			document.getElementById("txtprotesto").value = protesto;
 
 			// CALCULO INTERES DIARIO 
 			var interes = Math.ceil(((parseFloat($("#txtinteres").val()) * parseInt(document.getElementById("txttotal").value) ) / 100)/30);
