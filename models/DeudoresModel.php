@@ -68,15 +68,37 @@ class DeudoresModel extends ModelBase
 		$dato->set_data("juzgado_anexo",$param["txtjuzgadoanexo"]);
 		$dato->save();
 		
+		$docficha = new Documento_Ficha();
+		$arrdocs = explode(",",$param["listdocs"]);
+		
 		if($param["id_alta"] <> 0 && trim($param["id_alta"]) <> "")
 		{
 			$id = $param["id_alta"];
+		
+			for($j=0; $j<count($arrdocs); $j++) 	//graba relacion documento_ficha		
+			{
+				$docficha->set_data("id_ficha",$id);
+				$docficha->set_data("id_documento",$arrdocs[$j]);
+				$docficha->save();
+			}
 		}
 		else
 		{
 			$id = getUltimoId(new FichaCollection(), "id_ficha");
+			
+//			$docfichas = new Documento_FichaCollection();
+//			$docfichas->add_filter("id_ficha","=",$id);
+//			$docfichas->load();
+//			for($j=0; $j<count($arrdocs); $j++) 	//graba relacion documento_ficha		
+//			{
+//				$docfichas->set_data("id_documento",$arrdocs[$j]);
+//				$docfichas->save();
+//			}
+			
 		}
 		
+		
+
 		return $id;
 	}
 	
@@ -1678,7 +1700,24 @@ ORDER BY orden ASC ";
 			return $ultid_ficha;
 		}
 	
-	
+	public function getGastosficha($idficha)
+	{
+		
+		include("config.php");
+
+		
+		$select = " sum(gf.importe) total_gastos "; 
+ 		$from = " gastos_ficha gf ";
+    	$where = " gf.id_ficha = ".$idficha;
+		
+		$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
+		$sqlpersonal->set_select($select);
+		$sqlpersonal->set_from($from);
+		$sqlpersonal->set_where($where);
+    	$sqlpersonal->load();
+
+	    return $sqlpersonal;
+	}
 	
 	
 	
