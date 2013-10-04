@@ -245,6 +245,7 @@ class DeudoresController extends ControllerBase
 		$data['direccion'] = $datodir;
 		$data['idGes'] = $array["idGes"];
 		$data['idestadoges'] = $array["idestadoges"];
+		$data['list_docs'] = $array["list_docs"];
 		
 		if($array["idGes"]==""){
 			$data['origen'] = "admin_fichas";
