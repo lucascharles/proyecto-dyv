@@ -70,6 +70,7 @@
 	<tr class="cabecera_listado" >
 		<th align="center" width="3"></th>
 		<th align="center" width="150"><font class="titulolistado">CORRELATIVO</font></th>
+		<th align="center" width="150"><font class="titulolistado">NRO. FICHA</font></th>
         <th align="center" width="100"><font class="titulolistado">DEUDOR</font></th>
 		<th align="center" width="100"><font class="titulolistado">MANDANTE</font></th>
         <th align="center" width="100"><font class="titulolistado">F. PROTESTO</font></th>
@@ -93,6 +94,7 @@
     	<td width="3"><input type="checkbox"  name="checktipdoc" value="<? echo($datoTmp->get_data("id_documento")) ?>" onclick="seleccionado(<? echo($datoTmp->get_data("id_documento")) ?>)"></td>		
 		
 		<td align="left" width="150" class="dato_lista">&nbsp;&nbsp;<?php echo (strtoupper($datoTmp->get_data("id_documento"))) ?></td>
+		<td align="left" width="150" class="dato_lista">&nbsp;&nbsp;<?php echo (strtoupper($datoTmp->get_data("nro_ficha"))) ?></td>
 		<td align="left" width="100" class="dato_lista">&nbsp;&nbsp;<?php echo (strtoupper(utf8_decode($datoTmp->get_data("ape1_deudor")." ".$datoTmp->get_data("ape2_deudor")." ".$datoTmp->get_data("nom1_deudor")))) ?></td>
 		<td align="left" width="100" class="dato_lista">&nbsp;&nbsp;<?php echo (strtoupper(utf8_decode($datoTmp->get_data("nombre_mandante")))) ?></td>
 		<td align="left" width="100" class="dato_lista">&nbsp;&nbsp;<?php echo (strtoupper(formatoFecha($datoTmp->get_data("fecha_protesto"),"yyyy-mm-dd","dd/mm/yyyy"))) ?></td>

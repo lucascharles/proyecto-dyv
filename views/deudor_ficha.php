@@ -90,6 +90,7 @@
 			arrayin[17] = document.getElementById("txtabogado2");
 			arrayin[18] = document.getElementById("txtjuzgadoanexo");
 
+
 			var arraySel = new Array();
 //			if(!validarArray(arrayin, arraySel,"N"))
 //			{
@@ -120,7 +121,7 @@
 			datos += "&id_alta="+document.getElementById("id_alta").value;
 			datos += "&tipoperacion="+document.getElementById("tipoperacion").value;
 			datos += "&txtjuzgadoanexo="+document.getElementById("txtjuzgadoanexo").value;
-		
+			datos += "&listdocs="+document.getElementById("listdocs").value;
 //			datos += "&"+getParametrosArray(arrayin);
 //			alert(datos);
 			//return false;
@@ -407,7 +408,7 @@
 <input  type="hidden" grabar="S" name="id_doc" id="id_doc" value="<? echo($id) ?>" />
 <input  type="hidden" name="idGes" id="idGes" value="<? echo($idGes) ?>" />
 <input  type="hidden" name="idestadoges" id="idestadoges" value="<? echo($idestadoges) ?>" />
-
+<input  type="hidden" name="listdocs" id="listdocs" value="<? echo($list_docs) ?>" />
 
   <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="titulopantalla">
 	<tr>

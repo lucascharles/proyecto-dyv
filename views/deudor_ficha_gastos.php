@@ -55,9 +55,9 @@
            		
            	</tr>
             <tr>
-            	<td colspan="3"></td>
+            	<td colspan="2"></td>
             <?
-			$indice = 2;
+			$indice = 1;
             for($j=0; $j<$colGastosGastos->get_count(); $j++) 
 			{
 				$datoTmp = &$colGastosGastos->items[$j];  
@@ -86,9 +86,9 @@
            		<td colspan="6"></td>
            	</tr>
              <tr>
-            	<td colspan="3"></td>
+            	<td colspan="2"></td>
             <?
-			$indice = 2;
+			$indice = 1;
             for($j=0; $j<$colGastosGastos->get_count(); $j++) 
 			{
 				$datoTmp = &$colGastosGastos->items[$j];  

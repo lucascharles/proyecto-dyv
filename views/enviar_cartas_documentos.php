@@ -49,6 +49,9 @@
 			document.getElementById("txtdesde").value = "";
 			document.getElementById("txthasta").value = "";
 			document.getElementById("txtrut").value = "";
+			var url = "index.php?controlador=Documentos&accion=marcardocs&desde=00/00/0000";
+			url += "&hasta=00/00/0000";
+			document.getElementById("frmlistdocumentos").src = url;
 		}
 		
 		function buscar()
@@ -88,12 +91,13 @@
 
 		function marcar()
 		{
-			if((document.getElementById("txtdesde").value != "")&&(document.getElementById("txthasta").value != ""))
-			{
+//			if((document.getElementById("txtdesde").value != "")&&(document.getElementById("txthasta").value != ""))
+//			{
 				var url = "index.php?controlador=Documentos&accion=marcardocs&desde="+document.getElementById("txtdesde").value;
 				url += "&hasta="+document.getElementById("txthasta").value;
 				document.getElementById("frmlistdocumentos").src = url;
-			}
+//			}
+
 			
 		}
 
@@ -134,12 +138,10 @@
 <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
 	 <tr>
 		<td width="20" align="left" class="etiqueta_form">Desde:</td>
-<!--        <td align="left">&nbsp; <input type="text" name="txtdesde" id="txtdesde" value="<? //echo($fechaDesde) ?>"  size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" /></td>-->
-		<td align="left">&nbsp; <input type="text" name="txtdesde" id="txtdesde" value="<?=$fechaDesde?>"  size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" onKeyUp="this.value=formateafecha(this.value)" /></td>        
+		<td align="left">&nbsp; <input type="text" name="txtdesde" id="txtdesde" value=""  size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" onKeyUp="this.value=formateafecha(this.value)" /></td>        
         
         <td width="40" align="left" class="etiqueta_form">Hasta:</td>
-<!--        <td align="left">&nbsp;<input type="text" name="txthasta" id="txthasta"  value="<? //echo($fechaHasta) ?>" size="40"  class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)"/></td>-->
-		<td align="left">&nbsp;<input type="text" name="txthasta" id="txthasta"  value="<?=$fechaHasta?>" size="40"  class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" onKeyUp="this.value=formateafecha(this.value)"/></td>
+		<td align="left">&nbsp;<input type="text" name="txthasta" id="txthasta"  value="" size="40"  class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" onKeyUp="this.value=formateafecha(this.value)"/></td>
      </tr>
      <tr>
 		<td width="20" align="left" class="etiqueta_form">Rut Deudor:</td>

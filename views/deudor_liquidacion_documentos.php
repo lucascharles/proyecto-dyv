@@ -40,6 +40,10 @@
 						if(arraydoc[i].checked == true)
 						{
 							v_monto = v_monto + parseFloat(arraydoc[i].getAttribute('monto'));
+							if(gastos == "") {
+								gastos = 0;
+							}
+
 							v_protesto = v_protesto + parseInt(gastos);
 							
 							if(v_fecha == "")
