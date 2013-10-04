@@ -1557,7 +1557,7 @@ class DocumentosModel extends ModelBase
 									d.fecha_siniestro fecha_siniestro,
 									d.fecha_creacion fecha_creacion, 
 									d.monto monto,
-									d.gastos_protesto gasto_protesto "); 
+									IFNULL(d.gastos_protesto,0) gasto_protesto "); 
 	  	$sqlpersonal->set_from(" documentos d ,tipodocumento td, estadodocumentos ed ");
       	$sqlpersonal->set_where(" d.id_tipo_doc = td.id_tipo_documento
 							and   d.id_estado_doc = ed.id_estado_doc
