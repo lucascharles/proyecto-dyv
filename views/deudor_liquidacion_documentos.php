@@ -29,6 +29,7 @@
 		{
 			
 				var v_monto = 0;
+				var v_costas_proc = 0;
 				var v_dias = 0;
 				var v_fecha = "";	
 				var v_protesto = 0;
@@ -40,6 +41,9 @@
 						if(arraydoc[i].checked == true)
 						{
 							v_monto = v_monto + parseFloat(arraydoc[i].getAttribute('monto'));
+
+							v_costas_proc = v_costas_proc + parseFloat(arraydoc[i].getAttribute('costas'));
+							
 							if(gastos == "") {
 								gastos = 0;
 							}
@@ -80,11 +84,11 @@
 	
 				if(document.getElementById(id).checked == false)
 				{
-					window.parent.quitarDoc(id,v_monto,v_fecha,v_dias,v_protesto);
+					window.parent.quitarDoc(id,v_monto,v_fecha,v_dias,v_protesto,v_costas_proc);
 				}
 				else
 				{
-					window.parent.seleccionado(id,v_monto,v_fecha,v_dias,v_protesto);
+					window.parent.seleccionado(id,v_monto,v_fecha,v_dias,v_protesto,v_costas_proc);
 				}
 
 		}
@@ -127,6 +131,7 @@
 	<tr class="cabecera_listado" >
         <th align="center" width="5%"></th>
         <th align="center" width="10%"><font class="titulolistado">Nro.Doc.</font></th>
+        <th align="center" width="10%"><font class="titulolistado">Nro.Ficha</font></th>
         <th align="center" width="10%"><font class="titulolistado">Fecha Recibido</font></th>
 		<th align="center" width="8%"><font class="titulolistado">Monto</font></th>
 		<th align="center" width="8%"><font class="titulolistado">Estado</font></th>
@@ -146,8 +151,9 @@
 		}
 	?>
 	<tr bgcolor="#FFFFFF">
-    	<td><input type="checkbox" monto="<?php echo ($datoTmp->get_data("monto")) ?>" fecha_doc="<?php  echo (formatoFecha($datoTmp->get_data("fecha_siniestro"),"yyyy-mm-dd","dd/mm/yyyy"))?>" id="<? echo($datoTmp->get_data("id_documento")) ?>" name="checkdoc_sim" value="" onclick="seleccionado(<? echo($datoTmp->get_data("id_documento")) ?>,<? echo($datoTmp->get_data("monto")) ?>,'<?php  echo (formatoFecha($datoTmp->get_data("fecha_siniestro"),"yyyy-mm-dd","dd/mm/yyyy"))?>',<? echo($datoTmp->get_data("gasto_protesto")) ?>)" <? echo($checked) ?>></td>	
+    	<td><input type="checkbox" monto="<?php echo ($datoTmp->get_data("monto")) ?>" costas="<?php echo ($datoTmp->get_data("costas")) ?>" fecha_doc="<?php  echo (formatoFecha($datoTmp->get_data("fecha_siniestro"),"yyyy-mm-dd","dd/mm/yyyy"))?>" id="<? echo($datoTmp->get_data("id_documento")) ?>" name="checkdoc_sim" value="" onclick="seleccionado(<? echo($datoTmp->get_data("id_documento")) ?>,<? echo($datoTmp->get_data("monto")) ?>,'<?php  echo (formatoFecha($datoTmp->get_data("fecha_siniestro"),"yyyy-mm-dd","dd/mm/yyyy"))?>',<? echo($datoTmp->get_data("gasto_protesto")) ?>)" <? echo($checked) ?>></td>	
 		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("numero_documento")) ?></td>
+		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("id_ficha")) ?></td>
 		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo (formatoFecha($datoTmp->get_data("fecha_siniestro"),"yyyy-mm-dd","dd/mm/yyyy")) ?></td>
 		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("monto")) ?></td>
 		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("estado")) ?></td>
