@@ -889,8 +889,9 @@ class DocumentosModel extends ModelBase
 		$sqlpersonal->set_select(" d.id_documento id_documento, c.banco id_banco, dd.primer_apellido ape1_deudor, dd.segundo_apellido ape2_deudor,
 							  		dd.primer_nombre nom1_deudor, dd.segundo_nombre nom2_deudor,
 									ifnull(m.nombre, m.apellido) nombre_mandante, ed.estado id_estado_doc, td.tipo_documento id_tipo_doc,
-									d.numero_documento numero_documento,d.fecha_protesto fecha_protesto, d.cta_cte cta_cte,d.monto monto , d.fecha_siniestro fecha_recibido, d.gastos_protesto gastos_protesto");
-		$sqlpersonal->set_from(" documentos d left join bancos c on d.id_banco = c.id_banco,
+									d.numero_documento numero_documento,d.fecha_protesto fecha_protesto, d.cta_cte cta_cte,d.monto monto , d.fecha_siniestro fecha_recibido, d.gastos_protesto gastos_protesto,
+									df.id_ficha id_ficha ");
+		$sqlpersonal->set_from(" (documentos d LEFT JOIN bancos c ON d.id_banco = c.id_banco) LEFT JOIN documento_ficha df ON d.id_documento = df.id_documento,
 	 								deudores dd,
 	 								mandantes m,
 	 								estadodocumentos ed,
@@ -919,7 +920,8 @@ class DocumentosModel extends ModelBase
 		$sqlpersonal->set_select(" d.id_documento id_documento, c.banco id_banco, dd.primer_apellido ape1_deudor, dd.segundo_apellido ape2_deudor,
 							  		dd.primer_nombre nom1_deudor, dd.segundo_nombre nom2_deudor,
 									ifnull(m.nombre, m.apellido) nombre_mandante, ed.estado id_estado_doc, td.tipo_documento id_tipo_doc,
-									d.numero_documento numero_documento,d.fecha_protesto fecha_protesto, d.cta_cte cta_cte,d.monto monto , d.fecha_siniestro fecha_recibido");
+									d.numero_documento numero_documento,d.fecha_protesto fecha_protesto, d.cta_cte cta_cte,d.monto monto , d.fecha_siniestro fecha_recibido, 
+									(SELECT id_ficha FROM documento_ficha WHERE id_documento = d.id_documento) nro_ficha ");
 		$sqlpersonal->set_from(" documentos d left join bancos c on d.id_banco = c.id_banco,
 	 								deudores dd,
 	 								mandantes m,
@@ -1557,12 +1559,16 @@ class DocumentosModel extends ModelBase
 									d.fecha_siniestro fecha_siniestro,
 									d.fecha_creacion fecha_creacion, 
 									d.monto monto,
-									IFNULL(d.gastos_protesto,0) gasto_protesto "); 
-	  	$sqlpersonal->set_from(" documentos d ,tipodocumento td, estadodocumentos ed ");
+									IFNULL(d.gastos_protesto,0) gasto_protesto,
+									df.id_ficha id_ficha,
+									SUM(gf.importe) costas "); 
+	  	$sqlpersonal->set_from(" (documentos d LEFT JOIN documento_ficha df ON d.id_documento = df.id_documento) LEFT JOIN gastos_ficha gf ON df.id_ficha = gf.id_ficha 
+     							 ,tipodocumento td, estadodocumentos ed  ");
       	$sqlpersonal->set_where(" d.id_tipo_doc = td.id_tipo_documento
 							and   d.id_estado_doc = ed.id_estado_doc
 							and   d.id_deudor = ".$id_deudor.
-							" order by id_deudor ");
+							" GROUP BY id_deudor,tipo_documento, numero_documento,estado, fecha_protesto, fecha_siniestro,fecha_creacion,monto 
+							order by id_deudor ");
 	
     	$sqlpersonal->load();
 
