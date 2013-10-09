@@ -62,22 +62,42 @@
 					}
 				});
 		}
-		
+
+
+		function seleccion_all()
+		{
+			var chkall = document.getElementsByName("checkall");
+			var boxes = document.getElementsByName("checktipdoc");
+			if(chkall[0].checked !=true)
+			{
+				for (var i = 0; i < boxes.length; i++) {
+			    	boxes[i].checked = 0;
+				}
+			}
+			else
+			{
+				for (var i = 0; i < boxes.length; i++) {
+			    	boxes[i].checked = 1;
+				}
+			}
+		}
 	</script>
 </head>
 <body>
 <table width="1073" cellpadding="2" cellspacing="2" align="center" border="0" bgcolor="#FFFFFF">
 	<tr class="cabecera_listado" >
-		<th align="center" width="3"></th>
+		<th align="center" width="3"><input type="checkbox"  name="checkall" value="" onclick="seleccion_all()"> </th>
+		
 		<th align="center" width="150"><font class="titulolistado">CORRELATIVO</font></th>
 		<th align="center" width="150"><font class="titulolistado">NRO. FICHA</font></th>
         <th align="center" width="100"><font class="titulolistado">DEUDOR</font></th>
 		<th align="center" width="100"><font class="titulolistado">MANDANTE</font></th>
         <th align="center" width="100"><font class="titulolistado">F. PROTESTO</font></th>
-        <th align="center" width="100"><font class="titulolistado">GASTOS PROTESTO</font></th>
+        <th align="center" width="100"><font class="titulolistado">CAUSAL</font></th>
+        <th align="center" width="100"><font class="titulolistado">G.PROTESTO</font></th>
 		<th align="center" width="100"><font class="titulolistado">ESTADO</font></th>
-        <th align="center" width="100"><font class="titulolistado">NRO. DOC.</font></th>
-        <th align="center" width="90"><font class="titulolistado">TIPO DOC.</font></th>
+        <th align="center" width="100"><font class="titulolistado">NRO.</font></th>
+        <th align="center" width="90"><font class="titulolistado">TIPO</font></th>
 		<th align="center" width="80"><font class="titulolistado">MONTO</font></th>
         <th align="center" width="90"><font class="titulolistado">BANCO</font></th>
         <th align="center" width="90"><font class="titulolistado">CTA. CTE.</font></th>
@@ -93,11 +113,12 @@
 	<tr bgcolor="#FFFFFF">
     	<td width="3"><input type="checkbox"  name="checktipdoc" value="<? echo($datoTmp->get_data("id_documento")) ?>" onclick="seleccionado(<? echo($datoTmp->get_data("id_documento")) ?>)"></td>		
 		
-		<td align="left" width="150" class="dato_lista">&nbsp;&nbsp;<?php echo (strtoupper($datoTmp->get_data("id_documento"))) ?></td>
+		<td align="left" width="80" class="dato_lista">&nbsp;&nbsp;<?php echo (strtoupper($datoTmp->get_data("id_documento"))) ?></td>
 		<td align="left" width="100" class="dato_lista">&nbsp;&nbsp;<?php echo (strtoupper($datoTmp->get_data("id_ficha"))) ?></td>
 		<td align="left" width="100" class="dato_lista">&nbsp;&nbsp;<?php echo (strtoupper(utf8_decode($datoTmp->get_data("ape1_deudor")." ".$datoTmp->get_data("ape2_deudor")." ".$datoTmp->get_data("nom1_deudor")))) ?></td>
 		<td align="left" width="100" class="dato_lista">&nbsp;&nbsp;<?php echo (strtoupper(utf8_decode($datoTmp->get_data("nombre_mandante")))) ?></td>
 		<td align="left" width="100" class="dato_lista">&nbsp;&nbsp;<?php echo (strtoupper(formatoFecha($datoTmp->get_data("fecha_protesto"),"yyyy-mm-dd","dd/mm/yyyy"))) ?></td>
+		<td align="left" width="100" class="dato_lista">&nbsp;&nbsp;<?php echo (strtoupper($datoTmp->get_data("causal"))) ?></td>
 		<td align="left" width="100" class="dato_lista">&nbsp;&nbsp;<?php echo (strtoupper($datoTmp->get_data("gastos_protesto"))) ?></td>
 		<td align="left" width="100" class="dato_lista">&nbsp;&nbsp;<?php echo (strtoupper($datoTmp->get_data("id_estado_doc"))) ?></td>
 		<td align="left" width="100" class="dato_lista">&nbsp;&nbsp;<?php echo (strtoupper($datoTmp->get_data("numero_documento"))) ?></td>

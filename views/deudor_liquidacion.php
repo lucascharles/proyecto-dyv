@@ -325,7 +325,7 @@
 				{
 					datos += "&repacta=N";
 				}
-
+				
 				$.ajax({
 					url: "index.php",
 					type: "GET",	
@@ -335,7 +335,6 @@
 					{	
 						if($.trim($("#control_volver").val()) != "")
 						{
-//							alert('index.php?controlador='+$("#control_volver").val()+'&accion='+$("#accion_volver").val()+'&'+$("#param_volver").val()+'='+$("#val_volver").val()+'&estadoGes='+$.trim($("#idestadoges").val()));
 							$("#pagina").load('index.php?controlador='+$("#control_volver").val()+'&accion='+$("#accion_volver").val()+'&'+$("#param_volver").val()+'='+$("#val_volver").val()+'&estadoGes='+$.trim($("#idestadoges").val()));
 						}
 						else
@@ -514,12 +513,11 @@
 			honorarios = document.getElementById("txthonorarios").value;
 
 			
+			var vcostas = document.getElementById("txtcostasprocesales").value;
+			var total = Math.ceil((parseFloat(capital) + parseFloat(interes) + parseInt(protesto) + parseInt(honorarios) + parseInt(vcostas))); 
 
-			var total = Math.ceil((parseFloat(capital) + parseFloat(interes) + parseInt(protesto) + parseInt(honorarios))); 
-
-//			document.getElementById("txttotalmandante").value = total_mandante;
 			document.getElementById("txttotalmandante").value = parseInt(total) - parseInt(honorarios);
-			
+			document.getElementById("txttotalpagado").value =document.getElementById("txttotalmandante").value;
 			document.getElementById("txttotalsimulacion").value = total;
 			
 			
@@ -528,10 +526,11 @@
 		function calculadora_prestamo()
 		{
 			//CALCULADORA PRESTAMO
-			var pagocontado = (parseFloat(document.getElementById("txttotalsimulacion").value) - parseFloat(document.getElementById("txthonorarios").value))*30/100;
+			var porcentajectdo = parseInt(document.getElementById("txtporcentajectdo"));
+			var pagocontado = (parseInt(document.getElementById("txttotalsimulacion").value) - parseInt(document.getElementById("txthonorarios").value))*porcentajectdo/100;
 			document.getElementById("txtpagocontado").value = pagocontado;
 			
-			var porcentaje_prestamo = (parseFloat(document.getElementById("txttotal").value)+parseFloat(document.getElementById("txtinteresacumulado").value))*30/100;
+			var porcentaje_prestamo = (parseFloat(document.getElementById("txttotal").value)+parseFloat(document.getElementById("txtinteresacumulado").value))*porcentajectdo/100;
 			
 			document.getElementById("txtimporte").value = (parseInt(document.getElementById("txttotalsimulacion").value)- parseInt(document.getElementById("txtpagocontado").value)-parseInt(document.getElementById("txthonorarios").value));
 			document.getElementById("txtimpcalc").value = 0; //definir formula
@@ -698,14 +697,14 @@
 			var dias = document.getElementById("txtdiasatraso").value;
 
 			// CALCULO INTERES DIARIO 
-			var interes = ((parseFloat($("#txtinteres").val()) * parseFloat(document.getElementById("txttotal").value) ) / 100)/30;
+			var interes = ((parseInt($("#txtinteres").val()) * parseInt(document.getElementById("txttotal").value) ) / 100)/30;
 			if(interes == 0)
 			{
 				$("#txtinteresdiario").val("");
 			}
 			else
 			{
-				$("#txtinteresdiario").val(interes.toFixed(2));
+				$("#txtinteresdiario").val(parseInt(interes));
 			}
 			
 			// CALCULO INTERES ACUMULADO 
@@ -716,20 +715,26 @@
 			}
 			else
 			{
-				$("#txtinteresacumulado").val(int_acum.toFixed(2));
+				$("#txtinteresacumulado").val(parseInt(int_acum));
 			}
 
 			//CALCULO DE SIMULACION
 			var capital = document.getElementById("txttotal").value;
-			var interes = document.getElementById("txtinteresacumulado").value;
 			var protesto = document.getElementById("txtprotesto").value;
 			var porcentaje = document.getElementById("txtporcentaje").value;
-			var honorarios =  Math.ceil((parseInt(capital) + parseFloat(interes) + parseInt(protesto)) * parseInt(porcentaje) /100).toFixed(2);
+			var honorarios =  (parseInt(capital) + parseFloat(interes) + parseInt(protesto)) * (parseInt(porcentaje) /100);
+			
+//			document.getElementById("txthonorarios").value = honorarios;
 
-			document.getElementById("txthonorarios").value = honorarios;
+			document.getElementById("txthonorarios").value = parseInt(honorarios + (parseInt(interes) * parseInt(porcentaje)/100)) ;
+			honorarios = document.getElementById("txthonorarios").value;
+			
+			var vcostas = document.getElementById("txtcostasprocesales").value;
+			var total = Math.ceil((parseInt(capital) + parseInt(interes) + parseInt(protesto) + parseInt(honorarios) + parseInt(vcostas))); 
 
-			var total = (parseFloat(capital) + parseFloat(interes) + parseFloat(protesto) + parseFloat(honorarios)).toFixed(2); 
 			document.getElementById("txttotalsimulacion").value = total;
+			document.getElementById("txttotalmandante").value = parseInt(total) - parseInt(honorarios);
+			document.getElementById("txttotalpagado").value =document.getElementById("txttotalmandante").value;
 			
 		}
 
@@ -949,11 +954,16 @@
                 <tr>                                     
                     <td align="right" class="etiqueta_form">% Honorarios D&V:&nbsp;</td>
                     <td align="left">
-                    
                     <input type="text" name="txtporcentaje" id="txtporcentaje"  value="10"   class="input_form_medio" onFocus="resaltar(this)" onBlur="recalcular()" valida="requerido" />
-<!--                        <input type="text" name="txtvaloruf" id="txtvaloruf"  value="<?=$valoruf?>"   class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="moneda" />-->
                     </td>
                 </tr>
+                <tr>                                     
+                    <td align="right" class="etiqueta_form">% Pago Ctdo.:&nbsp;</td>
+                    <td align="left">
+                    <input type="text" name="txtporcentajectdo" id="txtporcentajectdo"  value="30"   class="input_form_medio" onFocus="resaltar(this)" onBlur="recalcular()" valida="requerido" />
+                    </td>
+                </tr>
+
              </table>
         </td>
         <td colspan="1" align="left" valign="top">   
