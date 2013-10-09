@@ -1349,11 +1349,11 @@ ORDER BY orden ASC ";
 		$dato->set_data("id_deudor",$array["deudor"]);
 		$dato->set_data("id_mandante",$deudor->get_data("id_mandante"));
 		$dato->set_data("interes",$array["interes"]);
-		$dato->set_data("valor_uf",$array["valoruf"]);
+//		$dato->set_data("valor_uf",$array["valoruf"]);
 		
 		$dato->set_data("fecha_simulacion",formatoFecha($array["fechasimulacion"],"dd/mm/yyyy","yyyy-mm-dd"));
 		$dato->set_data("capital",$array["capital"]);
-		$dato->set_data("capital_pagado",$array["capitalpagado"]);
+//		$dato->set_data("capital_pagado",$array["capitalpagado"]);
 		$dato->set_data("protesto",$array["protesto"]);
 		$dato->set_data("fecha_venc",formatoFecha($array["fechavenc"],"dd/mm/yyyy","yyyy-mm-dd"));
 		$dato->set_data("dias_atraso",$array["diasatraso"]);
