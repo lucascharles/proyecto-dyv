@@ -60,7 +60,7 @@
 				
 			if($.trim($("#control_volver").val()) != "")
 			{
-				$("#pagina").load('index.php?controlador=Deudores&accion=edita_liquidacion&id='+id+'&tipope=M'+"&control_volver=Gestiones&accion_volver=gestionar&param_volver=idgestion&val_volver="+$("#val_volver").val());
+				$("#pagina").load('index.php?controlador=Deudores&accion=edita_liquidacion&id='+id+'&tipope=M'+"&control_volver=Gestiones&accion_volver=gestionar&param_volver=idgestion&val_volver="+$("#val_volver").val()+'&idestadoges='+document.getElementById("idestadoges").value);
 			}
 			else
 			{			

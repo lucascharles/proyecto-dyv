@@ -1008,16 +1008,15 @@ class DeudoresController extends ControllerBase
 		$array["id_liquidacion"] = $array["id"];
 		$data['doc_simulacion'] = $deudores->getDocSimulacionLiquidacion($array);
 		$datodeudor = $deudores->getDeudorDatos($data['liquidacion']->get_data("id_deudor"));	
-		//$datomandante = $mandate->getMandanteDatos($data['liquidacion']->get_data("id_mandante"));
 
-		//$datodocumento = $documentos->getDatoDocumento($array["id_doc"]);
 			
 		$data['deudor'] = $datodeudor;
-		//$data['mandante'] = $datomandante;
-		//$data['documento'] = $datodocumento;
 		$data['valoruf'] = $parametros->getParametro("valor_uf");// 22700;  		//crear metodo en la base para este parametro
 		$data['interes_base'] = $parametros->getParametro("interes_diario_normal"); //"2";    //crear metodo en la base para este parametro
+		$costas = $deudores->getGastosfichadeudor($data['liquidacion']->get_data("id_deudor"));
+		$data['costasProcesales'] = $costas->items[0]->get_data("total_gastos");
 		
+		$data['idestadoges'] = $array["idestadoges"];
 		$data['control_volver'] = $array["control_volver"];
 		$data['accion_volver'] = $array["accion_volver"];
 		$data['param_volver'] = $array["param_volver"];
