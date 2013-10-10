@@ -1719,7 +1719,23 @@ ORDER BY orden ASC ";
 	    return $sqlpersonal;
 	}
 	
-	
+	public function getGastosfichadeudor($iddeudor)
+	{
+		
+		include("config.php");
+		
+		$select = " SUM(gf.importe) total_gastos "; 
+ 		$from = " gastos_ficha gf, ficha f ";
+    	$where = " gf.id_ficha = f.id_ficha and f.id_deudor =".$iddeudor;
+		
+		$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
+		$sqlpersonal->set_select($select);
+		$sqlpersonal->set_from($from);
+		$sqlpersonal->set_where($where);
+    	$sqlpersonal->load();
+
+	    return $sqlpersonal;
+	}
 	
 }
 ?>
