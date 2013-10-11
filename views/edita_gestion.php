@@ -179,14 +179,27 @@
 						if(document.getElementById('selGestion').options[document.getElementById('selGestion').selectedIndex].text == "DEMANDA")
 						{	
 							var list_docs = (document.getElementById("docCartas").value).trim().split(' ').join(",");
-//							if(parseInt(document.getElementById("cantDemanda").value) == 0){
+							var idficha = document.getElementById("iddemanda").value; 
+					    	var idestadoges = document.getElementById("idestadoges").value;
+							var idgestion = document.getElementById("id_gestion").value;
+							var id = document.getElementById("id_deudor").value;
+							if(idficha ==""){
 								var conf = confirm("Generar FICHA para deudor?");
 							    if(conf == true){
 							    	$("#pagina").load('index.php?controlador=Deudores&accion=deudor_ficha&id='+$("#id_deudor").val()+'&id_doc='+$("#iddocumento").val()+'&tipope=A'+'&idGes='+$("#id_gestion").val()+"&list_docs="+list_docs);
 							    }
-							
+							}
+							else
+							{
+								var conf = confirm("Desea incorporar los documentos seleccionados a la FICHA "+ idficha +" ?");
+							    if(conf == true){
+									var id = document.getElementById("iddemanda").value;
+									var idestadoges = document.getElementById("idestadoges").value;
+									var idgestion = document.getElementById("id_gestion").value;
+									$("#pagina").load('index.php?controlador=Deudores&accion=deudor_ficha&id='+id+'&tipope=M&idGes='+idgestion+'&idestadoges='+idestadoges+"&list_docs="+list_docs+"&oper=I");
+							    }
+							}
 						}
-						//document.getElementById("frmlistagestiones").src="index.php?controlador=Gestiones&accion=listar_bitacora_gestion&idgestion="+$("#id_gestion").val()+"&iddocumento="+$("#iddocumento").val();
 
 						document.getElementById("frmlistdocumentos").src="index.php?controlador=Gestiones&accion=listarDocumentoMandante&iddeudor="+$("#id_deudor").val()+"&idmandante="+$("#id_mandante").val()+"&idestadoges="+$("#idestadoges").val();
 					},
