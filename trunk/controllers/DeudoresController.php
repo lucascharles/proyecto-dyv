@@ -28,13 +28,15 @@ class DeudoresController extends ControllerBase
 		
 		if($array["tipoperacion"] == "A")
 		{
-			$dato = $documentos->getListaDocumentos("",$array["ident"],$array);
+			//$dato = $documentos->getListaDocumentos("",$array["ident"],$array);
+			$dato = $documentos->getListaDocumentosFicha("",$datodeudor->get_data("id_deudor"),$array);
 		}
 		
 		if($array["tipoperacion"] == "M")
 		{
 			$datodeudor = $deudor->getDeudorFicha($array["ident"]);	
-			$dato = $documentos->getListaDocumentos("",$datodeudor->get_data("id_deudor"),$array);
+//			$dato = $documentos->getListaDocumentos("",$datodeudor->get_data("id_deudor"),$array);
+			$dato = $documentos->getListaDocumentosFicha("",$datodeudor->get_data("id_deudor"),$array);
 		}
 		
 		$cant_datos = 0;
@@ -52,9 +54,12 @@ class DeudoresController extends ControllerBase
 			
 			$datoTmp = &$dato->items[($dato->get_count()-1)];
 			$array["id_partida"] = $datoTmp->get_data("id_documento");
-			$datoAux = $documentos->getListaDocumentos("",$iddeudor,$array);	
+			//$datoAux = $documentos->getListaDocumentos("",$iddeudor,$array);
+			$datoAux = $documentos->getListaDocumentosFicha("",$iddeudor,$array);	
 			$cant_datos = $datoAux->get_count();
 		}
+		
+		$data['coleccionDocFicha'] = $documentos->getListaDocAddFicha("",$iddeudor,$array);
 		
 		$data['nom_sistema'] = "SISTEMA DyV";
 		$data['colleccionDoc'] = $dato;
@@ -200,6 +205,7 @@ class DeudoresController extends ControllerBase
 		$direcciones = new DireccionDeudoresModel();
 		$docs = new DocumentosCollection(); 
 		
+		
 		$data['nom_sistema'] = "SISTEMA DyV";
 		
 		$data['tipoperacion'] = $array["tipope"];
@@ -207,6 +213,7 @@ class DeudoresController extends ControllerBase
 		$data['coleccion_jcomuna'] = $jcomuna->getListaJuzgadosComuna();
 		
 		$datodeudor = $deudor->getDeudorFicha($array["id"]);
+		
 		if($array["tipope"] == "M")
 		{
 			$data['ficha'] = $deudor->getDatosFicha($array["id"]);
@@ -218,6 +225,24 @@ class DeudoresController extends ControllerBase
 			$datodeudor = $deudor->getDeudorDatos($array["id"]);
 			$data['nro'] = "";
 		}	
+
+        if($array["oper"] == "I") //incorpora a la ficha el listado de docs
+		{
+			$arrdocs = explode(",",$array["list_docs"]);
+			if($arrdocs == ""){ $arrdocs = $array["list_docs"]; }
+			
+			$id = $array["id"];
+		
+			for($j=0; $j<count($arrdocs); $j++) 	//graba relacion documento_ficha		
+			{
+				if($arrdocs[$j] != ""){
+					$docficha = new Documento_Ficha();
+					$docficha->set_data("id_ficha",$id);
+					$docficha->set_data("id_documento",$arrdocs[$j]);
+					$docficha->save();
+				}
+			}
+		}
 		
 		$datomandante = $mandate->getMandanteDatos($datodeudor->get_data("id_mandante"));
 
@@ -257,6 +282,8 @@ class DeudoresController extends ControllerBase
 		
 		$this->view->show("deudor_ficha.php", $data);
 	}
+	
+	
 	
 	public function ficha_ddaejecutiva($array)
 	{
