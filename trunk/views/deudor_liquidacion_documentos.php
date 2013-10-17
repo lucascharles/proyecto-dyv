@@ -29,6 +29,7 @@
 		{
 			
 				var v_monto = 0;
+				var valor_doc = 0;
 				var v_costas_proc = 0;
 				var v_dias = 0;
 				var v_fecha = "";	
@@ -41,8 +42,10 @@
 						if(arraydoc[i].checked == true)
 						{
 							v_monto = v_monto + parseFloat(arraydoc[i].getAttribute('monto'));
-
-							v_costas_proc = v_costas_proc + parseFloat(arraydoc[i].getAttribute('costas'));
+							valor_doc = parseFloat(arraydoc[i].getAttribute('monto'));
+							
+							if(arraydoc[i].getAttribute('costas')!="")
+								v_costas_proc = v_costas_proc + parseFloat(arraydoc[i].getAttribute('costas'));
 							
 							if(gastos == "") {
 								gastos = 0;
@@ -81,14 +84,14 @@
 				{
 					v_dias = parseInt("0");
 				}
-	
+
 				if(document.getElementById(id).checked == false)
 				{
 					window.parent.quitarDoc(id,v_monto,v_fecha,v_dias,v_protesto,v_costas_proc);
 				}
 				else
 				{
-					window.parent.seleccionado(id,v_monto,v_fecha,v_dias,v_protesto,v_costas_proc);
+					window.parent.seleccionado(id,v_monto,v_fecha,v_dias,v_protesto,v_costas_proc,valor_doc);
 				}
 
 		}

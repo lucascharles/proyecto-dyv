@@ -23,6 +23,24 @@
 		    }
 			window.parent.seleccionado(arrayCheck);	
 		}
+		function seleccion_all()
+		{
+			var chkall = document.getElementsByName("checkall");
+			var boxes = document.getElementsByName("checkdoc[]");
+			if(chkall[0].checked !=true)
+			{
+				for (var i = 0; i < boxes.length; i++) {
+			    	boxes[i].checked = 0;
+				}
+			}
+			else
+			{
+				for (var i = 0; i < boxes.length; i++) {
+			    	boxes[i].checked = 1;
+				}
+			}
+		}
+
 		
 	</script>
 </head>
@@ -30,6 +48,7 @@
 <table width="100%" cellpadding="2" cellspacing="2" align="center" border="0" bgcolor="#FFFFFF">
 	<tr class="cabecera_listado">
 		<th align="center"></th>
+		<th align="center" width="3"><input type="checkbox"  name="checkall" value="" onclick="seleccion_all()"> </th>
 		<th align="center"><font class="titulolistado">CORRELATIVO</font></th>
 		<th align="center"><font class="titulolistado">RUT DEUDOR</font></th>
         <th align="center"><font class="titulolistado">DEUDOR</font></th>

@@ -283,10 +283,10 @@
 		
 		function grabar()
 		{		
-			if(!validar("N"))
-			{
-				return false;
-			}
+//			if(!validar("N"))
+//			{
+//				return false;
+//			}
 
 			if($.trim($("#id_deudor").val()) != "")
 			{
