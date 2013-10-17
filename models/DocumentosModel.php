@@ -32,15 +32,16 @@ class DocumentosModel extends ModelBase
 		
 		$error_upload = "";
 		
-		// VALIDACIONES DE TIPO DE ARCHIVO
+	 // VALIDACIONES DE TIPO DE ARCHIVO
+		$ext=strrchr($nombre_archivo,'.');
 		if($nombre_archivo != NULL && $nombre_archivo != "") 
 		{
-			if($tipo_archivo <> "application/vnd.ms-excel")
+			if($ext <> '.csv')
 			{
 				if($error_upload == "")
-				{
-					$error_upload = "TYPE";
-				}
+					{
+						$error_upload = "TYPE";
+					}
 			}
 		}
 		
@@ -270,6 +271,37 @@ class DocumentosModel extends ModelBase
 			      		$datoG->set_data("fecha_creacion",date("Y-m-d"));      	
 			      		$datoG->set_data("estado",999);
 			      		$datoG->save();
+
+			      		//Recupera el id de la gestion que se da de alta
+				  	  	$ges = new Gestiones();
+					    $ges->add_filter("id_deudor","=",$deudor->get_data("id_deudor"));
+					    $ges->add_filter("AND");
+					    $ges->add_filter("id_mandante","=",$mandante->get_data("id_mandante"));
+					    $ges->add_filter("AND");
+					    $ges->add_filter("estado","=",999);
+					    $ges->add_filter("AND");
+					    $ges->add_filter("activo","=","S");
+					    $ges->add_filter("AND");
+					    $ges->add_filter("nota_gestion","=","Inicia Gestion");
+					  	$ges->load();
+			      		
+					  	//genera la bitacora de la gestion incial
+					  	$fechaHoy = date("Y-m-d");
+						$dias = 3;
+						$calculoHoy = strtotime("$fechaHoy +0 days");
+						$calculoFuturo = strtotime("$fechaHoy +$dias days");
+						
+					    $estGes = new Estados_x_Gestion();
+					    $estGes->set_data("id_gestion",$ges->get_data("id_gestion"));
+					    $estGes->set_data("id_estado",1);
+					    $estGes->set_data("id_mandante",$mandante->get_data("id_mandante"));
+					    $estGes->set_data("fecha_gestion",date("Y-m-d"));
+					    $estGes->set_data("fecha_prox_gestion",date("Y-m-d", $calculoFuturo));
+					    $estGes->set_data("notas","Inicia Gestion");
+					    $estGes->set_data("usuario","SISTEMA");
+					    $estGes->save();  
+						
+					
 					} 	
 					// VALIDACION IMPORTE
 					// vacio
@@ -1148,6 +1180,7 @@ class DocumentosModel extends ModelBase
 		$where = " d.id_banco = c.id_banco
 				and  d.id_deudor = dd.id_deudor
 				and m.id_mandante = d.id_mandatario
+				and m.id_mandante = dd.id_mandante
 				and d.id_estado_doc = ed.id_estado_doc
 				and d.id_tipo_doc = td.id_tipo_documento
 				and d.activo = 'S' ";
@@ -1633,7 +1666,7 @@ class DocumentosModel extends ModelBase
 							and   d.id_estado_doc = ed.id_estado_doc
 							and   d.id_deudor = dd.id_deudor
 							and   d.id_mandatario = m.id_mandante
-							and   dd.id_deudor = dds.id_deudor
+							and   dds.`vigente` = 'S'
 							and   d.id_documento in ".$array.
 							" order by id_deudor ");
 	

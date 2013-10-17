@@ -42,7 +42,9 @@
 			validarRut('D'); 
 			simular_liquidacion();
 		});
-		
+
+		var arrayDoc = new Array();
+		var arrayDocDias = new Array();
 		
 		function ventanaBusqueda(op)
 		{
@@ -422,7 +424,8 @@
 			document.getElementById("txtprotesto").value = gasto_protesto;
 			document.getElementById("txtcostasprocesales").value = v_costas;
 			
-			// CALCULO INTERES DIARIO 
+			// CALCULO INTERES DIARIO
+			 
 			var interes = ((parseFloat($("#txtinteres").val()) * parseInt(document.getElementById("txttotal").value) ) / 100)/30;
 			if(interes == 0)
 			{
@@ -457,7 +460,7 @@
 			document.getElementById("txttotalsimulacion").value = total;
 		}
 
-		function seleccionado(id,monto,fecha,dias,protesto,v_costas)
+		function seleccionado(id,monto,fecha,dias,protesto,v_costas,valordoc)
 		{
 			if(document.getElementById("docs").value == "")
 			{
@@ -476,10 +479,18 @@
 			document.getElementById("txtfechavenc").value = fecha;
 			document.getElementById("txtdiasatraso").value = dias;
 			document.getElementById("txtprotesto").value = protesto;
+			if(v_costas == "") v_costas = 0;
+				
 			document.getElementById("txtcostasprocesales").value = v_costas;
 
 			// CALCULO INTERES DIARIO 
-			var interes = Math.ceil(((parseFloat($("#txtinteres").val()) * parseInt(document.getElementById("txttotal").value) ) / 100)/30);
+//			var interes = Math.ceil(((parseFloat($("#txtinteres").val()) * parseInt(document.getElementById("txttotal").value) ) / 100)/30);
+			var v_int = parseFloat($("#txtinteres").val());
+	
+						
+			var interes = Math.ceil(((v_int * valordoc ) / 100)/30);
+			arrayDoc.push(valordoc);
+			
 			if(interes == 0)
 			{
 				document.getElementById("txtinteresdiario").value = "";
@@ -491,19 +502,21 @@
 			
 			// CALCULO INTERES ACUMULADO 
 			var int_acum = interes * parseInt(dias);
+			arrayDocDias.push(dias);
+
+			
+			
 			if(int_acum == 0)
 			{
 				document.getElementById("txtinteresacumulado").value = "";
 			}
 			else
 			{
-				$("#txtinteresacumulado").val(int_acum);
-				document.getElementById("txtinteresacumulado").value = int_acum + parseInt(document.getElementById("txtinteresacumulado").value);
+				document.getElementById("txtinteresacumulado").value = parseInt(document.getElementById("txtinteresacumulado").value)+ int_acum;
 			}
 
 			//CALCULO DE SIMULACION
 			var capital = document.getElementById("txttotal").value;
-			var interes = document.getElementById("txtinteresacumulado").value;
 			var protesto = document.getElementById("txtprotesto").value;
 			var porcentaje = document.getElementById("txtporcentaje").value;
 			var honorarios = Math.ceil(((parseInt(capital) + parseFloat(interes) + parseInt(protesto))* parseInt(porcentaje)/100));
@@ -526,13 +539,19 @@
 		function calculadora_prestamo()
 		{
 			//CALCULADORA PRESTAMO
-			var porcentajectdo = parseInt(document.getElementById("txtporcentajectdo"));
+			var porcentajectdo = parseInt(document.getElementById("txtporcentajectdo").value);
+			var v_total_simulacion = parseInt(document.getElementById("txttotalsimulacion").value);
+			var v_honorarios = parseInt(document.getElementById("txthonorarios").value);
+
+//			alert("porcentaje:"+porcentajectdo+" total_sim:"+v_total_simulacion+" honor:"+v_honorarios);
+			
 			var pagocontado = (parseInt(document.getElementById("txttotalsimulacion").value) - parseInt(document.getElementById("txthonorarios").value))*porcentajectdo/100;
+			
 			document.getElementById("txtpagocontado").value = pagocontado;
 			
 			var porcentaje_prestamo = (parseFloat(document.getElementById("txttotal").value)+parseFloat(document.getElementById("txtinteresacumulado").value))*porcentajectdo/100;
 			
-			document.getElementById("txtimporte").value = (parseInt(document.getElementById("txttotalsimulacion").value)- parseInt(document.getElementById("txtpagocontado").value)-parseInt(document.getElementById("txthonorarios").value));
+			document.getElementById("txtimporte").value = (parseInt(document.getElementById("txttotalsimulacion").value) - parseInt(document.getElementById("txtpagocontado").value) -parseInt(document.getElementById("txthonorarios").value));
 			document.getElementById("txtimpcalc").value = 0; //definir formula
 
 			var pagomensual = (parseInt($.trim($("#txtimporte").val())) + parseInt($.trim($("#txtimpcalc").val()))) / parseInt($.trim($("#txtcuotascalc").val()));
@@ -548,11 +567,15 @@
 		{
 			var total = document.getElementById("txtcostoprestamo").value;
 			var cuotas = document.getElementById("txtcuotascalc").value;
-			var valoruf = document.getElementById("txtvaloruf").value;
+//			var valoruf = document.getElementById("txtvaloruf").value;
 
 			document.getElementById("txtpagomensual").value = parseInt(parseInt(total) / parseInt(cuotas)).toFixed(2);
 			document.getElementById("txtcostoprestamo").value = parseInt(document.getElementById("txtimporte").value)+parseInt(document.getElementById("txtimpcalc").value)+parseInt(document.getElementById("txthonorarios").value);
 
+			var docs = document.getElementsByName("checkdoc[]");
+
+			
+			
 		}
 
 		function calcular()
@@ -718,6 +741,33 @@
 				$("#txtinteresacumulado").val(parseInt(int_acum));
 			}
 
+			var v_int = parseInt($("#txtinteres").val());
+			var v_int_d = 0;
+			var v_int_acum = 0;
+			var v_sum_int = 0;
+			 
+			for(var i=0; i<arrayDoc.length; i++)
+			{
+				if(arrayDoc[i] != "")
+				{
+					v_int_d = ((v_int * parseInt(arrayDoc[i]) ) / 100)/30;
+					v_int_acum = parseInt(v_int_d) * parseInt(arrayDocDias[i]);
+					v_sum_int = v_sum_int + v_int_acum;
+
+//					alert("suma:" + v_sum_int);
+					if(v_sum_int == 0)
+					{
+						$("#txtinteresacumulado").val("");
+					}
+					else
+					{
+						$("#txtinteresacumulado").val(v_sum_int);
+					}
+				}
+			}
+			
+			
+
 			//CALCULO DE SIMULACION
 			var capital = document.getElementById("txttotal").value;
 			var protesto = document.getElementById("txtprotesto").value;
@@ -735,7 +785,14 @@
 			document.getElementById("txttotalsimulacion").value = total;
 			document.getElementById("txttotalmandante").value = parseInt(total) - parseInt(honorarios);
 			document.getElementById("txttotalpagado").value =document.getElementById("txttotalmandante").value;
-			
+
+//			for(var i=0; i<arrayDoc.length; i++)
+//			{
+//				if(arrayDoc[i] != "")
+//				{
+//					alert("monto:"+ arrayDoc[i]);
+//				}
+//			}
 		}
 
 
