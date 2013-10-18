@@ -77,7 +77,7 @@ class GestionesController extends ControllerBase
 		$rutMandante = $cab->get_data("rut_mandante")."-".$cab->get_data("dv_mandante");
 		$rutMand = $cab->get_data("rut_mandante");
 		$rutDvMand = $cab->get_data("dv_mandante");
-		$nomMandante = $cab->get_data("nombre_mandante");
+		$nomMandante = $cab->get_data("nombre_mandante")." ".$cab->get_data("apellido_mandante");
 		
 		$iddeudor = $cab->get_data("id_deudor");
 		$idmandante = $cab->get_data("id_mandante");
@@ -125,9 +125,13 @@ class GestionesController extends ControllerBase
 		$data['coleccionMandantesDeudor'] = $MandantesXDeudor;
 		
 		
-		$ultimaGestion = $gestiones->getUltimaGestion($array["idgestion"]);
+//		$ultimaGestion = $gestiones->getUltimaGestion($array["idgestion"]);
+		
+		$ultimaGestion = $gestiones->getEstadoGestion($array["estadoGes"]);
 		$data['idestadoges'] = $array["estadoGes"];
 		$data['idgestion'] = $array["idgestion"];
+		
+		
 		
 		if($ultimaGestion->get_count() > 0)
 		{

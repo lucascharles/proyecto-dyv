@@ -169,6 +169,7 @@
 							doc+="&iddocumento"+i+"="+value;
 						}
 					}
+
 					$.ajax({
 					url: "index.php",
 					type: "GET",
@@ -178,16 +179,19 @@
 					{
 						if(document.getElementById('selGestion').options[document.getElementById('selGestion').selectedIndex].text == "DEMANDA")
 						{	
+							var cant_ficha = document.getElementById("cantDemanda").value;
 							var list_docs = (document.getElementById("docCartas").value).trim().split(' ').join(",");
 							var idficha = document.getElementById("iddemanda").value; 
 					    	var idestadoges = document.getElementById("idestadoges").value;
 							var idgestion = document.getElementById("id_gestion").value;
 							var id = document.getElementById("id_deudor").value;
 							if(idficha ==""){
+								if(idestadoges != 7){
 								var conf = confirm("Generar FICHA para deudor?");
 							    if(conf == true){
 							    	$("#pagina").load('index.php?controlador=Deudores&accion=deudor_ficha&id='+$("#id_deudor").val()+'&id_doc='+$("#iddocumento").val()+'&tipope=A'+'&idGes='+$("#id_gestion").val()+"&list_docs="+list_docs);
 							    }
+								}
 							}
 							else
 							{

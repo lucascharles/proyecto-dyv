@@ -303,7 +303,24 @@ class GestionesModel extends ModelBase
 
 	}
 	
+	public function getEstadoGestion($idestado)
+	{
+	
+	include("config.php");
 
+	
+	$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
+	
+	$sqlpersonal->set_select(" esg.id_estado id_estado ,esg.estado estado"); 
+	  $sqlpersonal->set_from(" estadosgestion esg ");
+	  $sqlpersonal->set_where(" esg.id_estado = " .$idestado);
+	
+    $sqlpersonal->load();
+
+    return $sqlpersonal;
+
+	}
+	
 	
 	public function getListaMandantes($param)
 	{
@@ -416,7 +433,8 @@ class GestionesModel extends ModelBase
 								   d.email email,
 								   m.rut_mandante rut_mandante,
 								   m.dv_mandante dv_mandante,
-								   m.nombre nombre_mandante "); 
+								   m.nombre nombre_mandante,
+								   m.apellido apellido_mandante "); 
 		  $sqlpersonal->set_from(" gestiones g, deudores d, mandantes m ");
 		  $sqlpersonal->set_where(" g.id_deudor = d.id_deudor
 									and  g.id_mandante = m.id_mandante

@@ -43,7 +43,6 @@
 		{
 			document.getElementById("id_gestion").value = id;
 			document.getElementById("id_estado").value = idest;
-
 		}
 		
 		
