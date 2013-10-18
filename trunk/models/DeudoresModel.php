@@ -75,25 +75,23 @@ class DeudoresModel extends ModelBase
 		{
 			$id = $param["id_alta"];
 		
+//			for($j=0; $j<count($arrdocs); $j++) 	//graba relacion documento_ficha		
+//			{
+//				$docficha->set_data("id_ficha",$id);
+//				$docficha->set_data("id_documento",$arrdocs[$j]);
+//				$docficha->save();
+//			}
+		}
+		else
+		{
+			$id = getUltimoId(new FichaCollection(), "id_ficha");
+			
 			for($j=0; $j<count($arrdocs); $j++) 	//graba relacion documento_ficha		
 			{
 				$docficha->set_data("id_ficha",$id);
 				$docficha->set_data("id_documento",$arrdocs[$j]);
 				$docficha->save();
 			}
-		}
-		else
-		{
-			$id = getUltimoId(new FichaCollection(), "id_ficha");
-			
-//			$docfichas = new Documento_FichaCollection();
-//			$docfichas->add_filter("id_ficha","=",$id);
-//			$docfichas->load();
-//			for($j=0; $j<count($arrdocs); $j++) 	//graba relacion documento_ficha		
-//			{
-//				$docfichas->set_data("id_documento",$arrdocs[$j]);
-//				$docfichas->save();
-//			}
 			
 		}
 		

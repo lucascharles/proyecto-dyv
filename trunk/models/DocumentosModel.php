@@ -923,19 +923,18 @@ class DocumentosModel extends ModelBase
 									ifnull(m.nombre , m.apellido) nombre_mandante, ed.estado id_estado_doc, td.tipo_documento id_tipo_doc,
 									d.numero_documento numero_documento,d.fecha_protesto fecha_siniestro, d.cta_cte cta_cte,d.monto monto,
 									d.fecha_siniestro fecha_recibido, d.gastos_protesto gastos_protesto"); 
-	  	$sqlpersonal->set_from(" documentos d,
-	  							 documento_ficha f, 
+	  	$sqlpersonal->set_from(" documentos d LEFT JOIN documento_ficha f ON d.id_documento = f.id_documento, 
 	 								bancos c,
 	 								deudores dd,
 	 								mandantes m,
 	 								estadodocumentos ed,
 	 								tipodocumento td");
-	  	$where = " d.id_documento = f.id_documento
-	            and d.id_banco = c.id_banco
+	  	$where = " d.id_banco = c.id_banco
 				and d.id_deudor = dd.id_deudor
 				and m.id_mandante = d.id_mandatario
 				and d.id_estado_doc = ed.id_estado_doc
 				and d.id_tipo_doc = td.id_tipo_documento
+				and d.`id_estado_doc` = 7
 				and d.activo = 'S' ";
 		
 		$where .= " and d.id_documento > ".$array["id_partida"];

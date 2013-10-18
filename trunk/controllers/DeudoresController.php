@@ -26,10 +26,12 @@ class DeudoresController extends ControllerBase
 		$documentos = new DocumentosModel();
 		
 		
+		
 		if($array["tipoperacion"] == "A")
 		{
 			//$dato = $documentos->getListaDocumentos("",$array["ident"],$array);
-			$dato = $documentos->getListaDocumentosFicha("",$datodeudor->get_data("id_deudor"),$array);
+			$dato = $documentos->getListaDocumentosFicha("",$array["ident"],$array);
+			
 		}
 		
 		if($array["tipoperacion"] == "M")
