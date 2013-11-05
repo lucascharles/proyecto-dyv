@@ -1114,8 +1114,6 @@ class DeudoresController extends ControllerBase
 		$data['idmandante'] = $dato_deu->get_data("id_mandante");
 		if($array["id_liquidacion"] <> 0)
 		{
-			//$data['simulacion'] = $deudores->getSimulacionLiquidacion($array);
-		
 			$data['doc_simulacion'] = $deudores->getDocSimulacionLiquidacion($array);
 		}
 		else

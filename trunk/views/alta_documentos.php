@@ -307,7 +307,7 @@
 				datos += "&selCausalProtesta="+$("#selCausalProtesta").val();
 				datos += "&selEstadoDoc="+$("#selEstadoDoc").val();
 				datos += "&gastos_protesto="+$("#txtmontoprotesto").val();
-//				alert(datos);
+				alert(datos);
 				$.ajax({
 					url: "index.php",
 					type: "GET",
@@ -672,7 +672,7 @@
                             ?>
                         </select>       
         			</td>  
-        			<td align="left"><input type="text" grabar="S" name="txtnrodoc" id="txtnrodoc"  size="20" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"  valida="requerido" tipovalida="entero"/></td>
+        			<td align="left"><input type="text"  name="txtnrodoc" id="txtnrodoc"  size="20" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"  valida="requerido" tipovalida="entero"/></td>
         			<td align="left"><input type="text" grabar="S" name="txtmonto" id="txtmonto" value="0" size="15" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="moneda" /></td>
         			<td> 
                     <select name="selBancos" grabar="S" tipovalida="texto" id="selBancos" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)">

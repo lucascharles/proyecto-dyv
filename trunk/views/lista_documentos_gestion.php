@@ -78,6 +78,7 @@
 			{
 				for (var i = 0; i < boxes.length; i++) {
 			    	boxes[i].checked = 1;
+			    	seleccionado(boxes[i].value);
 				}
 			}
 		}
