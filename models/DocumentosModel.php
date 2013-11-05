@@ -755,6 +755,7 @@ class DocumentosModel extends ModelBase
       $dato->set_data("fecha_modificacion",date('Y-m-d', strtotime($date)));
       
       $dato->set_data("usuario_modificacion",$array["usuario_modificacion"]);
+
    	  $dato->set_data("activo","S");		
 	  $dato->save();
 	  
@@ -776,12 +777,7 @@ class DocumentosModel extends ModelBase
 	  
 	  if($dato2->get_count() == 0)
 	  {
-//	  	$fechaHoy = date("Y-m-d");
-//		$dias = 3;
-//
-//		$calculoHoy = strtotime("$fechaHoy +0 days");
-//		$calculoFuturo = strtotime("$fechaHoy +$dias days");
-	  	
+
 	  	//registra la gestion incial
 	  	$dato3 = new Gestiones();
 	  	$dato3->set_data("id_deudor",$array["deudor"]);
@@ -839,6 +835,7 @@ class DocumentosModel extends ModelBase
       	$dato3->save();
       	
 	  }
+	 
 
 	}
 	
@@ -921,7 +918,7 @@ class DocumentosModel extends ModelBase
 		$sqlpersonal->set_select(" d.id_documento id_documento, c.banco id_banco, dd.primer_apellido ape1_deudor, dd.segundo_apellido ape2_deudor, 
 							  		dd.primer_nombre nom1_deudor, dd.segundo_nombre nom2_deudor,
 									ifnull(m.nombre , m.apellido) nombre_mandante, ed.estado id_estado_doc, td.tipo_documento id_tipo_doc,
-									d.numero_documento numero_documento,d.fecha_protesto fecha_siniestro, d.cta_cte cta_cte,d.monto monto,
+									d.numero_documento numero_documento,d.fecha_protesto fecha_siniestro,d.fecha_protesto fecha_protesto, d.cta_cte cta_cte,d.monto monto,
 									d.fecha_siniestro fecha_recibido, d.gastos_protesto gastos_protesto"); 
 	  	$sqlpersonal->set_from(" documentos d LEFT JOIN documento_ficha f ON d.id_documento = f.id_documento, 
 	 								bancos c,
@@ -1168,7 +1165,7 @@ class DocumentosModel extends ModelBase
 		$sqlpersonal->set_select(" d.id_documento id_documento, c.banco id_banco, dd.primer_apellido ape1_deudor, dd.segundo_apellido ape2_deudor,
 				ifnull(dd.primer_nombre , dd.razonsocial) nom1_deudor,
 				dd.primer_nombre nomX_deudor, dd.segundo_nombre nom2_deudor,
-									ifnull(m.nombre, m.apellido) nombre_mandante, ed.estado id_estado_doc, td.tipo_documento id_tipo_doc,
+									concat(m.nombre, m.apellido) nombre_mandante, ed.estado id_estado_doc, td.tipo_documento id_tipo_doc,
 									d.numero_documento numero_documento,d.fecha_protesto fecha_protesto, d.fecha_siniestro fecha_siniestro, d.cta_cte cta_cte,d.monto monto, d.fecha_siniestro fecha_recibido ");
 		$sqlpersonal->set_from(" documentos d,
 	 								bancos c,

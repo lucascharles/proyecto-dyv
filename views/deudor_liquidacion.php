@@ -444,7 +444,7 @@
 			}
 			else
 			{
-				$("#txtinteresacumulado").val(int_acum.toFixed(2));
+				$("#txtinteresacumulado").val(int_acum);
 			}
 
 			//CALCULO DE SIMULACION
@@ -484,11 +484,9 @@
 			document.getElementById("txtcostasprocesales").value = v_costas;
 
 			// CALCULO INTERES DIARIO 
-//			var interes = Math.ceil(((parseFloat($("#txtinteres").val()) * parseInt(document.getElementById("txttotal").value) ) / 100)/30);
 			var v_int = parseFloat($("#txtinteres").val());
 	
-						
-			var interes = Math.ceil(((v_int * valordoc ) / 100)/30);
+			var interes = Math.ceil(( valordoc *(v_int/100))/30);
 			arrayDoc.push(valordoc);
 			
 			if(interes == 0)
@@ -501,10 +499,10 @@
 			}
 			
 			// CALCULO INTERES ACUMULADO 
-			var int_acum = interes * parseInt(dias);
-			arrayDocDias.push(dias);
-
 			
+			var int_acum = interes * parseInt(dias);
+
+			arrayDocDias.push(dias);
 			
 			if(int_acum == 0)
 			{
@@ -519,20 +517,17 @@
 			var capital = document.getElementById("txttotal").value;
 			var protesto = document.getElementById("txtprotesto").value;
 			var porcentaje = document.getElementById("txtporcentaje").value;
-			var honorarios = Math.ceil(((parseInt(capital) + parseFloat(interes) + parseInt(protesto))* parseInt(porcentaje)/100));
-			var total_mandante = parseInt(document.getElementById("txttotal").value) + parseInt(document.getElementById("txtinteresacumulado").value);
-
-			document.getElementById("txthonorarios").value = honorarios + (parseInt(interes) * parseInt(porcentaje)/100) ;
-			honorarios = document.getElementById("txthonorarios").value;
-
-			
+			var acumulado = document.getElementById("txtinteresacumulado").value;
+				 
 			var vcostas = document.getElementById("txtcostasprocesales").value;
-			var total = Math.ceil((parseFloat(capital) + parseFloat(interes) + parseInt(protesto) + parseInt(honorarios) + parseInt(vcostas))); 
-
-			document.getElementById("txttotalmandante").value = parseInt(total) - parseInt(honorarios);
-			document.getElementById("txttotalpagado").value =document.getElementById("txttotalmandante").value;
-			document.getElementById("txttotalsimulacion").value = total;
+			var total = Math.ceil((parseInt(capital) + parseInt(acumulado) + parseInt(protesto) + parseInt(vcostas)));
+			var honorarios = (parseInt(total) * parseInt(porcentaje)/100) ; 
+			var total_simulacion = parseInt(total) + parseInt(honorarios);
 			
+			document.getElementById("txttotalmandante").value = parseInt(total);
+			document.getElementById("txthonorarios").value = honorarios;
+			document.getElementById("txttotalpagado").value =document.getElementById("txttotalmandante").value;
+			document.getElementById("txttotalsimulacion").value = total_simulacion;
 			
 		}
 
@@ -542,24 +537,18 @@
 			var porcentajectdo = parseInt(document.getElementById("txtporcentajectdo").value);
 			var v_total_simulacion = parseInt(document.getElementById("txttotalsimulacion").value);
 			var v_honorarios = parseInt(document.getElementById("txthonorarios").value);
+			var total_mandante = document.getElementById("txttotalmandante").value;
 
-//			alert("porcentaje:"+porcentajectdo+" total_sim:"+v_total_simulacion+" honor:"+v_honorarios);
-			
 			var pagocontado = (parseInt(document.getElementById("txttotalsimulacion").value) - parseInt(document.getElementById("txthonorarios").value))*porcentajectdo/100;
 			
-			document.getElementById("txtpagocontado").value = pagocontado;
+			document.getElementById("txtpagocontado").value = (parseInt(total_mandante) * parseInt(porcentajectdo)/100);
 			
-			var porcentaje_prestamo = (parseFloat(document.getElementById("txttotal").value)+parseFloat(document.getElementById("txtinteresacumulado").value))*porcentajectdo/100;
-			
-			document.getElementById("txtimporte").value = (parseInt(document.getElementById("txttotalsimulacion").value) - parseInt(document.getElementById("txtpagocontado").value) -parseInt(document.getElementById("txthonorarios").value));
-			document.getElementById("txtimpcalc").value = 0; //definir formula
+			document.getElementById("txtimporte").value = (parseInt(total_mandante) * (100 - parseInt(porcentajectdo))/100);
+			document.getElementById("txtimpcalc").value = 0; 
 
 			var pagomensual = (parseInt($.trim($("#txtimporte").val())) + parseInt($.trim($("#txtimpcalc").val()))) / parseInt($.trim($("#txtcuotascalc").val()));
 			document.getElementById("txtpagomensual").value = pagomensual;
 			document.getElementById("txtcostoprestamo").value = parseInt(document.getElementById("txtimporte").value)+parseInt(document.getElementById("txtimpcalc").value);
-
-			
-			
 		}
 
 
@@ -567,15 +556,14 @@
 		{
 			var total = document.getElementById("txtcostoprestamo").value;
 			var cuotas = document.getElementById("txtcuotascalc").value;
-//			var valoruf = document.getElementById("txtvaloruf").value;
-
-			document.getElementById("txtpagomensual").value = parseInt(parseInt(total) / parseInt(cuotas)).toFixed(2);
-			document.getElementById("txtcostoprestamo").value = parseInt(document.getElementById("txtimporte").value)+parseInt(document.getElementById("txtimpcalc").value)+parseInt(document.getElementById("txthonorarios").value);
+			var importe_prestamo = 	document.getElementById("txtimporte").value;
+			var imp = document.getElementById("txtimpcalc").value;
+			var honorarios_repac = document.getElementById("txthonorariosrepac");
+			
+			document.getElementById("txtpagomensual").value = parseInt(parseInt(importe_prestamo) / parseInt(cuotas));
+			document.getElementById("txtcostoprestamo").value = parseInt(importe_prestamo)+parseInt(imp)+parseInt(honorarios_repac);
 
 			var docs = document.getElementsByName("checkdoc[]");
-
-			
-			
 		}
 
 		function calcular()
@@ -584,44 +572,63 @@
 			var capital;
 			var imp = 0;
 			var cuotas = document.getElementById("txtcuotascalc").value;	
-			var saldo_inicial = document.getElementById("txtcostoprestamo").value;
-			var interes_mensual = document.getElementById("txtinteresmensual").value;
-//			var pago_mensual = document.getElementById("txtpagomensual").value;
+			
+			
 
 			var pago_mensual = (parseInt($.trim($("#txtimporte").val())) + parseInt($.trim($("#txtimpcalc").val()))) / parseInt($.trim($("#txtcuotascalc").val()));
-			document.getElementById("txtpagomensual").value = pago_mensual;
+			document.getElementById("txtpagomensual").value = Math.ceil(pago_mensual);
 			
+			var x = parseInt(document.getElementById("txtimporte").value)+parseInt(document.getElementById("txtimpcalc").value); 
+			document.getElementById("txtcostoprestamo").value = x;
+
 			 
 
+			var saldo_inicial = parseInt(document.getElementById("txtcostoprestamo").value);
+			var interes_mensual = document.getElementById("txtinteresmensual").value;
+			
 			for($i=0; $i<cuotas; $i++)
 			{
-				interes = (parseInt(saldo_inicial) * parseInt(interes_mensual))/100;
+				interes = Math.ceil((parseInt(saldo_inicial) * parseFloat(interes_mensual))/100);
 				capital = parseInt(pago_mensual) - parseInt(interes);
 				imp = imp + parseInt(interes);
-				saldo_inicial = parseInt(saldo_inicial) - parseInt(capital);
+				saldo_inicial = saldo_inicial - pago_mensual;
 			}
 
 			document.getElementById("txtimpcalc").value = imp;
+
+			x = parseInt(document.getElementById("txtimporte").value)+parseInt(document.getElementById("txtimpcalc").value); 
+			document.getElementById("txtcostoprestamo").value = x;
+
+			pago_mensual = (parseInt($.trim($("#txtimporte").val())) + parseInt($.trim($("#txtimpcalc").val()))) / parseInt($.trim($("#txtcuotascalc").val()));
+			document.getElementById("txtpagomensual").value = Math.ceil(pago_mensual);
+
+			
+			var porcentaje = document.getElementById("txtporcentaje").value;
+			var vimp = document.getElementById("txtimpcalc").value; 
+			var honordyv = document.getElementById("txthonorarios").value; 
+			var honordyv_repac = parseInt(honordyv) + (parseInt(vimp)* parseInt(porcentaje)/100);			
+			var importe_prestamo = document.getElementById("txtimporte").value; 
+			var  pago_contado = document.getElementById("txtpagocontado").value;
+			
+			document.getElementById("txthonorariosrepac").value = honordyv_repac;			 
+			document.getElementById("txttotalpagocont").value = honordyv_repac + parseInt(pago_contado);		
+			
+
+
 			
 			var url = "index.php?controlador=Deudores&accion=calcular";
 			url += "&txtimporte="+$("#txtimporte").val();
 			url += "&txtinteresmensual="+$("#txtinteresmensual").val();
 			url += "&txtcuotas="+$("#txtcuotascalc").val();
-			url += "&txtfechainicial="+$("#txtfechainicial").val();
+			url += "&txtfechainicial="+$("#txtfechacalculo").val();
 			url += "&txtpagomensual="+$("#txtpagomensual").val();
 			url += "&txtnumpagos="+$("#txtcuotascalc").val();
 			url += "&txtimp="+$("#txtimpcalc").val();
 			url += "&txtcostoprestamo="+$("#txtcostoprestamo").val();
+
 			document.getElementById("frmcalculos").src = url;
 
-			var x = parseInt(document.getElementById("txtimporte").value)+parseInt(document.getElementById("txtimpcalc").value); 
-			document.getElementById("txtcostoprestamo").value = x;
-
-//			document.getElementById("txthonorariosrepac").value = parseInt($.trim($("#txthonorarios").val())) ;
-			var porcentaje = document.getElementById("txtporcentaje").value;
-			var vimp = document.getElementById("txtimpcalc").value; 
-			document.getElementById("txthonorariosrepac").value = parseInt($.trim($("#txthonorarios").val())) + (parseInt(vimp)* parseInt(porcentaje)/100);
-			document.getElementById("txttotalpagocont").value = parseInt($.trim($("#txthonorarios").val())) + parseInt($.trim($("#txtpagocontado").val()));
+						 
 		}
 	
 	
@@ -754,7 +761,6 @@
 					v_int_acum = parseInt(v_int_d) * parseInt(arrayDocDias[i]);
 					v_sum_int = v_sum_int + v_int_acum;
 
-//					alert("suma:" + v_sum_int);
 					if(v_sum_int == 0)
 					{
 						$("#txtinteresacumulado").val("");
@@ -772,27 +778,19 @@
 			var capital = document.getElementById("txttotal").value;
 			var protesto = document.getElementById("txtprotesto").value;
 			var porcentaje = document.getElementById("txtporcentaje").value;
-			var honorarios =  (parseInt(capital) + parseFloat(interes) + parseInt(protesto)) * (parseInt(porcentaje) /100);
-			
-//			document.getElementById("txthonorarios").value = honorarios;
-
-			document.getElementById("txthonorarios").value = parseInt(honorarios + (parseInt(interes) * parseInt(porcentaje)/100)) ;
-			honorarios = document.getElementById("txthonorarios").value;
-			
+			var acumulado = document.getElementById("txtinteresacumulado").value;
+				 
 			var vcostas = document.getElementById("txtcostasprocesales").value;
-			var total = Math.ceil((parseInt(capital) + parseInt(interes) + parseInt(protesto) + parseInt(honorarios) + parseInt(vcostas))); 
-
-			document.getElementById("txttotalsimulacion").value = total;
-			document.getElementById("txttotalmandante").value = parseInt(total) - parseInt(honorarios);
+			var total = Math.ceil((parseInt(capital) + parseInt(acumulado) + parseInt(protesto) + parseInt(vcostas)));
+			var honorarios = (parseInt(total) * parseInt(porcentaje)/100) ; 
+			var total_simulacion = parseInt(total) + parseInt(honorarios);
+			
+			document.getElementById("txttotalmandante").value = parseInt(total);
+			document.getElementById("txthonorarios").value = honorarios;
 			document.getElementById("txttotalpagado").value =document.getElementById("txttotalmandante").value;
+			document.getElementById("txttotalsimulacion").value = total_simulacion;
 
-//			for(var i=0; i<arrayDoc.length; i++)
-//			{
-//				if(arrayDoc[i] != "")
-//				{
-//					alert("monto:"+ arrayDoc[i]);
-//				}
-//			}
+
 		}
 
 
@@ -944,9 +942,10 @@
 						<input type="text" name="txtrut_deudor" id="txtrut_deudor" class="input_form" onblur="validaDeudor(); generadvrut('txtrut_deudor','txtdv_deudor'); validarRut('D'); simular_liquidacion();" value="<?=$deudor->get_data("rut_deudor")?>" onkeyup='mostrarDocs(this)' disabled="disabled"/>&nbsp;
 	            		<input type="text" name="txtdv_deudor" id="txtdv_deudor" class="input_form_min" onblur="" disabled="disabled" />&nbsp;
                     </td>
-                	<td align="left">
-			           <!-- <img src="images/buscar.png" title="Buscar Deudor" style="cursor:pointer" onclick="ventanaBusqueda('D')"/>-->
+                	<td align="left" colspan="8">
+			            <input type="text" name="txtnombre_deudor" id="txtnombre_deudor" class="input_form" onblur="" value ="<?=$deudor->get_data("primer_apellido")." ".$deudor->get_data("segundo_apellido")." ".$deudor->get_data("primer_nombre")?>" disabled="disabled" />&nbsp;
                     </td>
+
                 </tr>
              </table>
         </td>
@@ -1012,12 +1011,6 @@
                     <td align="right" class="etiqueta_form">% Honorarios D&V:&nbsp;</td>
                     <td align="left">
                     <input type="text" name="txtporcentaje" id="txtporcentaje"  value="10"   class="input_form_medio" onFocus="resaltar(this)" onBlur="recalcular()" valida="requerido" />
-                    </td>
-                </tr>
-                <tr>                                     
-                    <td align="right" class="etiqueta_form">% Pago Ctdo.:&nbsp;</td>
-                    <td align="left">
-                    <input type="text" name="txtporcentajectdo" id="txtporcentajectdo"  value="30"   class="input_form_medio" onFocus="resaltar(this)" onBlur="recalcular()" valida="requerido" />
                     </td>
                 </tr>
 
@@ -1131,6 +1124,13 @@
                     <input  type="button" name="btncalcular" id="btncalcular" onclick="calcular()"  value="Calcular" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)' tabindex="10" />
         			</td>
 				</tr>
+                <tr>                                     
+                    <td align="right" class="etiqueta_form">% Pago Ctdo.:&nbsp;</td>
+                    <td align="left">
+                    <input type="text" name="txtporcentajectdo" id="txtporcentajectdo"  value="30"   class="input_form_medio" onFocus="resaltar(this)" onBlur="recalcular()" valida="requerido" />
+                    </td>
+                </tr>
+
 				<tr>	
 					<td align="left" class="etiqueta_form">Pago Contado&nbsp;&nbsp;&nbsp;&nbsp;</td>
 					<td align="left"><input type="text" name="txtpagocontado" id="txtpagocontado" size="15" onkeyup='mostrar()' class="input_form" onFocus="resaltar(this)" valida="requerido" tipovalida="moneda" value="<?=conDecimales($interes_simulacion)?>" tabindex="2"/></td>

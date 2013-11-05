@@ -278,11 +278,12 @@ class MandantesModel extends ModelBase
 		
 		$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
 		
-		$sqlselect = "DISTINCT id_mandatario id_mandatario, m.nombre nombre, m.rut_mandante rut_mandante, m.dv_mandante dv_mandante";
+		$sqlselect = "d.id_mandatario id_mandatario, m.nombre nombre, m.rut_mandante rut_mandante, m.dv_mandante dv_mandante, SUM(monto) monto";
 		$sqlfrom = " documentos d, mandantes m ";
-		$sqlwhere = " d.`id_mandatario` = m.`id_mandante`
+		$sqlwhere = " d.id_mandatario = m.id_mandante
 					  AND d.id_deudor = ". $iddeudor. 
-					  " AND d.activo = 'S' AND m.activo = 'S' ";
+					  " AND d.activo = 'S' AND m.activo = 'S'
+					  GROUP BY d.id_mandatario , m.nombre , m.rut_mandante , m.dv_mandante ";
 		
 		$sqlpersonal->set_select($sqlselect ); 
 		$sqlpersonal->set_from($sqlfrom);

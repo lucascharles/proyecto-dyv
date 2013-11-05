@@ -21,6 +21,7 @@ class GestionesController extends ControllerBase
 		
 		$detalleDocs = $gestiones->getDetalleDocs();
 		$data['detalleDocs'] = $detalleDocs;
+		$data['idNextGes'] = $idNextGes;
 		
 		$data['coleccion_estadoGes'] = $documentos->getListaEstadoDoc("");
 		
@@ -130,7 +131,7 @@ class GestionesController extends ControllerBase
 		$ultimaGestion = $gestiones->getEstadoGestion($array["estadoGes"]);
 		$data['idestadoges'] = $array["estadoGes"];
 		$data['idgestion'] = $array["idgestion"];
-		
+		$data['idNextGes'] = $array["idNextGes"];
 		
 		
 		if($ultimaGestion->get_count() > 0)
@@ -302,6 +303,7 @@ class GestionesController extends ControllerBase
 			if($array["tipoGestion"]=="D")
 			{
 				$datoAux = $gestiones->getListaGestionesDia($array["des_int"],$array);	
+				
 			}
 			else
 			{
@@ -312,10 +314,11 @@ class GestionesController extends ControllerBase
 		}
 		
 		
-
+		$data['idNextGes'] = $array["idNextGes"];
 		$data['cant_mas'] = $cant_datos;
 		$data['nom_sistema'] = "SISTEMA DyV";
 		$data['colleccionGestiones'] = $dato;
+		
 		
 		$this->view->show("lista_gestiones.php", $data);
 	} 
@@ -425,9 +428,9 @@ class GestionesController extends ControllerBase
 		require 'models/DocumentosModel.php';
 		$documentos = new DocumentosModel();
 		
-		if($array["actDoc"]=='S'){
-			$x = $documentos->actualizaMandanteDocumento($array);
-		}
+//		if($array["actDoc"]=='S'){
+//			$x = $documentos->actualizaMandanteDocumento($array);
+//		}
 		
 		$docCartas = new DocumentosModel();
 		if($array["enviarCarta"]=="S")

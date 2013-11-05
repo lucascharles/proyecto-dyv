@@ -11,6 +11,7 @@
 		{
 			var url = "index.php?controlador=Deudores&accion=listar_fichas&rutdeudor="+obj.value;
 			url += "&id_partida=0";
+
 			document.getElementById("frmlistfichas").src = url;
 		}
 		

@@ -373,8 +373,6 @@
 				{
 					datos += "&repacta=N";
 				}
-				//alert("url: "+datos);
-				//return false;
 				
 				
 				$.ajax({
@@ -584,13 +582,32 @@
 
 		function calculadora_prestamo()
 		{
+//			//CALCULADORA PRESTAMO
+//			document.getElementById("txtimporte").value = parseInt(document.getElementById("txttotal").value)+parseFloat(document.getElementById("txtinteresacumulado").value);
+//			document.getElementById("txtinteresmensual").value = document.getElementById("txtinteres").value;
+//			//document.getElementById("txtimpcalc").value = 0; //definir formula
+//			var pagomensual = (parseFloat($.trim($("#txtimporte").val())) + parseFloat($.trim($("#txtimpcalc").val()))) / parseInt($.trim($("#txtcuotascalc").val()));
+//			document.getElementById("txtpagomensual").value = pagomensual;
+//
+//			var x = parseInt(document.getElementById("txtimporte").value)+parseInt(document.getElementById("txtimpcalc").value);	
+//			document.getElementById("txtcostoprestamo").value = x;
 			//CALCULADORA PRESTAMO
-			document.getElementById("txtimporte").value = parseInt(document.getElementById("txttotal").value)+parseFloat(document.getElementById("txtinteresacumulado").value);
-			document.getElementById("txtinteresmensual").value = document.getElementById("txtinteres").value;
-			//document.getElementById("txtimpcalc").value = 0; //definir formula
-			var pagomensual = (parseFloat($.trim($("#txtimporte").val())) + parseFloat($.trim($("#txtimpcalc").val()))) / parseInt($.trim($("#txtcuotascalc").val()));
+			var porcentajectdo = parseInt(document.getElementById("txtporcentajectdo").value);
+			var v_total_simulacion = parseInt(document.getElementById("txttotalsimulacion").value);
+			var v_honorarios = parseInt(document.getElementById("txthonorarios").value);
+			var total_mandante = document.getElementById("txttotalmandante").value;
+
+			var pagocontado = (parseInt(document.getElementById("txttotalsimulacion").value) - parseInt(document.getElementById("txthonorarios").value))*porcentajectdo/100;
+			
+			document.getElementById("txtpagocontado").value = (parseInt(total_mandante) * parseInt(porcentajectdo)/100);
+			
+			document.getElementById("txtimporte").value = (parseInt(total_mandante) * (100 - parseInt(porcentajectdo))/100);
+			document.getElementById("txtimpcalc").value = 0; 
+
+			var pagomensual = (parseInt($.trim($("#txtimporte").val())) + parseInt($.trim($("#txtimpcalc").val()))) / parseInt($.trim($("#txtcuotascalc").val()));
 			document.getElementById("txtpagomensual").value = pagomensual;
-			document.getElementById("txtcostoprestamo").value = parseFloat(document.getElementById("txtimporte").value)+parseFloat(document.getElementById("txtimpcalc").value)+parseFloat(document.getElementById("txthonorarios").value);
+			document.getElementById("txtcostoprestamo").value = parseInt(document.getElementById("txtimporte").value)+parseInt(document.getElementById("txtimpcalc").value);
+
 		}
 
 
@@ -601,7 +618,8 @@
 			var valoruf = document.getElementById("txtvaloruf").value;
 
 			document.getElementById("txtpagomensual").value = parseFloat(parseInt(total) / parseInt(cuotas)).toFixed(2);
-			document.getElementById("txtcostoprestamo").value = parseFloat(document.getElementById("txtimporte").value)+parseFloat(document.getElementById("txtimpcalc").value)+parseFloat(document.getElementById("txthonorarios").value);
+			var x = parseInt(document.getElementById("txtimporte").value)+parseInt(document.getElementById("txtimpcalc").value);	
+			document.getElementById("txtcostoprestamo").value = x ;
 
 		}
 
@@ -627,11 +645,11 @@
 				return false;
 			}
 			
-			
 			var costoprestamo = parseFloat($.trim($("#txtimporte").val())) + parseFloat($.trim($("#txtimp").val()));
 			var pagomensual =  (parseFloat($.trim($("#txtimporte").val())) + parseFloat($.trim($("#txtimp").val()))) / parseInt($.trim($("#txtcuotascalc").val()));
+
+			alert($("cal autom:" + "#txtcostoprestamo").val());
 					
-			$("#txtcostoprestamo").val(costoprestamo);
 			$("#txtpagomensual").val(pagomensual);
 			$("#txtnumpagos").val($.trim($("#txtcuotascalc").val()));
 			
@@ -670,17 +688,17 @@
 			var capital = document.getElementById("txttotal").value;
 			var protesto = document.getElementById("txtprotesto").value;
 			var porcentaje = document.getElementById("txtporcentaje").value;
-			var honorarios =  (parseInt(capital) + parseFloat(interes) + parseInt(protesto)) * (parseInt(porcentaje) /100);
-			
-			document.getElementById("txthonorarios").value = parseInt(honorarios + (parseInt(interes) * parseInt(porcentaje)/100)) ;
-			honorarios = document.getElementById("txthonorarios").value;
-			
+			var acumulado = document.getElementById("txtinteresacumulado").value;
+				 
 			var vcostas = document.getElementById("txtcostasprocesales").value;
-			var total = Math.ceil((parseInt(capital) + parseInt(interes) + parseInt(protesto) + parseInt(honorarios) + parseInt(vcostas))); 
-
-			document.getElementById("txttotalsimulacion").value = total;
-			document.getElementById("txttotalmandante").value = parseInt(total) - parseInt(honorarios);
+			var total = Math.ceil((parseInt(capital) + parseInt(acumulado) + parseInt(protesto) + parseInt(vcostas)));
+			var honorarios = (parseInt(total) * parseInt(porcentaje)/100) ; 
+			var total_simulacion = parseInt(total) + parseInt(honorarios);
+			
+			document.getElementById("txttotalmandante").value = parseInt(total);
+			document.getElementById("txthonorarios").value = honorarios;
 			document.getElementById("txttotalpagado").value =document.getElementById("txttotalmandante").value;
+			document.getElementById("txttotalsimulacion").value = total_simulacion;
 			
 		}
 
@@ -762,8 +780,8 @@
 						<input type="text" name="txtrut_deudor" id="txtrut_deudor" value="<?=$deudor->get_data("rut_deudor")?>" class="input_form" onblur="" disabled="disabled" />&nbsp;
 	            		<input type="text" name="txtdv_deudor" id="txtdv_deudor" class="input_form_min" onblur="" disabled="disabled" />&nbsp;
                     </td>
-                	<td align="left">
-			            <!--<img src="images/buscar.png" title="Buscar Deudor" style="cursor:pointer" onclick="ventanaBusqueda('D')"/>-->
+                	<td align="left" colspan="8">
+			            <input type="text" name="txtnombre_deudor" id="txtnombre_deudor" class="input_form" onblur="" value ="<?=$deudor->get_data("primer_apellido")." ".$deudor->get_data("segundo_apellido")." ".$deudor->get_data("primer_nombre")?>" disabled="disabled" />&nbsp;
                     </td>
                 </tr>
              </table>
@@ -859,24 +877,24 @@
                         <input type="text" name="txtprotesto" id="txtprotesto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"  value="<?=$liquidacion->get_data("protesto")?>" />
                     </td>                                   
                 </tr>
-                <tr>	
-                    <td align="right" class="etiqueta_form">Fecha Venc.&nbsp;</td>
-                    <td align="left">
-                        <input type="text" name="txtfechavenc" id="txtfechavenc" valida="requerido" tipovalida="fecha" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)"  value="<?=formatoFecha($liquidacion->get_data("fecha_venc"),"yyyy-mm-dd","dd/mm/yyyy")?>" onKeyUp="this.value=formateafecha(this.value)"/>
-                    </td>
-                </tr>
-                <tr>    
-                    <td align="right" class="etiqueta_form">Dias Atraso&nbsp;</td>
-                    <td align="left">
-                        <input type="text" name="txtdiasatraso" id="txtdiasatraso" valida="requerido" tipovalida="entero" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" value="<?=$liquidacion->get_data("dias_atraso")?>" />
-                    </td>
-                 </tr>
-                <tr>   
-                    <td align="right" class="etiqueta_form">Interes Diario&nbsp;</td>
-                    <td align="left">
-                        <input type="text" name="txtinteresdiario" id="txtinteresdiario" valida="requerido" tipovalida="moneda" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" value="<?=$liquidacion->get_data("interes_diario")?>" />
-                    </td>
-                 </tr>
+<!--                <tr>	-->
+<!--                    <td align="right" class="etiqueta_form">Fecha Venc.&nbsp;</td>-->
+<!--                    <td align="left">-->
+<!--                        <input type="text" name="txtfechavenc" id="txtfechavenc" valida="requerido" tipovalida="fecha" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)"  value="<?=formatoFecha($liquidacion->get_data("fecha_venc"),"yyyy-mm-dd","dd/mm/yyyy")?>" onKeyUp="this.value=formateafecha(this.value)"/>-->
+<!--                    </td>-->
+<!--                </tr>-->
+<!--                <tr>    -->
+<!--                    <td align="right" class="etiqueta_form">Dias Atraso&nbsp;</td>-->
+<!--                    <td align="left">-->
+<!--                        <input type="text" name="txtdiasatraso" id="txtdiasatraso" valida="requerido" tipovalida="entero" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" value="<?=$liquidacion->get_data("dias_atraso")?>" />-->
+<!--                    </td>-->
+<!--                 </tr>-->
+<!--                <tr>   -->
+<!--                    <td align="right" class="etiqueta_form">Interes Diario&nbsp;</td>-->
+<!--                    <td align="left">-->
+<!--                        <input type="text" name="txtinteresdiario" id="txtinteresdiario" valida="requerido" tipovalida="moneda" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" value="<?=$liquidacion->get_data("interes_diario")?>" />-->
+<!--                    </td>-->
+<!--                 </tr>-->
                 <tr>   
                     <td align="right" class="etiqueta_form">Interes Acumulado&nbsp;</td>
                     <td align="left">
@@ -892,10 +910,10 @@
                 <tr>   
                     <td align="right" class="etiqueta_form">Total Mandante&nbsp;</td>
                     <td align="left">
-                        <input type="text" name="txttotalmandante" id="txttotalmandante"  tipovalida="moneda" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" value=""/>
+                        <input type="text" name="txttotalmandante" id="txttotalmandante"  tipovalida="moneda" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" value="<?= $liquidacion->get_data("capital")+$liquidacion->get_data("interes_acumulado")+$liquidacion->get_data("protesto") ?> "/>
                     </td>
 					<td align="right" class="etiqueta_form">Honorarios DyV&nbsp;</td>
-					<td align="left"><input type="text" name="txthonorarios" id="txthonorarios" size="15" class="input_form" onFocus="resaltar(this)" value="" tabindex="7" valida="requerido" tipovalida="moneda"/>
+					<td align="left"><input type="text" name="txthonorarios" id="txthonorarios" size="15" class="input_form" onFocus="resaltar(this)" value="<?=$liquidacion->get_data("honorarios_dyv") ?>" tabindex="7" valida="requerido" tipovalida="moneda"/>
         			</td>
         			
 				</tr>
@@ -950,7 +968,7 @@
             	<tr>
 					<td align="left" class="etiqueta_form">Importe del prestamo&nbsp;&nbsp;&nbsp;&nbsp;</td>
 					<td align="left"><input type="text" name="txtimporte" id="txtimporte" size="15" class="input_form" onFocus="resaltar(this)" valida="requerido" tipovalida="moneda" value="<?=$liquidacion->get_data("importe_prestamo")?>" tabindex="1" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <input  type="button" name="btncalcular" id="btncalcular" onclick="calcular()"  value="Calcular" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)' tabindex="10" />
+<!--                    <input  type="button" name="btncalcular" id="btncalcular" onclick="calcular()"  value="Calcular" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)' tabindex="10" />-->
         			</td>
 				</tr>
 				<tr>	

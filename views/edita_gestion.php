@@ -80,6 +80,7 @@
 		function volver()
 		{
 			var tg = document.getElementById("tipoGestion").value;
+			var idNextGes = document.getElementById("idNextGes").value;
 
 			if(tg == "D")	
 			{
@@ -415,6 +416,13 @@
 		{
 			document.getElementById("iddemanda").value = id;
 		}
+
+		function verDocMandante()
+		{
+			var idmandante = document.getElementById("selMandantes").value; 
+			var url = "index.php?controlador=Gestiones&accion=listarDocumentoMandante&iddeudor="+<? echo($objGestion->get_data("id_deudor")) ?>+"&idmandante="+idmandante+"&idestadoges="+<? $var = &$idestadoges; echo($var); ?>;
+			document.getElementById("frmlistdocumentos").src = url;
+		}
 		
 	</script>
 </head>
@@ -504,6 +512,8 @@
     <input  type="hidden" name="iddemanda" id="iddemanda" value=""/>
     <input  type="hidden" name="tipoGestion" id="tipoGestion" value="<? $var = &$tipoGestion; echo($var); ?>"/>
     <input  type="hidden" name="cantDemanda" id="cantDemanda" value="<? $var = &$cantidadDemandas; echo($var); ?>"/>
+    <input  type="hidden" name="idNextGes" id="idNextGes" value="<? $var = &$idNextGes; echo($var); ?>"/>
+    
     
     
 <div id="datos" style="">
@@ -568,20 +578,19 @@
 <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="titulopantalla">
 	<tr>
 		<th align="left" height="30">&nbsp;Documentos por Mandantes               
-        	<select name="selMandantes" tipovalida="texto" id="selMandantes" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)">
-     			<option value="<? $var = &$idMandante; echo($var); ?>"> <? $var = &$rutMandante; $var2 = &$nomMandante; echo($var."   ".$var2); ?> </option>
+        	<select name="selMandantes" tipovalida="texto" id="selMandantes"  onFocus="resaltar(this)" onBlur="noresaltar(this)" onchange="verDocMandante();">
+     			<option value="<? $var = &$idMandante; echo($var); ?>"> <? $var = &$rutMandante; $var2 = &$nomMandante; $var3 = "  ----  Deuda Neta: ".$deudaNetaMandante; echo($var."   ".$var2."   ".$var3); ?> </option>
         		<?
 			        for($j=0; $j<$coleccionMandantesDeudor->get_count(); $j++)
 			        {
 			            $datoTmp = &$coleccionMandantesDeudor->items[$j];
-			            echo("<option value=".$datoTmp->get_data("id_mandatario").">".utf8_encode($datoTmp->get_data("rut_mandante")."-".$datoTmp->get_data("dv_mandante")."   ".$datoTmp->get_data("nombre"))."</option>");           
+			            $deudaNetaMandante = $datoTmp->get_data("monto");
+			            echo("<option value=".$datoTmp->get_data("id_mandatario").">".utf8_encode($datoTmp->get_data("rut_mandante")."-".$datoTmp->get_data("dv_mandante")."   ".$datoTmp->get_data("nombre"))."  ----  Deuda Neta: ".$deudaNetaMandante." "."</option>");           
 			        }
     			?>
 			</select>
         </th>
-        
-        <th align="left" height="30"> Deuda Neta:&nbsp;&nbsp;<? $var = &$deudaNeta; echo($var); ?></th>
-        
+        <!--   <th align="left" height="30"> Deuda Neta:&nbsp;&nbsp;<? $var = &$deudaNetaMandante; echo($var); ?></th> -->
         <th align="left" height="30"> Liquidaciones:&nbsp;&nbsp;<? $var = &$cantidadLiquidacion; echo($var); ?></th> 
         
     </tr>
@@ -609,9 +618,9 @@
 				<tr>	
 						<input  type="button" name="btnCartas" id="btnCartas" onclick="enviarCartas(<? echo($objGestion->get_data("id_mandante")) ?>,<? echo($objGestion->get_data("id_deudor")) ?>)" class="boton_form" value="Enviar Cartas" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)' />
 				</tr>
-				<tr>	
-						<input  type="button" name="btnActualizar" id="btnActualizar" onclick="actualizarDocs(<? echo($objGestion->get_data("id_mandante")) ?>,<? echo($objGestion->get_data("id_deudor")) ?>,<? $var = &$idestadoges; echo($var); ?>)" class="boton_form" value="Actualizar" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)' />
-				</tr>	
+<!--				<tr>	-->
+<!--						<input  type="button" name="btnActualizar" id="btnActualizar" onclick="actualizarDocs(<? echo($objGestion->get_data("id_mandante")) ?>,<? echo($objGestion->get_data("id_deudor")) ?>,<? $var = &$idestadoges; echo($var); ?>)" class="boton_form" value="Actualizar" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)' />-->
+<!--				</tr>	-->
         	</table>
         </td>
     </tr>

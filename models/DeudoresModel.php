@@ -1161,7 +1161,7 @@ ORDER BY orden ASC ";
 		include("config.php");
 
 		$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
-	
+	    $rutdeudor = $array["rutdeudor"];
 		$sqlpersonal->set_select( " f.id_ficha id_ficha,
 	   		   d.rut_deudor rut_deudor,d.dv_deudor dv_deudor,
 	           d.primer_nombre d_primer_nombre, d.segundo_nombre d_segundo_nombre,
@@ -1351,7 +1351,7 @@ ORDER BY orden ASC ";
 		
 		$dato->set_data("fecha_simulacion",formatoFecha($array["fechasimulacion"],"dd/mm/yyyy","yyyy-mm-dd"));
 		$dato->set_data("capital",$array["capital"]);
-//		$dato->set_data("capital_pagado",$array["capitalpagado"]);
+		$dato->set_data("capital_pagado",$array["capitalpagado"]);
 		$dato->set_data("protesto",$array["protesto"]);
 		$dato->set_data("fecha_venc",formatoFecha($array["fechavenc"],"dd/mm/yyyy","yyyy-mm-dd"));
 		$dato->set_data("dias_atraso",$array["diasatraso"]);
