@@ -45,18 +45,6 @@
 			recalcular();
 		});
 		
-
-		/*
-		function repactar()
-		{
-			if($.trim($("#txtrut_deudor").val()) == "")
-			{
-				$("#mensaje").text("Debe seleccionar un Deudor");
-				$("#mensaje").show("slow");
-				setTimeout("limpiarMensaje()",3000);
-			}
-		}
-		*/
 		function repactar()
 		{
 			if(document.getElementById("rdestatus_repacta").checked == true)
@@ -178,24 +166,12 @@
 					}
 				});
 		}
-		/*
-		function limpiarDocumentos()
-		{			
-			limpiarCampos();
-		}
-		*/
-		
+	
 		function salir()
 		{
 			$("#pagina").load('views/admin_documentos.php');
 		}
 
-		/*
-		function seleccionado(id)
-		{
-			document.getElementById("id_documento").value = id;
-		}
-		*/
 		
 		function seleccionadoMandante(id)
 		{
@@ -304,6 +280,7 @@
 				setTimeout("limpiarMensaje()",3000);
 				return false;
 			}
+
 			
 			var arrayin = new Array();
 			arrayin[0] = document.getElementById("txtinteres");
@@ -332,20 +309,18 @@
 			
 			var arraySel = new Array();
 			
-			if(!validarArray(arrayin, arraySel,"N"))
-			{
-				return false;
-			}
-			
+//			if(!validarArray(arrayin, arraySel,"N"))
+//			{
+//				return false;
+//			}
 				var datos = "controlador=Deudores";
-				
 				datos += "&accion=grabar_editaLiquidacion";
 				datos += "&deudor="+$("#id_deudor").val();
 				datos += "&id_liquidacion="+$("#id_liquidacion").val();
 				datos += "&interes="+$("#txtinteres").val();
 				datos += "&valoruf="+$("#txtvaloruf").val();
 				datos += "&fechasimulacion="+$("#txtfecha").val();
-				
+//				alert("primero");
 				datos += "&capital="+$("#txttotal").val();
 				datos += "&capitalpagado="+$("#txttotalpagado").val();
 				datos += "&protesto="+$("#txtprotesto").val();
@@ -355,7 +330,7 @@
 				datos += "&interesacumulado="+$("#txtinteresacumulado").val();
 				datos += "&honoraiorsdyv="+$("#txthonorarios").val();
 				datos += "&total="+$("#txttotalsimulacion").val();
-
+//				alert("segundo");
 				datos += "&importeprestamo="+$("#txtimporte").val();
 				datos += "&interesmensual="+$("#txtinteresmensual").val();
 				datos += "&cuotas="+$("#txtcuotascalc").val();
@@ -365,6 +340,9 @@
 				datos += "&pagomensual="+$("#txtpagomensual").val();
 				datos += "&costototal="+$("#txtcostoprestamo").val();
 				datos += "&docs="+$("#docs").val();
+
+//				alert("tercero");
+				
 				if(document.getElementById("rdestatus_repacta").checked == true)
 				{
 					datos += "&repacta=S";
@@ -374,6 +352,7 @@
 					datos += "&repacta=N";
 				}
 				
+//				alert(datos);
 				
 				$.ajax({
 					url: "index.php",
@@ -389,7 +368,6 @@
 						else
 						{					
 							$("#pagina").load('index.php?controlador=Deudores&accion=admin_liquidaciones&iddeudor='+$("#id_deudor").val());				}
-						//$("#pagina").load('index.php?controlador=Deudores&accion=editaLiquidacion');
 					},
 					error: function()
 					{
@@ -397,7 +375,9 @@
 					}
 				});
 		}
+
 		
+
 		function limpiarMensaje()
 		{
 			$("#mensaje").hide("slow");
@@ -582,15 +562,6 @@
 
 		function calculadora_prestamo()
 		{
-//			//CALCULADORA PRESTAMO
-//			document.getElementById("txtimporte").value = parseInt(document.getElementById("txttotal").value)+parseFloat(document.getElementById("txtinteresacumulado").value);
-//			document.getElementById("txtinteresmensual").value = document.getElementById("txtinteres").value;
-//			//document.getElementById("txtimpcalc").value = 0; //definir formula
-//			var pagomensual = (parseFloat($.trim($("#txtimporte").val())) + parseFloat($.trim($("#txtimpcalc").val()))) / parseInt($.trim($("#txtcuotascalc").val()));
-//			document.getElementById("txtpagomensual").value = pagomensual;
-//
-//			var x = parseInt(document.getElementById("txtimporte").value)+parseInt(document.getElementById("txtimpcalc").value);	
-//			document.getElementById("txtcostoprestamo").value = x;
 			//CALCULADORA PRESTAMO
 			var porcentajectdo = parseInt(document.getElementById("txtporcentajectdo").value);
 			var v_total_simulacion = parseInt(document.getElementById("txttotalsimulacion").value);
@@ -607,9 +578,7 @@
 			var pagomensual = (parseInt($.trim($("#txtimporte").val())) + parseInt($.trim($("#txtimpcalc").val()))) / parseInt($.trim($("#txtcuotascalc").val()));
 			document.getElementById("txtpagomensual").value = pagomensual;
 			document.getElementById("txtcostoprestamo").value = parseInt(document.getElementById("txtimporte").value)+parseInt(document.getElementById("txtimpcalc").value);
-
 		}
-
 
 		function actualizar()
 		{
@@ -625,16 +594,66 @@
 
 		function calcular()
 		{
+			var interes;
+			var capital;
+			var imp = 0;
+			var cuotas = document.getElementById("txtcuotascalc").value;	
+			
+			
+
+			var pago_mensual = (parseInt($.trim($("#txtimporte").val())) + parseInt($.trim($("#txtimpcalc").val()))) / parseInt($.trim($("#txtcuotascalc").val()));
+			document.getElementById("txtpagomensual").value = Math.ceil(pago_mensual);
+			
+			var x = parseInt(document.getElementById("txtimporte").value)+parseInt(document.getElementById("txtimpcalc").value); 
+			document.getElementById("txtcostoprestamo").value = x;
+
+			 
+
+			var saldo_inicial = parseInt(document.getElementById("txtcostoprestamo").value);
+			var interes_mensual = document.getElementById("txtinteresmensual").value;
+			
+			for($i=0; $i<cuotas; $i++)
+			{
+				interes = Math.ceil((parseInt(saldo_inicial) * parseFloat(interes_mensual))/100);
+				capital = parseInt(pago_mensual) - parseInt(interes);
+				imp = imp + parseInt(interes);
+				saldo_inicial = saldo_inicial - pago_mensual;
+			}
+
+			document.getElementById("txtimpcalc").value = imp;
+
+			x = parseInt(document.getElementById("txtimporte").value)+parseInt(document.getElementById("txtimpcalc").value); 
+			document.getElementById("txtcostoprestamo").value = x;
+
+			pago_mensual = (parseInt($.trim($("#txtimporte").val())) + parseInt($.trim($("#txtimpcalc").val()))) / parseInt($.trim($("#txtcuotascalc").val()));
+			document.getElementById("txtpagomensual").value = Math.ceil(pago_mensual);
+
+			
+			var porcentaje = document.getElementById("txtporcentaje").value;
+			var vimp = document.getElementById("txtimpcalc").value; 
+			var honordyv = document.getElementById("txthonorarios").value; 
+			var honordyv_repac = parseInt(honordyv) + (parseInt(vimp)* parseInt(porcentaje)/100);			
+			var importe_prestamo = document.getElementById("txtimporte").value; 
+			var  pago_contado = document.getElementById("txtpagocontado").value;
+			
+			document.getElementById("txthonorariosrepac").value = honordyv_repac;			 
+			document.getElementById("txttotalpagocont").value = honordyv_repac + parseInt(pago_contado);		
+			
+
+
+			
 			var url = "index.php?controlador=Deudores&accion=calcular";
 			url += "&txtimporte="+$("#txtimporte").val();
 			url += "&txtinteresmensual="+$("#txtinteresmensual").val();
 			url += "&txtcuotas="+$("#txtcuotascalc").val();
-			url += "&txtfechainicial="+$("#txtfechainicial").val();
+			url += "&txtfechainicial="+$("#txtfechacalculo").val();
 			url += "&txtpagomensual="+$("#txtpagomensual").val();
 			url += "&txtnumpagos="+$("#txtcuotascalc").val();
 			url += "&txtimp="+$("#txtimpcalc").val();
 			url += "&txtcostoprestamo="+$("#txtcostoprestamo").val();
+
 			document.getElementById("frmcalculos").src = url;
+
 		}
 	
 	
@@ -648,7 +667,7 @@
 			var costoprestamo = parseFloat($.trim($("#txtimporte").val())) + parseFloat($.trim($("#txtimp").val()));
 			var pagomensual =  (parseFloat($.trim($("#txtimporte").val())) + parseFloat($.trim($("#txtimp").val()))) / parseInt($.trim($("#txtcuotascalc").val()));
 
-			alert($("cal autom:" + "#txtcostoprestamo").val());
+//			alert($("cal autom:" + "#txtcostoprestamo").val());
 					
 			$("#txtpagomensual").val(pagomensual);
 			$("#txtnumpagos").val($.trim($("#txtcuotascalc").val()));
@@ -850,12 +869,7 @@
                     <input type="text" name="txtporcentaje" id="txtporcentaje"  value="10"   class="input_form_medio" onFocus="resaltar(this)" onBlur="recalcular()" valida="requerido" />
                     </td>
                 </tr>
-                <tr>                                     
-                    <td align="right" class="etiqueta_form">% Pago Ctdo.:&nbsp;</td>
-                    <td align="left">
-                    <input type="text" name="txtporcentajectdo" id="txtporcentajectdo"  value="30"   class="input_form_medio" onFocus="resaltar(this)" onBlur="recalcular()" valida="requerido" />
-                    </td>
-                </tr>
+                
              </table>
         </td>
         <td colspan="1" align="left" valign="top">   
@@ -968,8 +982,24 @@
             	<tr>
 					<td align="left" class="etiqueta_form">Importe del prestamo&nbsp;&nbsp;&nbsp;&nbsp;</td>
 					<td align="left"><input type="text" name="txtimporte" id="txtimporte" size="15" class="input_form" onFocus="resaltar(this)" valida="requerido" tipovalida="moneda" value="<?=$liquidacion->get_data("importe_prestamo")?>" tabindex="1" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<!--                    <input  type="button" name="btncalcular" id="btncalcular" onclick="calcular()"  value="Calcular" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)' tabindex="10" />-->
+                    <input  type="button" name="btncalcular" id="btncalcular" onclick="calcular()"  value="Calcular" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)' tabindex="10" />
         			</td>
+				</tr>
+				<tr>                                     
+                    <td align="right" class="etiqueta_form">% Pago Ctdo.:&nbsp;</td>
+                    <td align="left">
+                    <input type="text" name="txtporcentajectdo" id="txtporcentajectdo"  value="30"   class="input_form_medio" onFocus="resaltar(this)" onBlur="recalcular()" valida="requerido" />
+                    </td>
+                </tr>
+				<tr>	
+					<td align="left" class="etiqueta_form">Pago Contado&nbsp;&nbsp;&nbsp;&nbsp;</td>
+					<td align="left"><input type="text" name="txtpagocontado" id="txtpagocontado" size="15" onkeyup='mostrar()' class="input_form" onFocus="resaltar(this)" valida="requerido" tipovalida="moneda" value="<?=conDecimales($interes_simulacion)?>" tabindex="2"/></td>
+
+					<td align="right" class="etiqueta_form">Honorarios DyV&nbsp;</td>
+					<td align="left"><input type="text" name="txthonorariosrepac" id="txthonorariosrepac" size="15" class="input_form" onFocus="resaltar(this)" value="" tabindex="7" valida="requerido" tipovalida="moneda"/></td>
+
+					<td align="right" class="etiqueta_form">Total Pago Contado&nbsp;</td>
+					<td align="left"><input type="text" name="txttotalpagocont" id="txttotalpagocont" size="15" class="input_form" onFocus="resaltar(this)" value="" tabindex="7" valida="requerido" tipovalida="moneda"/></td>
 				</tr>
 				<tr>	
 					<td align="left" class="etiqueta_form">Interes mensual&nbsp;&nbsp;&nbsp;&nbsp;</td>

@@ -965,6 +965,11 @@ class DeudoresController extends ControllerBase
     {
 		require 'models/LiquidacionesModel.php';
 		$liquidaciones = new LiquidacionesModel();
+		
+		if($array["id_liquidacion"] != "")
+		{
+			 $dato = $liquidaciones->eliminaLiquidacion($array["id_liquidacion"]);
+		}
 		$dato = $liquidaciones->getLiquidacionesDeudor($array);
 				
 		$data['colleccionLiquidaciones'] = $dato;
