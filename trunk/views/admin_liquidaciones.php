@@ -31,14 +31,7 @@
 			var url = "index.php?controlador=Deudores&accion=listar_liquidaciones&rutdeudor="+document.getElementById("txtrut").value;
 			document.getElementById("frmlistliquidaciones").src = url;
 		}
-		/*
-		function seleccionado(id)
-		{
-			document.getElementById("id_ficha").value = id;
-		}
-		*/
-		
-		
+				
 		function salir()
 		{
 			$("#pagina").load('views/default.php');

@@ -74,13 +74,26 @@
 
 			if($.trim($("#control_volver").val()) != "")
 			{
-//				alert("id_estadoges"+document.getElementById("idestadoges").value);
 				$("#pagina").load('index.php?controlador=Deudores&accion=nueva_liquidacion&id='+iddeudor+"&control_volver=Gestiones&accion_volver=gestionar&param_volver=idgestion&val_volver="+$("#val_volver").val()+'&idestadoges='+document.getElementById("idestadoges").value);
 			}
 			else
 			{
 				$("#pagina").load('index.php?controlador=Deudores&accion=nueva_liquidacion&id='+iddeudor);
 			}
+		}
+
+		function eliminaliquidacion()
+		{
+			if(document.getElementById("id_liquidacion").value == "")
+			{
+				return false;
+			}
+
+			var id = document.getElementById("id_liquidacion").value;
+			var rut_deudor = document.getElementById("txtrut_deudor").value;
+			var rut = rut_deudor.substr(0,(rut_deudor.length)-2);
+			var url ="index.php?controlador=Deudores&accion=listar_liquidaciones&rutdeudor="+rut+"&id_liquidacion="+id;
+			document.getElementById("frmlistliquidaciones").src = url;
 		}
 		
 		function seleccionadoDeudor(id)
@@ -200,6 +213,9 @@
             </div>
         	<div style="position:relative; margin-left:10px;">
             <input  type="button" name="btnnuevo" id="btnnuevo" onclick="nuevaliquidacion()"  value="Nueva" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/><br />
+            </div>
+        	<div style="position:relative; margin-left:10px;">
+            <input  type="button" name="btneliminar" id="btneliminar" onclick="eliminaliquidacion()"  value="Eliminar" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/><br />
             </div>
 
          </td>

@@ -131,5 +131,14 @@ class LiquidacionesModel extends ModelBase
 		
 		return $dato;
 	}
+	
+	public function eliminaLiquidacion($id)
+	{
+		$dato = new Liquidaciones();
+		$dato->add_filter("id_liquidacion","=",$id);
+		$dato->load();
+		$dato->mark_deleted();
+		$dato->save();
+	}
 }
 ?>
