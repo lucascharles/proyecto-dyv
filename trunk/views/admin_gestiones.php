@@ -39,11 +39,10 @@
 			document.getElementById("frmlistgestiones").src = url;
 		}
 		
-		function seleccionado(id,idest,idnext)
+		function seleccionado(id,idest)
 		{
 			document.getElementById("id_gestion").value = id;
 			document.getElementById("id_estado").value = idest;
-			document.getElementById("id_next").value = idnext;
 		}
 		
 		
