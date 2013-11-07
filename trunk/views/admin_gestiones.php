@@ -13,7 +13,7 @@
 			var url = "index.php?controlador=Gestiones&accion=listarGestiones&rut_d="+document.getElementById("txtrutdeudor").value+"&rut_m="+document.getElementById("txtrutmandante").value+"&tipoGestion="+tipoG;
 			url +="&id_partida=0";
 			url +="&selEstado="+document.getElementById("selEstado").value;
-			url +="&nombre_deudor_filtro="+document.getElementById("txtnombredeudor").value;
+			url +="&nombre_deudor="+document.getElementById("txtnombredeudor").value;
 			url +="&filtro=1";
 			document.getElementById("frmlistgestiones").src = url;
 
@@ -152,12 +152,7 @@
  <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
     <tr>
 		<td colspan="2">
-		<?php if($rut_m == ""){ ?>
-        	<iframe id="frmlistgestiones" src="index.php?controlador=Gestiones&accion=listarGestiones&tipoGestion=<? $var = &$tipoGestion; echo($var); ?>&id_partida=0" width="100%" align="middle" height="220" scrolling="auto" frameborder="0"></iframe>        	
-        	
-        <?php }else{?>
-        	<iframe id="frmlistgestiones" src="index.php?controlador=Gestiones&accion=listarGestiones&rut_m=<? $var = &$rut_m; echo($var); ?>&tipoGestion=<? $var = &$tipoGestion; echo($var); ?>&id_partida=0" width="100%" align="middle" height="220" scrolling="auto" frameborder="0"></iframe>
-        <?php }?>
+       	<iframe id="frmlistgestiones" src="" width="100%" align="middle" height="220" scrolling="auto" frameborder="0"></iframe>        	
         </td>
         <td>
         	<div style="position:relative; margin-left:10px;">
@@ -213,3 +208,6 @@
 </form>
 </body>
 </html>
+<script language="javascript">
+mostrar(new Object());
+</script>
