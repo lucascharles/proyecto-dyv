@@ -35,7 +35,8 @@ class GestionesModel extends ModelBase
 			  AND esg.id_estado = g.estado    
 			   AND ( eg.id_estado IN (SELECT CASE doc.id_estado_doc WHEN 999 THEN 1 ELSE doc.id_estado_doc END FROM documentos doc WHERE doc.id_deudor = d.id_deudor) OR eg.id_estado IS NULL 
   					) 
-  			   AND g.activo = 'S' ";
+  			   AND g.activo = 'S' 
+  			   and 2 = 2 ";
 	
 	if(trim($param["rut_d"]) <> "")
 	{
@@ -97,6 +98,7 @@ class GestionesModel extends ModelBase
 		   and g.id_deudor = d.id_deudor
 	  	   and g.id_mandante = m.id_mandante
 		   and g.activo = 'S'
+		   and 1 = 1
 		   AND ((g.fecha_prox_gestion <= CURDATE()) OR (g.id_gestion NOT IN(SELECT gg.id_gestion FROM estados_x_gestion gg) AND (g.fecha_prox_gestion <= CURDATE()) ))
 		   and d.id_deudor in (select d1.id_deudor from documentos d1 where d1.id_deudor = d.id_deudor and d1.id_estado_doc not in( 2,3,4,5,13 )
 		   						and d1.activo = 'S') ";
@@ -120,9 +122,9 @@ class GestionesModel extends ModelBase
 		$where .= " and m.rut_mandante like '".trim($param["rut_m"])."%'";
 	}
 
-	if(trim($param["id_estado"]) <> "")
+	if(trim($param["selEstado"]) <> "")
 	{
-		$where .= " and g.estado = ".trim($param["id_estado"]);
+		$where .= " and g.estado = ".trim($param["selEstado"]);
 	}
 	
 	// $where .= " and g.id_gestion > ".$param["id_partida"];
