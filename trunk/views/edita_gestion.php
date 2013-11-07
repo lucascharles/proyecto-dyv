@@ -84,11 +84,11 @@
 
 			if(tg == "D")	
 			{
-				$("#pagina").load('index.php?controlador=Gestiones&accion=admin&proc=1'+"&rut_m="+document.getElementById("txtmandatario").value.substring(0,8));
+				$("#pagina").load('index.php?controlador=Gestiones&accion=admin&proc=1');
 			}
 			else
 			{
-				$("#pagina").load('index.php?controlador=Gestiones&accion=admin_grales&proc=1'+"&rut_m="+document.getElementById("txtmandatario").value.substring(0,8));
+				$("#pagina").load('index.php?controlador=Gestiones&accion=admin_grales&proc=1');
 			}
 		}
 		

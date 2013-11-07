@@ -5,14 +5,16 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<title></title>
-
+	<script src="js/scrollTo.js" type="text/javascript"></script>
     <script language="javascript">
 		function mostrar(obj)
 		{
 			var tipoG = document.getElementById("tipo_gestion").value;
 			var url = "index.php?controlador=Gestiones&accion=listarGestiones&rut_d="+document.getElementById("txtrutdeudor").value+"&rut_m="+document.getElementById("txtrutmandante").value+"&tipoGestion="+tipoG;
 			url +="&id_partida=0";
-			url +="&nombre_deudor="+document.getElementById("txtnombredeudor").value;
+			url +="&selEstado="+document.getElementById("selEstado").value;
+			url +="&nombre_deudor_filtro="+document.getElementById("txtnombredeudor").value;
+			url +="&filtro=1";
 			document.getElementById("frmlistgestiones").src = url;
 
 		}
@@ -21,28 +23,35 @@
 		{
 			document.getElementById("txtrutdeudor").value = "";
 			document.getElementById("txtrutmandante").value = "";
+			document.getElementById("txtnombredeudor").value  = "";
 			var tipoG = document.getElementById("tipo_gestion").value;
 			var url = "index.php?controlador=Gestiones&accion=listarGestiones&rut_d="+document.getElementById("txtrutdeudor").value+"&rut_m="+document.getElementById("txtrutmandante").value+"&tipoGestion="+tipoG;
 			url +="&id_partida=0";
+			url +="&nombre_deudor="+document.getElementById("txtnombredeudor").value;
+			url +="&filtro=1";
 			document.getElementById("frmlistgestiones").src = url;
 		}
 		
 		function buscar()
 		{
 			var tipoG = document.getElementById("tipo_gestion").value;
-			var idestado = document.getElementById("selEstadoGes").value;
 			var url = "index.php?controlador=Gestiones&accion=listarGestiones&rut_d="+document.getElementById("txtrutdeudor").value+"&rut_m="+document.getElementById("txtrutmandante").value+"&tipoGestion="+tipoG;
 			url +="&id_partida=0";
-			url +="&id_estado="+idestado;
+			url +="&selEstado="+document.getElementById("selEstado").value;
 			url +="&nombre_deudor="+document.getElementById("txtnombredeudor").value;
+			url +="&filtro=1";
 //			alert(url);
 			document.getElementById("frmlistgestiones").src = url;
 		}
 		
-		function seleccionado(id,idest)
+		function seleccionado(id,idest,idnext)
 		{
 			document.getElementById("id_gestion").value = id;
 			document.getElementById("id_estado").value = idest;
+			document.getElementById("id_next").value = idnext;
+			//$("#frmlistgestiones").scrollTo('#fila_'+id,{duration:20});
+			// document.getElementById("frmlistgestiones").scrollBy(100,100);
+			//myIframe.contentWindow.scrollTo(xcord, ycord)
 		}
 		
 		
@@ -63,7 +72,6 @@
 			var idNextGes = document.getElementById("id_next").value;
 
 			$("#pagina").load('index.php?controlador=Gestiones&accion=gestionar&idgestion='+id+'&idNextGes='+idNextGes+'&tipoGestion='+document.getElementById("tipo_gestion").value+'&estadoGes='+document.getElementById("id_estado").value);
-			
 		}
 	</script>
 </head>
@@ -99,19 +107,26 @@
 	 
 	 <tr>
 		<td align="right" class="etiqueta_form" width="20">Rut Mandante:</td>
-        <td>&nbsp;&nbsp;&nbsp;<input type="text" name="txtrutmandante" id="txtrutmandante"  onkeyup='mostrar(this)' class="input_form"  onFocus="resaltar(this)" onBlur="noresaltar(this)" /> &nbsp;
+        <td>&nbsp;&nbsp;&nbsp;<input type="text" name="txtrutmandante" id="txtrutmandante"  onkeyup='mostrar(this)' class="input_form"  onFocus="resaltar(this)" value="<?=$_SESSION["rut_m_f"]?>" onBlur="noresaltar(this)" /> &nbsp;
         </td>
         <td align="right" class="etiqueta_form" width="20">Rut Deudor:</td>
-        <td>&nbsp;&nbsp;&nbsp;<input type="text" name="txtrutdeudor" id="txtrutdeudor"  size="40" onkeyup='mostrar(this)' class="input_form"  onFocus="resaltar(this)" onBlur="noresaltar(this)"/> &nbsp;
+        <td>&nbsp;&nbsp;&nbsp;<input type="text" name="txtrutdeudor" id="txtrutdeudor"  size="40" onkeyup='mostrar(this)' class="input_form" value="<?=$_SESSION["rut_d_f"]?>"  onFocus="resaltar(this)" onBlur="noresaltar(this)"/> &nbsp;
         </td>
         <td align="right" class="etiqueta_form" width="20">Estado:</td>
         <td>&nbsp;&nbsp;&nbsp;
-        	<select name="selEstadoGes" grabar="S" tipovalida="texto" id="selEstadoGes" onchange="" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" >
+        	<select name="selEstado" grabar="S" tipovalida="texto" id="selEstado" onchange="mostrar(this)" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" >
+            <option value=""></option>
         		<?
+					$selected = "";
 			        for($j=0; $j<$coleccion_estadoGes->get_count(); $j++)
 			        {
-						
 			            $datoTmp = &$coleccion_estadoGes->items[$j];						
+						
+						if($datoTmp->get_data("id_estado_doc") == $_SESSION["selEstado_f"])	
+						{
+							$selected = "selected='selected'";
+						}
+						
 			            echo("<option value=".$datoTmp->get_data("id_estado_doc")." ".$selected." >".strtoupper(utf8_encode($datoTmp->get_data("estado")))."</option>");           
 			        }
     			?>
@@ -123,7 +138,7 @@
     </tr>
     <tr>
 		<td align="right" class="etiqueta_form" width="20">Nombre Deudor:</td>
-        <td>&nbsp;&nbsp;&nbsp;<input type="text" name="txtnombredeudor" id="txtnombredeudor"  onkeyup='mostrar(this)' class="input_form"  onFocus="resaltar(this)" onBlur="noresaltar(this)" /> &nbsp;
+        <td>&nbsp;&nbsp;&nbsp;<input type="text" name="txtnombredeudor" id="txtnombredeudor"  onkeyup='mostrar(this)' class="input_form"  onFocus="resaltar(this)" onBlur="noresaltar(this)" value="<?=$_SESSION["nombre_deudor_f"]?>" /> &nbsp;
         </td>
         <td align="right" class="etiqueta_form" width="20"></td>
         <td></td>
