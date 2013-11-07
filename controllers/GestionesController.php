@@ -25,6 +25,11 @@ class GestionesController extends ControllerBase
 		
 		$data['coleccion_estadoGes'] = $documentos->getListaEstadoDoc("");
 		
+		if($array["nxt"] == 1)
+		{
+			$_SESSION["idNextGes"] = "";
+		}
+		
 		$this->view->show("admin_gestiones.php", $data);
 	}
 
@@ -64,6 +69,8 @@ class GestionesController extends ControllerBase
 		$estges = new DocumentosModel();
 		$deudor = new DeudoresModel();
 		$mandantes = new MandantesModel();
+		
+		$_SESSION["idNextGes"] = $array["idNextGes"];
 		
 		$cabecera = $gestiones->getCabeceraGestion($array["idgestion"]);
 		$cab = $cabecera->items[0];
@@ -286,6 +293,15 @@ class GestionesController extends ControllerBase
     {
 		require 'models/GestionesModel.php';
 		$gestiones = new GestionesModel();
+		
+		if($array["filtro"] == 1)
+		{
+			$_SESSION["rut_d_f"] = $array["rut_d"];
+			$_SESSION["rut_m_f"] = $array["rut_m"];
+			$_SESSION["nombre_deudor_f"] = $array["nombre_deudor"];
+			$_SESSION["selEstado_f"] = $array["selEstado"];
+		}		
+		
 		if($array["tipoGestion"]=="D")
 		{
 			$dato = $gestiones->getListaGestionesDia($array["des_int"],$array);	
@@ -314,7 +330,7 @@ class GestionesController extends ControllerBase
 		}
 		
 		
-		$data['idNextGes'] = $array["idNextGes"];
+		//$data['idNextGes'] = $array["idNextGes"];
 		$data['cant_mas'] = $cant_datos;
 		$data['nom_sistema'] = "SISTEMA DyV";
 		$data['colleccionGestiones'] = $dato;
