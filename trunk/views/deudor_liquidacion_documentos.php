@@ -53,7 +53,6 @@
 							}
 
 							v_protesto = v_protesto + parseInt(gastos);
-
 							v_fecha = arraydoc[i].getAttribute('fecha_doc');
 							
 //							if(v_fecha == "")
@@ -70,6 +69,9 @@
 						}
 					}
 				}	
+
+				v_protesto = v_protesto - parseInt(gastos);
+				
 				// CALCULO CANTIDAD DIAS ATRASO
 				var dias = 0;
 				if(v_fecha != "" && v_fecha != "//00/00/00")
@@ -173,6 +175,7 @@
 	}
 	?>
 </table>
+
 </div>
 
 </form>

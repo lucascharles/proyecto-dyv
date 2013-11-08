@@ -283,10 +283,6 @@
 		
 		function grabar()
 		{		
-//			if(!validar("N"))
-//			{
-//				return false;
-//			}
 
 			if($.trim($("#id_deudor").val()) != "")
 			{
@@ -307,7 +303,7 @@
 				datos += "&selCausalProtesta="+$("#selCausalProtesta").val();
 				datos += "&selEstadoDoc="+$("#selEstadoDoc").val();
 				datos += "&gastos_protesto="+$("#txtmontoprotesto").val();
-				alert(datos);
+
 				$.ajax({
 					url: "index.php",
 					type: "GET",
@@ -537,7 +533,7 @@
 
 <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="titulopantalla">
 	<tr>
-		<th align="left" height="30">&nbsp;Alta Documento</th>
+		<th align="left" height="30">&nbsp;Alta Documentos</th>
         <th></th>
         <th></th>
     </tr>

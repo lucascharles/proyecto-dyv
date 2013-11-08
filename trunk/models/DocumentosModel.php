@@ -856,14 +856,14 @@ class DocumentosModel extends ModelBase
 	 								mandantes m,
 	 								estadodocumentos ed,
 	 								tipodocumento td");
-	  	$where = " d.id_banco = c.id_banco
+	  	$where = " IFNULL(d.id_banco,0) = c.id_banco
 				and  d.id_deudor = dd.id_deudor
 				and m.id_mandante = d.id_mandatario
 				and d.id_estado_doc = ed.id_estado_doc
 				and d.id_tipo_doc = td.id_tipo_documento
 				and d.activo = 'S' ";
 		
-		$where .= " and d.id_documento > ".$array["id_partida"];
+		$where .= " and d.id_documento >= ".$array["id_partida"];
 		
 //		$sqlpersonal->set_top(10); // PARA SQLSERVER 
 		$sqlpersonal->set_limit(0,30); // PARA MYSQL
@@ -926,7 +926,7 @@ class DocumentosModel extends ModelBase
 	 								mandantes m,
 	 								estadodocumentos ed,
 	 								tipodocumento td");
-	  	$where = " d.id_banco = c.id_banco
+	  	$where = " IFNULL(d.id_banco,0) = c.id_banco
 				and d.id_deudor = dd.id_deudor
 				and m.id_mandante = d.id_mandatario
 				and d.id_estado_doc = ed.id_estado_doc
@@ -1173,7 +1173,7 @@ class DocumentosModel extends ModelBase
 	 								mandantes m,
 	 								estadodocumentos ed,
 	 								tipodocumento td");
-		$where = " d.id_banco = c.id_banco
+		$where = " IFNULL(d.id_banco,0) = c.id_banco
 				and  d.id_deudor = dd.id_deudor
 				and m.id_mandante = d.id_mandatario
 				and m.id_mandante = dd.id_mandante
@@ -1181,7 +1181,7 @@ class DocumentosModel extends ModelBase
 				and d.id_tipo_doc = td.id_tipo_documento
 				and d.activo = 'S' ";
 	
-		$where .= " and d.id_documento > ".$array["id_partida"];
+		$where .= " and d.id_documento >= ".$array["id_partida"];
 		
 		if($array["rutDeudor"] != "")
 		{
@@ -1742,10 +1742,11 @@ class DocumentosModel extends ModelBase
      							 ,tipodocumento td, estadodocumentos ed  ");
       	$sqlpersonal->set_where(" d.id_tipo_doc = td.id_tipo_documento
 							and   d.id_estado_doc = ed.id_estado_doc
+							and   d.activo = 'S'
 							and   d.id_deudor = ".$id_deudor.
-							" GROUP BY id_deudor,tipo_documento, numero_documento,estado, fecha_protesto, fecha_siniestro,fecha_creacion,monto 
+						    " GROUP BY id_deudor,tipo_documento, numero_documento,estado, fecha_protesto, fecha_siniestro,fecha_creacion,monto 
 							order by id_deudor ");
-	
+
     	$sqlpersonal->load();
 
     	return $sqlpersonal;

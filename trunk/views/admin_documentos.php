@@ -99,7 +99,7 @@
 
 <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="titulopantalla">
 	<tr>
-		<th align="left" height="30">&nbsp;B&uacute;squeda Documentos</th>
+		<th align="left" height="30">&nbsp;B&uacute;squeda Documento</th>
         <th></th>
         <th></th>
     </tr>
