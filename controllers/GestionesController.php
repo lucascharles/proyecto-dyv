@@ -110,6 +110,10 @@ class GestionesController extends ControllerBase
 		
 		$existeLiquidacion = $deudor->getCantLiquidaciones($iddeudor);
 		
+		$rolDemanda = $deudor->getRolDemanda($iddeudor);
+		$rol = $rolDemanda->items[0];
+		$primerRol = $rol->get_data("rol");
+		
 		$data['nom_sistema'] = "SISTEMA DyV";
 		$data['objGestion'] = $dato;
 		$data['coleccionEstadoGestion'] = $datoEg;
@@ -130,6 +134,7 @@ class GestionesController extends ControllerBase
 		$data['deudaNetaMandante'] = $deudaMandante;
 		$data['tipoGestion'] = $array["tipoGestion"];
 		$data['cantidadDemandas'] = $cantDemandas;
+		$data['rolDemanda'] = $primerRol;
 		$data['coleccionMandantesDeudor'] = $MandantesXDeudor;
 		
 		

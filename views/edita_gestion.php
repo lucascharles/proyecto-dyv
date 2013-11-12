@@ -670,7 +670,7 @@
 <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="titulopantalla">
 	<tr>
 		<td>
-		<th align="left" height="30">&nbsp;Demandas - Cantidad: <? $var = &$cantidadDemandas; echo($var); ?></th>
+		<th align="left" height="30">&nbsp;Demandas - Cantidad: <? $var = &$cantidadDemandas; echo($var); ?> Rol: <? $var = &$rolDemanda; echo($var); ?> </th>
         <th></th>
         <th align="center" ></th>
         <th></th>
