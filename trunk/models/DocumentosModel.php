@@ -1733,6 +1733,7 @@ class DocumentosModel extends ModelBase
 									ed.estado estado,
 									d.fecha_protesto fecha_protesto,
 									d.fecha_siniestro fecha_siniestro,
+									d.fecha_siniestro fecha_vencimiento,
 									d.fecha_creacion fecha_creacion, 
 									d.monto monto,
 									IFNULL(d.gastos_protesto,0) gasto_protesto,

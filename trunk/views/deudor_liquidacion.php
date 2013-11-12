@@ -581,7 +581,9 @@
 			var x = parseInt(document.getElementById("txtimporte").value)+parseInt(document.getElementById("txtimpcalc").value); 
 			document.getElementById("txtcostoprestamo").value = x;
 
-			 
+			var porcentajectdo = parseInt(document.getElementById("txtporcentajectdo").value);
+			var total_mandante = document.getElementById("txttotalmandante").value;
+			document.getElementById("txtpagocontado").value = (parseInt(total_mandante) * parseInt(porcentajectdo)/100);
 
 			var saldo_inicial = parseInt(document.getElementById("txtcostoprestamo").value);
 			var interes_mensual = document.getElementById("txtinteresmensual").value;

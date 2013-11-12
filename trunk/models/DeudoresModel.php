@@ -1735,5 +1735,24 @@ ORDER BY orden ASC ";
 	    return $sqlpersonal;
 	}
 	
+	public function getRolDemanda($iddeudor)
+	{
+		
+		include("config.php");
+
+		
+		$select = " MIN(id_ficha) idficha, rol rol "; 
+ 		$from = " ficha f ";
+    	$where = " id_deudor = ".$iddeudor;
+    	$where = $where . " GROUP BY rol ";
+		
+		$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
+		$sqlpersonal->set_select($select);
+		$sqlpersonal->set_from($from);
+		$sqlpersonal->set_where($where);
+    	$sqlpersonal->load();
+
+	    return $sqlpersonal;
+	}
 }
 ?>
