@@ -678,8 +678,6 @@
 		{
 			
 			var monto = document.getElementById("txttotal").value;
-			var fecha = document.getElementById("txtfechavenc").value;
-			var dias = document.getElementById("txtdiasatraso").value;
 
 			// CALCULO INTERES DIARIO 
 			var interes = ((parseInt($("#txtinteres").val()) * parseInt(document.getElementById("txttotal").value) ) / 100)/30;
@@ -693,15 +691,18 @@
 			}
 			
 			// CALCULO INTERES ACUMULADO 
-			var int_acum = interes * parseInt(dias);
-			if(int_acum == 0)
-			{
-				$("#txtinteresacumulado").val("");
-			}
-			else
-			{
-				$("#txtinteresacumulado").val(parseInt(int_acum));
-			}
+//			var fecha = document.getElementById("txtfechavenc").value;
+//			var dias = document.getElementById("txtdiasatraso").value;
+//			
+//			var int_acum = interes * parseInt(dias);
+//			if(int_acum == 0)
+//			{
+//				$("#txtinteresacumulado").val("");
+//			}
+//			else
+//			{
+//				$("#txtinteresacumulado").val(parseInt(int_acum));
+//			}
 
 			//CALCULO DE SIMULACION
 			var capital = document.getElementById("txttotal").value;
@@ -710,6 +711,7 @@
 			var acumulado = document.getElementById("txtinteresacumulado").value;
 				 
 			var vcostas = document.getElementById("txtcostasprocesales").value;
+			if(vcostas == "") vcostas = 0;
 			var total = Math.ceil((parseInt(capital) + parseInt(acumulado) + parseInt(protesto) + parseInt(vcostas)));
 			var honorarios = (parseInt(total) * parseInt(porcentaje)/100) ; 
 			var total_simulacion = parseInt(total) + parseInt(honorarios);

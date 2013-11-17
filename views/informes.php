@@ -89,8 +89,7 @@
 				setTimeout("limpiarMensaje()",3000);				
 			}
 			var url = "index.php?controlador=Informes&accion=listar&tipoInforme="+document.getElementById("selTipoInforme").value+"&idmandante="+document.getElementById("id_mandante").value;
-				url = url+"&tipoDoc="+document.getElementById("selTipoDoc").value
-				alert(url);
+				url = url+"&tipoDoc="+document.getElementById("selTipoDoc").value;
 				document.getElementById("frmlistinforme").src = url;
 		}
 

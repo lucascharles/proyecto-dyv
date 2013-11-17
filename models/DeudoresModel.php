@@ -1741,7 +1741,7 @@ ORDER BY orden ASC ";
 		include("config.php");
 
 		
-		$select = " MIN(id_ficha) idficha, rol rol "; 
+		$select = " MIN(id_ficha) idficha, rol rol, juzgado_anexo juzgado_anexo "; 
  		$from = " ficha f ";
     	$where = " id_deudor = ".$iddeudor;
     	$where = $where . " GROUP BY rol ";
@@ -1754,5 +1754,24 @@ ORDER BY orden ASC ";
 
 	    return $sqlpersonal;
 	}
+	
+	public function eliminaFicha($id)
+	{
+		$dato = new Ficha();
+		$dato->add_filter("id_ficha","=",$id);
+		$dato->load();
+		$dato->mark_deleted();
+		$dato->save();
+	}
+	
+	public function eliminaFichaDoc($id)
+	{
+		$dato = new Documento_Ficha();
+		$dato->add_filter("id_ficha","=",$id);
+		$dato->load();
+		$dato->mark_deleted();
+		$dato->save();
+	}
+	
 }
 ?>

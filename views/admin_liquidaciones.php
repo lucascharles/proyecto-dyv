@@ -13,7 +13,17 @@
 			var url = "index.php?controlador=Deudores&accion=listar_liquidaciones&rutdeudor="+obj.value;
 			document.getElementById("frmlistliquidaciones").src = url;
 		}
-		
+		function mostrarDeudor(obj)
+		{
+			var papel = document.getElementById("txtpapellido").value;
+			var sapel = document.getElementById("txtsapellido").value;
+			var pnom = document.getElementById("txtpnombre").value;
+			var snom = document.getElementById("txtsnombre").value;
+			
+			var url = "index.php?controlador=Deudores&accion=listar&id_partida=0&rut="+obj.value+"&p_ape="+papel+"&s_ape="+sapel+"&p_nom="+pnom+"&s_nom="+snom;
+			
+			document.getElementById("frmlistdeudor").src = url;
+		}	
 		function limpiar()
 		{
 			document.getElementById("txtrut").value = "";

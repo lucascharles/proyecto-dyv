@@ -46,9 +46,9 @@
 			
 			var id = document.getElementById("id_ficha").value;
 
-			var url = "index.php?controlador=Deudores&accion=eliminar_ficha&idficha="+id;
+			var url = "index.php?controlador=Deudores&accion=listar_fichas&id_partida=0&eliminarficha="+id;
 			
-			document.getElementById("frmlistdocumentos").src = url;
+			document.getElementById("frmlistfichas").src = url;
 		}
 		
 		function salir()
@@ -67,6 +67,7 @@
 			
 			$("#pagina").load('index.php?controlador=Deudores&accion=deudor_ficha&id='+id+'&tipope=M');
 		}
+
 	</script>
 </head>
 <body>
@@ -99,6 +100,7 @@
        <td colspan="3" align="right"> 
        		<input  type="button" name="btnbuscar" id="btnbuscar" onclick="buscar()"  value="Buscar" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)' />&nbsp;
          	<input  type="button" name="btnlimpiar" id="btnlimpiar" value="Limpiar" onclick="limpiar()" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/>
+         	
        </td>
     </tr>
    
@@ -112,7 +114,7 @@
         </td>
         <td width="10%">
         	<div style="position:relative; margin-left:10px;">
-<!--        	<input  type="button" name="btneliminar" id="btneliminar" onclick="eliminar()" value="Eliminar" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/><br />-->
+        	<input  type="button" name="btneliminar" id="btneliminar" onclick="eliminar()" value="Eliminar" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/><br />
             <input  type="button" name="btnmodificar" id="btnmodificar" onclick="editar()"  value="Modificar" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/><br />
             </div>
          </td>
@@ -120,9 +122,10 @@
     <tr>
 		<td colspan="3" align="right">
         
-            <input  type="button" name="btnsalir" id="btnsalir" onclick="salir()"  value="salir" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/>&nbsp;&nbsp;
+            <input  type="button" name="btnsalir" id="btnsalir" onclick="salir()"  value="Salir" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/>&nbsp;&nbsp;
          </td>
     </tr>
+     
      <tr>
 		<td colspan="3" height="10">
          </td>
