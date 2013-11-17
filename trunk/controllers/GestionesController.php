@@ -112,8 +112,13 @@ class GestionesController extends ControllerBase
 		
 		$rolDemanda = $deudor->getRolDemanda($iddeudor);
 		$rol = $rolDemanda->items[0];
-		$primerRol = $rol->get_data("rol");
-		
+		if($rol != ""){
+			$primerRol = $rol->get_data("juzgado_anexo") ." / ".$rol->get_data("rol");
+		}
+		else
+		{
+			$primerRol = "";
+		}
 		$data['nom_sistema'] = "SISTEMA DyV";
 		$data['objGestion'] = $dato;
 		$data['coleccionEstadoGestion'] = $datoEg;

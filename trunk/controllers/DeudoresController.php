@@ -785,6 +785,17 @@ class DeudoresController extends ControllerBase
 		$deudor = new DeudoresModel();
 		$dato = $deudor->getTodasFichas($array);
 		$cant_datos = 0;
+		
+		if($array["eliminarficha"]!= "")
+		{
+			$deudor->eliminaFicha($array["eliminarficha"]);
+			$deudor->eliminaFichaDoc($array["eliminarficha"]);
+			//elminar martillero_ficha
+			//eliminar ficha_demanda_ejecutiva
+			//eliminar ficha_receptor
+			
+		}
+		
 		if($dato->get_count() > 0)
 		{
 			$datoTmp = &$dato->items[($dato->get_count()-1)];
@@ -1048,7 +1059,8 @@ class DeudoresController extends ControllerBase
 		$data['valoruf'] = $parametros->getParametro("valor_uf");// 22700;  		//crear metodo en la base para este parametro
 		$data['interes_base'] = $parametros->getParametro("interes_diario_normal"); //"2";    //crear metodo en la base para este parametro
 		$costas = $deudores->getGastosfichadeudor($data['liquidacion']->get_data("id_deudor"));
-		$data['costasProcesales'] = $costas->items[0]->get_data("total_gastos");
+		if($costas->items[0]->get_data("total_gastos") == "") $costasProcesales = 0;
+		$data['costasProcesales'] = $costasProcesales; //$costas->items[0]->get_data("total_gastos");
 		
 		$data['idestadoges'] = $array["idestadoges"];
 		$data['control_volver'] = $array["control_volver"];
@@ -1234,6 +1246,5 @@ class DeudoresController extends ControllerBase
 			echo($id);
 		}
 	}
-	
 }
 ?>

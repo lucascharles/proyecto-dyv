@@ -144,7 +144,7 @@
 					&&($.trim($("#txtcomentarios").val()) != "")
 					&&($.trim($("#txtrut_mandante").val()) != "")
 					&&($.trim($("#txtfechaproxgestion").val()) != "")
-					&&($.trim($("#txtusuario").val()) != "")
+//					&&($.trim($("#txtusuario").val()) != "")
 					&&(document.getElementById('selGestion').options[document.getElementById('selGestion').selectedIndex].text != "") )
 					
 					{

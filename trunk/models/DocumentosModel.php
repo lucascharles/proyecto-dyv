@@ -1162,24 +1162,18 @@ class DocumentosModel extends ModelBase
 		include("config.php");
 	
 		$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
+
 		$sqlpersonal->set_select(" d.id_documento id_documento, c.banco id_banco, dd.primer_apellido ape1_deudor, dd.segundo_apellido ape2_deudor,
 				ifnull(dd.primer_nombre , dd.razonsocial) nom1_deudor,
 				dd.primer_nombre nomX_deudor, dd.segundo_nombre nom2_deudor,
 									concat(m.nombre, m.apellido) nombre_mandante, ed.estado id_estado_doc, td.tipo_documento id_tipo_doc,
 									d.numero_documento numero_documento,d.fecha_protesto fecha_protesto, d.fecha_siniestro fecha_siniestro, d.cta_cte cta_cte,d.monto monto, d.fecha_siniestro fecha_recibido ");
-		$sqlpersonal->set_from(" documentos d,
-	 								bancos c,
-	 								deudores dd,
-	 								mandantes m,
-	 								estadodocumentos ed,
-	 								tipodocumento td");
-		$where = " IFNULL(d.id_banco,0) = c.id_banco
-				and  d.id_deudor = dd.id_deudor
-				and m.id_mandante = d.id_mandatario
-				and m.id_mandante = dd.id_mandante
-				and d.id_estado_doc = ed.id_estado_doc
-				and d.id_tipo_doc = td.id_tipo_documento
-				and d.activo = 'S' ";
+		$sqlpersonal->set_from(" tipodocumento td , bancos c, documentos d, estadodocumentos ed, deudores dd LEFT JOIN mandantes m ON dd.id_mandante = m.id_mandante ");
+		$where = " d.id_deudor = dd.id_deudor
+				  AND IFNULL(d.id_banco, 0) = c.id_banco
+				  AND d.id_estado_doc = ed.id_estado_doc 
+				  AND d.id_tipo_doc = td.id_tipo_documento 
+				  AND d.activo = 'S' ";
 	
 		$where .= " and d.id_documento >= ".$array["id_partida"];
 		
