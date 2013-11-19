@@ -21,6 +21,8 @@
         <th align="center"><font class="titulolistado">Ficha</font></th>
         <th align="center"><font class="titulolistado">Juzgado</font></th>
         <th align="center"><font class="titulolistado">Rol</font></th>
+        <th align="center"><font class="titulolistado">Monto</font></th>
+        <th align="center"><font class="titulolistado">Aval</font></th>
         <!-- <th align="center"><font class="titulolistado">Fecha</font></th>  -->
     </tr>
 	<?php
@@ -35,6 +37,8 @@
 		<td align="left">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("ficha")) ?></td>
 		<td align="left">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("juzgado")) ?></td>
 		<td align="left">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("rol")) ?></td>
+		<td align="left">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("monto")) ?></td>
+		<td align="left">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("aval")) ?></td>
 		<!-- <td align="left">&nbsp;&nbsp;<?php /*echo (($datoTmp->get_data("fecha"))) */?></td> -->
 
 	</tr>

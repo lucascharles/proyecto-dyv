@@ -121,6 +121,12 @@
 			datos += "&id_alta="+document.getElementById("id_alta").value;
 			datos += "&tipoperacion="+document.getElementById("tipoperacion").value;
 			datos += "&txtjuzgadoanexo="+document.getElementById("txtjuzgadoanexo").value;
+
+			datos += "&txtaval="+document.getElementById("txtaval").value;
+			datos += "&txtrutaval="+document.getElementById("txtrutaval").value;
+			datos += "&txttelaval="+document.getElementById("txttelaval").value;
+			datos += "&txtdomicilioaval="+document.getElementById("txtdomicilioaval").value;
+			
 			datos += "&listdocs="+document.getElementById("listdocs").value;
 //			datos += "&"+getParametrosArray(arrayin);
 //			alert(datos);
@@ -398,7 +404,11 @@
 	$jComuna = ($tipoperacion == "M") ? $ficha->get_data("id_juzgado_comuna") : "";
 	$id_alta = ($tipoperacion == "M") ? $ficha->get_data("id_ficha") : "";
 	$juzgadoanexo = ($tipoperacion == "M") ? $ficha->get_data("juzgado_anexo") : "";
-//	$ident = ($tipoperacion == "M") ? $ficha->get_data("monto") :"";
+
+	$aval = ($tipoperacion == "M") ? $ficha->get_data("aval") : "";
+	$rutaval = ($tipoperacion == "M") ? $ficha->get_data("rut_aval") : "";
+	$telaval = ($tipoperacion == "M") ? $ficha->get_data("tel_aval") : "";
+	$domicilioaval = ($tipoperacion == "M") ? $ficha->get_data("domicilio_aval") : "";
 	
 ?>
 <form name="frmadmtipdoc">
@@ -509,6 +519,21 @@
 		<td colspan="4" height="10"> </td>
     </tr>
     <tr>
+		<td align="left" class="etiqueta_form">Aval</td>
+        <td align="left" class="etiqueta_form">Rut Aval</td>
+        <td align="left" class="etiqueta_form">Tel Aval</td>
+        <td align="left" class="etiqueta_form">Domicilio Aval</td>
+    </tr>
+    <tr>
+		<td><input type="text" name="txtaval" value="<? echo($aval) ?>" id="txtaval"  size="20" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" />
+        </td>
+        <td><input type="text" name="txtrutaval"  value="<? echo($rutaval) ?>"id="txtrutaval"  size="20" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" />
+        </td>
+        <td><input type="text" name="txttelaval"  value="<? echo($telaval) ?>" id="txttelaval"  size="20" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" />
+        </td>
+        <td><input type="text" name="txtdomicilioaval"  value="<? echo($domicilioaval) ?>" id="txtdomicilioaval"  size="20" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" />
+        </td>
+		
 		<td colspan="4" align="right"> 
         <input  type="button" name="btngrabar" id="btngrabar" onClick="grabarFichaDeudor()"  value="Confirmar" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/>&nbsp;
         <?

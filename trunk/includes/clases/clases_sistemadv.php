@@ -119,7 +119,12 @@
 					"rol" => array("varchar"),
 					"id_juzgado" => array("int"),
 					"id_juzgado_comuna" => array("int"),
-					"juzgado_anexo" => array("varchar")
+					"juzgado_anexo" => array("varchar"),
+					"aval" => array("varchar"),
+					"rut_aval" => array("varchar"),
+					"tel_aval" => array("varchar"),
+					"domicilio_aval" => array("varchar")
+			
 				);
 			parent::BusinessObject();
 		}
