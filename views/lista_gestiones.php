@@ -87,7 +87,9 @@
         <td align="left" width='8%' class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("rut_mandante")."-".$datoTmp->get_data("dv_mandante")) ?></td>
         <td align="left" width='8%' class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("rut_deudor")."-".$datoTmp->get_data("dv_deudor")) ?></td>
 		<td align="left" width='10%' class="dato_lista">&nbsp;&nbsp;<?php echo (utf8_decode($datoTmp->get_data("razonsocial"))) ?></td>
-		<td align="left" width='10%' class="dato_lista">&nbsp;&nbsp;<?php echo (utf8_decode($datoTmp->get_data("primer_apellido"))) ?></td>
+		<!--<td align="left" width='10%' class="dato_lista">&nbsp;&nbsp;<?php echo (utf8_decode($datoTmp->get_data("primer_apellido"))) ?></td>
+		-->
+		<td align="left" width='10%' class="dato_lista">&nbsp;&nbsp;<?php echo ($cant_mas) ?></td>
 		<td align="left" width='10%' class="dato_lista">&nbsp;&nbsp;<?php echo (utf8_decode($datoTmp->get_data("segundo_apellido"))) ?></td>
         <td align="left" width='10%' class="dato_lista">&nbsp;&nbsp;<?php echo (utf8_decode($datoTmp->get_data("primer_nombre"))) ?></td>
         <td align="left" width='10%' class="dato_lista">&nbsp;&nbsp;<?php echo (utf8_decode($datoTmp->get_data("segundo_nombre"))) ?></td>

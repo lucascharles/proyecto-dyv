@@ -35,8 +35,7 @@ class GestionesModel extends ModelBase
 			  AND esg.id_estado = g.estado    
 			   AND ( eg.id_estado IN (SELECT CASE doc.id_estado_doc WHEN 999 THEN 1 ELSE doc.id_estado_doc END FROM documentos doc WHERE doc.id_deudor = d.id_deudor) OR eg.id_estado IS NULL 
   					) 
-  			   AND g.activo = 'S' 
-  			   and 2 = 2 ";
+  			   AND g.activo = 'S' ";
 	
 	if(trim($param["rut_d"]) <> "")
 	{
@@ -58,8 +57,8 @@ class GestionesModel extends ModelBase
 		$where .= " and g.estado = ".trim($param["id_estado"]);
 	}
 
-	$where .= " and g.id_gestion > ".$param["id_partida"];
-	$where = $where ." GROUP BY g.id_deudor ORDER BY eg.fecha_prox_gestion, g.id_gestion ASC ";
+	// $where .= " and g.id_gestion > ".$param["id_partida"];
+	$where = $where ." GROUP BY eg.id_estado, g.id_deudor ORDER BY eg.fecha_prox_gestion, g.id_gestion ASC ";
 	
 	
 	$sqlpersonal->set_where( $where );

@@ -107,6 +107,7 @@ class GestionesController extends ControllerBase
 		
 		$MandantesXDeudor = $mandantes->getMandanteDeudor($iddeudor);
 		$cantDemandas = $deudor->getCantFicha($iddeudor);
+		$totalDemandas = $deudor->getTotalDemanda($iddeudor);
 		
 		$existeLiquidacion = $deudor->getCantLiquidaciones($iddeudor);
 		
@@ -139,17 +140,18 @@ class GestionesController extends ControllerBase
 		$data['deudaNetaMandante'] = $deudaMandante;
 		$data['tipoGestion'] = $array["tipoGestion"];
 		$data['cantidadDemandas'] = $cantDemandas;
+		$data['totalDemandas'] = $totalDemandas;
 		$data['rolDemanda'] = $primerRol;
 		$data['coleccionMandantesDeudor'] = $MandantesXDeudor;
 		
 		
-//		$ultimaGestion = $gestiones->getUltimaGestion($array["idgestion"]);
+//		$aval = $deudor->getAvalFicha($iddeudor); 
 		
 		$ultimaGestion = $gestiones->getEstadoGestion($array["estadoGes"]);
 		$data['idestadoges'] = $array["estadoGes"];
 		$data['idgestion'] = $array["idgestion"];
 		$data['idNextGes'] = $array["idNextGes"];
-		
+//		$data['aval'] = $aval;
 		
 		if($ultimaGestion->get_count() > 0)
 		{

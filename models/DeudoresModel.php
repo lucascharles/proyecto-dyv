@@ -27,6 +27,24 @@ class DeudoresModel extends ModelBase
 		$cantidad = $dato->get_count();		
 		return $cantidad;
 	}
+
+	public function getTotalDemanda($iddeudor)
+	{
+		$dato = new FichaCollection();
+		$dato->add_filter("id_deudor","=",$iddeudor);
+		$dato->load();
+		$monto = 0;
+		if($dato->get_count()!=0)
+		{
+			for($j=0; $j<$dato->get_count(); $j++) 
+			{
+				$datoTmp = &$dato->items[$j];  
+				$monto = $monto + $datoTmp->get_data("monto");
+			}
+		}
+				
+		return $monto;
+	}
 	
 	public function getCantLiquidaciones($iddeudor)
 	{
@@ -66,6 +84,10 @@ class DeudoresModel extends ModelBase
 		$dato->set_data("distribucion_corte",formatoFecha($param["txtdist_corte"],"dd/mm/yyyy","yyyy-mm-dd"));
 		$dato->set_data("rol",$param["txtrol"]);
 		$dato->set_data("juzgado_anexo",$param["txtjuzgadoanexo"]);
+		$dato->set_data("aval",$param["txtaval"]);
+		$dato->set_data("rut_aval",$param["txtrutaval"]);
+		$dato->set_data("tel_aval",$param["txttelaval"]);
+		$dato->set_data("domicilio_aval",$param["txtdomicilioaval"]);
 		$dato->save();
 		
 		$docficha = new Documento_Ficha();
@@ -1147,7 +1169,9 @@ ORDER BY orden ASC ";
 		$sqlpersonal->set_select( "   juzgado_anexo juzgado,
 									  f.rol rol,
 									  f.id_ficha ficha,
-									  f.ingreso fecha  ");
+									  f.ingreso fecha,
+									  f.monto monto,
+									  f.aval aval  ");
 		$sqlpersonal->set_from( " ficha f ");
 		$sqlpersonal->set_where( " f.id_deudor = ".$iddeudor);
 	
