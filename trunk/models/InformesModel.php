@@ -12,6 +12,7 @@ class InformesModel extends ModelBase
 		$sqlpersonal->set_select( "  m.rut_mandante rut_mandante, m.dv_mandante dv_mandante, 
 									   ds.rut_deudor rut_deudor, ds.dv_deudor dv_deudor,
 									   ds.primer_apellido primer_apellido, ds.segundo_apellido segundo_apellido,
+									   ds.primer_nombre primer_nombre, ds.segundo_nombre segundo_nombre,
    									   ds.razonsocial razonsocial,
 									   d.numero_siniestro numero_siniestro,
 									   d.fecha_siniestro fecha_siniestro,
@@ -31,6 +32,7 @@ class InformesModel extends ModelBase
 						AND ds.activo = 'S'
 						AND m.activo = 'S'
 						AND td.activo = 'S'
+						AND d.id_estado_doc not in (2,4)
 						AND d.id_estado_doc ".$tipoInforme .
 				  " 	AND d.id_mandatario = ". $mandante;
 			

@@ -1060,7 +1060,14 @@ class DeudoresController extends ControllerBase
 		$data['interes_base'] = $parametros->getParametro("interes_diario_normal"); //"2";    //crear metodo en la base para este parametro
 		$costas = $deudores->getGastosfichadeudor($data['liquidacion']->get_data("id_deudor"));
 		if($costas->items[0]->get_data("total_gastos") == "") $costasProcesales = 0;
-		$data['costasProcesales'] = $costasProcesales; //$costas->items[0]->get_data("total_gastos");
+		$data['costasProcesales'] = $costasProcesales; 
+		$data['interes_simulacion'] = $parametros->getParametro(array("nom_param"=>"interes_simulacion")); //"1.5";	
+		$data['cuotas_simulacion'] = $parametros->getParametro(array("nom_param"=>"cuotas_simulacion")); //"2";    
+		$fecha = date('Y-m-d');
+		$nuevafecha = strtotime ( '+30 day' , strtotime ( $fecha ) ) ;
+		$nuevafecha = date ( 'd/m/Y' , $nuevafecha );
+		$data['fecha_pago'] = $nuevafecha ;
+		
 		
 		$data['idestadoges'] = $array["idestadoges"];
 		$data['control_volver'] = $array["control_volver"];

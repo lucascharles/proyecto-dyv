@@ -1433,6 +1433,7 @@ ORDER BY orden ASC ";
 //		$dato->set_data("dias_atraso",$array["diasatraso"]);
 //		$dato->set_data("interes_diario",$array["interesdiario"]);
 		$dato->set_data("interes_acumulado",$array["interesacumulado"]);
+		$dato->set_data("costas_procesales",$array["costasprocesales"]);		
 		$dato->set_data("honorarios_dyv",$array["honoraiorsdyv"]);
 		$dato->set_data("total_simulacion",$array["total"]);
 		$dato->set_data("repacta",$array["repacta"]);

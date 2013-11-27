@@ -69,18 +69,14 @@
 	
 	for($j=0; $j<$colleccionGestiones->get_count(); $j++) 
 	{
-		$nex_id_gestion = 0;
-		
-		if(!is_null($colleccionGestiones->items[$j+1]))
-		{
-			$datoTmpNext = $colleccionGestiones->items[$j+1];
-			$nex_id_gestion = $datoTmpNext->get_data("id_gestion");
-		}
-		
-		
+		$datoTmpNext = $colleccionGestiones->items[$j+1];
 		$datoTmp = &$colleccionGestiones->items[$j];
 		
-		
+		$nex_id_gestion = 0;
+		if(!is_null($datoTmpNext))
+		{
+			$nex_id_gestion = $datoTmpNext->get_data("id_gestion");
+		}
 		$checked = "";
 		if($_SESSION["idNextGes"] == $datoTmp->get_data("id_gestion"))
 		{

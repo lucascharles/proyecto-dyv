@@ -30,11 +30,6 @@
   			$('form').validator();
   			$("#txtfechaproxgestion").datepicker({changeYear: true});
 			$("#txtfechagestion").datepicker({changeYear: true});
-
-		    if(document.getElementById("id_mandante").value == "" || document.getElementById("id_mandante").value == 0 )
-		    {
-			    alert("El Deudor presenta inconsistencia con el Mandante, favor de verificar.");
-			} 	
 		});
 		
 		function ventanaBusqueda()
@@ -42,7 +37,9 @@
 			$("#selecMandante").slideDown(1000);	
 			document.getElementById("txtrut_m").focus();
 			setTimeout("window.scrollTo(0,$(document).height())",1000);
-			
+			//$(window).scrollTop();
+			 //$("html, body").animate({ scrollTop: $(document).height() }, "slow");
+  //return false;
 		}
 
 		
@@ -87,11 +84,11 @@
 
 			if(tg == "D")	
 			{
-				$("#pagina").load('index.php?controlador=Gestiones&accion=admin&proc=1');
+				$("#pagina").load('index.php?controlador=Gestiones&accion=admin&proc=1'+"&rut_m="+document.getElementById("txtmandatario").value.substring(0,8));
 			}
 			else
 			{
-				$("#pagina").load('index.php?controlador=Gestiones&accion=admin_grales&proc=1');
+				$("#pagina").load('index.php?controlador=Gestiones&accion=admin_grales&proc=1'+"&rut_m="+document.getElementById("txtmandatario").value.substring(0,8));
 			}
 		}
 		
@@ -147,7 +144,7 @@
 					&&($.trim($("#txtcomentarios").val()) != "")
 					&&($.trim($("#txtrut_mandante").val()) != "")
 					&&($.trim($("#txtfechaproxgestion").val()) != "")
-//					&&($.trim($("#txtusuario").val()) != "")
+					&&($.trim($("#txtusuario").val()) != "")
 					&&(document.getElementById('selGestion').options[document.getElementById('selGestion').selectedIndex].text != "") )
 					
 					{
@@ -673,7 +670,7 @@
 <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="titulopantalla">
 	<tr>
 		<td>
-		<th align="left" height="30">&nbsp;Demandas - Cantidad: <? $var = &$cantidadDemandas; echo($var); ?> Rol: <? $var = &$rolDemanda; echo($var); ?>        Total: <? $var = &$totalDemandas; echo($var); ?> </th>
+		<th align="left" height="30">&nbsp;Demandas - Cantidad: <? $var = &$cantidadDemandas; echo($var); ?></th>
         <th></th>
         <th align="center" ></th>
         <th></th>
