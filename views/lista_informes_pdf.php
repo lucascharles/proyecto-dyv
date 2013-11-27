@@ -3,7 +3,7 @@
 
 	$pdf=new FPDF('L', 'mm', 'dv');
 	
-	$header=array('Mandatario','Deudor','Siniestro','Expr1','Estado','Monto','Doc','Banco','Num','Causal','Ficha','Nombre','Apellido','Juzgado','Comuna','Rol');
+	$header=array('Mandatario','Rut Deudor','Deudor','Tipo Doc.','Nro. Doc.','Monto','Demanda','Juzgado','Rol');
 	$pdf->SetFont('Arial','B',10);
 	$pdf->AddPage();
 	$pdf->SetY(5);
@@ -21,19 +21,12 @@
 		$pdf->Ln();
     	$pdf->Cell(30,5,$datoTmp->get_data("rut_mandante")."-".$datoTmp->get_data("dv_mandante"),1);
       	$pdf->Cell(30,5,$datoTmp->get_data("rut_deudor")."-".$datoTmp->get_data("dv_deudor"),1);
-      	$pdf->Cell(30,5,$datoTmp->get_data("numero_siniestro"),1);
-      	$pdf->Cell(30,5,formatoFecha($datoTmp->get_data("fecha_siniestro"),"yyyy-mm-dd","dd/mm/yyyy"),1);
-		$pdf->Cell(30,5,utf8_decode($datoTmp->get_data("estado")),1);
-		$pdf->Cell(30,5,$datoTmp->get_data("monto"),1);
+		$pdf->Cell(80,5,utf8_decode($datoTmp->get_data("razon_social"))." ".utf8_decode($datoTmp->get_data("primer_apellido"))." ".utf8_decode($datoTmp->get_data("segundo_apellido"))." ".utf8_decode($datoTmp->get_data("primer_nombre"))." ".utf8_decode($datoTmp->get_data("segundo_nombre")),1);
 		$pdf->Cell(30,5,$datoTmp->get_data("tipo_documento"),1);
-		$pdf->Cell(30,5,utf8_decode($datoTmp->get_data("banco")),1);
 		$pdf->Cell(30,5,$datoTmp->get_data("numero_documento"),1);
-		$pdf->Cell(30,5,utf8_decode($datoTmp->get_data("causal")),1);
+		$pdf->Cell(30,5,$datoTmp->get_data("monto"),1);
 		$pdf->Cell(30,5,$datoTmp->get_data("numero_ficha"),1);
-		$pdf->Cell(30,5,utf8_decode($datoTmp->get_data("primer_nombre")),1);
-		$pdf->Cell(30,5,utf8_decode($datoTmp->get_data("primer_apellido")),1);
-		$pdf->Cell(30,5,$datoTmp->get_data("juzgado_numero"),1);
-		$pdf->Cell(30,5,utf8_decode($datoTmp->get_data("juzgado_comuna")),1);
+		$pdf->Cell(50,5,$datoTmp->get_data("juzgado"),1);
 		$pdf->Cell(30,5,utf8_decode($datoTmp->get_data("rol")),1);
 		
 	}

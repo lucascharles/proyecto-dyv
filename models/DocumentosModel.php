@@ -1076,7 +1076,9 @@ class DocumentosModel extends ModelBase
 				and ifnull(d.id_tipo_doc,6) = td.id_tipo_documento				
 				and d.activo = 'S'
 				and m.id_mandante = ". $idmandante." and d.id_deudor = ".$iddeudor." and d.id_estado_doc in(999, ".$idestado.")" ;
-	
+
+		$where = $where . " GROUP BY d.id_documento, c.banco ,dd.primer_apellido , dd.segundo_apellido , dd.primer_nombre , dd.segundo_nombre , m.nombre, m.apellido,
+                            ed.estado , td.tipo_documento , d.numero_documento, d.fecha_protesto , d.cta_cte , d.monto , d.fecha_siniestro , d.gastos_protesto , cp.causal "; 
 		$sqlpersonal->set_where($where);
 	
 		$sqlpersonal->load();

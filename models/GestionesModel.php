@@ -423,7 +423,7 @@ class GestionesModel extends ModelBase
 		$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
 		
 		$sqlpersonal->set_select(" d.id_deudor id_deudor,
-								   m.id_mandante id_mandante,
+								   d.id_mandante id_mandante,
 								   d.rut_deudor rut_deudor,
 								   d.dv_deudor dv_deudor,
 								   d.razonsocial razonsocial,
@@ -438,9 +438,8 @@ class GestionesModel extends ModelBase
 								   m.dv_mandante dv_mandante,
 								   m.nombre nombre_mandante,
 								   m.apellido apellido_mandante "); 
-		  $sqlpersonal->set_from(" gestiones g, deudores d, mandantes m ");
+		  $sqlpersonal->set_from(" gestiones g LEFT JOIN mandantes m ON g.id_mandante = m.id_mandante, deudores d ");
 		  $sqlpersonal->set_where(" g.id_deudor = d.id_deudor
-									and  g.id_mandante = m.id_mandante
 									and  g.id_gestion = ". $idgestion );
 											
 	    $sqlpersonal->load();

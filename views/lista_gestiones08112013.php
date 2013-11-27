@@ -7,19 +7,10 @@
 	<title></title>
     <link rel="stylesheet" href="css/general.css" type="text/css" />
     <script src="js/jquery-1.7.1.min.js" type="text/javascript"></script>
-    <script src="js/scrollTo.js" type="text/javascript"></script>
-    
     <script language="javascript"> 
-		function seleccionado(id,idest,idnext)
+		function seleccionado(id,idest)
 		{
-			window.parent.seleccionado(id,idest,idnext);			
-		}
-		
-		function seleccionadoScroll(id,idest,idnext)
-		{
-			document.getElementById('mylink').href = "#fila_"+id;
-			document.getElementById('mylink').click();
-			window.parent.seleccionado(id,idest,idnext);
+			window.parent.seleccionado(id,idest);
 		}
 		
 		function verMasRegistros(id, pantalla)
@@ -28,7 +19,7 @@
 			var tipoG = window.parent.document.getElementById("tipo_gestion").value;
 			datos += "&rut_d="+window.parent.document.getElementById("txtrutdeudor").value+"&rut_m="+window.parent.document.getElementById("txtrutmandante").value+"&tipoGestion="+tipoG;
 			datos += "&id_partida="+id;
-			
+			//alert(datos);
 			$.ajax({
 					url: "index.php",
 					type: "GET",
@@ -50,8 +41,6 @@
 	</script>
 </head>
 <body bgcolor="#FFFFFF">
-
-<a id="mylink" href="" style="display:none"></a>
 <table width="100%" cellpadding="2" cellspacing="2" align="center" border="0" bgcolor="#FFFFFF">
 	<tr class="cabecera_listado" >
     	<th width="15" align="center" height="25"></th>
@@ -69,32 +58,12 @@
 	
 	for($j=0; $j<$colleccionGestiones->get_count(); $j++) 
 	{
-		$nex_id_gestion = 0;
-		
-		if(!is_null($colleccionGestiones->items[$j+1]))
-		{
-			$datoTmpNext = $colleccionGestiones->items[$j+1];
-			$nex_id_gestion = $datoTmpNext->get_data("id_gestion");
-		}
-		
-		
 		$datoTmp = &$colleccionGestiones->items[$j];
-		
-		
-		$checked = "";
-		if($_SESSION["idNextGes"] == $datoTmp->get_data("id_gestion"))
-		{
-			$checked = "checked='checked'";
-			echo("<script language='javascript'>");
-			echo(" seleccionadoScroll(".$datoTmp->get_data("id_gestion").",".$datoTmp->get_data("id_estado").",".$nex_id_gestion.");");
-			//echo("$.scrollTo('#fila_".$datoTmp->get_data("id_gestion")."',{duration:20});");
-			echo("</script>");
-		}
-		
+		$datoTmpNext = &$colleccionGestiones->items[$j+1];
 	?>
-	<tr bgcolor="#FFFFFF" id="" >
-		
-		<td height="25" width='1%'><A name="fila_<?=$datoTmp->get_data("id_gestion")?>"></A><input type="radio" <?=$checked?> id="<? echo($datoTmp->get_data("id_gestion")) ?>" name="checktipdoc" value="" onclick="seleccionado(<? echo($datoTmp->get_data("id_gestion")) ?>,<? echo($datoTmp->get_data("id_estado")) ?>,<?=$nex_id_gestion?>)"></td>
+	<tr bgcolor="#FFFFFF" >
+	
+		<td height="25" width='1%'><input type="radio" id="<? echo($datoTmp->get_data("id_gestion")) ?>" name="checktipdoc" value="" onclick="seleccionado(<? echo($datoTmp->get_data("id_gestion")) ?>,<? echo($datoTmp->get_data("id_estado")) ?>)"></td>
         <td align="left" width='8%' class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("rut_mandante")."-".$datoTmp->get_data("dv_mandante")) ?></td>
         <td align="left" width='8%' class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("rut_deudor")."-".$datoTmp->get_data("dv_deudor")) ?></td>
 		<td align="left" width='10%' class="dato_lista">&nbsp;&nbsp;<?php echo (utf8_decode($datoTmp->get_data("razonsocial"))) ?></td>
@@ -111,9 +80,8 @@
 	</tr>
 	<?php
 	}
-	//echo("<br>can_tmas: ".$cant_mas);
 	$datoTmp = &$colleccionGestiones->items[($colleccionGestiones->get_count()-1)];
-	
+
 	if($cant_mas > 0)
 	{
 		$pantalla = "ADMIN";

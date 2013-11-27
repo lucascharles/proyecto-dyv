@@ -1501,6 +1501,7 @@
 					  "imp" => array("decimal"),
 					  "pago_mensual" => array("int"),
 					  "costo_total" => array("int"),
+					  "costas_procesales" => array("int"),
 					  "capital_pagado" => array("int"),
 					  "fecha_creacion" => array("date"),
 					  "usuario_creacion" =>  array("varchar"),
