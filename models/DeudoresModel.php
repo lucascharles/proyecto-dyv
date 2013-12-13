@@ -989,16 +989,16 @@ ORDER BY orden ASC ";
 		$dato->set_data("rut_deudor",(int)($arrayParam["rut"])); 
 		$dato->set_data("rut_deudor_s",$arrayParam["rut"].$arrayParam["rut_d"]);
 		$dato->set_data("dv_deudor",$arrayParam["rut_d"]);
-		$dato->set_data("razonsocial",$arrayParam["razonsocial"]);
-		$dato->set_data("primer_nombre",$arrayParam["papellido"]);
-		$dato->set_data("segundo_nombre",$arrayParam["sapellido"]);
-		$dato->set_data("primer_apellido",$arrayParam["pnombre"]);
-		$dato->set_data("segundo_apellido",$arrayParam["snombre"]);
-		$dato->set_data("comentario",$arrayParam["pnombre"]);
-		$dato->set_data("celular",$arrayParam["celular"]);
-		$dato->set_data("telefono_fijo",$arrayParam["telefono"]);
-		$dato->set_data("email",$arrayParam["email"]);
-		$dato->set_data("tipo",$arrayParam["tipo"]);
+		$dato->set_data("razonsocial",utf8_decode($arrayParam["razonsocial"]));
+		$dato->set_data("primer_nombre",utf8_decode($arrayParam["papellido"]));
+		$dato->set_data("segundo_nombre",utf8_decode($arrayParam["sapellido"]));
+		$dato->set_data("primer_apellido",utf8_decode($arrayParam["pnombre"]));
+		$dato->set_data("segundo_apellido",utf8_decode($arrayParam["snombre"]));
+		$dato->set_data("comentario",utf8_decode($arrayParam["pnombre"]));
+		$dato->set_data("celular",utf8_decode($arrayParam["celular"]));
+		$dato->set_data("telefono_fijo",utf8_decode($arrayParam["telefono"]));
+		$dato->set_data("email",utf8_decode($arrayParam["email"]));
+		$dato->set_data("tipo",utf8_decode($arrayParam["tipo"]));
 		$dato->set_data("activo","S");
 		$dato->set_data("id_mandante",$arrayParam["idmandante"]);
 		$dato->save();
@@ -1083,6 +1083,8 @@ ORDER BY orden ASC ";
 			$dato->add_filter("segundo_nombre","like",trim($s_nom)."%");
 		}
 
+		$dato->add_filter("order by primer_apellido, primer_nombre, rut_deudor asc ");
+		
 //		$dato->add_top(3);      //es para sqlserver
 		$dato->add_limit(0,30);  //es para mysql
 		$dato->load();

@@ -162,6 +162,8 @@ if($marcar == "S")
         <th align="center"><font class="titulolistado">Demanda</font></th>
         <th align="center"><font class="titulolistado">Juzgado</font></th>
         <th align="center"><font class="titulolistado">Rol</font></th>
+        <th align="center"><font class="titulolistado">Fecha Prox. Gestion</font></th>
+        <th align="center"><font class="titulolistado">Comentarios</font></th>
     </tr>
 	<?php
 	
@@ -189,6 +191,8 @@ if($marcar == "S")
         <td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("numero_ficha")) ?></td>
         <td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("juzgado")) ?></td>
         <td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo (utf8_decode($datoTmp->get_data("rol"))) ?></td>
+        <td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo (utf8_decode($datoTmp->get_data("fecha_prox_gestion"))) ?></td>
+        <td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo (utf8_decode($datoTmp->get_data("notas"))) ?></td>
 
 	</tr>
     <tr bgcolor="#FFFFFF" >

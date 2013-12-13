@@ -1035,7 +1035,7 @@
                 <tr>
                     <td align="right" class="etiqueta_form">Protesto&nbsp; </td>
                     <td align="left">
-                        <input type="text" name="txtprotesto" id="txtprotesto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"  value="<? if($protesto == ""){echo("0"); } else {echo($protesto);} ?>" />
+                        <input type="text" name="txtprotesto" id="txtprotesto" class="input_form" onFocus="resaltar(this)" onblur="recalcular()"  value="<? if($protesto == ""){echo("0"); } else {echo($protesto);} ?>" />
                     </td>                                   
                 </tr>
                 <tr id="ocul1">	
@@ -1066,7 +1066,7 @@
                 <tr>   
                     <td align="right" class="etiqueta_form">Costas Procesales&nbsp;</td>
                     <td align="left">
-                        <input type="text" name="txtcostasprocesales" id="txtcostasprocesales" tipovalida="moneda" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" value="<? echo($interes_acumulado) ?>"/>
+                        <input type="text" name="txtcostasprocesales" id="txtcostasprocesales" tipovalida="moneda" class="input_form" onFocus="resaltar(this)" onblur="recalcular()" value="<? echo($interes_acumulado) ?>"/>
                     </td>
                 </tr>
                 <tr>   

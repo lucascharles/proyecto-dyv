@@ -90,6 +90,17 @@
 			
 			$("#pagina").load('index.php?controlador=Documentos&accion=enviarcarta');
 		}
+
+		function reenviarCarta()
+		{
+			var id = document.getElementById("id_documento").value;
+			var rut_deudor = document.getElementById("txtrut").value;
+			
+			url ="index.php?controlador=Documentos&accion=listar&id_partida=0&rutDeudor=" +  rut_deudor;
+			url += "&enviarCarta=S&id_documento="+id;	
+			document.getElementById("frmlistdocumentos").src = url;
+		}
+
 		
 	</script>
 </head>
@@ -168,10 +179,11 @@
         </td>
         <td width="10%">
         	<div style="position:relative; margin-left:10px;">
-        	<input  type="button" name="btneliminar" id="btneliminar" onclick="eliminar()" value="Eliminar" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/><br />
-	        <input  type="button" name="btnnuevo" id="btnnuevo" onclick="nuevo()"  value="Nuevo" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/><br />
-            <input  type="button" name="btnmodificar" id="btnmodificar" onclick="editar()"  value="Modificar" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/><br />
-            <input  type="button" name="btnenvcarta" id="btnenvcarta" onclick="enviarcarta()"  value="Cartas" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/><br />
+        	<input  type="button" name="btneliminar" id="btneliminar" onclick="eliminar()" value="Eliminar" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/><br/>
+	        <input  type="button" name="btnnuevo" id="btnnuevo" onclick="nuevo()"  value="Nuevo" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/><br/>
+            <input  type="button" name="btnmodificar" id="btnmodificar" onclick="editar()"  value="Modificar" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/><br/>
+            <input  type="button" name="btnenvcarta" id="btnenvcarta" onclick="enviarcarta()"  value="Cartas" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/><br/>
+			<input  type="button" name="btnreenvio" id="btnreenvio" onclick="reenviarCarta()"  value="ReImprimir Carta" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/><br/>
             </div>
          </td>
     </tr>
