@@ -28,16 +28,10 @@
 		$pdf->Cell(30,5,$datoTmp->get_data("numero_ficha"),1);
 		$pdf->Cell(50,5,$datoTmp->get_data("juzgado"),1);
 		$pdf->Cell(30,5,utf8_decode($datoTmp->get_data("rol")),1);
+		$pdf->Cell(30,5,utf8_decode($datoTmp->get_data("fecha_prox_gestion")),1);
+		$pdf->Cell(30,5,utf8_decode($datoTmp->get_data("notas")),1);
 		
 	}
-	/*
-   		
-      	$pdf->Ln();
-      	$pdf->Cell(30,5,"linea 1 ",1);
-      	$pdf->Cell(30,5,"linea 2",1);
-      	$pdf->Cell(30,5,"linea 3",1);
-      	$pdf->Cell(30,5,"linea 4",1);
-	 */
 	$pdf->Output("listado_informes.pdf","D");
    
 	

@@ -198,7 +198,22 @@ class DocumentosController extends ControllerBase
 		require 'models/DocumentosModel.php';
 		$documentos = new DocumentosModel();
 			
-		//$dato = $documentos->getListaDocumentos("","",$array);
+		$docCartas = new DocumentosModel();
+		$doc = new DocumentosModel();
+		
+		if($array["enviarCarta"]=="S")
+		{
+			$documento = $doc->getDocumento($array['id_documento']);
+				$param["iddeudor"] = $documento->get_data("id_deudor");
+				$param["idmandante"] = $documento->get_data("id_mandatario");
+				$listaDoc = $docCartas->getDocEnviarGestion($param);
+				$data['nom_sistema'] = "SISTEMA DyV";
+				$data['accion_form'] = "";
+				$data['colleccionDocumentos'] = $listaDoc;
+				$this->view->show("carta_pdf.php", $data);
+		}
+		
+		
 		$dato = $documentos->getListaDocumentos2($array);
 		$cant_datos = 0;
 		if($dato->get_count() > 0)
@@ -390,6 +405,28 @@ class DocumentosController extends ControllerBase
 		}
 	}
 	
+	public function reImprimirCartas($array)
+    {
+		require 'models/DocumentosModel.php';
+		$documentos = new DocumentosModel();
+		
+		$docCartas = new DocumentosModel();
+		if($array["enviarCarta"]=="S")
+		{
+			$listaDoc = $docCartas->getDocEnviarGestion($array);
+			$data['nom_sistema'] = "SISTEMA DyV";
+			$data['accion_form'] = "";
+			$data['colleccionDocumentos'] = $listaDoc; //$listaIdDocs;
+			$this->view->show("carta_pdf.php", $data);
+		}
+		
+		$dato = $documentos->getListaDocMandanteDeudor($array["iddeudor"],$array["idmandante"],$array["idestadoges"]);
+		
+		$data['nom_sistema'] = "SISTEMA DyV";
+		$data['colleccionDatosDocumentos'] = $dato;
+		
+		$this->view->show("lista_documentos_gestion.php", $data);
+	}
 	
 }
 ?>

@@ -69,13 +69,13 @@ class DireccionDeudoresModel extends ModelBase
 	public function guardarDireccionTmp($calle, $numero, $piso, $departamento, $comuna, $ciudad, $otros, $id_sesion)
 	{
 		$dato = new Direccion_DeudoresTmp();
-		$dato->set_data("calle",$calle); 
+		$dato->set_data("calle",utf8_decode($calle)); 
 		$dato->set_data("numero",$numero); 
 		$dato->set_data("piso",$piso); 
 		$dato->set_data("depto",$departamento); 
-		$dato->set_data("comuna",$comuna); 
-		$dato->set_data("ciudad",$ciudad); 
-		$dato->set_data("otros",$otros); 
+		$dato->set_data("comuna",utf8_decode($comuna)); 
+		$dato->set_data("ciudad",utf8_decode($ciudad)); 
+		$dato->set_data("otros",utf8_decode($otros)); 
 		$dato->set_data("id_sesion",$id_sesion); 
 		$dato->save();
 	}
@@ -85,13 +85,13 @@ class DireccionDeudoresModel extends ModelBase
 		$dato = new Direccion_DeudoresTmp();
 		$dato->add_filter("id_direccion","=",$iddir);
 		$dato->load();
-		$dato->set_data("calle",$calle); 
+		$dato->set_data("calle",utf8_decode($calle)); 
 		$dato->set_data("numero",$numero); 
 		$dato->set_data("piso",$piso); 
 		$dato->set_data("depto",$departamento); 
-		$dato->set_data("comuna",$comuna); 
-		$dato->set_data("ciudad",$ciudad); 
-		$dato->set_data("otros",$otros); 
+		$dato->set_data("comuna",utf8_decode($comuna)); 
+		$dato->set_data("ciudad",utf8_decode($ciudad)); 
+		$dato->set_data("otros",utf8_decode($otros)); 
 		$dato->set_data("id_sesion",$id_sesion); 
 		$dato->save();
 	}

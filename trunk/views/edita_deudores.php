@@ -603,7 +603,7 @@
 	<tr>
 		<th align="left">Dirección</th>
         <th></th>
-        <th align="right"><input type="button" name="btnagregardir" id="btnagregardir" title="Agregar Direcci&oacute;n" value="+" onclick="agregarDir()" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'>&nbsp;<input type="button" name="btneditardir" id="btneditardir" title="Editar Direcci&oacute;n" onclick="editarDir()" value="<>" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'></th>
+        <th align="right"><input type="button" name="btnagregardir" id="btnagregardir" title="Agregar Direcci&oacute;n" value="Agregar" onclick="agregarDir()" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'>&nbsp;<input type="button" name="btneditardir" id="btneditardir" title="Editar Direcci&oacute;n" onclick="editarDir()" value="Editar" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'></th>
     </tr>
  </table>
  <div id="formsoporte" style=" display:none">

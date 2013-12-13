@@ -27,6 +27,8 @@
         <th align="center"><font class="titulolistado">Demanda</font></th>
         <th align="center"><font class="titulolistado">Juzgado</font></th>
         <th align="center"><font class="titulolistado">Rol</font></th>
+        <th align="center"><font class="titulolistado">Fecha Gestion</font></th>
+        <th align="center"><font class="titulolistado">Comentario</font></th>
 
     </tr>
 	<?php
@@ -51,6 +53,8 @@
         <td align="center"><font class="titulolistado">Demanda</font></td>
         <td align="center"><font class="titulolistado">Juzgado</font></td>
         <td align="center"><font class="titulolistado">Rol</font></td>
+        <td align="center"><font class="titulolistado">Fecha Gestion</font></td>
+        <td align="center"><font class="titulolistado">Comentarios</font></td>
 	</tr>
 	<?php
 	}

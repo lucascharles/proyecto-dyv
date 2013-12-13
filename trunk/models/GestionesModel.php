@@ -243,7 +243,7 @@ class GestionesModel extends ModelBase
 	}
 	
 	
-	public function getDetalleGestion($iddeudor,$idmandante,$iddocumento)
+	public function getDetalleGestion($iddeudor,$idmandante,$iddocumento,$idgestion)
 	{
 	
 	include("config.php");
@@ -268,12 +268,13 @@ class GestionesModel extends ModelBase
 								and	  g.id_deudor = d.id_deudor
 								and   eg.id_estado = ed.id_estado
 								and   g.id_deudor= ".$iddeudor 
-	  						 ." and g.id_mandante = " .$idmandante ;
+	  						 ." and g.id_mandante = " .$idmandante 
+	  						 ." and g.id_gestion = " .$idgestion ;
 	  						 
 	  						 if($iddocumento != ""){
 	  						 	$vwhere = $vwhere ." and (eg.id_documento = " .$iddocumento." or eg.id_documento = 0)";
 	  						 }
-	  						 
+	  						 $vwhere = $vwhere ." GROUP BY notas ";
 	  						 $vwhere = $vwhere ." order by eg.fecha_gestion desc ";
 	  						 	
 	  $sqlpersonal->set_where($vwhere);
@@ -437,7 +438,8 @@ class GestionesModel extends ModelBase
 								   m.rut_mandante rut_mandante,
 								   m.dv_mandante dv_mandante,
 								   m.nombre nombre_mandante,
-								   m.apellido apellido_mandante "); 
+								   m.apellido apellido_mandante,
+								   g.estado estado "); 
 		  $sqlpersonal->set_from(" gestiones g LEFT JOIN mandantes m ON g.id_mandante = m.id_mandante, deudores d ");
 		  $sqlpersonal->set_where(" g.id_deudor = d.id_deudor
 									and  g.id_gestion = ". $idgestion );
@@ -471,7 +473,28 @@ class GestionesModel extends ModelBase
 	    return $sqlpersonal;
 	}
 
-	public function getDeudaNetaMandante($iddeudor,$idmandante)
+//	public function getDeudaNetaMandante($iddeudor,$idmandante,$idestadoges)
+//	{
+//		include("config.php");
+//
+//		$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
+//		
+//		$sqlpersonal->set_select(" sum(monto) monto "); 
+//		$sqlpersonal->set_from(" documentos d ");
+//		$where = " d.activo = 'S' and d.id_deudor = ". $iddeudor;
+//		$where = $where ." and d.id_mandatario = ".$idmandante. "	and d.id_estado_doc not in(
+//						select id_estado_doc ,
+//						from estadodocumentos 
+//						where activo = 'S' 
+//						and estado in ('RECUPERADO','ABONO')
+//						)";
+//		$sqlpersonal->set_where($where);
+//		
+//	    $sqlpersonal->load();
+//	
+//	    return $sqlpersonal;
+//	}
+	public function getDeudaNetaMandante($iddeudor,$idmandante,$idestadoges)
 	{
 		include("config.php");
 
@@ -480,12 +503,7 @@ class GestionesModel extends ModelBase
 		$sqlpersonal->set_select(" sum(monto) monto "); 
 		$sqlpersonal->set_from(" documentos d ");
 		$where = " d.activo = 'S' and d.id_deudor = ". $iddeudor;
-		$where = $where ." and d.id_mandatario = ".$idmandante. "	and d.id_estado_doc not in(
-						select id_estado_doc 
-						from estadodocumentos 
-						where activo = 'S' 
-						and estado in ('RECUPERADO','ABONO')
-						)";
+		$where = $where ." and d.id_mandatario = ".$idmandante. "	and d.id_estado_doc in(".$idestadoges .",999 )";
 		$sqlpersonal->set_where($where);
 		
 	    $sqlpersonal->load();
