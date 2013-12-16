@@ -88,7 +88,9 @@ class GestionesController extends ControllerBase
 		$nomMandante = $cab->get_data("nombre_mandante")." ".$cab->get_data("apellido_mandante");
 		
 		$iddeudor = $cab->get_data("id_deudor");
-		$idmandante = $cab->get_data("id_mandante");
+//		$idmandante = $cab->get_data("id_mandante");
+		$idM = $mandantes->getMandanteByRut($rutMand);
+		$idmandante = $idM->get_data("id_mandante");
 		$celDeudor = $cab->get_data("celular");
 		$telDeudor = $cab->get_data("telefono_fijo"); 
 		$emailDeudor = $cab->get_data("email");
