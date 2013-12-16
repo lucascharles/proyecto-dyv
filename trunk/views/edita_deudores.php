@@ -75,6 +75,7 @@
 		function agregarDir()
 		{
 			$("#id_dir").val("");
+			document.getElementById("chkvigente").checked = true;
 			$("#formsoporte").show("slow");
 		}
 		
