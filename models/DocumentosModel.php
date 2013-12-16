@@ -215,7 +215,20 @@ class DocumentosModel extends ModelBase
 					 	$deudor->load();
 					 	$idDeudor = $deudor->get_data("id_deudor");
 					 	
-					 	//registra direccion del deudor
+					 	//deja las direcciones anteriores como no vigente
+					 	$d = new Direccion_Deudores();
+						$d->add_filter("id_deudor","=",$idDeudor);
+						$d->load();
+						for($j = 0; $j<count($d); $j++)
+						{
+							$dir = new Direccion_Deudores();
+							$dir->add_filter("id_direccion","=",$d->get_data("id_direccion"));
+							$dir->load();
+							$dir->set_data("vigente","N");
+							$dir->save();
+						}						
+						
+						//registra direccion del deudor
 					 	$dirdeu = new Direccion_Deudores();
 						$dirdeu->set_data("id_deudor",$deudor->get_data("id_deudor"));
 						$dirdeu->set_data("calle", trim($arraydatos[5]));
@@ -223,6 +236,8 @@ class DocumentosModel extends ModelBase
 						$dirdeu->set_data("depto", trim($arraydatos[7]));
 						$dirdeu->set_data("comuna", trim($arraydatos[8]));
 						$dirdeu->set_data("ciudad", trim($arraydatos[9]));
+						$dirdeu->set_data("vigente", "S");
+						
 						$dirdeu->save();
 					 	
 					 	//asocia deudor con mandante si no existe la relacion

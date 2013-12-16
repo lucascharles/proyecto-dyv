@@ -9,6 +9,17 @@ class MandantesModel extends ModelBase
 		
 		return $dato;
 	}
+
+	public function getMandanteByRut($rut)
+	{
+		$dato = new Mandantes();
+		$dato->add_filter("rut_mandante","=",$rut);
+		$dato->add_filter("AND");
+		$dato->add_filter("activo","=","S");
+		$dato->load();
+		
+		return $dato;
+	}
 	
 	public function editarMandantes($array)
 	{
@@ -294,5 +305,6 @@ class MandantesModel extends ModelBase
 	    return $sqlpersonal;
 
     }
-}
+    
+	}
 ?>
