@@ -35,9 +35,9 @@
 	<tr bgcolor="#FFFFFF" >
     	<td><input type="radio" id="<? echo($datoTmp->get_data("id_direccion")) ?>" name="checktipdoc" value="" onclick="seleccionado(<? echo($datoTmp->get_data("id_direccion")) ?>)"></td>
         <td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo (utf8_decode($datoTmp->get_data("calle"))) ?></td>
-		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("numero")) ?></td>
-		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("piso")) ?></td>
-        <td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("depto")) ?></td>
+		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo (utf8_decode($datoTmp->get_data("numero"))) ?></td>
+		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo (utf8_decode($datoTmp->get_data("piso"))) ?></td>
+        <td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo (utf8_decode($datoTmp->get_data("depto"))) ?></td>
         <td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo (utf8_decode($datoTmp->get_data("comuna"))) ?></td>
 	</tr>
     <tr bgcolor="#FFFFFF" >
