@@ -72,7 +72,7 @@
         <td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo (strtoupper(utf8_decode($datoTmp->get_data("segundo_nombre")))) ?></td>
 	</tr>
     <tr bgcolor="#FFFFFF" >
-    	<td colspan="6" style="border-bottom:solid; border-bottom-width:2px; border-bottom-color:#CCCCCC; "></td>
+    	<td colspan="7" style="border-bottom:solid; border-bottom-width:2px; border-bottom-color:#CCCCCC; "></td>
 	</tr>
 	<?php
 	}

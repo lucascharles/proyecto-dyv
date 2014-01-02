@@ -135,10 +135,18 @@
 				datos += "&comuna="+$("#txtcomuna").val();
 				datos += "&ciudad="+$("#txtciudad").val();
 				datos += "&otros="+$("#txtotros").val();
-				
+				if(document.getElementById("chkvigente").checked == true)
+				{
+					datos += "&vigente=S";
+				}
+				else
+				{
+					datos += "&vigente=N";
+				}
+				//alert(datos);
 				$.ajax({
 					url: "index.php",
-					type: "GET",
+					type: "POST",
 					data: datos,
 					cache: false,
 					success: function(res)
@@ -153,6 +161,7 @@
 						document.getElementById("txtcomuna").value = "";
 						document.getElementById("txtciudad").value = "";
 						document.getElementById("txtotros").value = "";
+						document.getElementById("id_dir").value = "";
 						
 						$(document.getElementById("txtcalle")).removeClass('notFilled');
 						$(document.getElementById("txtnumero")).removeClass('notFilled');
@@ -271,7 +280,7 @@
 			}
 			$.ajax({
 					url: "index.php",
-					type: "GET",
+					type: "POST",
 					data: datos,
 					cache: false,
 					success: function(res)
@@ -279,7 +288,6 @@
 						if($.trim($("#control_volver").val()) != "")
 						{
 							$("#pagina").load('index.php?controlador='+$("#control_volver").val()+'&accion='+$("#accion_volver").val()+'&'+$("#param_volver").val()+'='+$("#val_volver").val()+'&estadoGes='+$("#estadoGes").val());
-//							alert('index.php?controlador='+$("#control_volver").val()+'&accion='+$("#accion_volver").val()+'&'+$("#param_volver").val()+'='+$("#val_volver").val()+'&estadoGes='+$("#estadoGes").val());
 						}
 						else
 						{
@@ -614,7 +622,7 @@
 			<table width="100%" align="center" border="0" cellpadding="5" cellspacing="5">
             	<tr>
                 	<td class="etiqueta_form">Calle</td>
-                    <td><input type="text" name="txtcalle" id="txtcalle" size="40"  tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtcalle" class="msjdato_incomp"></span></td>
+                    <td><input type="text" name="txtcalle" id="txtcalle" size="40"  valida="requerido"  tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtcalle" class="msjdato_incomp"></span></td>
 					<td>&nbsp;Vigente&nbsp;<input type="checkbox" name="chkvigente" id="chkvigente" <? echo($chkvigente) ?>  /></td>                    
                 </tr>
                 <tr>
@@ -631,7 +639,7 @@
                 </tr>
                 <tr>
                 	<td class="etiqueta_form">Comuna</td>
-                    <td><input type="text" name="txtcomuna" id="txtcomuna" size="40"  tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtcomuna" class="msjdato_incomp"></span></td>
+                    <td><input type="text" name="txtcomuna" id="txtcomuna" size="40"  valida="requerido"  tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtcomuna" class="msjdato_incomp"></span></td>
                 </tr>
                 <tr>
                 	<td class="etiqueta_form">Ciudad</td>

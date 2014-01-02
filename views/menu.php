@@ -4,7 +4,7 @@
 		<link rel="stylesheet" href="css/general.css" type="text/css" />
 		<script src="js/jquery-1.7.1.min.js" type="text/javascript"></script>
         <script src="js/funciones.js" type="text/javascript"></script>
-        
+
 		<!-- ARCHIVOS PARA MENU DESPLEGABLE -->
 		<link rel="stylesheet" type="text/css" href="../css/menuheader.css" />
 		<script type="text/javascript" src="../js/menuheader.js"></script>
