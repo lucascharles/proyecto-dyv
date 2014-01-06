@@ -487,14 +487,14 @@ class DeudoresController extends ControllerBase
 	{
 		require 'models/DireccionDeudoresModel.php';
 		$dir = new DireccionDeudoresModel();
-		$dir->guardarDireccionTmp($array["calle"],$array["numero"],$array["piso"],$array["departamento"],$array["comuna"],$array["ciudad"],$array["otros"], session_id());
+		$dir->guardarDireccionTmp($array["calle"],$array["numero"],$array["piso"],$array["departamento"],$array["comuna"],$array["ciudad"],$array["otros"], session_id(),$array["vigente"]);
 	}
 	
 	public function editardirtmp($array)
 	{
 		require 'models/DireccionDeudoresModel.php';
 		$dir = new DireccionDeudoresModel();
-		$dir->editarDireccionTmp($array["iddir"], $array["calle"],$array["numero"],$array["piso"],$array["departamento"],$array["comuna"],$array["ciudad"],$array["otros"], session_id());
+		$dir->editarDireccionTmp($array["iddir"], $array["calle"],$array["numero"],$array["piso"],$array["departamento"],$array["comuna"],$array["ciudad"],$array["otros"], session_id(),$array["vigente"]);
 	}
 	
 	public function listar_mas_registros($array)

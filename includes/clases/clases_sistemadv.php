@@ -872,7 +872,8 @@
 					"comuna" => array("varchar"),
 					"ciudad" => array("varchar"),
 					"otros" => array("varchar"),
-					"id_sesion" => array("varchar")
+					"id_sesion" => array("varchar"),
+					"vigente" => array("varchar")
 					
 				);
 			parent::BusinessObject();
