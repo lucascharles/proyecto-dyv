@@ -12,7 +12,8 @@ class GestionesModel extends ModelBase
 	
 	$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
 	
-	$sqlpersonal->set_select( " g.id_gestion id_gestion,	   
+	$sqlpersonal->set_select( " @rownum:=@rownum + 1 AS rownum, 
+					  g.id_gestion id_gestion,	   
    					  m.rut_mandante rut_mandante,
 					  m.dv_mandante dv_mandante,							   
 					  d.rut_deudor rut_deudor, 
@@ -57,7 +58,7 @@ class GestionesModel extends ModelBase
 		$where .= " and g.estado = ".trim($param["id_estado"]);
 	}
 
-	// $where .= " and g.id_gestion > ".$param["id_partida"];
+//	$where .= " and rownum > ".$param["id_partida"];
 	$where = $where ." GROUP BY eg.id_estado, g.id_deudor ORDER BY eg.fecha_prox_gestion, g.id_gestion ASC ";
 	
 	

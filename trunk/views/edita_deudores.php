@@ -143,6 +143,14 @@
 				{
 					datos += "&vigente=N";
 				}
+				if(document.getElementById("chkvigente").checked == true)
+				{
+					datos += "&vigente=S";
+				}
+				else
+				{
+					datos += "&vigente=N";
+				}
 				//alert(datos);
 				$.ajax({
 					url: "index.php",

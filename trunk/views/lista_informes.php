@@ -18,16 +18,16 @@
 			if(document.getElementById("chkTodos").checked == true)
 			{
 				var url = "index.php?controlador=Informes&accion=marcar&tipoInforme=";
-				url += window.parent.document.getElementById("selTipoInforme").value
+				url += window.parent.document.getElementById("selTipoInforme").value;
 				url += "&idmandante="+window.parent.document.getElementById("id_mandante").value;
-				url += "&tipoDoc="+window.parent.document.getElementById("selTipoDoc").value
+				url += "&tipoDoc="+window.parent.document.getElementById("selTipoDoc").value;
 			}
 			else
 			{
 				var url = "index.php?controlador=Informes&accion=listar&tipoInforme=";
-				url += window.parent.document.getElementById("selTipoInforme").value
+				url += window.parent.document.getElementById("selTipoInforme").value;
 				url += "&idmandante="+window.parent.document.getElementById("id_mandante").value;
-				url += "&tipoDoc="+window.parent.document.getElementById("selTipoDoc").value
+				url += "&tipoDoc="+window.parent.document.getElementById("selTipoDoc").value;
 			}
 			window.location = url;
 			
@@ -180,7 +180,7 @@ if($marcar == "S")
     	<td align="left" class="dato_lista">&nbsp;&nbsp;
         <input type="checkbox"  name="chkMarcar" checked="checked" id="<? echo($datoTmp->get_data("id_documento")) ?>"  value="<?=$datoTmp->get_data("id_documento")?>" onclick=""></td>
    	<?php }else{ ?>
-   		<td align="left" class="dato_lista">&nbsp;&nbsp;<input type="checkbox" name="chkMarcar" id="<? echo($datoTmp->get_data("id_documento")) ?>"  value="" onclick=""></td>
+   		<td align="left" class="dato_lista">&nbsp;&nbsp;<input type="checkbox" name="chkMarcar" id="<? echo($datoTmp->get_data("id_documento")) ?>"  value="<? echo($datoTmp->get_data("id_documento")) ?>" onclick=""></td>
    	<?php } ?>
 		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("rut_mandante")."-".$datoTmp->get_data("dv_mandante")) ?></td>
 		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("rut_deudor")."-".$datoTmp->get_data("dv_deudor")) ?></td>

@@ -44,8 +44,8 @@
 		}
 			
 		
-		$comunaDeudor = $deudorTmp->get_data("comuna");		
-		$ciudadDeudor = $deudorTmp->get_data("ciudad");
+		$comunaDeudor = ($deudorTmp->get_data("comuna"));		
+		$ciudadDeudor = ($deudorTmp->get_data("ciudad"));
 		
 		$mandante = $deudorTmp->get_data("nombre_mandante")." ".$deudorTmp->get_data("apellido_mandante")." ".number_format($deudorTmp->get_data("rut_mandante"), 0, '', '.')."-".$deudorTmp->get_data("dv_mandante");
 	  	$rutDeudor =   number_format($deudorTmp->get_data("rut_deudor"), 0, '', '.')."-".$deudorTmp->get_data("dv_deudor");

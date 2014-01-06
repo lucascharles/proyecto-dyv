@@ -222,6 +222,34 @@
 			}
 		}
 
+
+		function nuevaDemanda()
+		{
+			if(document.getElementById("iddocumento").value == "" )			
+			{
+				alert('Debe Seleccionar un Documento para generar una nueva Ficha.');
+			}
+			else
+			{
+			
+			if(document.getElementById('selGestion').options[document.getElementById('selGestion').selectedIndex].text == "DEMANDA")
+			{	
+				var cant_ficha = document.getElementById("cantDemanda").value;
+				var list_docs = (document.getElementById("docCartas").value).trim().split(' ').join(",");
+				var idficha = document.getElementById("iddemanda").value; 
+		    	var idestadoges = document.getElementById("idestadoges").value;
+				var idgestion = document.getElementById("id_gestion").value;
+				var id = document.getElementById("id_deudor").value;
+				
+					var conf = confirm("Generar NUEVA FICHA para deudor?");
+				    if(conf == true){
+				    	$("#pagina").load('index.php?controlador=Deudores&accion=deudor_ficha&id='+$("#id_deudor").val()+'&id_doc='+$("#iddocumento").val()+'&tipope=A'+'&idGes='+$("#id_gestion").val()+"&list_docs="+list_docs);
+				    }
+					
+			}
+			}
+		}
+		
 		function grabarDir()
 		{
 			if($.trim($("#iddireccion").val()) != "")
@@ -744,7 +772,10 @@
 			        }
     			?>
 			</select>
+       
+         	<input  type="button" name="btnNuevaDemanda" id="btnNuevaDemanda" onclick="nuevaDemanda()" class="boton_form" value="Nueva DDA" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)' />
         </td>
+        
         <td align="center" class="etiqueta_form">Fecha Gestion</td>
          <?php 
         	$fecha = date('Y-m-d');
