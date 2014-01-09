@@ -1060,6 +1060,8 @@
 					"banco1" => array("varchar"),
 					"cuenta_corriente2" => array("varchar"),
 					"banco2" => array("varchar"),
+					"rep_legal1" => array("varchar"),
+					"rep_legal2" => array("varchar"),
 					"activo" => array("char")
 					
 				);

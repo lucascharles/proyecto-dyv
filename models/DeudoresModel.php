@@ -45,6 +45,24 @@ class DeudoresModel extends ModelBase
 				
 		return $monto;
 	}
+
+	public function getTotalDemandaId($id)
+	{
+		$dato = new FichaCollection();
+		$dato->add_filter("id_ficha","=",$id);
+		$dato->load();
+		$monto = 0;
+		if($dato->get_count()!=0)
+		{
+			for($j=0; $j<$dato->get_count(); $j++) 
+			{
+				$datoTmp = &$dato->items[$j];  
+				$monto = $monto + $datoTmp->get_data("monto");
+			}
+		}
+				
+		return $monto;
+	}
 	
 	public function getCantLiquidaciones($iddeudor)
 	{
@@ -1775,7 +1793,7 @@ ORDER BY orden ASC ";
 		include("config.php");
 
 		
-		$select = " MIN(id_ficha) idficha, rol rol, juzgado_anexo juzgado_anexo "; 
+		$select = " MIN(id_ficha) idficha, rol rol, juzgado_anexo juzgado_anexo, aval aval "; 
  		$from = " ficha f ";
     	$where = " id_deudor = ".$iddeudor;
     	$where = $where . " GROUP BY rol ";
