@@ -567,6 +567,9 @@
 			<input type="text" name="txtmandatario" id="txtmandatario" value="<? $var = &$rutMandante; echo($var); ?>" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" />&nbsp;
         	<input type="text" name="txtmandantenombre" id="txtmandantenombre" value="<? $var = &$nomMandante; echo($var); ?>" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" />&nbsp;
        	</td>
+		<td align="right" class="etiqueta_form" width="20">Rep Legal:</td><td>&nbsp;&nbsp;&nbsp;
+			<input type="text" name="rep_legal1" id="rep_legal1" value="<? $var = &$rep_legal1; echo($var); ?>" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" />&nbsp;
+		</td>
     </tr>
      <tr>
     	<td height="5">
@@ -701,7 +704,7 @@
 <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="titulopantalla">
 	<tr>
 		<td>
-		<th align="left" height="30">&nbsp;Demandas - Cantidad: <? $var = &$cantidadDemandas; echo($var); ?> Rol: <? $var = &$rolDemanda; echo($var); ?>        Total: <? $var = &$totalDemandas; echo($var); ?> </th>
+		<th align="left" height="30">&nbsp;Demandas - Cantidad: <? $var = &$cantidadDemandas; echo($var); ?> Rol: <? $var = &$rolDemanda; echo($var); ?>    -    Total: <? $var = &$totalDemandas; echo($var); ?>     -    Aval: <? $var = &$tieneaval; echo($var); ?> </th>
         <th></th>
         <th align="center" ></th>
         <th></th>

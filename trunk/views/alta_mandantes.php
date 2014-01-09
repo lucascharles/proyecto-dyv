@@ -116,6 +116,8 @@
 				datos += "&banco2="+$("#selbanco2").val();
 				datos += "&telefono1="+$("#txttelefono1").val();
 				datos += "&telefono2="+$("#txttelefono2").val();
+				datos += "&rep_legal1="+$("#rep_legal1").val();
+				datos += "&rep_legal2="+$("#rep_legal2").val();
 				datos += getDatosModoPago();
 				$.ajax({
 					url: "index.php",
@@ -427,6 +429,14 @@
 						</select>
                         </td>
             	 </tr>
+            	 <tr>
+                    <td width="70" align="left" class="etiqueta_form">Rep. Legal</td>
+                    <td width="70" align="left" class="etiqueta_form">Segundo Rep. Legal </td>
+                 </tr>
+                 <tr>
+                       <td><input type="text" name="rep_legal1" id="rep_legal1" size="40" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" /></td>               
+                  	   <td><input type="text" name="rep_legal2" id="rep_legal2" size="40" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" /></td>
+                 </tr>
          	</table>
          </td>
     </tr> 

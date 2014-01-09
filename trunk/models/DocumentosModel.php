@@ -949,6 +949,8 @@ class DocumentosModel extends ModelBase
 				and d.`id_estado_doc` = 7
 				and d.activo = 'S' ";
 		
+	  	$where .= " and d.id_documento in( ".$array["listdocs"].")";
+	  	
 		$where .= " and d.id_documento > ".$array["id_partida"];
 		
 //		$sqlpersonal->set_top(10); // PARA SQLSERVER 

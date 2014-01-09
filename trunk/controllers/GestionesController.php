@@ -94,6 +94,8 @@ class GestionesController extends ControllerBase
 		$celDeudor = $cab->get_data("celular");
 		$telDeudor = $cab->get_data("telefono_fijo"); 
 		$emailDeudor = $cab->get_data("email");
+		$rep_legal1 =  $idM->get_data("rep_legal1");
+		$rep_legal2 =  $idM->get_data("rep_legal2");
 		
 		$datoDeuda = $gestiones->getDeudaNeta($iddeudor);
 		$monto = $datoDeuda->items[0];
@@ -110,7 +112,8 @@ class GestionesController extends ControllerBase
 		
 		$MandantesXDeudor = $mandantes->getMandanteDeudor($iddeudor);
 		$cantDemandas = $deudor->getCantFicha($iddeudor);
-		$totalDemandas = $deudor->getTotalDemanda($iddeudor);
+//		$totalDemandas = $deudor->getTotalDemanda($iddeudor);
+		
 		
 		$existeLiquidacion = $deudor->getCantLiquidaciones($iddeudor);
 		
@@ -118,10 +121,21 @@ class GestionesController extends ControllerBase
 		$rol = $rolDemanda->items[0];
 		if($rol != ""){
 			$primerRol = $rol->get_data("juzgado_anexo") ." / ".$rol->get_data("rol");
+			$ficha = $rol->get_data("idficha");
+			if($rol->get_data("aval") != ""){
+				$tieneaval = "Si";
+			}
+			else
+			{
+				$tieneaval = "No";
+			}
+			$totalDemandas = $deudor->getTotalDemandaId($ficha);
 		}
 		else
 		{
 			$primerRol = "";
+			$totalDemandas = "0";
+			$tieneaval = "No";
 		}
 		$data['nom_sistema'] = "SISTEMA DyV";
 		$data['objGestion'] = $dato;
@@ -138,6 +152,8 @@ class GestionesController extends ControllerBase
 		$data['rutMandante'] = $rutMandante;
 		$data['idMandante'] = $idmandante;
 		$data['nomMandante'] = $nomMandante;
+		$data['rep_legal1'] = $rep_legal1;
+		$data['rep_legal2'] = $rep_legal2;
 		$data['deudaNeta'] = $deuda;
 		$data['cantidadLiquidacion'] = $existeLiquidacion;
 		$data['deudaNetaMandante'] = $deudaMandante;
@@ -146,12 +162,15 @@ class GestionesController extends ControllerBase
 			$data['cantidadDemandas'] = $cantDemandas;
 			$data['totalDemandas'] = $totalDemandas;
 			$data['rolDemanda'] = $primerRol;
+			$data['tieneaval'] = $tieneaval;	
 		}else
 		{
 			$data['cantidadDemandas'] = 0;
 			$data['totalDemandas'] = 0;
 			$data['rolDemanda'] = "";
+			$data['tieneaval'] = $tieneaval;
 		}
+		
 		$data['coleccionMandantesDeudor'] = $MandantesXDeudor;
 		
 		$ultimaGestion = $gestiones->getEstadoGestion($array["estadoGes"]);
