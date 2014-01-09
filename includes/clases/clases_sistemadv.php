@@ -666,6 +666,7 @@
 					"tipo" => array("char"),
 					"razonsocial" => array("varchar"),
 					"email" => array("varchar"),
+					"rep_legal" => array("varchar"),
 					"activo" => array("char")
 				);
 			parent::BusinessObject();

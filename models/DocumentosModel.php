@@ -948,9 +948,12 @@ class DocumentosModel extends ModelBase
 				and d.id_tipo_doc = td.id_tipo_documento
 				and d.`id_estado_doc` = 7
 				and d.activo = 'S' ";
-		
-	  	$where .= " and d.id_documento in( ".$array["listdocs"].")";
-	  	
+		if($array["listdocs"] != ""){
+	  		$where .= " and d.id_documento in( ".$array["listdocs"].")";
+		}
+		if($array["id_alta"] != ""){
+	  		$where .= " and f.id_ficha = ".$array["id_alta"];
+		}
 		$where .= " and d.id_documento > ".$array["id_partida"];
 		
 //		$sqlpersonal->set_top(10); // PARA SQLSERVER 
@@ -1477,7 +1480,37 @@ class DocumentosModel extends ModelBase
 	}
 		
 	
-//	public function getTotalMontoDoc($idd='')
+	public function getTotalMontoDemanda($idd)
+	{
+	
+		include("config.php");
+		
+		$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
+		$sqlpersonal->set_select(" SUM(d.monto) monto"); 
+	  	$sqlpersonal->set_from(" documentos d,
+	  							 documento_ficha f, 
+	 								bancos c,
+	 								deudores dd,
+	 								mandantes m,
+	 								estadodocumentos ed,
+	 								tipodocumento td");
+	  	$where = " d.id_banco = c.id_banco
+				and  d.id_deudor = dd.id_deudor
+				and m.id_mandante = d.id_mandatario
+				and d.id_estado_doc = ed.id_estado_doc
+				and d.id_tipo_doc = td.id_tipo_documento
+				AND d.id_documento = f.id_documento
+				and d.activo = 'S' ";
+		$where .= " and f.id_ficha = ".$idd;
+
+		$sqlpersonal->set_where($where);
+	
+    	$sqlpersonal->load();
+
+    	return $sqlpersonal;	
+	
+	}
+	
 	public function getTotalMontoDoc($idd)
 	{
 	
@@ -1485,7 +1518,7 @@ class DocumentosModel extends ModelBase
 		
 		$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
 		$sqlpersonal->set_select(" SUM(d.monto) monto"); 
-	  	$sqlpersonal->set_from(" documentos d, 
+	  	$sqlpersonal->set_from(" documentos d,
 	 								bancos c,
 	 								deudores dd,
 	 								mandantes m,

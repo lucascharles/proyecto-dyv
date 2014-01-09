@@ -943,12 +943,14 @@ class DeudoresController extends ControllerBase
 		if($array["tipoperacion"] == "A")
 		{
 			$dato = $documentos->getTotalMontoDoc($array["ident"]);
+//			$dato = $documentos->getTotalMontoDemanda();	
 		}
 		
 		if($array["tipoperacion"] == "M")
 		{
 			$datodeudor = $deudor->getDeudorFicha($array["ident"]);	
-			$dato = $documentos->getTotalMontoDoc($datodeudor->get_data("id_deudor"));
+//			$dato = $documentos->getTotalMontoDoc($datodeudor->get_data("id_deudor"));
+			$dato = $documentos->getTotalMontoDemanda($array["idficha"]);	
 		}
 		
 		$datoTmp = &$dato->items[($dato->get_count()-1)];

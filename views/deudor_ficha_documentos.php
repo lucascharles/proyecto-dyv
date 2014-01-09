@@ -19,6 +19,7 @@
 			var datos = "controlador=Deudores&accion=buscar_total";
 			datos += "&ident="+window.parent.document.getElementById("ident").value;
 			datos += "&tipoperacion="+window.parent.document.getElementById("tipoperacion").value; 
+			datos += "&idficha="+window.parent.document.getElementById("id_alta").value;
 			
 			$.ajax({
 					url: "index.php",
