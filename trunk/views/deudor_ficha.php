@@ -247,7 +247,6 @@
 			url += "&id_alta="+$("#id_alta").val();
 			url += "&listdocs="+$("#listdocs").val();
 			url += "&id_partida=0"; 
-
 			document.getElementById("frmsubpantalla").src = url;
 		}
 		

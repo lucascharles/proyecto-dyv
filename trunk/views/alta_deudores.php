@@ -309,6 +309,7 @@
 			datos += "&email="+$("#txtemail").val();
 			datos += "&tipo="+$("#tipo").val();
 			datos += "&idmandante="+$("#idMandante").val();
+			datos += "&rep_legal="+$("#txtrep_legal").val();
 			$.ajax({
 					url: "index.php",
 					type: "GET",
@@ -565,6 +566,12 @@
                     <td> &nbsp;&nbsp;&nbsp;<input type="text" grabar="S" name="txtsnombre" id="txtsnombre"  size="40"  tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtsnombre" class="msjdato_incomp"></span>
                     </td>
                 </tr>
+                <tr>
+                    <td width="150" align="left" class="etiqueta_form">Rep. Legal:</td>
+                    <td> &nbsp;&nbsp;&nbsp;<input type="text" grabar="S" name="txtrep_legal" id="txtrep_legal"  size="40"  tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtsnombre" class="msjdato_incomp"></span>
+                    </td>
+                </tr>
+                
             </table>
        	</td>
         <td width="40%">

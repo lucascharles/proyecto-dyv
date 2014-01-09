@@ -94,8 +94,10 @@ class GestionesController extends ControllerBase
 		$celDeudor = $cab->get_data("celular");
 		$telDeudor = $cab->get_data("telefono_fijo"); 
 		$emailDeudor = $cab->get_data("email");
-		$rep_legal1 =  $idM->get_data("rep_legal1");
-		$rep_legal2 =  $idM->get_data("rep_legal2");
+		
+		$idD = $deudor->getDeudorDatos($iddeudor);
+		$rep_legal1 =  $idD->get_data("rep_legal");
+		$rep_legal2 =  $idD->get_data("rep_legal");
 		
 		$datoDeuda = $gestiones->getDeudaNeta($iddeudor);
 		$monto = $datoDeuda->items[0];

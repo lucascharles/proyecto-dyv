@@ -825,6 +825,8 @@ ORDER BY orden ASC ";
 		$dato->set_data("telefono_fijo",$arrayParam["telefono"]);
 		$dato->set_data("email",$arrayParam["email"]);
 		$dato->set_data("tipo",$arrayParam["tipo"]);
+		$dato->set_data("rep_legal",$arrayParam["rep_legal"]);
+		
 		$dato->set_data("activo","S");
 		$dato->save();
 		
@@ -1024,6 +1026,7 @@ ORDER BY orden ASC ";
 		$dato->set_data("telefono_fijo",utf8_decode($arrayParam["telefono"]));
 		$dato->set_data("email",utf8_decode($arrayParam["email"]));
 		$dato->set_data("tipo",utf8_decode($arrayParam["tipo"]));
+		$dato->set_data("rep_legal",utf8_decode($arrayParam["rep_legal"]));
 		$dato->set_data("activo","S");
 		$dato->set_data("id_mandante",$arrayParam["idmandante"]);
 		$dato->save();

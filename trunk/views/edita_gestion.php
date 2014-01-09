@@ -567,9 +567,6 @@
 			<input type="text" name="txtmandatario" id="txtmandatario" value="<? $var = &$rutMandante; echo($var); ?>" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" />&nbsp;
         	<input type="text" name="txtmandantenombre" id="txtmandantenombre" value="<? $var = &$nomMandante; echo($var); ?>" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" />&nbsp;
        	</td>
-		<td align="right" class="etiqueta_form" width="20">Rep Legal:</td><td>&nbsp;&nbsp;&nbsp;
-			<input type="text" name="rep_legal1" id="rep_legal1" value="<? $var = &$rep_legal1; echo($var); ?>" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" />&nbsp;
-		</td>
     </tr>
      <tr>
     	<td height="5">
@@ -594,6 +591,11 @@
     		<input  type="button" name="btnmoddeudor" id="btnmoddeudor" onclick="modDeudor(<? echo($objGestion->get_data("id_deudor")) ?>)" class="boton_form" value="Deudor" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/>
     	</td>
     	
+	</tr>
+	<tr>
+			<td align="right" class="etiqueta_form" width="20">Rep Legal:</td><td>&nbsp;&nbsp;&nbsp;
+			<input type="text" name="rep_legal1" id="rep_legal1" value="<? $var = &$rep_legal1; echo($var); ?>" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" />&nbsp;
+		</td>
 	</tr>
      <tr>
     	<td height="5">

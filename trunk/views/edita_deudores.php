@@ -272,12 +272,13 @@
 			datos += "&sapellido="+$("#txtsapellido").val();
 			datos += "&pnombre="+$("#txtpnombre").val();
 			datos += "&snombre="+$("#txtsnombre").val();
-//			datos += "&pnombre="+$("#txtpnombre").val();
 			datos += "&celular="+$("#txtcelular").val();
 			datos += "&telefono="+$("#txttelefono").val();
 			datos += "&email="+$("#txtemail").val();
 			datos += "&tipo="+$("#tipo").val();
 			datos += "&id_dir="+$("#id_dir").val();
+			datos += "&rep_legal="+$("#txtrep_legal").val();
+			
 			if(document.getElementById("chkvigente").checked == true)
 			{
 				datos += "&vigente=S";
@@ -544,6 +545,11 @@
                 <tr>
                     <td width="150" align="left" class="etiqueta_form">Segundo nombre:</td>
                     <td> &nbsp;&nbsp;&nbsp;<input type="text" grabar="S" name="txtsnombre" id="txtsnombre" value="<? echo($objDeudor->get_data("segundo_nombre")) ?>"  size="40"  tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtsnombre" class="msjdato_incomp"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="150" align="left" class="etiqueta_form">Rep. Legal:</td>
+                    <td> &nbsp;&nbsp;&nbsp;<input type="text" grabar="S" name="txtrep_legal" id="txtrep_legal" value="<? echo($objDeudor->get_data("rep_legal")) ?>"  size="40"  tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtsnombre" class="msjdato_incomp"></span>
                     </td>
                 </tr>
             </table>
