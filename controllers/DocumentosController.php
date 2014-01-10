@@ -213,7 +213,18 @@ class DocumentosController extends ControllerBase
 				$this->view->show("carta_pdf.php", $data);
 		}
 		
-		
+    	if($array["impCarta"]=="S")
+		{
+			$documento = $doc->getDocumento($array['id_documento']);
+				$param["iddeudor"] = $documento->get_data("id_deudor");
+				$param["idmandante"] = $documento->get_data("id_mandatario");
+				$param["iddocumento"] = $array['id_documento'];
+				$listaDoc = $docCartas->getDocImprimir($param);
+				$data['nom_sistema'] = "SISTEMA DyV";
+				$data['accion_form'] = "";
+				$data['colleccionDocumentos'] = $listaDoc;
+				$this->view->show("carta_pdf.php", $data);
+		}
 		$dato = $documentos->getListaDocumentos2($array);
 		$cant_datos = 0;
 		if($dato->get_count() > 0)

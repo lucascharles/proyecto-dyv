@@ -101,7 +101,16 @@
 			document.getElementById("frmlistdocumentos").src = url;
 		}
 
-		
+
+		function ImpCarta()
+		{
+			var id = document.getElementById("id_documento").value;
+			var rut_deudor = document.getElementById("txtrut").value;
+			
+			url ="index.php?controlador=Documentos&accion=listar&id_partida=0&rutDeudor=" +  rut_deudor;
+			url += "&impCarta=S&id_documento="+id;	
+			document.getElementById("frmlistdocumentos").src = url;
+		}
 	</script>
 </head>
 <body>
@@ -182,8 +191,9 @@
         	<input  type="button" name="btneliminar" id="btneliminar" onclick="eliminar()" value="Eliminar" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/><br/>
 	        <input  type="button" name="btnnuevo" id="btnnuevo" onclick="nuevo()"  value="Nuevo" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/><br/>
             <input  type="button" name="btnmodificar" id="btnmodificar" onclick="editar()"  value="Modificar" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/><br/>
-            <input  type="button" name="btnenvcarta" id="btnenvcarta" onclick="enviarcarta()"  value="Cartas" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/><br/>
-			<input  type="button" name="btnreenvio" id="btnreenvio" onclick="reenviarCarta()"  value="ReImprimir Carta" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/><br/>
+            <input  type="button" name="btnenvcarta" id="btnenvcarta" onclick="enviarcarta()"  value="Cartas Pend." class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/><br/>
+			<input  type="button" name="btnreenvio" id="btnreenvio" onclick="reenviarCarta()"  value="Carta Deudor" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/><br/>
+			<input  type="button" name="btnImpCarta" id="btnImpCarta" onclick="ImpCarta()"  value="Imp.Carta" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/><br/>
             </div>
          </td>
     </tr>

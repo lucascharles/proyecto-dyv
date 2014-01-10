@@ -1765,6 +1765,56 @@ class DocumentosModel extends ModelBase
 
     	return $sqlpersonal;
 	}
+
+	public function getDocImprimir($array)
+	{
+
+		include("config.php");
+
+		$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
+	
+		$sqlpersonal->set_select(" d.id_deudor id_deudor,
+									dd.rut_deudor rut_deudor,
+									dd.dv_deudor dv_deudor,
+									dd.primer_nombre primer_nombre_deudor,
+									dd.segundo_nombre segundo_nombre_deudor,
+									dd.primer_apellido primer_apellido_deudor,
+									dd.segundo_apellido segundo_apellido_deudor,
+									dd.razonsocial razonsocial,
+									dds.calle calle,
+									dds.numero numero,
+									dds.piso piso,
+									dds.depto depto,
+									dds.comuna comuna,
+									dds.ciudad ciudad,
+									m.nombre nombre_mandante,
+									m.apellido apellido_mandante,
+									m.rut_mandante rut_mandante,
+									m.dv_mandante dv_mandante,
+									d.id_documento id_documento, td.tipo_documento tipo_documento,
+									d.numero_documento numero_documento,ed.estado estado,
+									d.fecha_protesto fecha_protesto,
+									d.fecha_siniestro fecha_siniestro,
+									d.fecha_creacion fecha_creacion, 
+									d.monto monto "); 
+	  	$sqlpersonal->set_from(" documentos d ,tipodocumento td, estadodocumentos ed,
+        						 mandantes m, deudores dd left join direccion_deudores dds on dd.id_deudor = dds.id_deudor ");
+      	$sqlpersonal->set_where(" d.id_tipo_doc = td.id_tipo_documento
+							and   d.id_estado_doc = ed.id_estado_doc
+							and   d.id_deudor = dd.id_deudor
+							and   d.id_mandatario = m.id_mandante
+							and   dd.id_deudor = dds.id_deudor
+							and   d.id_deudor = ".$array["iddeudor"].
+      					  " and   d.id_mandatario = ".$array["idmandante"].
+      					  " and   d.id_documento = ".$array["iddocumento"].
+      					  " and   d.activo = 'S'" .
+      					  " and   dds.vigente = 'S'" .	
+							" order by id_deudor ");
+	
+    	$sqlpersonal->load();
+
+    	return $sqlpersonal;
+	}
 	
 	public function getDocLiquidar($id_deudor)
 	{

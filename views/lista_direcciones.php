@@ -24,6 +24,7 @@
         <th align="center"><font class="titulolistado">PISO</font></th>
         <th align="center"><font class="titulolistado">DEPARTAMENTO</font></th>
         <th align="center"><font class="titulolistado">COMUNA</font></th>
+        <th align="center"><font class="titulolistado">VIGENTE</font></th>
     </tr>
 	<?php
 	
@@ -39,6 +40,7 @@
 		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo (utf8_decode($datoTmp->get_data("piso"))) ?></td>
         <td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo (utf8_decode($datoTmp->get_data("depto"))) ?></td>
         <td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo (utf8_decode($datoTmp->get_data("comuna"))) ?></td>
+        <td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo (utf8_decode($datoTmp->get_data("vigente"))) ?></td>
 	</tr>
     <tr bgcolor="#FFFFFF" >
     	<td colspan="6" style="border-bottom:solid; border-bottom-width:2px; border-bottom-color:#CCCCCC; "></td>
