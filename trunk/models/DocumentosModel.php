@@ -200,10 +200,10 @@ class DocumentosModel extends ModelBase
 						$deudor_new = new Deudores();
 						$deudor_new->set_data("rut_deudor",trim(substr($arraydatos[0],0,-1)));
 						$deudor_new->set_data("dv_deudor","'".trim(substr($arraydatos[0],-1))."'");
-					  	$deudor_new->set_data("primer_apellido",utf8_decode(trim($arraydatos[1])));
-					  	$deudor_new->set_data("segundo_apellido",utf8_decode(trim($arraydatos[2])));
-						$deudor_new->set_data("primer_nombre",utf8_decode(trim($arraydatos[3])));
-					  	$deudor_new->set_data("segundo_nombre",utf8_decode(trim($arraydatos[4])));
+					  	$deudor_new->set_data("primer_apellido",utf8_encode(trim($arraydatos[1])));
+					  	$deudor_new->set_data("segundo_apellido",utf8_encode(trim($arraydatos[2])));
+						$deudor_new->set_data("primer_nombre",utf8_encode(trim($arraydatos[3])));
+					  	$deudor_new->set_data("segundo_nombre",utf8_encode(trim($arraydatos[4])));
 					  	$deudor_new->set_data("celular",$telefono_cel);
 					  	$deudor_new->set_data("telefono_fijo",$telefono_casa);
 					  	$deudor_new->set_data("fax",$fax);
@@ -231,11 +231,11 @@ class DocumentosModel extends ModelBase
 						//registra direccion del deudor
 					 	$dirdeu = new Direccion_Deudores();
 						$dirdeu->set_data("id_deudor",$deudor->get_data("id_deudor"));
-						$dirdeu->set_data("calle", utf8_decode(trim($arraydatos[5])));
+						$dirdeu->set_data("calle", utf8_encode(trim($arraydatos[5])));
 						$dirdeu->set_data("numero", trim($arraydatos[6]));
 						$dirdeu->set_data("depto", trim($arraydatos[7]));
-						$dirdeu->set_data("comuna", utf8_decode(trim($arraydatos[8])));
-						$dirdeu->set_data("ciudad", utf8_decode(trim($arraydatos[9])));
+						$dirdeu->set_data("comuna", utf8_encode(trim($arraydatos[8])));
+						$dirdeu->set_data("ciudad", utf8_encode(trim($arraydatos[9])));
 						$dirdeu->set_data("vigente", "S");
 						
 						$dirdeu->save();
