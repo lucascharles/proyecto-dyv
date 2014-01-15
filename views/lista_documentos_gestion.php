@@ -102,7 +102,7 @@
 		<th align="center" width="80"><font class="titulolistado">MONTO</font></th>
         <th align="center" width="90"><font class="titulolistado">BANCO</font></th>
         <th align="center" width="90"><font class="titulolistado">CTA. CTE.</font></th>
-        <th align="center" width="70"><font class="titulolistado">RECIBIDO</font></th>
+<!--        <th align="center" width="70"><font class="titulolistado">RECIBIDO</font></th>-->
     </tr>
 	<?php
 	
@@ -118,7 +118,8 @@
 		<td align="left" width="100" class="dato_lista">&nbsp;&nbsp;<?php echo (strtoupper($datoTmp->get_data("id_ficha"))) ?></td>
 		<td align="left" width="100" class="dato_lista">&nbsp;&nbsp;<?php echo (strtoupper(utf8_decode($datoTmp->get_data("ape1_deudor")." ".$datoTmp->get_data("ape2_deudor")." ".$datoTmp->get_data("nom1_deudor")))) ?></td>
 		<td align="left" width="100" class="dato_lista">&nbsp;&nbsp;<?php echo (strtoupper(utf8_decode($datoTmp->get_data("nombre_mandante")))) ?></td>
-		<td align="left" width="100" class="dato_lista">&nbsp;&nbsp;<?php echo (strtoupper(formatoFecha($datoTmp->get_data("fecha_protesto"),"yyyy-mm-dd","dd/mm/yyyy"))) ?></td>
+<!--		<td align="left" width="100" class="dato_lista">&nbsp;&nbsp;<?php echo (strtoupper(formatoFecha($datoTmp->get_data("fecha_protesto"),"yyyy-mm-dd","dd/mm/yyyy"))) ?></td>-->
+		<td align="left" width="100" class="dato_lista">&nbsp;&nbsp;<?php echo (strtoupper(formatoFecha($datoTmp->get_data("fecha_recibido"),"yyyy-mm-dd","dd/mm/yyyy"))) ?></td>
 		<td align="left" width="100" class="dato_lista">&nbsp;&nbsp;<?php echo (strtoupper($datoTmp->get_data("causal"))) ?></td>
 		<td align="left" width="100" class="dato_lista">&nbsp;&nbsp;<?php echo (strtoupper($datoTmp->get_data("gastos_protesto"))) ?></td>
 		<td align="left" width="100" class="dato_lista">&nbsp;&nbsp;<?php echo (strtoupper($datoTmp->get_data("id_estado_doc"))) ?></td>
@@ -127,7 +128,7 @@
 		<td align="left" width="80" class="dato_lista">&nbsp;&nbsp;<?php echo (strtoupper($datoTmp->get_data("monto"))) ?></td>
 		<td align="left" width="90" class="dato_lista">&nbsp;&nbsp;<?php echo (strtoupper($datoTmp->get_data("id_banco"))) ?></td>
 		<td align="left" width="90" class="dato_lista">&nbsp;&nbsp;<?php echo (strtoupper($datoTmp->get_data("cta_cte"))) ?></td>
-		<td align="left" width="70" class="dato_lista">&nbsp;&nbsp;<?php echo (strtoupper(formatoFecha($datoTmp->get_data("fecha_recibido"),"yyyy-mm-dd","dd/mm/yyyy"))) ?></td>
+<!--		<td align="left" width="70" class="dato_lista">&nbsp;&nbsp;<?php echo (strtoupper(formatoFecha($datoTmp->get_data("fecha_recibido"),"yyyy-mm-dd","dd/mm/yyyy"))) ?></td>-->
 	</tr>
     <tr bgcolor="#FFFFFF" >
     	<td colspan="12" style="border-bottom:solid; border-bottom-width:2px; border-bottom-color:#CCCCCC; "></td>
