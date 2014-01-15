@@ -937,6 +937,7 @@ ORDER BY orden ASC ";
 			$dirdeu->set_data("comuna", $datoTmp->get_data("comuna"));
 			$dirdeu->set_data("ciudad", $datoTmp->get_data("ciudad"));
 			$dirdeu->set_data("otros", $datoTmp->get_data("otros"));
+			$dirdeu->set_data("vigente", $datoTmp->get_data("vigente"));
 			$dirdeu->set_data("id_sesion", $id_sesion);
 			$dirdeu->save();
 		}
