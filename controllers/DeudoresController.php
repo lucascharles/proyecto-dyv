@@ -1131,7 +1131,7 @@ class DeudoresController extends ControllerBase
 		$documentos = new DocumentosModel();
 		$deudores = new DeudoresModel();
 	
-		$dato = $documentos->getDocLiquidar($array["iddeudor"]);
+		$dato = $documentos->getDocLiquidar($array["iddeudor"],$array["idestadoges"]);
 		$dato_deu = $deudores->getDeudorDatos($array["iddeudor"]);
 	
 		$data['nom_sistema'] = "SISTEMA DyV";

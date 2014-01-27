@@ -24,15 +24,20 @@ class GestionesModel extends ModelBase
 					  d.razonsocial razonsocial,
 					  g.fecha_gestion fecha_gestion,
 					  g.fecha_prox_gestion fecha_prox_gestion,
-  					  esg.estado estado,
-					  g.estado id_estado
+  					  ed.estado estado,
+  					  ds.id_estado_doc id_estado   					  					
 					  ");
 	$sqlpersonal->set_from( " gestiones g LEFT JOIN estados_x_gestion eg ON g.id_gestion = eg.id_gestion,  
-							  deudores d, mandantes m, estadosgestion esg ");
+							  deudores d, mandantes m, estadosgestion esg,  documentos ds ,estadodocumentos ed ");
 	$where = " g.id_deudor = d.id_deudor 
 			  AND d.id_mandante = m.id_mandante 			  
 			  AND eg.id_estado = esg.id_estado  
-			  AND esg.id_estado = g.estado    
+			  AND esg.id_estado = g.estado
+  			  AND g.id_deudor = ds.id_deudor
+  			  AND ds.id_estado_doc = ed.id_estado_doc
+			  AND ds.activo = 'S'
+			  AND d.activo = 'S'
+			  AND ed.`id_estado_doc` NOT IN (2)
 			   AND ( eg.id_estado IN (SELECT CASE doc.id_estado_doc WHEN 999 THEN 1 ELSE doc.id_estado_doc END FROM documentos doc WHERE doc.id_deudor = d.id_deudor) OR eg.id_estado IS NULL 
   					) 
   			   AND g.activo = 'S' ";
@@ -58,7 +63,7 @@ class GestionesModel extends ModelBase
 	}
 
 	// $where .= " and g.id_gestion > ".$param["id_partida"];
-	$where = $where ." GROUP BY eg.id_estado, g.id_deudor ORDER BY eg.fecha_prox_gestion, g.id_gestion ASC ";
+	$where = $where ." GROUP BY  ds.id_estado_doc,g.id_deudor  ORDER BY eg.fecha_prox_gestion, g.id_gestion ASC ";
 	
 	
 	$sqlpersonal->set_where( $where );
@@ -87,17 +92,21 @@ class GestionesModel extends ModelBase
 					  d.segundo_nombre segundo_nombre,
 					  d.razonsocial razonsocial,
 					  g.fecha_gestion fecha_gestion,
-					  g.fecha_prox_gestion fecha_prox_gestion,
-					  IFNULL(eg.estado,'EXISTENCIA') estado,
-  					  IFNULL(eg.id_estado,1) id_estado ");
-	$sqlpersonal->set_from( " gestiones g LEFT JOIN estadosgestion eg ON g.estado = eg.id_estado, deudores d, mandantes m ");
+					  g.fecha_prox_gestion fecha_prox_gestion,					   
+  					  ed.estado estado,
+  					  ds.id_estado_doc id_estado");
+	$sqlpersonal->set_from( " gestiones g LEFT JOIN estadosgestion eg ON g.estado = eg.id_estado, deudores d, mandantes m, documentos ds, estadodocumentos ed  ");
 
 	$where = " 
 			g.estado not in ( 2,3,4,5,13 )
 		   and g.id_deudor = d.id_deudor
 	  	   and g.id_mandante = m.id_mandante
+	  	   and g.id_deudor = ds.id_deudor 
+  		   and ds.id_estado_doc = ed.id_estado_doc 
 		   and g.activo = 'S'
-		   and 1 = 1
+		   AND ds.activo = 'S'
+		   AND d.activo = 'S'
+		   AND ed.`id_estado_doc` NOT IN (2)
 		   AND ((g.fecha_prox_gestion <= CURDATE()) OR (g.id_gestion NOT IN(SELECT gg.id_gestion FROM estados_x_gestion gg) AND (g.fecha_prox_gestion <= CURDATE()) ))
 		   and d.id_deudor in (select d1.id_deudor from documentos d1 where d1.id_deudor = d.id_deudor and d1.id_estado_doc not in( 2,3,4,5,13 )
 		   						and d1.activo = 'S') ";
@@ -127,6 +136,7 @@ class GestionesModel extends ModelBase
 	}
 	
 	// $where .= " and g.id_gestion > ".$param["id_partida"];
+	$where = $where ." GROUP BY ds.id_estado_doc,g.id_deudor ";
 	$where = $where ." ORDER by fecha_prox_gestion, g.id_gestion asc ";
 	
 	
@@ -243,7 +253,7 @@ class GestionesModel extends ModelBase
 	}
 	
 	
-	public function getDetalleGestion($iddeudor,$idmandante,$iddocumento,$idgestion)
+	public function getDetalleGestion($iddeudor,$idmandante,$iddocumento,$idgestion,$idestadoges,$arrdoc)
 	{
 	
 	include("config.php");
@@ -269,10 +279,13 @@ class GestionesModel extends ModelBase
 								and   eg.id_estado = ed.id_estado
 								and   g.id_deudor= ".$iddeudor 
 	  						 ." and g.id_mandante = " .$idmandante 
-	  						 ." and g.id_gestion = " .$idgestion ;
+	  						 ." and eg.id_estado in (1," .$idestadoges .")";
 	  						 
 	  						 if($iddocumento != ""){
 	  						 	$vwhere = $vwhere ." and (eg.id_documento = " .$iddocumento." or eg.id_documento = 0)";
+	  						 }
+							 if($arrdoc != ""){
+	  						 	$vwhere = $vwhere ." and eg.id_documento in (" .$arrdoc.")";
 	  						 }
 	  						 $vwhere = $vwhere ." GROUP BY notas ";
 	  						 $vwhere = $vwhere ." order by eg.fecha_gestion desc ";
@@ -442,6 +455,7 @@ class GestionesModel extends ModelBase
 								   g.estado estado "); 
 		  $sqlpersonal->set_from(" gestiones g LEFT JOIN mandantes m ON g.id_mandante = m.id_mandante, deudores d ");
 		  $sqlpersonal->set_where(" g.id_deudor = d.id_deudor
+		  							and d.activo = 'S'
 									and  g.id_gestion = ". $idgestion );
 											
 	    $sqlpersonal->load();

@@ -318,6 +318,7 @@
 				datos += "&imp="+$("#txtimpcalc").val();
 				datos += "&pagomensual="+$("#txtpagomensual").val();
 				datos += "&costototal="+$("#txtcostoprestamo").val();
+				datos += "&porcentajectdo="+$("#txtporcentajectdo").val();
 				datos += "&docs="+$("#docs").val();
 				if(document.getElementById("rdestatus_repacta").checked == true)
 				{
@@ -395,6 +396,7 @@
 			url += accion+"&iddeudor="+$("#id_deudor").val();
 			url += "&tipoperacion="+$("#tipoperacion").val(); 
 			url += "&id_liquidacion="+$("#id_liquidacion").val();
+			url += "&idestadoges="+$("#idestadoges").val();
 
 			document.getElementById("frmsubpantalla").src = url;
 		}

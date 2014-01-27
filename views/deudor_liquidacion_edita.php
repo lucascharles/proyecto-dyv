@@ -50,7 +50,7 @@
 			if(document.getElementById("rdestatus_repacta").checked == true)
 			{
 				$("#formsoporte").show("slow");
-				calculadora_prestamo();
+//				calculadora_prestamo();
 			}
 		}
 	
@@ -334,6 +334,7 @@
 				datos += "&pagomensual="+$("#txtpagomensual").val();
 				datos += "&costototal="+$("#txtcostoprestamo").val();
 				datos += "&costasprocesales="+$("#txtcostasprocesales").val();
+				datos += "&porcentajectdo="+$("#txtporcentajectdo").val();
 				datos += "&docs="+$("#docs").val();
 
 				if(document.getElementById("rdestatus_repacta").checked == true)
@@ -344,7 +345,7 @@
 				{
 					datos += "&repacta=N";
 				}
-				
+				alert(datos);
 				$.ajax({
 					url: "index.php",
 					type: "GET",	
@@ -955,7 +956,7 @@
 				<tr>                                     
                     <td align="right" class="etiqueta_form">% Pago Ctdo.:&nbsp;</td>
                     <td align="left">
-                    <input type="text" name="txtporcentajectdo" id="txtporcentajectdo"  value="30"   class="input_form_medio" onFocus="resaltar(this)" onBlur="recalcular()" valida="requerido" />
+                    <input type="text" name="txtporcentajectdo" id="txtporcentajectdo"  value="<?=$liquidacion->get_data("porcentaje_contado")?>"   class="input_form_medio" onFocus="resaltar(this)" onBlur="recalcular()" valida="requerido" />
                     </td>
                 </tr>
 				<tr>	

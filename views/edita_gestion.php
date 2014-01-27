@@ -293,11 +293,11 @@
 
 		function seleccionado_doc(id,arrdoc)
 		{
+			var idestadoges = document.getElementById("idestadoges").value;
 			document.getElementById("docCartas").value = arrdoc;
 			document.getElementById("iddocumento").value = id;
-			document.getElementById("frmlistagestiones").src="index.php?controlador=Gestiones&accion=listar_bitacora_gestion&idgestion="+<? echo($objGestion->get_data("id_gestion")) ?>+"&iddocumento="+id;			
+			document.getElementById("frmlistagestiones").src="index.php?controlador=Gestiones&accion=listar_bitacora_gestion&idgestion="+<? echo($objGestion->get_data("id_gestion")) ?>+"&iddocumento="+id+"&idestadoges="+idestadoges+"&docs="+arrdoc;
 		}
-		
 
 		function actualizarDocs(idMandante,idDeudor,idestadoges)
 		{
@@ -751,7 +751,7 @@
     </tr>
     <tr>
 		<td >
-        	<iframe id="frmlistagestiones" src="index.php?controlador=Gestiones&accion=listar_bitacora_gestion&idgestion=<? echo($objGestion->get_data("id_gestion")) ?>" frameborder="0" align="middle" width="100%" height="120" scrolling="auto"></iframe>
+        	<iframe id="frmlistagestiones" src="index.php?controlador=Gestiones&accion=listar_bitacora_gestion&idgestion=<? echo($objGestion->get_data("id_gestion"))?>&idestadoges=<? $var = &$idestadoges; echo($var); ?>" frameborder="0" align="middle" width="100%" height="120" scrolling="auto"></iframe>
         </td>
 	</tr>
 </table>
