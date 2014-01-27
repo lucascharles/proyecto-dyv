@@ -425,6 +425,7 @@
 			url += accion+"&iddeudor="+$("#id_deudor").val();
 			url += "&tipoperacion="+$("#tipoperacion").val(); 
 			url += "&id_liquidacion="+$("#id_liquidacion").val();
+			url += "&idestadoges="+$("#idestadoges").val();
 
 			document.getElementById("frmsubpantalla").src = url;
 		}
