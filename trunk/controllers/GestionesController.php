@@ -300,7 +300,7 @@ class GestionesController extends ControllerBase
 
 		$iddoc = $array["iddocumento"];
 
-		$dato = $ges->getDetalleGestion($iddeudor,$idmandante,$iddoc,$array["idgestion"]);	
+		$dato = $ges->getDetalleGestion($iddeudor,$idmandante,$iddoc,$array["idgestion"],$array["idestadoges"],$array["arrdoc"]);	
 		$data['nom_sistema'] = "SISTEMA DyV";
 		$data['colleccionBitacoraGestion'] = $dato;
 		$data['colleccionCabeceraGestion'] = $cabecera;

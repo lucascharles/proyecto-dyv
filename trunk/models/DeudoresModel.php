@@ -1426,6 +1426,7 @@ ORDER BY orden ASC ";
 			$dato->set_data("imp",$array["imp"]);
 			$dato->set_data("pago_mensual",$array["pagomensual"]);
 			$dato->set_data("costo_total",$array["costototal"]);
+			$dato->set_data("porcentaje_contado",$array["porcentajectdo"]);
 		}
 	
 			$dato->set_data("fecha_creacion",date("Y-m-d"));
@@ -1478,6 +1479,7 @@ ORDER BY orden ASC ";
 			$dato->set_data("imp",$array["imp"]);
 			$dato->set_data("pago_mensual",$array["pagomensual"]);
 			$dato->set_data("costo_total",$array["costototal"]);
+			$dato->set_data("porcentaje_contado",$array["porcentajectdo"]);
 		}
 		$dato->set_data("fecha_modificacion",date("Y-m-d"));
 		$dato->set_data("usuario_modificacion",$array["id_usuario"]);
