@@ -313,6 +313,8 @@
 					{						
 
 						document.getElementById("frmlistdocumentos").src="index.php?controlador=Documentos&accion=listarNuevos&iddeudor="+id;
+
+						alert("Los datos se ingresaron de manera correcta.");
 					},
 					error: function()
 					{

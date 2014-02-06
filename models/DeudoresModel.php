@@ -1018,10 +1018,10 @@ ORDER BY orden ASC ";
 		$dato->set_data("rut_deudor_s",$arrayParam["rut"].$arrayParam["rut_d"]);
 		$dato->set_data("dv_deudor",$arrayParam["rut_d"]);
 		$dato->set_data("razonsocial",utf8_decode($arrayParam["razonsocial"]));
-		$dato->set_data("primer_nombre",utf8_decode($arrayParam["papellido"]));
-		$dato->set_data("segundo_nombre",utf8_decode($arrayParam["sapellido"]));
-		$dato->set_data("primer_apellido",utf8_decode($arrayParam["pnombre"]));
-		$dato->set_data("segundo_apellido",utf8_decode($arrayParam["snombre"]));
+		$dato->set_data("primer_nombre",utf8_decode($arrayParam["pnombre"]));
+		$dato->set_data("segundo_nombre",utf8_decode($arrayParam["snombre"]));
+		$dato->set_data("primer_apellido",utf8_decode($arrayParam["papellido"]));
+		$dato->set_data("segundo_apellido",utf8_decode($arrayParam["sapellido"]));
 		$dato->set_data("comentario",utf8_decode($arrayParam["pnombre"]));
 		$dato->set_data("celular",utf8_decode($arrayParam["celular"]));
 		$dato->set_data("telefono_fijo",utf8_decode($arrayParam["telefono"]));
@@ -1052,6 +1052,7 @@ ORDER BY orden ASC ";
 			$dirdeu->set_data("comuna", $datoTmp->get_data("comuna"));
 			$dirdeu->set_data("ciudad", $datoTmp->get_data("ciudad"));
 			$dirdeu->set_data("otros", $datoTmp->get_data("otros"));
+			$dirdeu->set_data("vigente", "S");
 			$dirdeu->save();
 		}
 		

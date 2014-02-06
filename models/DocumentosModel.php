@@ -199,7 +199,13 @@ class DocumentosModel extends ModelBase
 						//se crea el deudor nuevo
 						$deudor_new = new Deudores();
 						$deudor_new->set_data("rut_deudor",trim(substr($arraydatos[0],0,-1)));
-						$deudor_new->set_data("dv_deudor","'".trim(substr($arraydatos[0],-1))."'");
+						$deudor_new->set_data("dv_deudor",trim(substr($arraydatos[0],-1,1)));
+//						$deudor_new->set_data("dv_deudor","'".trim(substr($arraydatos[0],-1))."'");
+//					  	$deudor_new->set_data("primer_apellido",utf8_decode(trim($arraydatos[1])));
+//					  	$deudor_new->set_data("segundo_apellido",utf8_decode(trim($arraydatos[2])));
+//						$deudor_new->set_data("primer_nombre",utf8_decode(trim($arraydatos[3])));
+//					  	$deudor_new->set_data("segundo_nombre",utf8_decode(trim($arraydatos[4])));
+//						$deudor_new->set_data("dv_deudor","'".trim(substr($arraydatos[0],-1))."'");
 					  	$deudor_new->set_data("primer_apellido",utf8_encode(trim($arraydatos[1])));
 					  	$deudor_new->set_data("segundo_apellido",utf8_encode(trim($arraydatos[2])));
 						$deudor_new->set_data("primer_nombre",utf8_encode(trim($arraydatos[3])));
@@ -877,7 +883,7 @@ class DocumentosModel extends ModelBase
 				and d.id_estado_doc = ed.id_estado_doc
 				and d.id_tipo_doc = td.id_tipo_documento
 				and d.activo = 'S' ";
-		
+//		$where .= " and d.id_estado_doc >= ".$array["idestadoges"];
 		$where .= " and d.id_documento >= ".$array["id_partida"];
 		
 //		$sqlpersonal->set_top(10); // PARA SQLSERVER 
@@ -1816,7 +1822,7 @@ class DocumentosModel extends ModelBase
     	return $sqlpersonal;
 	}
 	
-	public function getDocLiquidar($id_deudor)
+	public function getDocLiquidar($id_deudor,$idestado)
 	{
 		include("config.php");
 
@@ -1841,6 +1847,7 @@ class DocumentosModel extends ModelBase
 							and   d.id_estado_doc = ed.id_estado_doc
 							and   d.activo = 'S'
 							and   d.id_deudor = ".$id_deudor.
+      					"   and   d.id_estado_doc = ".$idestado.
 						    " GROUP BY id_deudor,tipo_documento, numero_documento,estado, fecha_protesto, fecha_siniestro,fecha_creacion,monto 
 							order by id_deudor ");
 

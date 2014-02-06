@@ -73,7 +73,7 @@
 		$montoDoc = $deudorTmp->get_data("monto");
 		
 	  	
-	  	if($idDeudorAnt != $deudorTmp->get_data("id_deudor"))
+	  	if(($idDeudorAnt != $deudorTmp->get_data("id_deudor"))or ($i%12 == 0))
 		{
 			$delta = 5;
 			//identifica el deudor para nueva carta
