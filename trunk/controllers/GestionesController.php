@@ -104,7 +104,9 @@ class GestionesController extends ControllerBase
 		$deuda = $monto->get_data("monto");
 		
 		$idestadoges = $cab->get_data("estado"); 
-		$datoDeudaMandante = $gestiones->getDeudaNetaMandante($iddeudor,$idmandante,$idestadoges);
+		
+		$datoDeudaMandante = $gestiones->getDeudaNetaMandante($iddeudor,$idmandante,$array["estadoGes"]);
+//		$datoDeudaMandante = $gestiones->getDeudaNetaMandante($iddeudor,$idmandante,$idestadoges);
 		$montoMandante = $datoDeudaMandante->items[0];
 		$deudaMandante = $montoMandante->get_data("monto");
 		
@@ -160,7 +162,7 @@ class GestionesController extends ControllerBase
 		$data['cantidadLiquidacion'] = $existeLiquidacion;
 		$data['deudaNetaMandante'] = $deudaMandante;
 		$data['tipoGestion'] = $array["tipoGestion"];
-		if($idestadoges != 1){
+		if($array["estadoGes"] != 1){
 			$data['cantidadDemandas'] = $cantDemandas;
 			$data['totalDemandas'] = $totalDemandas;
 			$data['rolDemanda'] = $primerRol;
@@ -300,7 +302,7 @@ class GestionesController extends ControllerBase
 
 		$iddoc = $array["iddocumento"];
 
-		$dato = $ges->getDetalleGestion($iddeudor,$idmandante,$iddoc,$array["idgestion"],$array["idestadoges"],$array["arrdoc"]);	
+		$dato = $ges->getDetalleGestion($iddeudor,$idmandante,$iddoc,$array["idgestion"],$array["idestadoges"],$array["docs"]);	
 		$data['nom_sistema'] = "SISTEMA DyV";
 		$data['colleccionBitacoraGestion'] = $dato;
 		$data['colleccionCabeceraGestion'] = $cabecera;

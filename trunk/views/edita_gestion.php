@@ -173,7 +173,6 @@
 							doc+="&iddocumento"+i+"="+value;
 						}
 					}
-
 					$.ajax({
 					url: "index.php",
 					type: "GET",
@@ -296,6 +295,7 @@
 			var idestadoges = document.getElementById("idestadoges").value;
 			document.getElementById("docCartas").value = arrdoc;
 			document.getElementById("iddocumento").value = id;
+//			alert("index.php?controlador=Gestiones&accion=listar_bitacora_gestion&idgestion="+<? echo($objGestion->get_data("id_gestion")) ?>+"&iddocumento="+id+"&idestadoges="+idestadoges+"&docs="+arrdoc);
 			document.getElementById("frmlistagestiones").src="index.php?controlador=Gestiones&accion=listar_bitacora_gestion&idgestion="+<? echo($objGestion->get_data("id_gestion")) ?>+"&iddocumento="+id+"&idestadoges="+idestadoges+"&docs="+arrdoc;
 		}
 

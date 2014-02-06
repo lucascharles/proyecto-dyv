@@ -651,7 +651,7 @@
 			$this->table_name = "deudores";
 			$this->field_metadata = array(
 					"id_deudor" => array("int"),
-					"rut_deudor" => array("numeric"),
+					"rut_deudor" => array("int"),
 					"rut_deudor_s" => array("varchar"),
 					"dv_deudor" => array("varchar"),
 					"primer_nombre" => array("varchar"),
@@ -1507,6 +1507,7 @@
 					  "costo_total" => array("int"),
 					  "costas_procesales" => array("int"),
 					  "capital_pagado" => array("int"),
+					  "porcentaje_contado" => array("int"),
 					  "fecha_creacion" => array("date"),
 					  "usuario_creacion" =>  array("varchar"),
 					  "fecha_modificacion" => array("date"),

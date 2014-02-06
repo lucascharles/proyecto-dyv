@@ -285,7 +285,8 @@ class GestionesModel extends ModelBase
 	  						 	$vwhere = $vwhere ." and (eg.id_documento = " .$iddocumento." or eg.id_documento = 0)";
 	  						 }
 							 if($arrdoc != ""){
-	  						 	$vwhere = $vwhere ." and eg.id_documento in (" .$arrdoc.")";
+							 	$lista= str_replace(' ',',',trim($arrdoc)); 
+	  						 	$vwhere = $vwhere ." and eg.id_documento in (" .$lista.")";
 	  						 }
 	  						 $vwhere = $vwhere ." GROUP BY notas ";
 	  						 $vwhere = $vwhere ." order by eg.fecha_gestion desc ";
@@ -403,16 +404,6 @@ class GestionesModel extends ModelBase
 		  	$documento->save();
 		  }
 	  }
-	  
-	  //modifica estado de documento si la gestion es una DEMANDA, CASTIGO o RECUPERO
-//	  if($array["iddocumento"] != "")
-//	  {
-//	  	$documento = new Documentos();
-//	  	$documento->add_filter("id_documento","=",$array["iddocumento"]);
-//	  	$documento->load();
-//	  	$documento->set_data("id_estado_doc",$array["selGestion"]);
-//	  	$documento->save();
-//	  }
 	  
 	}
 	

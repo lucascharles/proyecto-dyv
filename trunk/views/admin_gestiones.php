@@ -70,7 +70,7 @@
 			}
 			var id = document.getElementById("id_gestion").value;
 			var idNextGes = document.getElementById("id_next").value;
-
+//			alert('index.php?controlador=Gestiones&accion=gestionar&idgestion='+id+'&idNextGes='+idNextGes+'&tipoGestion='+document.getElementById("tipo_gestion").value+'&estadoGes='+document.getElementById("id_estado").value);
 			$("#pagina").load('index.php?controlador=Gestiones&accion=gestionar&idgestion='+id+'&idNextGes='+idNextGes+'&tipoGestion='+document.getElementById("tipo_gestion").value+'&estadoGes='+document.getElementById("id_estado").value);
 		}
 	</script>

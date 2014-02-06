@@ -125,6 +125,7 @@
 							$("#pagina").load('index.php?controlador=Documentos&accion=admin&rutDeudor='+$("#txtrut_deudor").val());
 //									alert('index.php?controlador=Documentos&accion=admin&rutDeudor='+$("#txtrut_deudor").val());		
 						}
+						alert('Los datos fueron ingresados correctamente.');
 					},
 					error: function()
 					{

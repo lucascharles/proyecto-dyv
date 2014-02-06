@@ -326,9 +326,11 @@
 						{
 							$("#pagina").load('index.php?controlador=Deudores&accion=admin');
 						}
+						alert('Los datos se registraron de manera correcta.');
 					},
 					error: function()
 					{
+						alert('Ocurrio un error al grabar el nuevo deudor.');
 						$("#mensaje").text("Ha ocurrido un error y no se ha podido agregar el registro.");
 						setTimeout("$('#mensaje').text('')",3000);
 						
