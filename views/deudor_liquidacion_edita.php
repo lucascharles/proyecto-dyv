@@ -345,7 +345,6 @@
 				{
 					datos += "&repacta=N";
 				}
-				alert(datos);
 				$.ajax({
 					url: "index.php",
 					type: "GET",	
@@ -472,7 +471,8 @@
 			}
 			else
 			{
-				$("#txtinteresacumulado").val(int_acum.toFixed(2));
+				var x = (parseInt(document.getElementById("txtinteresacumulado").value) - int_acum);	
+				$("#txtinteresacumulado").val(x);
 			}
 
 			//CALCULO DE SIMULACION
@@ -488,70 +488,7 @@
 		}
 
 
-		{
-			if(document.getElementById("docs").value == "")
-			{
-				document.getElementById("docs").value = id;
-			}	
-			else
-			{
-				document.getElementById("docs").value += ","+id;
 
-				document.all['ocul1'].style.display = "none";
-				document.all['ocul2'].style.display = "none";
-				document.all['ocul3'].style.display = "none";
-			}
-
-			document.getElementById("txttotal").value = monto;
-			document.getElementById("txtfechavenc").value = fecha;
-			document.getElementById("txtdiasatraso").value = dias;
-			document.getElementById("txtprotesto").value = protesto;
-			document.getElementById("txtcostasprocesales").value = v_costas;
-
-			// CALCULO INTERES DIARIO 
-			var interes = Math.ceil(((parseFloat($("#txtinteres").val()) * parseInt(document.getElementById("txttotal").value) ) / 100)/30);
-			if(interes == 0)
-			{
-				document.getElementById("txtinteresdiario").value = "";
-			}
-			else
-			{
-				document.getElementById("txtinteresdiario").value = interes; 
-			}
-			
-			// CALCULO INTERES ACUMULADO 
-			var int_acum = interes * parseInt(dias);
-			if(int_acum == 0)
-			{
-				document.getElementById("txtinteresacumulado").value = "";
-			}
-			else
-			{
-				$("#txtinteresacumulado").val(int_acum);
-				document.getElementById("txtinteresacumulado").value = int_acum + parseInt(document.getElementById("txtinteresacumulado").value);
-			}
-
-			//CALCULO DE SIMULACION
-			var capital = document.getElementById("txttotal").value;
-			var interes = document.getElementById("txtinteresacumulado").value;
-			var protesto = document.getElementById("txtprotesto").value;
-			var porcentaje = document.getElementById("txtporcentaje").value;
-			var honorarios = Math.ceil(((parseInt(capital) + parseFloat(interes) + parseInt(protesto))* parseInt(porcentaje)/100));
-			var total_mandante = parseInt(document.getElementById("txttotal").value) + parseInt(document.getElementById("txtinteresacumulado").value);
-
-			document.getElementById("txthonorarios").value = honorarios + (parseInt(interes) * parseInt(porcentaje)/100) ;
-			honorarios = document.getElementById("txthonorarios").value;
-
-			
-			var vcostas = document.getElementById("txtcostasprocesales").value;
-			var total = Math.ceil((parseFloat(capital) + parseFloat(interes) + parseInt(protesto) + parseInt(honorarios) + parseInt(vcostas))); 
-
-			document.getElementById("txttotalmandante").value = parseInt(total) - parseInt(honorarios);
-			document.getElementById("txttotalpagado").value =document.getElementById("txttotalmandante").value;
-			document.getElementById("txttotalsimulacion").value = total;
-			
-			
-		}
 
 		function calculadora_prestamo()
 		{
@@ -666,21 +603,76 @@
 			
 		}
 
+		function recalcularfecha()
+		{
+			var conf = confirm('Cambiar la fecha de liquidacion requiere seleccionar nuevamente los documentos. Desea Continuar?');
+		    if(conf == true){
+			    var viddeudor = document.getElementById("id_deudor").value; 
+			    url="index.php?controlador=Deudores&accion=liquidacion_documentos&iddeudor="+viddeudor+"&id_liquidacion=0";
+			    document.getElementById("frmsubpantalla").src = url;
+			    document.getElementById("txtinteresacumulado").value =0 ;
+		    }
+		}
+					
 		function recalcular()
 		{
 			
 			var monto = document.getElementById("txttotal").value;
 
-			// CALCULO INTERES DIARIO 
-			var interes = ((parseInt($("#txtinteres").val()) * parseInt(document.getElementById("txttotal").value) ) / 100)/30;
-			if(interes == 0)
-			{
-				$("#txtinteresdiario").val("");
-			}
-			else
-			{
-				$("#txtinteresdiario").val(parseInt(interes));
-			}
+			
+//			// CALCULO INTERES DIARIO 
+//			var interes = ((parseInt($("#txtinteres").val()) * parseInt(document.getElementById("txttotal").value) ) / 100)/30;
+//			if(interes == 0)
+//			{
+//				$("#txtinteresdiario").val("");
+//			}
+//			else
+//			{
+//				$("#txtinteresdiario").val(parseInt(interes));
+//			}
+//
+//			// CALCULO INTERES ACUMULADO 
+//			var int_acum = interes * parseInt(dias);
+//			
+//			if(int_acum == 0)
+//			{
+//				$("#txtinteresacumulado").val("");
+//			}
+//			else
+//			{
+//				$("#txtinteresacumulado").val(parseInt(int_acum));
+//			}
+	
+			var v_int_acum_orig = parseInt($("#txtinteresacumulado").val());
+			var v_int_orig = parseInt($("#interes_orig").val());
+			var v_int = parseInt($("#txtinteres").val());
+			var v_int_d = 0;
+			var v_int_acum = 0;
+			var v_sum_int = 0;
+	
+			var v_int_acum_res = 0;
+
+			v_int_acum_res = (v_int_acum_orig * v_int) / v_int_orig ; 	
+			$("#txtinteresacumulado").val(v_int_acum_res);
+			 
+//			for(var i=0; i<arrayDoc.length; i++)
+//			{
+//				if(arrayDoc[i] != "")
+//				{
+//					v_int_d = ((v_int * parseInt(arrayDoc[i]) ) / 100)/30;
+//					v_int_acum = parseInt(v_int_d) * parseInt(arrayDocDias[i]);
+//					v_sum_int = v_sum_int + v_int_acum;
+//
+//					if(v_sum_int == 0)
+//					{
+//						$("#txtinteresacumulado").val("");
+//					}
+//					else
+//					{
+//						$("#txtinteresacumulado").val(v_sum_int);
+//					}
+//				}
+//			}
 			
 			//CALCULO DE SIMULACION
 			var capital = document.getElementById("txttotal").value;
@@ -708,7 +700,70 @@
 			
 		}
 
+		function seleccionado(id,monto,fecha,dias,protesto,v_costas,valordoc)
+		{
 
+			document.getElementById("txttotal").value = monto;
+			var vtxtfechavenc  = fecha;// document.getElementById("txtfechavenc").value = fecha;
+			var vtxtdiasatraso = dias; //document.getElementById("txtdiasatraso").value = dias;
+			var txtprotesto = protesto; //document.getElementById("txtprotesto").value = protesto;
+
+			if(v_costas == "") v_costas = 0;
+				
+			document.getElementById("txtcostasprocesales").value = v_costas;
+
+			// CALCULO INTERES DIARIO 
+			var v_int = parseFloat($("#txtinteres").val());
+	
+			var interes = Math.ceil(( valordoc *(v_int/100))/30);
+			
+			// CALCULO INTERES ACUMULADO 
+			
+			var int_acum = interes * parseInt(dias);
+			
+			if(int_acum == 0)
+			{
+				document.getElementById("txtinteresacumulado").value = "";
+			}
+			else
+			{
+				document.getElementById("txtinteresacumulado").value = parseInt(document.getElementById("txtinteresacumulado").value)+ int_acum;
+			}
+
+			//CALCULO DE SIMULACION
+			var capital = document.getElementById("txttotal").value;
+			var protesto = document.getElementById("txtprotesto").value;
+			var porcentaje = txtprotesto; // document.getElementById("txtporcentaje").value;
+			var acumulado = document.getElementById("txtinteresacumulado").value;
+				 
+			var vcostas = document.getElementById("txtcostasprocesales").value;
+			var total = Math.ceil((parseInt(capital) + parseInt(acumulado) + parseInt(protesto) + parseInt(vcostas)));
+			var honorarios = (parseInt(total) * parseInt(porcentaje)/100) ; 
+			var total_simulacion = parseInt(total) + parseInt(honorarios);
+			
+			document.getElementById("txttotalmandante").value = parseInt(total);
+			document.getElementById("txthonorarios").value = honorarios;
+			document.getElementById("txttotalpagado").value =document.getElementById("txttotalmandante").value;
+			document.getElementById("txttotalsimulacion").value = total_simulacion;
+
+			//RECALCULA LA REPACTACION
+			//CALCULADORA PRESTAMO
+			var porcentajectdo = parseInt(document.getElementById("txtporcentajectdo").value);
+			var v_total_simulacion = parseInt(document.getElementById("txttotalsimulacion").value);
+			var v_honorarios = parseInt(document.getElementById("txthonorarios").value);
+			var total_mandante = document.getElementById("txttotalmandante").value;
+
+			var pagocontado = (parseInt(document.getElementById("txttotalsimulacion").value) - parseInt(document.getElementById("txthonorarios").value))*porcentajectdo/100;
+			
+			document.getElementById("txtpagocontado").value = (parseInt(total_mandante) * parseInt(porcentajectdo)/100);
+			
+			document.getElementById("txtimporte").value = (parseInt(total_mandante) * (100 - parseInt(porcentajectdo))/100);
+			document.getElementById("txtimpcalc").value = 0; 
+
+			var pagomensual = (parseInt($.trim($("#txtimporte").val())) + parseInt($.trim($("#txtimpcalc").val()))) / parseInt($.trim($("#txtcuotascalc").val()));
+			document.getElementById("txtpagomensual").value = pagomensual;
+			document.getElementById("txtcostoprestamo").value = parseInt(document.getElementById("txtimporte").value)+parseInt(document.getElementById("txtimpcalc").value);
+		}
 		
 	</script>
 </head>
@@ -747,6 +802,8 @@
 <input type="hidden" name="param_volver" id="param_volver" value="<? echo($param_volver) ?>" />
 <input type="hidden" name="val_volver" id="val_volver" value="<? echo($val_volver) ?>" />
 <input type="hidden" name="idestadoges" id="idestadoges" value="<? echo($idestadoges) ?>" />
+<input type="hidden" name="intacum" id="intacum" value="0" />
+<input type="hidden" name="interes_orig" id="interes_orig" value="<?=conDecimales($liquidacion->get_data("interes"))?>" />
 
 
 
@@ -841,7 +898,7 @@
                     
                     <td align="right" class="etiqueta_form">Fecha:&nbsp; </td>
                     <td align="left">
-                        <input type="text" name="txtfecha" id="txtfecha" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" value="<?=formatoFecha($liquidacion->get_data("fecha_simulacion"),"yyyy-mm-dd","dd/mm/yyyy")?>" valida="requerido" tipovalida="fecha" onKeyUp="this.value=formateafecha(this.value)"/>
+                        <input type="text" name="txtfecha" id="txtfecha" class="input_form_medio" onFocus="resaltar(this)" onchange="recalcularfecha()" value="<?=formatoFecha($liquidacion->get_data("fecha_simulacion"),"yyyy-mm-dd","dd/mm/yyyy")?>" valida="requerido" tipovalida="fecha" onKeyUp="this.value=formateafecha(this.value)"/>
                     </td>                                   
                 </tr>
                 <tr>  

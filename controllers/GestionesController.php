@@ -118,8 +118,7 @@ class GestionesController extends ControllerBase
 		$cantDemandas = $deudor->getCantFicha($iddeudor);
 //		$totalDemandas = $deudor->getTotalDemanda($iddeudor);
 		
-		
-		$existeLiquidacion = $deudor->getCantLiquidaciones($iddeudor);
+		$existeLiquidacion = $deudor->getCantLiquidaciones($array["estadoGes"],$iddeudor);
 		
 		$rolDemanda = $deudor->getRolDemanda($iddeudor);
 		$rol = $rolDemanda->items[0];

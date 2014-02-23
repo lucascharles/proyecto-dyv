@@ -4,6 +4,75 @@ class GestionesModel extends ModelBase
 		
 	
 		
+//	public function getListaGestiones($des, $param=array())
+//	{
+//	
+//	include("config.php");
+//
+//	
+//	$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
+//	
+//	$sqlpersonal->set_select( " g.id_gestion id_gestion,	   
+//   					  m.rut_mandante rut_mandante,
+//					  m.dv_mandante dv_mandante,							   
+//					  d.rut_deudor rut_deudor, 
+//					  d.dv_deudor dv_deudor,
+//					  d.primer_apellido primer_apellido, 
+//					  d.segundo_apellido segundo_apellido,
+//					  d.primer_nombre primer_nombre,
+//					  d.segundo_nombre segundo_nombre,
+//					  d.razonsocial razonsocial,
+//					  g.fecha_gestion fecha_gestion,
+//					  MAX(eg.fecha_prox_gestion) fecha_prox_gestion,
+//  					  esg.estado estado,
+//   					  eg.id_estado id_estado 	
+//					  ");
+//	$sqlpersonal->set_from( " gestiones g LEFT JOIN estados_x_gestion eg ON g.id_gestion = eg.id_gestion,  
+//							  deudores d, mandantes m, estadosgestion esg,  documentos ds ,estadodocumentos ed ");
+//	
+//	$where = " g.id_deudor = d.id_deudor 
+//			  AND d.id_mandante = m.id_mandante 			  
+//			  AND eg.id_estado = esg.id_estado  
+//			  AND esg.id_estado = g.estado
+//  			  AND g.id_deudor = ds.id_deudor
+//  			  AND ds.id_estado_doc = ed.id_estado_doc
+//			  AND ds.activo = 'S'
+//			  AND d.activo = 'S'
+//			  AND ed.`id_estado_doc` NOT IN (2)
+//			   AND ( eg.id_estado IN (SELECT CASE doc.id_estado_doc WHEN 999 THEN 1 ELSE doc.id_estado_doc END FROM documentos doc WHERE doc.id_deudor = d.id_deudor) OR eg.id_estado IS NULL 
+//  					) 
+//  			   AND g.activo = 'S' ";
+//	
+//	if(trim($param["rut_d"]) <> "")
+//	{
+//		$where .= " and d.rut_deudor like '".trim($param["rut_d"])."%'";
+//	}
+//	if(trim($param["nombre_deudor"]) <> "")
+//	{
+//		$where .= " and (d.primer_nombre like '".trim($param["nombre_deudor"])."%' ";
+//		$where .= " OR d.segundo_nombre like '".trim($param["nombre_deudor"])."%' ";
+//		$where .= " OR d.primer_apellido like '".trim($param["nombre_deudor"])."%' ";
+//		$where .= " OR d.segundo_apellido like '".trim($param["nombre_deudor"])."%' )";	
+//	}
+//	if(trim($param["rut_m"]) <> "")
+//	{
+//		$where .= " and m.rut_mandante like '".trim($param["rut_m"])."%'";
+//	}
+//	if(trim($param["id_estado"]) <> "")
+//	{
+//		$where .= " and g.estado = ".trim($param["id_estado"]);
+//	}
+//
+//	$where = $where ." GROUP BY  ds.id_estado_doc,g.id_deudor  ORDER BY eg.fecha_prox_gestion, g.id_gestion ASC ";
+//	
+//	$sqlpersonal->set_where( $where );
+//	$sqlpersonal->set_limit(0,30); // PARA MYSQL
+//    $sqlpersonal->load();
+//
+//    return $sqlpersonal;		
+//	}
+	
+	
 	public function getListaGestiones($des, $param=array())
 	{
 	
@@ -23,24 +92,22 @@ class GestionesModel extends ModelBase
 					  d.segundo_nombre segundo_nombre,
 					  d.razonsocial razonsocial,
 					  g.fecha_gestion fecha_gestion,
-					  g.fecha_prox_gestion fecha_prox_gestion,
-  					  ed.estado estado,
-  					  ds.id_estado_doc id_estado   					  					
+					  MAX(eg.fecha_prox_gestion) fecha_prox_gestion,
+  					  esg.estado estado,
+   					  eg.id_estado id_estado 	
 					  ");
-	$sqlpersonal->set_from( " gestiones g LEFT JOIN estados_x_gestion eg ON g.id_gestion = eg.id_gestion,  
-							  deudores d, mandantes m, estadosgestion esg,  documentos ds ,estadodocumentos ed ");
-	$where = " g.id_deudor = d.id_deudor 
-			  AND d.id_mandante = m.id_mandante 			  
-			  AND eg.id_estado = esg.id_estado  
-			  AND esg.id_estado = g.estado
-  			  AND g.id_deudor = ds.id_deudor
-  			  AND ds.id_estado_doc = ed.id_estado_doc
-			  AND ds.activo = 'S'
-			  AND d.activo = 'S'
-			  AND ed.`id_estado_doc` NOT IN (2)
-			   AND ( eg.id_estado IN (SELECT CASE doc.id_estado_doc WHEN 999 THEN 1 ELSE doc.id_estado_doc END FROM documentos doc WHERE doc.id_deudor = d.id_deudor) OR eg.id_estado IS NULL 
-  					) 
-  			   AND g.activo = 'S' ";
+	$sqlpersonal->set_from( " gestiones g LEFT JOIN estados_x_gestion eg ON g.id_gestion = eg.id_gestion 
+ 							  ,mandantes m ,deudores d ,estadosgestion esg, documentos ds ");
+	
+	$where = " g.id_mandante = m.`id_mandante`
+				AND g.activo = 'S'
+				AND d.activo = 'S'
+				AND m.activo = 'S'
+				AND eg.id_estado NOT IN (2)
+				AND g.id_deudor = d.id_deudor
+				AND eg.id_estado = esg.id_estado 
+				AND ds.id_documento = eg.id_documento
+  				AND ds.id_estado_doc = eg.id_estado ";
 	
 	if(trim($param["rut_d"]) <> "")
 	{
@@ -62,9 +129,7 @@ class GestionesModel extends ModelBase
 		$where .= " and g.estado = ".trim($param["id_estado"]);
 	}
 
-	// $where .= " and g.id_gestion > ".$param["id_partida"];
-	$where = $where ." GROUP BY  ds.id_estado_doc,g.id_deudor  ORDER BY eg.fecha_prox_gestion, g.id_gestion ASC ";
-	
+	$where = $where ." GROUP BY  eg.id_estado,g.id_deudor  ORDER BY eg.fecha_prox_gestion, g.id_gestion ASC ";
 	
 	$sqlpersonal->set_where( $where );
 	$sqlpersonal->set_limit(0,30); // PARA MYSQL
@@ -135,8 +200,8 @@ class GestionesModel extends ModelBase
 		$where .= " and g.estado = ".trim($param["selEstado"]);
 	}
 	
-	// $where .= " and g.id_gestion > ".$param["id_partida"];
-	$where = $where ." GROUP BY ds.id_estado_doc,g.id_deudor ";
+//	$where = $where ." GROUP BY ds.id_estado_doc,g.id_deudor ";
+	$where = $where ." GROUP BY g.id_deudor ";
 	$where = $where ." ORDER by fecha_prox_gestion, g.id_gestion asc ";
 	
 	
@@ -274,13 +339,14 @@ class GestionesModel extends ModelBase
 	   						   eg.usuario usuario "); 
 	  $sqlpersonal->set_from(" estados_x_gestion eg, gestiones g, mandantes m, deudores d, estadosgestion ed ");
 	  $vwhere = " eg.id_gestion = g.id_gestion
-								and	  g.id_mandante = m.id_mandante
-								and	  g.id_deudor = d.id_deudor
-								and   eg.id_estado = ed.id_estado
-								and   g.id_deudor= ".$iddeudor 
+								and	g.id_mandante = m.id_mandante
+								and	g.id_deudor = d.id_deudor
+								and eg.id_estado = ed.id_estado
+								and g.id_deudor= ".$iddeudor 
 	  						 ." and g.id_mandante = " .$idmandante 
-	  						 ." and eg.id_estado in (1," .$idestadoges .")";
-	  						 
+	  						 ." and eg.id_estado in (" .$idestadoges .")". 
+	  						  " and eg.id_documento in (SELECT DISTINCT id_documento FROM estados_x_gestion WHERE id_gestion = ".$idgestion." AND id_estado = " .$idestadoges .")";
+	  						  
 	  						 if($iddocumento != ""){
 	  						 	$vwhere = $vwhere ." and (eg.id_documento = " .$iddocumento." or eg.id_documento = 0)";
 	  						 }

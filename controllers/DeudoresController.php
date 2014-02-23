@@ -1070,14 +1070,25 @@ class DeudoresController extends ControllerBase
 		$nuevafecha = date ( 'd/m/Y' , $nuevafecha );
 		$data['fecha_pago'] = $nuevafecha ;
 		
+		$protesto = $deudores->getProtestoLiq($array["id"]); 
+		if($protesto->items[0]->get_data("gastos_prot") == ""){
+			$montoprotesto = 80;
+		}
+		else
+		{
+			$montoprotesto = $protesto->items[0]->get_data("gastos_prot");
+		}
+
+		$data['protesto'] = $montoprotesto ;
 		
 		$data['idestadoges'] = $array["idestadoges"];
 		$data['control_volver'] = $array["control_volver"];
 		$data['accion_volver'] = $array["accion_volver"];
 		$data['param_volver'] = $array["param_volver"];
 		$data['val_volver'] = $array["val_volver"];
-				
-		$this->view->show("deudor_liquidacion_edita.php", $data);
+		
+		$this->view->show("deudor_liquidacion_edita2.php", $data);		
+//		$this->view->show("deudor_liquidacion_edita.php", $data);
 	}
 	
 	public function modifica_liquidacion($array)

@@ -28,7 +28,7 @@
 			var tipoG = window.parent.document.getElementById("tipo_gestion").value;
 			datos += "&rut_d="+window.parent.document.getElementById("txtrutdeudor").value+"&rut_m="+window.parent.document.getElementById("txtrutmandante").value+"&tipoGestion="+tipoG;
 			datos += "&id_partida="+id;
-			
+			alert(datos);
 			$.ajax({
 					url: "index.php",
 					type: "GET",

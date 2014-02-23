@@ -1827,7 +1827,18 @@ class DocumentosModel extends ModelBase
 		include("config.php");
 
 		$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
-	
+
+      	$var_where = " d.id_tipo_doc = td.id_tipo_documento
+							and   d.id_estado_doc = ed.id_estado_doc
+							and   d.activo = 'S'
+							and   d.id_deudor = ".$id_deudor;
+      	if($idestado != ""){
+      		$var_where = $var_where . "   and   d.id_estado_doc = ".$idestado;      	
+      	}
+		
+      	 $var_where = $var_where . " GROUP BY id_deudor,tipo_documento, numero_documento,estado, fecha_protesto, fecha_siniestro,fecha_creacion,monto 
+							order by id_deudor ";
+		
 		$sqlpersonal->set_select(" d.id_deudor id_deudor,
 									d.id_documento id_documento, 
 									td.tipo_documento tipo_documento,
@@ -1843,13 +1854,16 @@ class DocumentosModel extends ModelBase
 									SUM(gf.importe) costas "); 
 	  	$sqlpersonal->set_from(" (documentos d LEFT JOIN documento_ficha df ON d.id_documento = df.id_documento) LEFT JOIN gastos_ficha gf ON df.id_ficha = gf.id_ficha 
      							 ,tipodocumento td, estadodocumentos ed  ");
-      	$sqlpersonal->set_where(" d.id_tipo_doc = td.id_tipo_documento
-							and   d.id_estado_doc = ed.id_estado_doc
-							and   d.activo = 'S'
-							and   d.id_deudor = ".$id_deudor.
-      					"   and   d.id_estado_doc = ".$idestado.
-						    " GROUP BY id_deudor,tipo_documento, numero_documento,estado, fecha_protesto, fecha_siniestro,fecha_creacion,monto 
-							order by id_deudor ");
+
+	  	$sqlpersonal->set_where($var_where);
+//	  	$sqlpersonal->set_where(" d.id_tipo_doc = td.id_tipo_documento
+//							and   d.id_estado_doc = ed.id_estado_doc
+//							and   d.activo = 'S'
+//							and   d.id_deudor = ".$id_deudor.
+//      					"   and   d.id_estado_doc = ".$idestado.
+//						    " GROUP BY id_deudor,tipo_documento, numero_documento,estado, fecha_protesto, fecha_siniestro,fecha_creacion,monto 
+//							order by id_deudor ");
+      	
 
     	$sqlpersonal->load();
 
