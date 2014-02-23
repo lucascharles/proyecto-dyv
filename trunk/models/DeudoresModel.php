@@ -63,13 +63,45 @@ class DeudoresModel extends ModelBase
 				
 		return $monto;
 	}
-	
-	public function getCantLiquidaciones($iddeudor)
+
+	public function getProtestoLiq($idliquidacion)
 	{
-		$dato = new LiquidacionesCollection();
-		$dato->add_filter("id_deudor","=",$iddeudor);
-		$dato->load();
-		$cantidad = $dato->get_count();		
+		include("config.php");
+		
+		$select = " SUM(d.gastos_protesto) gastos_prot "; 
+ 		$from = " liquidaciones l, liquidacion_simulacion_doc lsd, documentos d ";
+    	$where = $where." l.id_liquidacion = lsd.id_liquidacion_simulacion
+					AND   lsd.id_documento = d.id_documento
+					AND   l.id_liquidacion =  ".$idliquidacion;
+		
+		$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
+		$sqlpersonal->set_select($select);
+		$sqlpersonal->set_from($from);
+		$sqlpersonal->set_where($where);
+    	$sqlpersonal->load();
+
+	    return $sqlpersonal;
+		
+		
+		
+	}
+		
+	public function getCantLiquidaciones($estadoGes,$iddeudor)
+	{
+		include("config.php");
+
+		$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
+		$sqlpersonal->set_select( " d.id_documento ");
+		$sqlpersonal->set_from(" liquidaciones l, liquidacion_simulacion_doc lsd, documentos d ");
+		
+		$where = $where." l.id_liquidacion = lsd.id_liquidacion_simulacion
+					AND   lsd.id_documento = d.id_documento
+					AND   d.id_deudor = ".$iddeudor.
+				  " AND   d.id_estado_doc = ".$estadoGes;
+
+		$sqlpersonal->set_where($where);
+    	$sqlpersonal->load();
+		$cantidad = $sqlpersonal->get_count();		
 		return $cantidad;
 	}
 	

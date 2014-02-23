@@ -41,6 +41,11 @@
 			generadvrut('txtrut_deudor','txtdv_deudor'); 
 			validarRut('D'); 
 			simular_liquidacion();
+			calcular();
+			repactar();
+			noRepactar();
+			recalcular();
+			calcular();
 		});
 
 		var arrayDoc = new Array();
@@ -653,7 +658,6 @@
 			$("#txtpagomensual").val(pagomensual);
 			$("#txtnumpagos").val($.trim($("#txtcuotascalc").val()));
 
-//			document.getElementById("txtcostoprestamo").value = parseInt(document.getElementById("txtimporte").value)+parseInt(document.getElementById("txtimpcalc").value);
 			
 		}
 
@@ -679,7 +683,6 @@
 
 		}
 
-		//here you place the ids of every element you want.
 		var ids=new Array('a1','a2','a3','thiscanbeanything');
 
 		function switchid(id){	
@@ -725,61 +728,27 @@
 			}
 		}
 
+
+
 		function recalcular()
 		{
 			
 			var monto = document.getElementById("txttotal").value;
-			var fecha = document.getElementById("txtfechavenc").value;
-			var dias = document.getElementById("txtdiasatraso").value;
 
-			// CALCULO INTERES DIARIO 
-			var interes = ((parseInt($("#txtinteres").val()) * parseInt(document.getElementById("txttotal").value) ) / 100)/30;
-			if(interes == 0)
-			{
-				$("#txtinteresdiario").val("");
-			}
-			else
-			{
-				$("#txtinteresdiario").val(parseInt(interes));
-			}
-			
-			// CALCULO INTERES ACUMULADO 
-			var int_acum = interes * parseInt(dias);
-			if(int_acum == 0)
-			{
-				$("#txtinteresacumulado").val("");
-			}
-			else
-			{
-				$("#txtinteresacumulado").val(parseInt(int_acum));
-			}
 
+	
+			var v_int_acum_orig = parseInt($("#txtinteresacumulado").val());
+			var v_int_orig = parseInt($("#interes_orig").val());
 			var v_int = parseInt($("#txtinteres").val());
 			var v_int_d = 0;
 			var v_int_acum = 0;
 			var v_sum_int = 0;
+	
+			var v_int_acum_res = 0;
+
+			v_int_acum_res = (v_int_acum_orig * v_int) / v_int_orig ; 	
+			$("#txtinteresacumulado").val(v_int_acum_res);
 			 
-			for(var i=0; i<arrayDoc.length; i++)
-			{
-				if(arrayDoc[i] != "")
-				{
-					v_int_d = ((v_int * parseInt(arrayDoc[i]) ) / 100)/30;
-					v_int_acum = parseInt(v_int_d) * parseInt(arrayDocDias[i]);
-					v_sum_int = v_sum_int + v_int_acum;
-
-					if(v_sum_int == 0)
-					{
-						$("#txtinteresacumulado").val("");
-					}
-					else
-					{
-						$("#txtinteresacumulado").val(v_sum_int);
-					}
-				}
-			}
-			
-			
-
 			//CALCULO DE SIMULACION
 			var capital = document.getElementById("txttotal").value;
 			var protesto = document.getElementById("txtprotesto").value;
@@ -787,6 +756,7 @@
 			var acumulado = document.getElementById("txtinteresacumulado").value;
 				 
 			var vcostas = document.getElementById("txtcostasprocesales").value;
+			if(vcostas == "") vcostas = 0;
 			var total = Math.ceil((parseInt(capital) + parseInt(acumulado) + parseInt(protesto) + parseInt(vcostas)));
 			var honorarios = (parseInt(total) * parseInt(porcentaje)/100) ; 
 			var total_simulacion = parseInt(total) + parseInt(honorarios);
@@ -796,17 +766,22 @@
 			document.getElementById("txttotalpagado").value =document.getElementById("txttotalmandante").value;
 			document.getElementById("txttotalsimulacion").value = total_simulacion;
 
+			var porcentajectdo = document.getElementById("txtporcentajectdo").value;
+			var total_mandante = document.getElementById("txttotalmandante").value;
+			var pagocontado = (parseInt(document.getElementById("txttotalsimulacion").value) - parseInt(document.getElementById("txthonorarios").value))*porcentajectdo/100;
+			
+			document.getElementById("txtpagocontado").value = (parseInt(total_mandante) * parseInt(porcentajectdo)/100);
 
+			calculadora_prestamo();
+			
 		}
-
-
 		
 	</script>
 </head>
 <body>
 
 <?
-	$protesto = 0; //(is_null($simulacion)) ? "" : utf8_decode($simulacion->get_data("protesto"));
+//	$protesto = 0; //(is_null($simulacion)) ? "" : utf8_decode($simulacion->get_data("protesto"));
 	$monto = 0; //(is_null($simulacion)) ? "" : utf8_decode($simulacion->get_data("monto"));
 	$total = 0; //(is_null($simulacion)) ? "" : utf8_decode($simulacion->get_data("total"));
 	$fecha_venc = date("d/m/Y"); //(is_null($simulacion)) ? date("d/m/Y") : utf8_decode(formatoFecha($simulacion->get_data("fecha_venc"),"yyyy-mm-dd","dd/mm/yyyy"));
@@ -814,7 +789,11 @@
 	$interes_diario = 0; //(is_null($simulacion)) ? "" : utf8_decode($simulacion->get_data("interes_diario"));
 	$interes_acumulado = 0; //(is_null($simulacion)) ? "" : utf8_decode($simulacion->get_data("interes_acumulado"));
 	
-	$array_doc = array();
+
+?>
+
+<?
+	$array_doc = "";
 	
 	if(!is_null($doc_simulacion))
 	{
@@ -822,7 +801,14 @@
 		{
 			$dTmp = &$doc_simulacion->items[$j];
 
-			$array_doc[] = $dTmp->get_data("id_documento");
+			if($array_doc == "")
+			{
+				$array_doc = $dTmp->get_data("id_documento");
+			}
+			else
+			{
+				$array_doc .= ",".$dTmp->get_data("id_documento");
+			}
 		}
 	}
 ?>
@@ -899,22 +885,27 @@
 </table>
 </div>
 <form name="frmadmdocumentos">
+
 <input type="hidden" name="monto_documento_sim" id="monto_documento_sim" value="0" />
 <input type="hidden" name="fecha_sim" id="fecha_sim" value="" />
 <input grabar="S" type="hidden" name="id_documento" id="id_documento" value=""/>
 <input grabar="S" type="hidden" name="id_mandante" id="id_mandante" value=""/>
-<input grabar="S" type="hidden" name="id_deudor" id="id_deudor" value="<?=$deudor->get_data("id_deudor")?>"/>
-<input grabar="S" type="hidden" name="id_liquidacion" id="id_liquidacion" value="<? if($id_liquidacion == "") $id_liquidacion = 0; echo($id_liquidacion) ?>"/>
-<input grabar="S" type="hidden" name="docs" id="docs" value=""/>
+<input grabar="S" type="hidden" name="id_deudor" id="id_deudor" value="<?=$liquidacion->get_data("id_deudor")?>"/>
+<input grabar="S" type="hidden" name="id_liquidacion" id="id_liquidacion" value="<?=$liquidacion->get_data("id_liquidacion")?>"/>
+<input grabar="S" type="hidden" name="docs" id="docs" value="<?=$array_doc?>"/>
 <input type="hidden" name="control_volver" id="control_volver" value="<? echo($control_volver) ?>" />
 <input type="hidden" name="accion_volver" id="accion_volver" value="<? echo($accion_volver) ?>" />
 <input type="hidden" name="param_volver" id="param_volver" value="<? echo($param_volver) ?>" />
 <input type="hidden" name="val_volver" id="val_volver" value="<? echo($val_volver) ?>" />
-<input  type="hidden" name="idestadoges" id="idestadoges" value="<? $var = &$idestadoges; echo($var); ?>"/>
+<input type="hidden" name="idestadoges" id="idestadoges" value="<? echo($idestadoges) ?>" />
+<input type="hidden" name="intacum" id="intacum" value="0" />
+<input type="hidden" name="interes_orig" id="interes_orig" value="<?=conDecimales($liquidacion->get_data("interes"))?>" />
+
+
 
 <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="titulopantalla">
 	<tr>
-		<th align="left" height="30">&nbsp;Nueva Liquidacion</th>
+		<th align="left" height="30">&nbsp;Editar Liquidacion</th>
         <th></th>
         <th></th>
     </tr>
@@ -1004,13 +995,13 @@
                     
                     <td align="right" class="etiqueta_form">Fecha:&nbsp; </td>
                     <td align="left">
-                        <input type="text" name="txtfecha" id="txtfecha" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" value="<? echo(date("d/m/Y")) ?>" valida="requerido" tipovalida="fecha" onKeyUp="this.value=formateafecha(this.value)"/>
+                        <input type="text" name="txtfecha" id="txtfecha" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" value="<?=formatoFecha($liquidacion->get_data("fecha_simulacion"),"yyyy-mm-dd","dd/mm/yyyy")?>" valida="requerido" tipovalida="fecha" onKeyUp="this.value=formateafecha(this.value)"/>
                     </td>
                 </tr>
                 <tr>  
                     <td align="right" class="etiqueta_form">% Interes:&nbsp;</td>
                     <td align="left">
-                        <input type="text" name="txtinteres" id="txtinteres" value="<?=conDecimales($interes_base)?>" class="input_form_medio" onFocus="resaltar(this)" onBlur="recalcular()" valida="requerido" tipovalida="moneda" />
+                        <input type="text" name="txtinteres" id="txtinteres" value="<?=conDecimales($liquidacion->get_data("interes"))?>" class="input_form_medio" onFocus="resaltar(this)" onBlur="recalcular()" valida="requerido" tipovalida="moneda" />
                     </td>  
                 </tr>
                 <tr>                                     
@@ -1027,76 +1018,74 @@
                 <tr>  
                     <td align="right" class="etiqueta_form">Capital&nbsp;</td>
                     <td align="left">
-                        <input type="text" name="txttotal" id="txttotal" valida="requerido" tipovalida="moneda" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" value="<? echo($monto) ?>" />
+                        <input type="text" name="txttotal" id="txttotal" valida="requerido" tipovalida="moneda" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" value="<? echo($liquidacion->get_data("capital"))?>" />
                     </td>  
                     
                     <td align="right" class="etiqueta_form">Capital pagado&nbsp;</td>
                     <td align="left">
-                        <input type="text" name="txttotalpagado" id="txttotalpagado"  tipovalida="moneda" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" value="" />
+                        <input type="text" name="txttotalpagado" id="txttotalpagado"  tipovalida="moneda" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" value="<? echo($liquidacion->get_data("capital_pagado"))?>" />
                     </td>
                     
                 </tr>
                 <tr>
                     <td align="right" class="etiqueta_form">Protesto&nbsp; </td>
                     <td align="left">
-                        <input type="text" name="txtprotesto" id="txtprotesto" class="input_form" onFocus="resaltar(this)" onblur="recalcular()"  value="<? if($protesto == ""){echo("0"); } else {echo($protesto);} ?>" />
+                        <input type="text" name="txtprotesto" id="txtprotesto" class="input_form" onFocus="resaltar(this)" onblur=""  value="<?=$protesto?>" />
                     </td>                                   
                 </tr>
-                <tr id="ocul1">	
-                    <td align="right" class="etiqueta_form">Fecha Venc.&nbsp;</td>
-                    <td align="left">
-                        <input type="text" name="txtfechavenc" id="txtfechavenc" valida="requerido" tipovalida="fecha" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)"  value="<? echo($fecha_venc) ?>" onKeyUp="this.value=formateafecha(this.value)"/>
-                    </td>
-                    
-                </tr>
-                <tr id="ocul2">    
-                    <td align="right" class="etiqueta_form">Dias Atraso&nbsp;</td>
-                    <td align="left">
-                        <input type="text" name="txtdiasatraso" id="txtdiasatraso" valida="requerido" tipovalida="entero" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" value="<? echo($diasatraso) ?>" />
-                    </td>
-                 </tr>
-                <tr id="ocul3">   
-                    <td align="right" class="etiqueta_form">Interes Diario&nbsp;</td>
-                    <td align="left">
-                        <input type="text" name="txtinteresdiario" id="txtinteresdiario" valida="requerido" tipovalida="moneda" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" value="<? echo($interes_diario) ?>" />
-                    </td>
-                 </tr>
+
                 <tr>   
                     <td align="right" class="etiqueta_form">Interes Acumulado&nbsp;</td>
                     <td align="left">
-                        <input type="text" name="txtinteresacumulado" id="txtinteresacumulado" valida="requerido" tipovalida="moneda" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" value="<? echo($interes_acumulado) ?>"/>
+                        <input type="text" name="txtinteresacumulado" id="txtinteresacumulado" valida="requerido" tipovalida="moneda" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" value="<?=$liquidacion->get_data("interes_acumulado") ?>"/>
                     </td>
                 </tr>
                 <tr>   
                     <td align="right" class="etiqueta_form">Costas Procesales&nbsp;</td>
                     <td align="left">
-                        <input type="text" name="txtcostasprocesales" id="txtcostasprocesales" tipovalida="moneda" class="input_form" onFocus="resaltar(this)" onblur="recalcular()" value="<? echo($interes_acumulado) ?>"/>
+                        <input type="text" name="txtcostasprocesales" id="txtcostasprocesales" tipovalida="moneda" class="input_form" onFocus="resaltar(this)" onblur="recalcular()" value="<?=$liquidacion->get_data("costas_procesales") ?>"/>
                     </td>
                 </tr>
                 <tr>   
                     <td align="right" class="etiqueta_form">Total Mandante&nbsp;</td>
                     <td align="left">
-                        <input type="text" name="txttotalmandante" id="txttotalmandante"  tipovalida="moneda" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" value=""/>
+                        <input type="text" name="txttotalmandante" id="txttotalmandante"  tipovalida="moneda" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" value="<?= $liquidacion->get_data("capital")+$liquidacion->get_data("interes_acumulado")+$liquidacion->get_data("protesto") ?>"/>
                     </td>
 					<td align="right" class="etiqueta_form">Honorarios DyV&nbsp;</td>
-					<td align="left"><input type="text" name="txthonorarios" id="txthonorarios" size="15" class="input_form" onFocus="resaltar(this)" value="" tabindex="7" valida="requerido" tipovalida="moneda"/>
+					<td align="left"><input type="text" name="txthonorarios" id="txthonorarios" size="15" class="input_form" onFocus="resaltar(this)" value="<?=$liquidacion->get_data("honorarios_dyv") ?>" tabindex="7" valida="requerido" tipovalida="moneda"/>
         			</td>
         			
 				</tr>
                 <tr>                                     
                     <td align="right" class="etiqueta_form">Total&nbsp;</td>
-                    <td align="left">
-                        <input type="text" name="txttotalsimulacion" id="txttotalsimulacion"  class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" value="" valida="requerido" tipovalida="moneda" />
+                     <td align="left">
+                    	<?
+							$repacta = "";
+							$norepacta = "";
+                        	if($liquidacion->get_data("repacta") == "S")
+							{
+								$repacta = "checked='checked'";
+								$norepacta = "";
+							}
+							else
+							{
+								$norepacta = "checked='checked'";
+								$repacta = "";
+							}
+						?>
+                        <input type="text" name="txttotalsimulacion" id="txttotalsimulacion"  class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" value="<?=$liquidacion->get_data("total_simulacion")?>" />
+                        <input type="radio" value="S" onclick="repactar()" name="rdestatus_repacta" id="rdestatus_repacta" <?=$repacta?>/>&nbsp;Repacta&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="radio"  value="N" onclick="noRepactar()" name="rdestatus_repacta" id="rdestatus_no_repacta" <?=$norepacta?> />&nbsp;No Repacta
                     </td>
                 </tr>
-				<tr>
-					<td align="left">
-                        <input type="radio" value="S" onclick="repactar(this)" name="rdestatus_repacta" id="rdestatus_repacta" />&nbsp;Repacta&nbsp;&nbsp;&nbsp;&nbsp;
-                    </td>
-                    <td align="left">
-                        <input type="radio"  value="N" onclick="noRepactar(this)" name="rdestatus_repacta" id="rdestatus_no_repacta" checked="checked" />&nbsp;No Repacta
-                    </td>    
-                </tr> 
+<!--				<tr>-->
+<!--					<td align="left">-->
+<!--                        <input type="radio" value="S" onclick="repactar(this)" name="rdestatus_repacta" id="rdestatus_repacta" />&nbsp;Repacta&nbsp;&nbsp;&nbsp;&nbsp;-->
+<!--                    </td>-->
+<!--                    <td align="left">-->
+<!--                        <input type="radio"  value="N" onclick="noRepactar(this)" name="rdestatus_repacta" id="rdestatus_no_repacta" checked="checked" />&nbsp;No Repacta-->
+<!--                    </td>    -->
+<!--                </tr> -->
                  
             </table>
 		</td>
@@ -1124,7 +1113,7 @@
         	<table cellpadding="5" cellspacing="5" border="0" align="left" >
             	<tr>
 					<td align="left" class="etiqueta_form">Importe del prestamo&nbsp;&nbsp;&nbsp;&nbsp;</td>
-					<td align="left"><input type="text" name="txtimporte" id="txtimporte" size="15" class="input_form" onFocus="resaltar(this)" valida="requerido" tipovalida="moneda" value="" tabindex="1" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<td align="left"><input type="text" name="txtimporte" id="txtimporte" size="15" class="input_form" onFocus="resaltar(this)" valida="requerido" tipovalida="moneda" value="<?=$liquidacion->get_data("importe_prestamo")?>" tabindex="1" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     </td>
                     <td align="left">
                     <input  type="button" name="btncalcular" id="btncalcular" onclick="calcular()"  value="Calcular" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)' tabindex="10" />
@@ -1133,7 +1122,7 @@
                 <tr>                                     
                     <td align="right" class="etiqueta_form">% Pago Ctdo.:&nbsp;</td>
                     <td align="left">
-                    <input type="text" name="txtporcentajectdo" id="txtporcentajectdo"  value="30"   class="input_form_medio" onFocus="resaltar(this)" onBlur="recalcular()" valida="requerido" />
+                    <input type="text" name="txtporcentajectdo" id="txtporcentajectdo"  value="<?=$liquidacion->get_data("porcentaje_contado")?>"   class="input_form_medio" onFocus="resaltar(this)" onBlur="recalcular()" valida="requerido" />
                     </td>
                 </tr>
 
@@ -1149,28 +1138,28 @@
 				</tr>
 				<tr>	
 					<td align="left" class="etiqueta_form">Interes mensual&nbsp;&nbsp;&nbsp;&nbsp;</td>
-					<td align="left"><input type="text" name="txtinteresmensual" id="txtinteresmensual" size="15" class="input_form" onFocus="resaltar(this)" valida="requerido" tipovalida="moneda" value="<?=$interes_simulacion?>" tabindex="2"/>
+					<td align="left"><input type="text" name="txtinteresmensual" id="txtinteresmensual" size="15" class="input_form" onFocus="resaltar(this)" valida="requerido" tipovalida="moneda" value="<? $var = $liquidacion->get_data("interes_mensual"); if($var == ""){$var = $interes_simulacion;} echo($var); ?>" tabindex="2"/>
         			</td>
 				</tr>
 				<tr>	
 					<td align="left" class="etiqueta_form">Cuotas&nbsp;&nbsp;&nbsp;&nbsp;</td>
-					<td align="left"><input type="text" name="txtcuotascalc" id="txtcuotascalc" size="15" class="input_form" onblur="actualizar()" onFocus="resaltar(this)" valida="requerido" tipovalida="entero" value="<?=$cuotas_simulacion?>" tabindex="3"/>
+					<td align="left"><input type="text" name="txtcuotascalc" id="txtcuotascalc" size="15" class="input_form" onblur="actualizar()" onFocus="resaltar(this)" valida="requerido" tipovalida="entero" value="<? $var = $liquidacion->get_data("cuotas");  if($var == ""){$var = $cuotas_simulacion;} echo($var); ?>" tabindex="3"/>
         			</td>        			
         		</tr>
 				<tr>	
 					<td align="left" class="etiqueta_form">Fecha Calculo&nbsp;&nbsp;&nbsp;&nbsp;</td>
-					<td align="left"><input type="text" name="txtfechacalculo" id="txtfechacalculo" size="15" class="input_form_medio" onFocus="resaltar(this)" value="<? echo(date("d/m/Y")) ?>" valida="requerido" tipovalida="fecha" tabindex="4" onKeyUp="this.value=formateafecha(this.value)"/>
+					<td align="left"><input type="text" name="txtfechacalculo" id="txtfechacalculo" size="15" class="input_form_medio" onFocus="resaltar(this)" value="<? $var = formatoFecha($liquidacion->get_data("fecha_calculo"),"yyyy-mm-dd","dd/mm/yyyy");  if($var == ""){$var =  $fecha_pago;} echo($var); ?>" valida="requerido" tipovalida="fecha" tabindex="4" onKeyUp="this.value=formateafecha(this.value)"/>
         			</td>        			
         		</tr>
 				<tr>	
 					<td align="left" class="etiqueta_form">Fecha Pago&nbsp;&nbsp;&nbsp;&nbsp;</td>
-					<td align="left"><input type="text" name="txtfechainicial" id="txtfechainicial" size="15" class="input_form_medio" onFocus="resaltar(this)" value="<?=$fecha_pago?>" valida="requerido" tipovalida="fecha" tabindex="4" onKeyUp="this.value=formateafecha(this.value)"/>
+					<td align="left"><input type="text" name="txtfechainicial" id="txtfechainicial" size="15" class="input_form_medio" onFocus="resaltar(this)" value="<? $var = formatoFecha($liquidacion->get_data("fecha_pago"),"yyyy-mm-dd","dd/mm/yyyy");  if($var == ""){$var =  $fecha_pago;} echo($var); ?>" valida="requerido" tipovalida="fecha" tabindex="4" onKeyUp="this.value=formateafecha(this.value)"/>
         			</td>        			
         		</tr>
 
                 <tr>	
 					<td align="left" class="etiqueta_form">IMP&nbsp;&nbsp;&nbsp;&nbsp;</td>
-					<td align="left"><input type="text" name="txtimpcalc" id="txtimpcalc" size="15" class="input_form" onFocus="resaltar(this)" valida="requerido" tipovalida="moneda" value="" onblur="calculoAutomatico()" tabindex="5"/>
+					<td align="left"><input type="text" name="txtimpcalc" id="txtimpcalc" size="15" class="input_form" onFocus="resaltar(this)" valida="requerido" tipovalida="moneda" value="<?=$liquidacion->get_data("imp")?>" onblur="calculoAutomatico()" tabindex="5"/>
         			</td>        			
 				</tr>
         		<tr>
@@ -1180,7 +1169,7 @@
 				</tr>
 				<tr>	
 					<td align="left" class="etiqueta_form">Costo total prestamo&nbsp;&nbsp;&nbsp;&nbsp;</td>
-					<td align="left"><input type="text" name="txtcostoprestamo" id="txtcostoprestamo" size="15" class="input_form" onFocus="resaltar(this)" valida="requerido" tipovalida="moneda" value="" tabindex="8"/>
+					<td align="left"><input type="text" name="txtcostoprestamo" id="txtcostoprestamo" size="15" class="input_form" onFocus="resaltar(this)" valida="requerido" tipovalida="moneda" value="<?=$liquidacion->get_data("costo_total")?>" tabindex="8"/>
         			</td>        			
         		</tr>
         		<tr>	
