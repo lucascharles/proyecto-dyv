@@ -207,7 +207,7 @@
 							    }
 							}
 						}
-
+						alert('Los datos se registraron correctamente.');
 						document.getElementById("frmlistdocumentos").src="index.php?controlador=Gestiones&accion=listarDocumentoMandante&iddeudor="+$("#id_deudor").val()+"&idmandante="+$("#id_mandante").val()+"&idestadoges="+$("#idestadoges").val();
 					},
 					error: function()
