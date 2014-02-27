@@ -103,6 +103,7 @@ class GestionesModel extends ModelBase
 				AND g.activo = 'S'
 				AND d.activo = 'S'
 				AND m.activo = 'S'
+				AND ds.activo = 'S'
 				AND eg.id_estado NOT IN (2)
 				AND g.id_deudor = d.id_deudor
 				AND eg.id_estado = esg.id_estado 
