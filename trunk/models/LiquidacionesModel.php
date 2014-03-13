@@ -106,6 +106,9 @@ class LiquidacionesModel extends ModelBase
 	{
 		$deudor = new Deudores();
 		$deudor->add_filter("rut_deudor","=",$array["rutdeudor"]);
+		$deudor->add_filter("AND");
+		$deudor->add_filter("activo","=","S");
+		
 		$deudor->load();
 		/*
 		$dato = new LiquidacionesCollection();

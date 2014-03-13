@@ -495,7 +495,7 @@ class GestionesModel extends ModelBase
 		$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
 		
 		$sqlpersonal->set_select(" d.id_deudor id_deudor,
-								   d.id_mandante id_mandante,
+								   m.id_mandante id_mandante,
 								   d.rut_deudor rut_deudor,
 								   d.dv_deudor dv_deudor,
 								   d.razonsocial razonsocial,

@@ -72,6 +72,19 @@
 			var idNextGes = document.getElementById("id_next").value;
 			$("#pagina").load('index.php?controlador=Gestiones&accion=gestionar&idgestion='+id+'&idNextGes='+idNextGes+'&tipoGestion='+document.getElementById("tipo_gestion").value+'&estadoGes='+document.getElementById("id_estado").value);
 		}
+
+		function ocultarGes()
+		{
+				$("#formsoporte").hide("slow");
+		}
+	
+
+		function mostrarGes()
+		{
+				$("#formsoporte").show("slow");
+			
+		}
+		
 	</script>
 </head>
 <body>
@@ -151,7 +164,7 @@
  <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
     <tr>
 		<td colspan="2">
-       	<iframe id="frmlistgestiones" src="" width="100%" align="middle" height="220" scrolling="auto" frameborder="0"></iframe>        	
+       	<iframe id="frmlistgestiones" src="" width="100%" align="middle" height="320" scrolling="auto" frameborder="0"></iframe>        	
         </td>
         <td>
         	<div style="position:relative; margin-left:10px;">
@@ -160,9 +173,17 @@
          </td>
     </tr>
     <tr>
-    	 <td align="left" class="etiqueta_form" >Cantidad Gestiones: <?php $var = &$cantGestion; echo($var); ?></td>
+    	 <td align="left" class="etiqueta_form" >Cantidad Gestiones: <?php $var = &$cantGestion; echo($var); ?>&nbsp;&nbsp;&nbsp;
+    	 	<input  type="button" name="btnVerGestiones" id="btnVerGestiones" onclick="mostrarGes()" class="boton_form" value="Mostrar" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)' />&nbsp;&nbsp;&nbsp;
+    	 	<input  type="button" name="btnOcGestiones" id="btnOcGestiones" onclick="ocultarGes()" class="boton_form" value="Ocultar" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)' />
+    	 </td>
+    	 <td align="right">
+    	 	<input  type="button" name="btnsalir" id="btnsalir" onclick="salir()" class="boton_form" value="salir" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)' />&nbsp;&nbsp;&nbsp;
+    	 </td>	
     </tr>
-	<tr>
+    </table>
+
+ <div id="formsoporte" style=" display:none">
 		<table width="100%" cellpadding="2" cellspacing="2" align="center" border="0" bgcolor="#FFFFFF">
 			<tr class="cabecera_listado" >
 				<th align="center"><font class="titulolistado">Documento</font></th>
@@ -190,19 +211,20 @@
 			}
 			?>
 		</table>
-	</tr>
-	
-	<tr>
-		<td colspan="3" align="right">
-        	<input  type="button" name="btnsalir" id="btnsalir" onclick="salir()" class="boton_form" value="salir" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)' />&nbsp;&nbsp;&nbsp;
-        </td>
-	</tr>
-
-    <tr>
-		<td colspan="3" align="right" height="10">
-         
-         </td>
-    </tr>
+	</div>
+<!--<table>-->
+<!--	<tr>-->
+<!--		<td  align="right">-->
+<!--        	<input  type="button" name="btnsalir" id="btnsalir" onclick="salir()" class="boton_form" value="salir" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)' />&nbsp;&nbsp;&nbsp;-->
+<!--        </td>-->
+<!--	</tr>-->
+<!---->
+<!--    <tr>-->
+<!--		<td colspan="3" align="right" height="10">-->
+<!--         -->
+<!--         </td>-->
+<!--    </tr>-->
+<!--</table>    -->
 </table>
 </form>
 </body>
