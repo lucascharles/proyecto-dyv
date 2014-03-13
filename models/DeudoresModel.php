@@ -935,6 +935,8 @@ ORDER BY orden ASC ";
 	{
 		$dato = new Deudores();
 		$dato->add_filter("id_deudor","=",$id);
+		$dato->add_filter("AND");
+		$dato->add_filter("activo","=","S");
 		$dato->load();
 		return $dato;
 	}
