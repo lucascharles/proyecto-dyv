@@ -9,9 +9,9 @@
     <script language="javascript">
 		function mostrar(obj)
 		{
-			var url = "index.php?controlador=Deudores&accion=listar_fichas&rutdeudor="+obj.value;
+			var url = "index.php?controlador=Deudores&accion=listar_fichas&rutdeudor="+document.getElementById("txtrut").value;
 			url += "&id_partida=0";
-
+			url += "&numficha="+document.getElementById("txtficha").value;
 			document.getElementById("frmlistfichas").src = url;
 		}
 		
@@ -27,6 +27,7 @@
 		{
 			var url = "index.php?controlador=Deudores&accion=listar_fichas&rutdeudor="+document.getElementById("txtrut").value;
 			url += "&id_partida=0";
+			url += "&numficha="+document.getElementById("txtficha").value;
 			document.getElementById("frmlistfichas").src = url;
 		}
 		
@@ -90,6 +91,7 @@
 <div id="buscador" style="">
 <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
 	<tr>
+		<td width="" align="left" class="etiqueta_form">Ficha:&nbsp;&nbsp;&nbsp; <input type="text" name="txtficha" id="txtficha"  size="20" onkeyup='mostrar(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" /></td>
 		<td width="" align="left" class="etiqueta_form">R.U.T. Deudor:&nbsp;&nbsp;&nbsp; <input type="text" name="txtrut" id="txtrut"  size="20" onkeyup='mostrar(this)' class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" /></td>
         <td align="left"></td>
         <td> 
