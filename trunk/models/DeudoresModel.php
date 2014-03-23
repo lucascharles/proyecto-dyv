@@ -1252,6 +1252,7 @@ ORDER BY orden ASC ";
 
 		$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
 	    $rutdeudor = $array["rutdeudor"];
+	    $numficha = $array["numficha"];
 		$sqlpersonal->set_select( " f.id_ficha id_ficha,
 	   		   d.rut_deudor rut_deudor,d.dv_deudor dv_deudor,
 	           d.primer_nombre d_primer_nombre, d.segundo_nombre d_segundo_nombre,
@@ -1267,6 +1268,10 @@ ORDER BY orden ASC ";
 			$where = $where." and d.rut_deudor LIKE '".$array["rutdeudor"]."%'";
 		}
 		
+		if($numficha != "")
+		{
+			$where = $where." and f.id_ficha = ".$array["numficha"];
+		}
 		$where .= " and f.id_ficha > ".$array["id_partida"];
 		
 		$sqlpersonal->set_where($where);

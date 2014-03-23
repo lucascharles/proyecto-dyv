@@ -492,28 +492,24 @@
         </td>
         <td><input type="text" grabar="S" name="txtrol"  value="<? echo($rol) ?>"id="txtrol"  size="20" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" />
         </td>
-        <td><input type="text" grabar="S" name="txtjuzgadoanexo"  value="<? echo($juzgadoanexo) ?>" id="txtjuzgadoanexo"  size="20" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" />
-        </td>
+<!--        <td><input type="text" grabar="S" name="txtjuzgadoanexo"  value="<? echo($juzgadoanexo) ?>" id="txtjuzgadoanexo"  size="20" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" />-->
+<!--        </td>-->
         
-        <!--<td><select name="selJuzgadoNro" grabar="S"  id="selJuzgadoNro"  class= "input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)">
-     			<option value="0"><? print utf8_encode("") ?></option>
-        		<?
-					
-			        for($j=0; $j<$coleccion_juzgado->get_count(); $j++)
-			        {
-						$selected = "";
-			            $datoTmp = &$coleccion_juzgado->items[$j];
-						if($datoTmp->get_data("id_juzgado") == $juzgadoNro)
-						{
-							$selected = "selected";
-						}
-			            echo("<option value=".$datoTmp->get_data("id_juzgado")." ".$selected.">".utf8_encode($datoTmp->get_data("descripcion"))."</option>");           
-			        }
-					
-    			?>
+        <td><select name="txtjuzgadoanexo" grabar="S"  id="txtjuzgadoanexo" value="<? echo($juzgadoanexo) ?>"  class= "input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)">
+     			<option value="0"><? print utf8_encode($juzgadoanexo) ?></option>
+        		<option value="1 CIVIL VALPARAISO">1 CIVIL VALPARAISO</option>
+  				<option value="2 CIVIL VALPARAISO">2 CIVIL VALPARAISO</option>
+  				<option value="4 CIVIL VALPARAISO">4 CIVIL VALPARAISO</option>
+  				<option value="5 CIVIL VALPARAISO">5 CIVIL VALPARAISO</option>
+  				<option value="1 VIÑA DEL MAR">1 CIVIL VIÑA DEL MAR</option>
+  				<option value="2 VIÑA DEL MAR">2 CIVIL VIÑA DEL MAR</option>
+  				<option value="3 VIÑA DEL MAR">3 CIVIL VIÑA DEL MAR</option>
+  				<option value="28 CIVIL SANTIAGO">28 CIVIL SANTIAGO</option>
+  				<option value="12 CIVIL SANTIAGO">12 CIVIL SANTIAGO</option>
+  				<option value="28 VIÑA DEL MAR">28 CIVIL SANTIAGO</option>
 			</select>
         </td>
-    --></tr>
+    </tr>
     
     <tr>
 		<td colspan="4" height="10"> </td>

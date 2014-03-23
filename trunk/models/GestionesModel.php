@@ -81,34 +81,30 @@ class GestionesModel extends ModelBase
 	
 	$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
 	
-	$sqlpersonal->set_select( " g.id_gestion id_gestion,	   
-   					  m.rut_mandante rut_mandante,
-					  m.dv_mandante dv_mandante,							   
-					  d.rut_deudor rut_deudor, 
-					  d.dv_deudor dv_deudor,
-					  d.primer_apellido primer_apellido, 
-					  d.segundo_apellido segundo_apellido,
-					  d.primer_nombre primer_nombre,
-					  d.segundo_nombre segundo_nombre,
-					  d.razonsocial razonsocial,
-					  g.fecha_gestion fecha_gestion,
-					  MAX(eg.fecha_prox_gestion) fecha_prox_gestion,
-  					  esg.estado estado,
-   					  eg.id_estado id_estado 	
-					  ");
-	$sqlpersonal->set_from( " gestiones g LEFT JOIN estados_x_gestion eg ON g.id_gestion = eg.id_gestion 
- 							  ,mandantes m ,deudores d ,estadosgestion esg, documentos ds ");
+	$sqlpersonal->set_select( " 
+					    eg.id_gestion id_gestion,
+						  m.rut_mandante rut_mandante,
+						  m.dv_mandante dv_mandante,
+						  d.rut_deudor rut_deudor,
+						  d.dv_deudor dv_deudor,
+						  d.primer_apellido primer_apellido,
+						  d.segundo_apellido segundo_apellido,
+						  d.primer_nombre primer_nombre,
+						  d.segundo_nombre segundo_nombre,
+						  d.razonsocial razonsocial,
+						  eg.fecha_gestion fecha_gestion,
+						  MAX(eg.fecha_prox_gestion) fecha_prox_gestion,
+						  esg.estado estado,
+						  ds.`id_estado_doc` id_estado ");
+	$sqlpersonal->set_from( " deudores d,mandantes m,  documentos ds,  estados_x_gestion eg, estadosgestion esg ");
 	
-	$where = " g.id_mandante = m.`id_mandante`
-				AND g.activo = 'S'
+	$where = " d.id_deudor = ds.id_deudor 
+  			    AND ds.id_documento = eg.id_documento 
+  				AND ds.id_mandatario = m.id_mandante
+  				AND esg.id_estado = ds.id_estado_doc
 				AND d.activo = 'S'
 				AND m.activo = 'S'
-				AND ds.activo = 'S'
-				AND eg.id_estado NOT IN (2)
-				AND g.id_deudor = d.id_deudor
-				AND eg.id_estado = esg.id_estado 
-				AND ds.id_documento = eg.id_documento
-  				AND ds.id_estado_doc = eg.id_estado ";
+				AND ds.activo = 'S'";
 	
 	if(trim($param["rut_d"]) <> "")
 	{
@@ -130,7 +126,7 @@ class GestionesModel extends ModelBase
 		$where .= " and g.estado = ".trim($param["id_estado"]);
 	}
 
-	$where = $where ." GROUP BY  eg.id_estado,g.id_deudor  ORDER BY eg.fecha_prox_gestion, g.id_gestion ASC ";
+	$where = $where ." GROUP BY  ds.id_estado_doc , ds.id_mandatario, d.id_deudor  ORDER BY m.rut_mandante, eg.fecha_prox_gestion DESC, eg.id_gestion ";
 	
 	$sqlpersonal->set_where( $where );
 	$sqlpersonal->set_limit(0,30); // PARA MYSQL
@@ -202,7 +198,7 @@ class GestionesModel extends ModelBase
 	}
 	
 //	$where = $where ." GROUP BY ds.id_estado_doc,g.id_deudor ";
-	$where = $where ." GROUP BY g.id_deudor ";
+	$where = $where ." GROUP BY g.id_deudor,m.id_mandante ";
 	$where = $where ." ORDER by fecha_prox_gestion, g.id_gestion asc ";
 	
 	

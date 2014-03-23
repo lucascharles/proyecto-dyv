@@ -566,7 +566,7 @@
         	<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
             	<tr>
                 	<td width="240">
-						<input type="text" name="txtrut_deudor" id="txtrut_deudor" class="input_form" onblur=" generadvrut('txtrut_deudor','txtdv_deudor'); validarRut('D')" />&nbsp;
+						<input type="text" name="txtrut_deudor" id="txtrut_deudor" class="input_form" onblur=" generadvrut('txtrut_deudor','txtdv_deudor'); validarRut('D')" disabled="disabled" />&nbsp;
 	            		<input type="text" name="txtdv_deudor" id="txtdv_deudor" class="input_form_min" onblur="" disabled="disabled" />&nbsp;
                     </td>
                 	<td align="left">
@@ -581,7 +581,7 @@
         	<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
             	<tr>
                 	<td width="240">
-						<input type="text" name="txtrut_mandante" id="txtrut_mandante" class="input_form" onblur=" generadvrut('txtrut_mandante','txtdv_mandante'); validarRut('M')" />&nbsp;
+						<input type="text" name="txtrut_mandante" id="txtrut_mandante" class="input_form" onblur=" generadvrut('txtrut_mandante','txtdv_mandante'); validarRut('M')" disabled="disabled"/>&nbsp;
             			<input type="text" name="txtdv_mandante" id="txtdv_mandante" class="input_form_min" onblur="" disabled="disabled" />
                     </td>
                 	<td align="left">

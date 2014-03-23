@@ -1016,7 +1016,7 @@
                 <tr>                                     
                     <td align="right" class="etiqueta_form">% Honorarios D&V:&nbsp;</td>
                     <td align="left">
-                    <input type="text" name="txtporcentaje" id="txtporcentaje"  value="10"   class="input_form_medio" onFocus="resaltar(this)" onBlur="recalcular()" valida="requerido" />
+                    <input type="text" name="txtporcentaje" id="txtporcentaje"  value="<?$var = &$idestadoges; if($var == 7){echo("15");}else{echo("10");}?>"   class="input_form_medio" onFocus="resaltar(this)" onBlur="recalcular()" valida="requerido" />
                     </td>
                 </tr>
 
