@@ -42,7 +42,7 @@
 		{
 			if($.trim($("#control_volver").val()) != "")
 			{
-				$("#pagina").load('index.php?controlador='+$("#control_volver").val()+'&accion='+$("#accion_volver").val()+'&'+$("#param_volver").val()+'='+$("#val_volver").val()+'&estadoGes='+$.trim($("#idestadoges").val()));
+				$("#pagina").load('index.php?controlador='+$("#control_volver").val()+'&accion='+$("#accion_volver").val()+'&'+$("#param_volver").val()+'='+$("#val_volver").val()+'&estadoGes='+$.trim($("#idestadoges").val())+'&rutM='+document.getElementById("rutM").value);
 			}
 			else
 			{
@@ -60,7 +60,7 @@
 				
 			if($.trim($("#control_volver").val()) != "")
 			{
-				$("#pagina").load('index.php?controlador=Deudores&accion=edita_liquidacion&id='+id+'&tipope=M'+"&control_volver=Gestiones&accion_volver=gestionar&param_volver=idgestion&val_volver="+$("#val_volver").val()+'&idestadoges='+document.getElementById("idestadoges").value);
+				$("#pagina").load('index.php?controlador=Deudores&accion=edita_liquidacion&id='+id+'&tipope=M'+"&control_volver=Gestiones&accion_volver=gestionar&param_volver=idgestion&val_volver="+$("#val_volver").val()+'&idestadoges='+document.getElementById("idestadoges").value+'&rutM='+document.getElementById("rutM").value);
 			}
 			else
 			{			
@@ -74,7 +74,7 @@
 
 			if($.trim($("#control_volver").val()) != "")
 			{
-				$("#pagina").load('index.php?controlador=Deudores&accion=nueva_liquidacion&id='+iddeudor+"&control_volver=Gestiones&accion_volver=gestionar&param_volver=idgestion&val_volver="+$("#val_volver").val()+'&idestadoges='+document.getElementById("idestadoges").value);
+				$("#pagina").load('index.php?controlador=Deudores&accion=nueva_liquidacion&id='+iddeudor+"&control_volver=Gestiones&accion_volver=gestionar&param_volver=idgestion&val_volver="+$("#val_volver").val()+'&idestadoges='+document.getElementById("idestadoges").value+'&rutM='+document.getElementById("rutM").value);
 			}
 			else
 			{
@@ -170,6 +170,7 @@
 <input type="hidden" name="param_volver" id="param_volver" value="<? echo($param_volver) ?>" />
 <input type="hidden" name="val_volver" id="val_volver" value="<? echo($val_volver) ?>" />
 <input type="hidden" name="idestadoges" id="idestadoges" value="<? echo($idestadoges) ?>" />
+<input type="hidden" name="rutM" id="rutM" value="<? echo($rutM) ?>" />
 <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="titulopantalla">
 	<tr>
 		<th align="left" height="30">&nbsp;Liquidaciones</th>

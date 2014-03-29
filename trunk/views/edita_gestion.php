@@ -84,14 +84,15 @@
 		{
 			var tg = document.getElementById("tipoGestion").value;
 			var idNextGes = document.getElementById("idNextGes").value;
-
+			var rutM = document.getElementById("rutM").value;
+			
 			if(tg == "D")	
 			{
-				$("#pagina").load('index.php?controlador=Gestiones&accion=admin&proc=1');
+				$("#pagina").load('index.php?controlador=Gestiones&accion=admin&proc=1&rut_m='+$("#txtrut_mandante").val());
 			}
 			else
 			{
-				$("#pagina").load('index.php?controlador=Gestiones&accion=admin_grales&proc=1');
+				$("#pagina").load('index.php?controlador=Gestiones&accion=admin_grales&proc=1&rut_m='+rutM);
 			}
 		}
 		
@@ -296,13 +297,11 @@
 			var idestadoges = document.getElementById("idestadoges").value;
 			document.getElementById("docCartas").value = arrdoc;
 			document.getElementById("iddocumento").value = id;
-//			alert("index.php?controlador=Gestiones&accion=listar_bitacora_gestion&idgestion="+<? echo($objGestion->get_data("id_gestion")) ?>+"&iddocumento="+id+"&idestadoges="+idestadoges+"&docs="+arrdoc);
 			document.getElementById("frmlistagestiones").src="index.php?controlador=Gestiones&accion=listar_bitacora_gestion&idgestion="+<? echo($objGestion->get_data("id_gestion")) ?>+"&iddocumento="+id+"&idestadoges="+idestadoges+"&docs="+arrdoc;
 		}
 
 		function actualizarDocs(idMandante,idDeudor,idestadoges)
 		{
-//			alert("index.php?controlador=Gestiones&accion=listarDocumentoMandante&iddeudor="+idDeudor+"&idmandante="+idMandante+"&idestadoges="+idestadoges+"&actDoc=S");
 			document.getElementById("frmlistdocumentos").src="index.php?controlador=Gestiones&accion=listarDocumentoMandante&iddeudor="+idDeudor+"&idmandante="+idMandante+"&idestadoges="+idestadoges+"&actDoc=S";
 		}
 		
@@ -420,9 +419,9 @@
 			}
 
 			var estadoGes = document.getElementById("idestadoges").value; 
-			
+			var rutM = document.getElementById("rutM").value;			
 
-			$("#pagina").load('index.php?controlador=Gestiones&accion=gestiona_liquidacion&iddeudor='+iddeudor+"&control_volver=Gestiones&accion_volver=gestionar&param_volver=idgestion&val_volver="+$("#id_gestion").val()+"&idestadoges="+estadoGes);		
+			$("#pagina").load('index.php?controlador=Gestiones&accion=gestiona_liquidacion&iddeudor='+iddeudor+"&control_volver=Gestiones&accion_volver=gestionar&param_volver=idgestion&val_volver="+$("#id_gestion").val()+"&idestadoges="+estadoGes+"&rutM="+rutM);		
 		}
 
 		function enviarCartas(idmandante,iddeudor)
@@ -545,6 +544,7 @@
     <input  type="hidden" name="tipoGestion" id="tipoGestion" value="<? $var = &$tipoGestion; echo($var); ?>"/>
     <input  type="hidden" name="cantDemanda" id="cantDemanda" value="<? $var = &$cantidadDemandas; echo($var); ?>"/>
     <input  type="hidden" name="idNextGes" id="idNextGes" value="<? $var = &$idNextGes; echo($var); ?>"/>
+    <input  type="hidden" name="rutM" id="rutM" value="<? $var = &$rutMand; echo($var); ?>"/>
     
     
     
@@ -645,7 +645,8 @@
     <tr>
     	<td align="right" valign="top" >
 <!--        			<iframe id="frmlistdocumentos" src="index.php?controlador=Gestiones&accion=listarDocumentoMandante&iddeudor="+idDeudor+"&idmandante="+idMandante+"&idestadoges="+idestadoges+"&actDoc=S";-->
-        			<iframe id="frmlistdocumentos" src="index.php?controlador=Gestiones&accion=listarDocumentoMandante&iddeudor=<? echo($objGestion->get_data("id_deudor")) ?>&idmandante=<? echo($objGestion->get_data("id_mandante")) ?>&idestadoges=<? $var = &$idestadoges; echo($var); ?>&actDoc=S" frameborder="0" align="middle" width="100%" height="120" scrolling="auto"></iframe>
+<!--        			<iframe id="frmlistdocumentos" src="index.php?controlador=Gestiones&accion=listarDocumentoMandante&iddeudor=<? echo($objGestion->get_data("id_deudor")) ?>&idmandante=<? echo($objGestion->get_data("id_mandante")) ?>&idestadoges=<? $var = &$idestadoges; echo($var); ?>&actDoc=S" frameborder="0" align="middle" width="100%" height="120" scrolling="auto"></iframe>-->
+						<iframe id="frmlistdocumentos" src="index.php?controlador=Gestiones&accion=listarDocumentoMandante&iddeudor=<? echo($objGestion->get_data("id_deudor")) ?>&idmandante=<? $var = &$idMandante; echo($var); ?>&idestadoges=<? $var = &$idestadoges; echo($var); ?>&actDoc=S" frameborder="0" align="middle" width="100%" height="120" scrolling="auto"></iframe>
         </td>
         <td align="center" width="100">
 			<table>
