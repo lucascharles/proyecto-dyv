@@ -29,6 +29,7 @@
 
     <script language="javascript">
 		$(document).ready(function(){
+
 			$("#txtfecha").datepicker({changeYear: true});	
 			$("#txtfechavenc").datepicker({changeYear: true});
 			$("#txtfechacalculo").datepicker({changeYear: true});
@@ -95,7 +96,6 @@
 			var datos = "";
 			var rut = "";
 			var dv = "";
-			
 			if(tipo == "D")
 			{
 				if($.trim($("#txtrut_deudor").val()) == "" || $.trim($("#txtdv_deudor").val()) == "")
@@ -238,8 +238,7 @@
 		{
 			if($.trim($("#control_volver").val()) != "")
 			{
-
-				$("#pagina").load('index.php?controlador='+$("#control_volver").val()+'&accion='+$("#accion_volver").val()+'&'+$("#param_volver").val()+'='+$("#val_volver").val()+'&estadoGes='+$.trim($("#idestadoges").val()));
+				$("#pagina").load('index.php?controlador='+$("#control_volver").val()+'&accion='+$("#accion_volver").val()+'&'+$("#param_volver").val()+'='+$("#val_volver").val()+'&estadoGes='+$.trim($("#idestadoges").val())+'&rutM='+$.trim($("#rutM").val()));
 			}
 			else
 			{
@@ -296,15 +295,13 @@
 			}
 			
 			var arraySel = new Array();
-			
 				var datos = "controlador=Deudores";
-				
-				datos += "&accion=grabarLiquidacion";
+				datos += "&accion=grabar_editaLiquidacion";
 				datos += "&deudor="+$("#id_deudor").val();
+				datos += "&id_liquidacion="+$("#id_liquidacion").val();
 				datos += "&interes="+$("#txtinteres").val();
 				datos += "&valoruf="+$("#txtvaloruf").val();
 				datos += "&fechasimulacion="+$("#txtfecha").val();
-				
 				datos += "&capital="+$("#txttotal").val();
 				datos += "&capitalpagado="+$("#txttotalpagado").val();
 				datos += "&protesto="+$("#txtprotesto").val();
@@ -314,7 +311,6 @@
 				datos += "&interesacumulado="+$("#txtinteresacumulado").val();
 				datos += "&honoraiorsdyv="+$("#txthonorarios").val();
 				datos += "&total="+$("#txttotalsimulacion").val();
-
 				datos += "&importeprestamo="+$("#txtimporte").val();
 				datos += "&interesmensual="+$("#txtinteresmensual").val();
 				datos += "&cuotas="+$("#txtcuotascalc").val();
@@ -323,8 +319,11 @@
 				datos += "&imp="+$("#txtimpcalc").val();
 				datos += "&pagomensual="+$("#txtpagomensual").val();
 				datos += "&costototal="+$("#txtcostoprestamo").val();
+				datos += "&costasprocesales="+$("#txtcostasprocesales").val();
 				datos += "&porcentajectdo="+$("#txtporcentajectdo").val();
+				datos += "&porcentajedyvhonor="+$("#txtporcentaje").val();
 				datos += "&docs="+$("#docs").val();
+				
 				if(document.getElementById("rdestatus_repacta").checked == true)
 				{
 					datos += "&repacta=S";
@@ -343,7 +342,7 @@
 					{	
 						if($.trim($("#control_volver").val()) != "")
 						{
-							$("#pagina").load('index.php?controlador='+$("#control_volver").val()+'&accion='+$("#accion_volver").val()+'&'+$("#param_volver").val()+'='+$("#val_volver").val()+'&estadoGes='+$.trim($("#idestadoges").val()));
+							$("#pagina").load('index.php?controlador='+$("#control_volver").val()+'&accion='+$("#accion_volver").val()+'&'+$("#param_volver").val()+'='+$("#val_volver").val()+'&estadoGes='+$.trim($("#idestadoges").val())+'&rutM='+$.trim($("#rutM").val()));
 						}
 						else
 						{					
@@ -388,6 +387,7 @@
 			var url = "index.php?controlador=Deudores&accion=";
 			var accion = "";
 			var capital = "";
+			
 			if($.trim($("#id_deudor").val()) == "")
 			{
 				$("#mensaje").text("Debe seleccionar un Deudor");
@@ -899,6 +899,7 @@
 <input type="hidden" name="val_volver" id="val_volver" value="<? echo($val_volver) ?>" />
 <input type="hidden" name="idestadoges" id="idestadoges" value="<? echo($idestadoges) ?>" />
 <input type="hidden" name="intacum" id="intacum" value="0" />
+<input type="hidden" name="rutM" id="rutM" value="<? echo($rutM) ?>" />
 <input type="hidden" name="interes_orig" id="interes_orig" value="<?=conDecimales($liquidacion->get_data("interes"))?>" />
 
 
@@ -1007,7 +1008,7 @@
                 <tr>                                     
                     <td align="right" class="etiqueta_form">% Honorarios D&V:&nbsp;</td>
                     <td align="left">
-                    <input type="text" name="txtporcentaje" id="txtporcentaje"  value="10"   class="input_form_medio" onFocus="resaltar(this)" onBlur="recalcular()" valida="requerido" />
+                    <input type="text" name="txtporcentaje" id="txtporcentaje"  value="<?=$liquidacion->get_data("honorarios_dyv_porcentaje") ?>"   class="input_form_medio" onFocus="resaltar(this)" onBlur="recalcular()" valida="requerido" />
                     </td>
                 </tr>
 
@@ -1122,7 +1123,7 @@
                 <tr>                                     
                     <td align="right" class="etiqueta_form">% Pago Ctdo.:&nbsp;</td>
                     <td align="left">
-                    <input type="text" name="txtporcentajectdo" id="txtporcentajectdo"  value="<?=$liquidacion->get_data("porcentaje_contado")?>"   class="input_form_medio" onFocus="resaltar(this)" onBlur="recalcular()" valida="requerido" />
+                    <input type="text" name="txtporcentajectdo" id="txtporcentajectdo"  value="<? $var = $liquidacion->get_data("porcentaje_contado"); if($var == ""){echo("0");}else{echo($var);} ?>"   class="input_form_medio" onFocus="resaltar(this)" onBlur="recalcular()" valida="requerido" />
                     </td>
                 </tr>
 

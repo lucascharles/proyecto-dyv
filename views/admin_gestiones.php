@@ -40,21 +40,16 @@
 			url +="&selEstado="+document.getElementById("selEstado").value;
 			url +="&nombre_deudor="+document.getElementById("txtnombredeudor").value;
 			url +="&filtro=1";
-//			alert(url);
 			document.getElementById("frmlistgestiones").src = url;
 		}
 		
-		function seleccionado(id,idest,idnext)
+		function seleccionado(id,idest,idnext,rutm)
 		{
 			document.getElementById("id_gestion").value = id;
 			document.getElementById("id_estado").value = idest;
 			document.getElementById("id_next").value = idnext;
-			//$("#frmlistgestiones").scrollTo('#fila_'+id,{duration:20});
-			// document.getElementById("frmlistgestiones").scrollBy(100,100);
-			//myIframe.contentWindow.scrollTo(xcord, ycord)
+			document.getElementById("rut_m").value = rutm;
 		}
-		
-		
 		
 		function salir()
 		{
@@ -70,7 +65,7 @@
 			}
 			var id = document.getElementById("id_gestion").value;
 			var idNextGes = document.getElementById("id_next").value;
-			$("#pagina").load('index.php?controlador=Gestiones&accion=gestionar&idgestion='+id+'&idNextGes='+idNextGes+'&tipoGestion='+document.getElementById("tipo_gestion").value+'&estadoGes='+document.getElementById("id_estado").value);
+			$("#pagina").load('index.php?controlador=Gestiones&accion=gestionar&idgestion='+id+'&idNextGes='+idNextGes+'&tipoGestion='+document.getElementById("tipo_gestion").value+'&estadoGes='+document.getElementById("id_estado").value+'&rutM='+document.getElementById("rut_m").value);
 		}
 
 		function ocultarGes()
@@ -121,8 +116,8 @@
 		<td align="right" class="etiqueta_form" width="20">Rut Mandante:</td>
         <td>&nbsp;&nbsp;&nbsp;<input type="text" name="txtrutmandante" id="txtrutmandante"  onkeyup='mostrar(this)' class="input_form"  onFocus="resaltar(this)" value="<?=$_SESSION["rut_m_f"]?>" onBlur="noresaltar(this)" /> &nbsp;
         </td>
-        <td align="right" class="etiqueta_form" width="20">Rut Deudor:</td>
-        <td>&nbsp;&nbsp;&nbsp;<input type="text" name="txtrutdeudor" id="txtrutdeudor"  size="40" onkeyup='mostrar(this)' class="input_form" value="<?=$_SESSION["rut_d_f"]?>"  onFocus="resaltar(this)" onBlur="noresaltar(this)"/> &nbsp;
+        <td align="right" class="etiqueta_form" width="20">Nombre Deudor:</td>
+        <td>&nbsp;&nbsp;&nbsp;<input type="text" name="txtnombredeudor" id="txtnombredeudor"  onkeyup='mostrar(this)' class="input_form"  onFocus="resaltar(this)" onBlur="noresaltar(this)" value="<?=$_SESSION["nombre_deudor_f"]?>" /> &nbsp;
         </td>
         <td align="right" class="etiqueta_form" width="20">Estado:</td>
         <td>&nbsp;&nbsp;&nbsp;
@@ -149,8 +144,8 @@
         </td>
     </tr>
     <tr>
-		<td align="right" class="etiqueta_form" width="20">Nombre Deudor:</td>
-        <td>&nbsp;&nbsp;&nbsp;<input type="text" name="txtnombredeudor" id="txtnombredeudor"  onkeyup='mostrar(this)' class="input_form"  onFocus="resaltar(this)" onBlur="noresaltar(this)" value="<?=$_SESSION["nombre_deudor_f"]?>" /> &nbsp;
+		<td align="right" class="etiqueta_form" width="20">Rut Deudor:</td>
+        <td>&nbsp;&nbsp;&nbsp;<input type="text" name="txtrutdeudor" id="txtrutdeudor"  size="40" onkeyup='mostrar(this)' class="input_form" value="<?=$_SESSION["rut_d_f"]?>"  onFocus="resaltar(this)" onBlur="noresaltar(this)"/> &nbsp;
         </td>
         <td align="right" class="etiqueta_form" width="20"></td>
         <td></td>

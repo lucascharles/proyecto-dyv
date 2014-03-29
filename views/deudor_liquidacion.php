@@ -234,7 +234,7 @@
 			if($.trim($("#control_volver").val()) != "")
 			{
 
-				$("#pagina").load('index.php?controlador='+$("#control_volver").val()+'&accion='+$("#accion_volver").val()+'&'+$("#param_volver").val()+'='+$("#val_volver").val()+'&estadoGes='+$.trim($("#idestadoges").val()));
+				$("#pagina").load('index.php?controlador='+$("#control_volver").val()+'&accion='+$("#accion_volver").val()+'&'+$("#param_volver").val()+'='+$("#val_volver").val()+'&estadoGes='+$.trim($("#idestadoges").val())+'&rutM='+$.trim($("#rutM").val()));
 			}
 			else
 			{
@@ -319,6 +319,7 @@
 				datos += "&pagomensual="+$("#txtpagomensual").val();
 				datos += "&costototal="+$("#txtcostoprestamo").val();
 				datos += "&porcentajectdo="+$("#txtporcentajectdo").val();
+				datos += "&porcentajedyvhonor="+$("#txtporcentaje").val();
 				datos += "&docs="+$("#docs").val();
 				if(document.getElementById("rdestatus_repacta").checked == true)
 				{
@@ -338,7 +339,7 @@
 					{	
 						if($.trim($("#control_volver").val()) != "")
 						{
-							$("#pagina").load('index.php?controlador='+$("#control_volver").val()+'&accion='+$("#accion_volver").val()+'&'+$("#param_volver").val()+'='+$("#val_volver").val()+'&estadoGes='+$.trim($("#idestadoges").val()));
+							$("#pagina").load('index.php?controlador='+$("#control_volver").val()+'&accion='+$("#accion_volver").val()+'&'+$("#param_volver").val()+'='+$("#val_volver").val()+'&estadoGes='+$.trim($("#idestadoges").val())+'&rutM='+$.trim($("#rutM").val()));
 						}
 						else
 						{					
@@ -911,6 +912,7 @@
 <input type="hidden" name="param_volver" id="param_volver" value="<? echo($param_volver) ?>" />
 <input type="hidden" name="val_volver" id="val_volver" value="<? echo($val_volver) ?>" />
 <input  type="hidden" name="idestadoges" id="idestadoges" value="<? $var = &$idestadoges; echo($var); ?>"/>
+<input type="hidden" name="rutM" id="rutM" value="<? echo($rutM) ?>" />
 
 <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="titulopantalla">
 	<tr>

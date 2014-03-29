@@ -17,23 +17,49 @@
 			.ui-timepicker-div td { font-size: 90%; }
 			.ui-tpicker-grid-label { background: none; border: none; margin: 0; padding: 0; }
 	</style>
+    <link rel="stylesheet" href="css/general.css" type="text/css" />
+    <link rel="stylesheet" href="css/autocompletar/jquery/themes/base/jquery.ui.all.css" type="text/css" />
+
     <script src="js/jquery-1.7.1.min.js" type="text/javascript"></script>
     <script src="js/jquery/jquery-1.4.1.min.js" type="text/javascript"></script>
     <script src="js/validacampos.js" type="text/javascript"></script>
   	<script src="js/funciones.js" type="text/javascript"></script>
     <script src="js/funcionesgral.js" type="text/javascript"></script>
     
+	<script src="js/autocompletar/jquery/ui/jquery.ui.core.js" type="text/javascript"></script>
+	<script src="js/autocompletar/jquery/ui/jquery.ui.widget.js" type="text/javascript"></script>
+    <script src="js/autocompletar/jquery/ui/jquery.ui.position.js" type="text/javascript"></script>
+    <script src="js/autocompletar/jquery/ui/jquery.ui.autocomplete.js" type="text/javascript"></script>	
+    
 	<script type="text/javascript" src="js/jquery-ui-1.8.16.custom.min.js"></script>
 	<script type="text/javascript" src="js/jquery-ui-timepicker-addon.js"></script>
 	<script type="text/javascript" src="js/i18n/jquery.ui.datepicker-es.js"></script>
 	<script type="text/javascript" src="js/jquery-ui-sliderAccess.js"></script>
+	
+ 	
+   	
+    
     <script language="javascript">
 	$(function () {
-			//$.datepicker.setDefaults($.datepicker.regional["es"]);
+			$.datepicker.setDefaults($.datepicker.regional["es"]);
 			$("#txtdist_corte").datepicker({changeYear: true});
 			$("#txtingreso").datepicker({changeYear: true});
+			 $("#txtjuzgadoanexo").autocomplete({
+		            source: "ajax/lista_juzgados.php",
+					minLength: 3, 
+		       		select: asignarIdJuzgado
+		        });
 		});
-		
+
+		function asignarIdJuzgado(event, ui)
+		{
+			var id = ui.item.id;
+			if(id != "undefined" && $.trim(id) != "")
+			{
+				$("#id_juzgado").val(id);
+			}
+		}
+	
 		$(document).ready(function(){
   			$('form').validator();
 			$("#txtdist_corte").datepicker();
@@ -76,13 +102,9 @@
 			arrayin[3] = document.getElementById("txtrut_d_mandante");
 			arrayin[4] = document.getElementById("txtmonto");
 			arrayin[5] = document.getElementById("txtabogado");
-//			arrayin[6] = document.getElementById("txtfirma");
 			arrayin[7] = document.getElementById("txtingreso");
-//			arrayin[8] = document.getElementById("txtprovidencia_1");
 			arrayin[9] = document.getElementById("txtdist_corte");
 			arrayin[10] = document.getElementById("txtrol");
-//			arrayin[11] = document.getElementById("selJuzgadoNro");
-//			arrayin[12] = document.getElementById("selJComuna");
 			arrayin[13] = document.getElementById("ident");
 			arrayin[14] = document.getElementById("tipoperacion");
 			arrayin[15] = document.getElementById("id_alta");
@@ -92,11 +114,6 @@
 
 
 			var arraySel = new Array();
-//			if(!validarArray(arrayin, arraySel,"N"))
-//			{
-//				return false;
-//			}
-
 
 			var datos = "controlador=Deudores";
 			if($("#tipoperacion").val() == "A")
@@ -164,9 +181,8 @@
 		{
 			var idGes = document.getElementById("idGes").value;
 			var idestadoges = 7; // document.getElementById("idestadoges").value;
-//			alert('index.php?controlador=Gestiones&accion=gestionar&idgestion='+idGes+'&estadoGes='+idestadoges);
-			$("#pagina").load('index.php?controlador=Gestiones&accion=gestionar&idgestion='+idGes+'&estadoGes='+idestadoges);
-			//$("#pagina").load('index.php?controlador=Deudores&accion=admin_fichas&proc=1');
+			var rutM = document.getElementById("txtrut_mandante").value;
+			$("#pagina").load('index.php?controlador=Gestiones&accion=gestionar&idgestion='+idGes+'&estadoGes='+idestadoges+'&rutM='+rutM);
 			
 		}
 		
@@ -270,6 +286,21 @@
 				$("#mensaje").slideDown();
 				setTimeout("$('#mensaje').text('')",3000);
 		}
+
+		function cambiaTexto(c,o){
+			c.options[c.selectedIndex].text = o.value
+			o.style.display = 'none'
+			c.style.display = 'inline'
+		}
+		function cambiaCampo(c,o,v){
+			if(o.selectedIndex>0){
+				o.style.display = 'none'
+				c.style.display = 'inline'
+				c.value = v
+				c.focus()
+			}
+		}
+		
 		
 	</script>
 </head>
@@ -419,6 +450,7 @@
 <input  type="hidden" name="idGes" id="idGes" value="<? echo($idGes) ?>" />
 <input  type="hidden" name="idestadoges" id="idestadoges" value="<? echo($idestadoges) ?>" />
 <input  type="hidden" name="listdocs" id="listdocs" value="<? echo($list_docs) ?>" />
+<input  type="hidden" name="id_juzgado" id="id_juzgado" value="" />
 
   <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="titulopantalla">
 	<tr>
@@ -495,20 +527,22 @@
 <!--        <td><input type="text" grabar="S" name="txtjuzgadoanexo"  value="<? echo($juzgadoanexo) ?>" id="txtjuzgadoanexo"  size="20" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" />-->
 <!--        </td>-->
         
-        <td><select name="txtjuzgadoanexo" grabar="S"  id="txtjuzgadoanexo" value="<? echo($juzgadoanexo) ?>"  class= "input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)">
-     			<option value="0"><? print utf8_encode($juzgadoanexo) ?></option>
+        <td>
+        <input type="text" grabar="S" name="txtjuzgadoanexo" id="txtjuzgadoanexo" value="<? echo($juzgadoanexo) ?>"  class="input_form" onFocus="resaltar(this)" referente="id_juzgado" onBlur="noresaltar(this)"/>
+        	<!--<select name="txtjuzgadoanexo" grabar="S"  id="txtjuzgadoanexo" value="<? echo($juzgadoanexo) ?>"  class= "input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)">
+     			<option value=""><? print utf8_encode($juzgadoanexo) ?></option>
         		<option value="1 CIVIL VALPARAISO">1 CIVIL VALPARAISO</option>
   				<option value="2 CIVIL VALPARAISO">2 CIVIL VALPARAISO</option>
   				<option value="4 CIVIL VALPARAISO">4 CIVIL VALPARAISO</option>
   				<option value="5 CIVIL VALPARAISO">5 CIVIL VALPARAISO</option>
-  				<option value="1 VIÑA DEL MAR">1 CIVIL VIÑA DEL MAR</option>
-  				<option value="2 VIÑA DEL MAR">2 CIVIL VIÑA DEL MAR</option>
-  				<option value="3 VIÑA DEL MAR">3 CIVIL VIÑA DEL MAR</option>
+  				<option value="1 VIï¿½A DEL MAR">1 CIVIL VIï¿½A DEL MAR</option>
+  				<option value="2 VIï¿½A DEL MAR">2 CIVIL VIï¿½A DEL MAR</option>
+  				<option value="3 VIï¿½A DEL MAR">3 CIVIL VIï¿½A DEL MAR</option>
   				<option value="28 CIVIL SANTIAGO">28 CIVIL SANTIAGO</option>
   				<option value="12 CIVIL SANTIAGO">12 CIVIL SANTIAGO</option>
-  				<option value="28 VIÑA DEL MAR">28 CIVIL SANTIAGO</option>
+  				<option value="28 VIï¿½A DEL MAR">28 CIVIL SANTIAGO</option>
 			</select>
-        </td>
+        --></td>
     </tr>
     
     <tr>
