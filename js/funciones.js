@@ -5,7 +5,6 @@ function getParametrosArray(arrayInputS)
 	var arrayInput = arrayInputS; 
 	var urlp = "";
 	var val = "";
-		
 	 for(var i=0; i<arrayInput.length; i++)
 	 {	
 	 	val = "";
