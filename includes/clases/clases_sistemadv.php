@@ -1508,6 +1508,7 @@
 					  "costas_procesales" => array("int"),
 					  "capital_pagado" => array("int"),
 					  "porcentaje_contado" => array("int"),
+					  "honorarios_dyv_porcentaje" => array("int"),
 					  "fecha_creacion" => array("date"),
 					  "usuario_creacion" =>  array("varchar"),
 					  "fecha_modificacion" => array("date"),
