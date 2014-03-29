@@ -96,15 +96,26 @@ class GestionesModel extends ModelBase
 						  MAX(eg.fecha_prox_gestion) fecha_prox_gestion,
 						  esg.estado estado,
 						  ds.`id_estado_doc` id_estado ");
-	$sqlpersonal->set_from( " deudores d,mandantes m,  documentos ds,  estados_x_gestion eg, estadosgestion esg ");
+//	$sqlpersonal->set_from( " deudores d,  mandantes m,
+//  							documentos ds LEFT JOIN estados_x_gestion eg ON ds.id_documento = eg.id_documento,
+//  							estadosgestion esg ");
+	$sqlpersonal->set_from( " deudores d, documentos ds, mandantes m, gestiones g, estados_x_gestion eg, estadosgestion esg "); 
 	
-	$where = " d.id_deudor = ds.id_deudor 
-  			    AND ds.id_documento = eg.id_documento 
-  				AND ds.id_mandatario = m.id_mandante
-  				AND esg.id_estado = ds.id_estado_doc
-				AND d.activo = 'S'
-				AND m.activo = 'S'
-				AND ds.activo = 'S'";
+//	$where = " d.id_deudor = ds.id_deudor 
+//  				AND ds.id_mandatario = m.id_mandante
+//  				AND esg.id_estado = ds.id_estado_doc
+//				AND d.activo = 'S'
+//				AND m.activo = 'S'
+//				AND ds.activo = 'S'";
+
+	$where = " d.id_deudor = ds.id_deudor
+				AND d.id_deudor = g.id_deudor
+				AND g.id_gestion = eg.id_gestion
+				AND ds.id_mandatario = m.id_mandante 
+				AND esg.id_estado = ds.id_estado_doc
+ 				AND d.activo = 'S' 
+  				AND m.activo = 'S' 
+  				AND ds.activo = 'S'"; 
 	
 	if(trim($param["rut_d"]) <> "")
 	{

@@ -878,7 +878,9 @@ class DocumentosModel extends ModelBase
 				and d.id_tipo_doc = td.id_tipo_documento
 				and d.activo = 'S' ";
 //		$where .= " and d.id_estado_doc >= ".$array["idestadoges"];
-		$where .= " and d.id_documento >= ".$array["id_partida"];
+	  	if($array["id_partida"] != ""){
+	  		$where .= " and d.id_documento >= ".$array["id_partida"];
+	  	}
 		
 //		$sqlpersonal->set_top(10); // PARA SQLSERVER 
 		$sqlpersonal->set_limit(0,30); // PARA MYSQL
@@ -954,7 +956,9 @@ class DocumentosModel extends ModelBase
 		if($array["id_alta"] != ""){
 	  		$where .= " and f.id_ficha = ".$array["id_alta"];
 		}
-		$where .= " and d.id_documento > ".$array["id_partida"];
+		if($array["id_partida"] != ""){
+			$where .= " and d.id_documento > ".$array["id_partida"];
+		}
 		
 //		$sqlpersonal->set_top(10); // PARA SQLSERVER 
 		$sqlpersonal->set_limit(0,30); // PARA MYSQL
@@ -1025,8 +1029,9 @@ class DocumentosModel extends ModelBase
 				and d.id_estado_doc = ed.id_estado_doc
 				and d.id_tipo_doc = td.id_tipo_documento
 				and d.activo = 'S' ";
-		
-		$where .= " and d.id_documento > ".$array["id_partida"];
+	  	if($array["id_partida"] != ""){
+			$where .= " and d.id_documento > ".$array["id_partida"];
+	  	}
 		
 //		$sqlpersonal->set_top(10); // PARA SQLSERVER 
 		$sqlpersonal->set_limit(0,30); // PARA MYSQL
@@ -1659,11 +1664,16 @@ class DocumentosModel extends ModelBase
 	  	$sqlpersonal->set_from(" documentos d ,tipodocumento td, estadodocumentos ed,
         						 mandantes m, deudores dd, direccion_deudores dds ");
       	$sqlpersonal->set_where(" d.id_tipo_doc = td.id_tipo_documento
-							and   d.id_estado_doc = ed.id_estado_doc
-							and   d.id_deudor = dd.id_deudor
-							and   d.id_mandatario = m.id_mandante
-							and   dd.id_deudor = dds.id_deudor
-							and   dds.vigente = 'S'
+							and d.id_estado_doc = ed.id_estado_doc
+							and d.id_deudor = dd.id_deudor
+							and d.id_mandatario = m.id_mandante
+							and dd.id_deudor = dds.id_deudor
+							and dds.vigente = 'S'
+  							and d.`activo` = 'S'
+  							and td.`activo` = 'S'
+  							and ed.`activo` = 'S'
+  							and m.`activo` = 'S'
+  							and dd.`activo` = 'S'
 							and   d.id_deudor = ".$array.
 							" order by d.numero_documento ");
 	

@@ -91,7 +91,7 @@ class DeudoresModel extends ModelBase
 		include("config.php");
 
 		$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
-		$sqlpersonal->set_select( " d.id_documento ");
+		$sqlpersonal->set_select( " DISTINCT l.id_liquidacion ");
 		$sqlpersonal->set_from(" liquidaciones l, liquidacion_simulacion_doc lsd, documentos d ");
 		
 		$where = $where." l.id_liquidacion = lsd.id_liquidacion_simulacion
@@ -109,14 +109,14 @@ class DeudoresModel extends ModelBase
 	{
 		$deudor = new Deudores();
 		$deudor->add_filter("rut_deudor","=",trim($param["txtrut_deudor"]));
-//		$deudor->add_filter("AND");
-//		$deudor->add_filter("dv_deudor","=",trim($param["txtrut_d_deudor"]));
+		$deudor->add_filter("AND");
+		$deudor->add_filter("activo","=","S");
 		$deudor->load();
 		
 		$mandante = new Mandantes();
 		$mandante->add_filter("rut_mandante","=",trim($param["txtrut_mandante"]));
-//		$mandante->add_filter("AND");
-//		$mandante->add_filter("dv_mandante","=",trim($param["txtrut_d_mandante"]));
+		$mandante->add_filter("AND");
+		$mandante->add_filter("activo","=","S");
 		$mandante->load();
 				
 		$dato = new Ficha();
@@ -1442,8 +1442,8 @@ ORDER BY orden ASC ";
 		$dato->set_data("id_deudor",$array["deudor"]);
 		$dato->set_data("id_mandante",$deudor->get_data("id_mandante"));
 		$dato->set_data("interes",$array["interes"]);
-//		$dato->set_data("valor_uf",$array["valoruf"]);
-		
+
+		$dato->set_data("honorarios_dyv_porcentaje",$array["porcentajedyvhonor"]);		
 		$dato->set_data("fecha_simulacion",formatoFecha($array["fechasimulacion"],"dd/mm/yyyy","yyyy-mm-dd"));
 		$dato->set_data("capital",$array["capital"]);
 		$dato->set_data("capital_pagado",$array["capitalpagado"]);
@@ -1496,18 +1496,15 @@ ORDER BY orden ASC ";
 		$dato->load();
 		$dato->set_data("id_mandante",$deudor->get_data("id_mandante"));
 		$dato->set_data("interes",$array["interes"]);
-//		$dato->set_data("valor_uf",$array["valoruf"]);
 		$dato->set_data("fecha_simulacion",formatoFecha($array["fechasimulacion"],"dd/mm/yyyy","yyyy-mm-dd"));
 		$dato->set_data("capital",$array["capital"]);
 		$dato->set_data("capital_pagado",$array["capitalpagado"]);
 		$dato->set_data("protesto",$array["protesto"]);
-//		$dato->set_data("fecha_venc",formatoFecha($array["fechavenc"],"dd/mm/yyyy","yyyy-mm-dd"));
-//		$dato->set_data("dias_atraso",$array["diasatraso"]);
-//		$dato->set_data("interes_diario",$array["interesdiario"]);
 		$dato->set_data("interes_acumulado",$array["interesacumulado"]);
 		$dato->set_data("costas_procesales",$array["costasprocesales"]);		
 		$dato->set_data("honorarios_dyv",$array["honoraiorsdyv"]);
 		$dato->set_data("total_simulacion",$array["total"]);
+		$dato->set_data("honorarios_dyv_porcentaje",$array["porcentajedyvhonor"]);
 		$dato->set_data("repacta",$array["repacta"]);
 		if($array["repacta"] == "S")
 		{
