@@ -82,14 +82,22 @@ class GestionesController extends ControllerBase
 			$nomDeudor = $cab->get_data("razonsocial");
 		}
 		
-		$rutMandante = $cab->get_data("rut_mandante")."-".$cab->get_data("dv_mandante");
-		$rutMand = $cab->get_data("rut_mandante");
-		$rutDvMand = $cab->get_data("dv_mandante");
-		$nomMandante = $cab->get_data("nombre_mandante")." ".$cab->get_data("apellido_mandante");
+//		$rutMandante = $cab->get_data("rut_mandante")."-".$cab->get_data("dv_mandante");
+//		$rutMand = $cab->get_data("rut_mandante");
+//		$rutDvMand = $cab->get_data("dv_mandante");
+//		$nomMandante = $cab->get_data("nombre_mandante")." ".$cab->get_data("apellido_mandante");
 		
 		$iddeudor = $cab->get_data("id_deudor");
-//		$idmandante = $cab->get_data("id_mandante");
-		$idM = $mandantes->getMandanteByRut($rutMand);
+//		$idM = $mandantes->getMandanteByRut($rutMand);
+		
+		$idM = $mandantes->getMandanteByRut($array["rutM"]);
+		
+		$rutMandante = $idM->get_data("rut_mandante")."-".$cab->get_data("dv_mandante");
+		$rutMand = $idM->get_data("rut_mandante");
+		$rutDvMand = $idM->get_data("dv_mandante");
+		$nomMandante = $idM->get_data("nombre_mandante")." ".$cab->get_data("apellido_mandante");
+		
+		
 		$idmandante = $idM->get_data("id_mandante");
 		$celDeudor = $cab->get_data("celular");
 		$telDeudor = $cab->get_data("telefono_fijo"); 
@@ -150,6 +158,7 @@ class GestionesController extends ControllerBase
 		$data['telDeudor'] = $telDeudor;
 		$data['emailDeudor'] = $emailDeudor;
 		
+		$data['rutM'] = $rutMand;
 		$data['rutMand'] = $rutMand;
 		$data['rutDvMand'] = $rutDvMand;
 		$data['rutMandante'] = $rutMandante;
@@ -530,6 +539,7 @@ class GestionesController extends ControllerBase
 		$data['param_volver'] = $array["param_volver"];
 		$data['val_volver'] = $array["val_volver"];
 		$data['idestadoges'] = $array["idestadoges"];
+		$data['rutM'] = $array["rutM"];
 	
 		
 		$this->view->show("gestiona_liquidaciones.php", $data);
