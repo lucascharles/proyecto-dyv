@@ -1030,6 +1030,8 @@ class DeudoresController extends ControllerBase
 		$data['accion_volver'] = $array["accion_volver"];
 		$data['param_volver'] = $array["param_volver"];
 		$data['val_volver'] = $array["val_volver"];
+		$data['rutM'] = $array["rutM"];
+		
 		$this->view->show("deudor_liquidacion.php", $data);
 	}
 	
@@ -1086,6 +1088,7 @@ class DeudoresController extends ControllerBase
 		$data['accion_volver'] = $array["accion_volver"];
 		$data['param_volver'] = $array["param_volver"];
 		$data['val_volver'] = $array["val_volver"];
+		$data['rutM'] = $array["rutM"];
 		
 		$this->view->show("deudor_liquidacion_edita2.php", $data);		
 //		$this->view->show("deudor_liquidacion_edita.php", $data);
