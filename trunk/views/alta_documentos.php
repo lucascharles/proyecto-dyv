@@ -303,7 +303,6 @@
 				datos += "&selCausalProtesta="+$("#selCausalProtesta").val();
 				datos += "&selEstadoDoc="+$("#selEstadoDoc").val();
 				datos += "&gastos_protesto="+$("#txtmontoprotesto").val();
-
 				$.ajax({
 					url: "index.php",
 					type: "GET",

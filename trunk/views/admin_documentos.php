@@ -188,7 +188,11 @@
         </td>
         <td width="10%">
         	<div style="position:relative; margin-left:10px;">
+        	<? if($_SESSION["perfil"] == 'FUNCIONARIO'){ ?>
+        	<input  type="button" disabled="disabled" name="btneliminar" id="btneliminar" onclick="eliminar()" value="Eliminar" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/><br/>
+        	<? }else{ ?>
         	<input  type="button" name="btneliminar" id="btneliminar" onclick="eliminar()" value="Eliminar" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/><br/>
+        	<? } ?>
 	        <input  type="button" name="btnnuevo" id="btnnuevo" onclick="nuevo()"  value="Nuevo" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/><br/>
             <input  type="button" name="btnmodificar" id="btnmodificar" onclick="editar()"  value="Modificar" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/><br/>
             <input  type="button" name="btnenvcarta" id="btnenvcarta" onclick="enviarcarta()"  value="Cartas Pend." class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/><br/>

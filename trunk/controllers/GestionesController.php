@@ -64,11 +64,13 @@ class GestionesController extends ControllerBase
 		require 'models/DocumentosModel.php';
 		require 'models/DeudoresModel.php';
 		require 'models/MandantesModel.php';
+		require 'models/UsuarioModel.php';
 		
 		$gestiones = new GestionesModel();
 		$estges = new DocumentosModel();
 		$deudor = new DeudoresModel();
 		$mandantes = new MandantesModel();
+		$usuario = new UsuarioModel();
 		
 		$_SESSION["idNextGes"] = $array["idNextGes"];
 		
@@ -82,13 +84,7 @@ class GestionesController extends ControllerBase
 			$nomDeudor = $cab->get_data("razonsocial");
 		}
 		
-//		$rutMandante = $cab->get_data("rut_mandante")."-".$cab->get_data("dv_mandante");
-//		$rutMand = $cab->get_data("rut_mandante");
-//		$rutDvMand = $cab->get_data("dv_mandante");
-//		$nomMandante = $cab->get_data("nombre_mandante")." ".$cab->get_data("apellido_mandante");
-		
 		$iddeudor = $cab->get_data("id_deudor");
-//		$idM = $mandantes->getMandanteByRut($rutMand);
 		
 		$idM = $mandantes->getMandanteByRut($array["rutM"]);
 		
@@ -114,7 +110,6 @@ class GestionesController extends ControllerBase
 		$idestadoges = $cab->get_data("estado"); 
 		
 		$datoDeudaMandante = $gestiones->getDeudaNetaMandante($iddeudor,$idmandante,$array["estadoGes"]);
-//		$datoDeudaMandante = $gestiones->getDeudaNetaMandante($iddeudor,$idmandante,$idestadoges);
 		$montoMandante = $datoDeudaMandante->items[0];
 		$deudaMandante = $montoMandante->get_data("monto");
 		
@@ -124,7 +119,6 @@ class GestionesController extends ControllerBase
 		
 		$MandantesXDeudor = $mandantes->getMandanteDeudor($iddeudor);
 		$cantDemandas = $deudor->getCantFicha($iddeudor);
-//		$totalDemandas = $deudor->getTotalDemanda($iddeudor);
 		
 		$existeLiquidacion = $deudor->getCantLiquidaciones($array["estadoGes"],$iddeudor);
 		
@@ -148,6 +142,7 @@ class GestionesController extends ControllerBase
 			$totalDemandas = "0";
 			$tieneaval = "No";
 		}
+
 		$data['nom_sistema'] = "SISTEMA DyV";
 		$data['objGestion'] = $dato;
 		$data['coleccionEstadoGestion'] = $datoEg;
@@ -367,8 +362,8 @@ class GestionesController extends ControllerBase
 			
 			if($array["tipoGestion"]=="D")
 			{
-				$datoAux = $gestiones->getListaGestionesDia($array["des_int"],$array);	
-				
+				$datoAux = $gestiones->getListaGestionesDia($array["des_int"],$array);
+					
 			}
 			else
 			{
@@ -383,7 +378,7 @@ class GestionesController extends ControllerBase
 		$data['cant_mas'] = $cant_datos;
 		$data['nom_sistema'] = "SISTEMA DyV";
 		$data['colleccionGestiones'] = $dato;
-		
+		$data['tipogestion'] = $array["tipoGestion"]; 
 		
 		$this->view->show("lista_gestiones.php", $data);
 	} 

@@ -85,7 +85,7 @@
 			var tg = document.getElementById("tipoGestion").value;
 			var idNextGes = document.getElementById("idNextGes").value;
 			var rutM = document.getElementById("rutM").value;
-			
+
 			if(tg == "D")	
 			{
 				$("#pagina").load('index.php?controlador=Gestiones&accion=admin&proc=1&rut_m='+$("#txtrut_mandante").val());
@@ -546,7 +546,7 @@
     <input  type="hidden" name="idNextGes" id="idNextGes" value="<? $var = &$idNextGes; echo($var); ?>"/>
     <input  type="hidden" name="rutM" id="rutM" value="<? $var = &$rutMand; echo($var); ?>"/>
     
-    
+    <input  type="hidden" name="perfilusuario" id="perfilusuario" value="<?php echo($_SESSION["perfil"])?>"/>
     
 <div id="datos" style="">
 
@@ -715,7 +715,18 @@
         <th></th>
         </td>
         <td align="right">
+        <?php
+        $cantidad = &$cantidadDemandas;
+        if($cantidad == 0){ 
+        ?>
+			<input  type="button" disabled="disabled" name="btnVerDemandas" id="btnVerDemandas" onclick="agregarDemanda()" class="boton_form" value="Ver Demanda" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)' />
+        <?php 
+        }else{
+        ?>
 			<input  type="button" name="btnVerDemandas" id="btnVerDemandas" onclick="agregarDemanda()" class="boton_form" value="Ver Demanda" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)' />
+        <?php 
+        }
+        ?>
         </td>
     </tr>
  </table>
@@ -769,7 +780,12 @@
     <tr>
 		<td align="center" class="etiqueta_form">Gestion</td>
         <td> 
+
+		<? if($_SESSION["perfil"] == 'FUNCIONARIO'){ ?>
+			<select name="selGestion" disabled="disabled" valida="requerido" tipovalida="texto" id="selGestion" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)">
+       <? } else { ?> 	
         	<select name="selGestion" valida="requerido" tipovalida="texto" id="selGestion" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)">
+       <? } ?>	
      			<option value="<? $var = &$idUltimaGestion; echo($var); ?>"> <? $var = &$estadoUltimaGestion; echo($var); ?> </option>
         		<?
 			        for($j=0; $j<$coleccionEstadoGestion->get_count(); $j++)
@@ -779,8 +795,11 @@
 			        }
     			?>
 			</select>
-       
-         	<input  type="button" name="btnNuevaDemanda" id="btnNuevaDemanda" onclick="nuevaDemanda()" class="boton_form" value="Nueva DDA" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)' />
+       	<? if($_SESSION["perfil"] == 'FUNCIONARIO'){ ?>
+         	<input  type="button" disabled="disabled" name="btnNuevaDemanda" id="btnNuevaDemanda" onclick="nuevaDemanda()" class="boton_form" value="Nueva DDA" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)' />
+       <? } else { ?>
+ 			<input  type="button" name="btnNuevaDemanda" id="btnNuevaDemanda" onclick="nuevaDemanda()" class="boton_form" value="Nueva DDA" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)' />       	
+       <? } ?>
         </td>
         
         <td align="center" class="etiqueta_form">Fecha Gestion</td>
