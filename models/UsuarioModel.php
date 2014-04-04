@@ -127,5 +127,23 @@ class UsuarioModel extends ModelBase
 		
 		return $dato;
 	}
+	
+	public function getPerfilUsuario($id_usuario)
+	{
+		include("config.php");
+
+		$select = " p.nombre perfil"; 
+ 		$from = " usuario_permiso up, permiso p ";
+   		$where = " up.id_permiso = p.id ";
+		$where .= " and up.id_usuario = '".$id_usuario."'";
+				
+		$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
+		$sqlpersonal->set_select($select);
+		$sqlpersonal->set_from($from);
+		$sqlpersonal->set_where($where);
+    	$sqlpersonal->load();
+
+	    return $sqlpersonal;	
+	}
 }
 ?>

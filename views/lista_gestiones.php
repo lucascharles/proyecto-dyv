@@ -65,7 +65,6 @@
         <th align="center"><font class="titulolistado">ESTADO</font></th>
     </tr>
 	<?php
-	
 	for($j=0; $j<$colleccionGestiones->get_count(); $j++) 
 	{
 		$nex_id_gestion = 0;
@@ -78,7 +77,6 @@
 		
 		
 		$datoTmp = &$colleccionGestiones->items[$j];
-		
 		
 		$checked = "";
 		if($_SESSION["idNextGes"] == $datoTmp->get_data("id_gestion"))
@@ -108,9 +106,10 @@
     <tr bgcolor="#FFFFFF" >
     	<td colspan="10" style="border-bottom:solid; border-bottom-width:2px; border-bottom-color:#CCCCCC; "></td>
 	</tr>
-	<?php
+	
+	<?php		
+     			
 	}
-	//echo("<br>can_tmas: ".$cant_mas);
 	$datoTmp = &$colleccionGestiones->items[($colleccionGestiones->get_count()-1)];
 	
 	if($cant_mas > 0)

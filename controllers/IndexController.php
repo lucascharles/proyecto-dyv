@@ -37,7 +37,16 @@ class IndexController extends ControllerBase
 			$perm = $usuario->getPermisosMenu($array["usrLogin"]);
 			$data['arrayObjPermisos'] = $perm;
 			$_SESSION["idusuario"] = $array["usrLogin"];
-			//$data['accion_form'] = "index.php?controlador=Index&accion=valid_login";
+			
+			$perfil = $usuario->getPerfilUsuario($array["usrLogin"]);
+
+			if($perfil->get_count() > 0)
+			{
+				$perfilusuario = $perfil->items[0];
+				$_SESSION["perfil"] = $perfilusuario->get_data("perfil"); 
+			}
+			
+			
 		}
 		
 		//Finalmente presentamos nuestra plantilla

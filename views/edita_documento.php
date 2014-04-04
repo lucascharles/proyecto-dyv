@@ -555,7 +555,11 @@
         
         <td width="70" align="left" class="etiqueta_form">Estado:</td>
         <td> 
+        <? if($_SESSION["perfil"] == 'FUNCIONARIO'){ ?>
+        	<select name="selEstadoDoc" disabled="disabled" grabar="S" valida="requerido" tipovalida="texto" id="selEstadoDoc" onchange="cambiarEstado();" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" >
+        <? } else { ?>
         	<select name="selEstadoDoc" grabar="S" valida="requerido" tipovalida="texto" id="selEstadoDoc" onchange="cambiarEstado();" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" >
+        <? } ?>
         		<?
 			        for($j=0; $j<$coleccion_estadoDoc->get_count(); $j++)
 			        {

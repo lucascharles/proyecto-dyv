@@ -3,76 +3,6 @@ class GestionesModel extends ModelBase
 {
 		
 	
-		
-//	public function getListaGestiones($des, $param=array())
-//	{
-//	
-//	include("config.php");
-//
-//	
-//	$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
-//	
-//	$sqlpersonal->set_select( " g.id_gestion id_gestion,	   
-//   					  m.rut_mandante rut_mandante,
-//					  m.dv_mandante dv_mandante,							   
-//					  d.rut_deudor rut_deudor, 
-//					  d.dv_deudor dv_deudor,
-//					  d.primer_apellido primer_apellido, 
-//					  d.segundo_apellido segundo_apellido,
-//					  d.primer_nombre primer_nombre,
-//					  d.segundo_nombre segundo_nombre,
-//					  d.razonsocial razonsocial,
-//					  g.fecha_gestion fecha_gestion,
-//					  MAX(eg.fecha_prox_gestion) fecha_prox_gestion,
-//  					  esg.estado estado,
-//   					  eg.id_estado id_estado 	
-//					  ");
-//	$sqlpersonal->set_from( " gestiones g LEFT JOIN estados_x_gestion eg ON g.id_gestion = eg.id_gestion,  
-//							  deudores d, mandantes m, estadosgestion esg,  documentos ds ,estadodocumentos ed ");
-//	
-//	$where = " g.id_deudor = d.id_deudor 
-//			  AND d.id_mandante = m.id_mandante 			  
-//			  AND eg.id_estado = esg.id_estado  
-//			  AND esg.id_estado = g.estado
-//  			  AND g.id_deudor = ds.id_deudor
-//  			  AND ds.id_estado_doc = ed.id_estado_doc
-//			  AND ds.activo = 'S'
-//			  AND d.activo = 'S'
-//			  AND ed.`id_estado_doc` NOT IN (2)
-//			   AND ( eg.id_estado IN (SELECT CASE doc.id_estado_doc WHEN 999 THEN 1 ELSE doc.id_estado_doc END FROM documentos doc WHERE doc.id_deudor = d.id_deudor) OR eg.id_estado IS NULL 
-//  					) 
-//  			   AND g.activo = 'S' ";
-//	
-//	if(trim($param["rut_d"]) <> "")
-//	{
-//		$where .= " and d.rut_deudor like '".trim($param["rut_d"])."%'";
-//	}
-//	if(trim($param["nombre_deudor"]) <> "")
-//	{
-//		$where .= " and (d.primer_nombre like '".trim($param["nombre_deudor"])."%' ";
-//		$where .= " OR d.segundo_nombre like '".trim($param["nombre_deudor"])."%' ";
-//		$where .= " OR d.primer_apellido like '".trim($param["nombre_deudor"])."%' ";
-//		$where .= " OR d.segundo_apellido like '".trim($param["nombre_deudor"])."%' )";	
-//	}
-//	if(trim($param["rut_m"]) <> "")
-//	{
-//		$where .= " and m.rut_mandante like '".trim($param["rut_m"])."%'";
-//	}
-//	if(trim($param["id_estado"]) <> "")
-//	{
-//		$where .= " and g.estado = ".trim($param["id_estado"]);
-//	}
-//
-//	$where = $where ." GROUP BY  ds.id_estado_doc,g.id_deudor  ORDER BY eg.fecha_prox_gestion, g.id_gestion ASC ";
-//	
-//	$sqlpersonal->set_where( $where );
-//	$sqlpersonal->set_limit(0,30); // PARA MYSQL
-//    $sqlpersonal->load();
-//
-//    return $sqlpersonal;		
-//	}
-	
-	
 	public function getListaGestiones($des, $param=array())
 	{
 	
@@ -96,21 +26,10 @@ class GestionesModel extends ModelBase
 						  MAX(eg.fecha_prox_gestion) fecha_prox_gestion,
 						  esg.estado estado,
 						  ds.`id_estado_doc` id_estado ");
-//	$sqlpersonal->set_from( " deudores d,  mandantes m,
-//  							documentos ds LEFT JOIN estados_x_gestion eg ON ds.id_documento = eg.id_documento,
-//  							estadosgestion esg ");
-	$sqlpersonal->set_from( " deudores d, documentos ds, mandantes m, gestiones g, estados_x_gestion eg, estadosgestion esg "); 
-	
-//	$where = " d.id_deudor = ds.id_deudor 
-//  				AND ds.id_mandatario = m.id_mandante
-//  				AND esg.id_estado = ds.id_estado_doc
-//				AND d.activo = 'S'
-//				AND m.activo = 'S'
-//				AND ds.activo = 'S'";
+	$sqlpersonal->set_from( " deudores d, documentos ds, mandantes m, estados_x_gestion eg, estadosgestion esg "); 
 
 	$where = " d.id_deudor = ds.id_deudor
-				AND d.id_deudor = g.id_deudor
-				AND g.id_gestion = eg.id_gestion
+				AND ds.id_documento = eg.id_documento
 				AND ds.id_mandatario = m.id_mandante 
 				AND esg.id_estado = ds.id_estado_doc
  				AND d.activo = 'S' 
@@ -145,7 +64,7 @@ class GestionesModel extends ModelBase
 
     return $sqlpersonal;		
 	}
-	
+
 	public function getListaGestionesDia($des, $param=array())
 	{
 	
@@ -154,63 +73,41 @@ class GestionesModel extends ModelBase
 	
 	$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
 	
-	$sqlpersonal->set_select( " g.id_gestion id_gestion,	   
-   					  m.rut_mandante rut_mandante,
-					  m.dv_mandante dv_mandante,							   
-					  d.rut_deudor rut_deudor, 
-					  d.dv_deudor dv_deudor,
-					  d.primer_apellido primer_apellido, 
-					  d.segundo_apellido segundo_apellido,
-					  d.primer_nombre primer_nombre,
-					  d.segundo_nombre segundo_nombre,
-					  d.razonsocial razonsocial,
-					  g.fecha_gestion fecha_gestion,
-					  g.fecha_prox_gestion fecha_prox_gestion,					   
-  					  ed.estado estado,
-  					  ds.id_estado_doc id_estado");
-	$sqlpersonal->set_from( " gestiones g LEFT JOIN estadosgestion eg ON g.estado = eg.id_estado, deudores d, mandantes m, documentos ds, estadodocumentos ed  ");
+	$sqlpersonal->set_select( " 
+						  A.id_gestion id_gestion,  A.rut_mandante rut_mandante,  A.dv_mandante dv_mandante,  A.rut_deudor rut_deudor,
+						  A.dv_deudor dv_deudor,  A.primer_apellido primer_apellido,  A.segundo_apellido segundo_apellido,  A.primer_nombre primer_nombre,
+						  A.segundo_nombre segundo_nombre,  A.razonsocial razonsocial, A.fecha_gestion fecha_gestion,  A.fecha_prox_gestion fecha_prox_gestion,  A.estado estado,  A.id_estado id_estado 
+						     ");
+	$sqlpersonal->set_from( " gestiones_dia A ");
 
-	$where = " 
-			g.estado not in ( 2,3,4,5,13 )
-		   and g.id_deudor = d.id_deudor
-	  	   and g.id_mandante = m.id_mandante
-	  	   and g.id_deudor = ds.id_deudor 
-  		   and ds.id_estado_doc = ed.id_estado_doc 
-		   and g.activo = 'S'
-		   AND ds.activo = 'S'
-		   AND d.activo = 'S'
-		   AND ed.`id_estado_doc` NOT IN (2)
-		   AND ((g.fecha_prox_gestion <= CURDATE()) OR (g.id_gestion NOT IN(SELECT gg.id_gestion FROM estados_x_gestion gg) AND (g.fecha_prox_gestion <= CURDATE()) ))
-		   and d.id_deudor in (select d1.id_deudor from documentos d1 where d1.id_deudor = d.id_deudor and d1.id_estado_doc not in( 2,3,4,5,13 )
-		   						and d1.activo = 'S') ";
-	
+	$where = " A.fecha_prox_gestion <= CURDATE() AND A.id_estado NOT IN ( 2,3,4,5,13 ) ";
+			
 	
 	if(trim($param["rut_d"]) <> "")
 	{
-		$where .= " and d.rut_deudor like '".trim($param["rut_d"])."%'";
+		$where .= " and A.rut_deudor like '".trim($param["rut_d"])."%'";
 	}
 	
 	if(trim($param["nombre_deudor"]) <> "")
 	{
-		$where .= " and (d.primer_nombre like '".trim($param["nombre_deudor"])."%' ";
-		$where .= " OR d.segundo_nombre like '".trim($param["nombre_deudor"])."%' ";
-		$where .= " OR d.primer_apellido like '".trim($param["nombre_deudor"])."%' ";
-		$where .= " OR d.segundo_apellido like '".trim($param["nombre_deudor"])."%' )";	
+		$where .= " and (A.primer_nombre like '".trim($param["nombre_deudor"])."%' ";
+		$where .= " OR A.segundo_nombre like '".trim($param["nombre_deudor"])."%' ";
+		$where .= " OR A.primer_apellido like '".trim($param["nombre_deudor"])."%' ";
+		$where .= " OR A.segundo_apellido like '".trim($param["nombre_deudor"])."%' )";	
 	}
 	
 	if(trim($param["rut_m"]) <> "")
 	{
-		$where .= " and m.rut_mandante like '".trim($param["rut_m"])."%'";
+		$where .= " and A.rut_mandante like '".trim($param["rut_m"])."%'";
 	}
 
 	if(trim($param["selEstado"]) <> "")
 	{
-		$where .= " and g.estado = ".trim($param["selEstado"]);
+		$where .= " and A.estado = ".trim($param["selEstado"]);
 	}
 	
-//	$where = $where ." GROUP BY ds.id_estado_doc,g.id_deudor ";
-	$where = $where ." GROUP BY g.id_deudor,m.id_mandante ";
-	$where = $where ." ORDER by fecha_prox_gestion, g.id_gestion asc ";
+//	$where = $where ." GROUP BY ds.id_estado_doc, ds.id_mandatario, d.id_deudor ";
+//	$where = $where ." ORDER by m.rut_mandante, eg.fecha_prox_gestion DESC, eg.id_gestion  ";
 	
 	
 	$sqlpersonal->set_where( $where );
@@ -221,7 +118,7 @@ class GestionesModel extends ModelBase
 	
 	}
 	
-	public function cuentaGestionesDia()
+public function cuentaGestionesDia()
 	{
 	
 	include("config.php");
@@ -230,20 +127,8 @@ class GestionesModel extends ModelBase
 	$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
 	
 	$sqlpersonal->set_select( " count(*) cantidad ");
-	$sqlpersonal->set_from( " gestiones g LEFT JOIN estadosgestion eg ON g.estado = eg.id_estado, deudores d,  mandantes m ");
-	$where = " g.estado NOT IN (2, 3, 4, 5, 13) 
-			  AND g.id_deudor = d.id_deudor 
-			  AND g.id_mandante = m.id_mandante 
-			  AND g.activo = 'S' 
-			  AND (
-			    (g.fecha_prox_gestion <= CURDATE()) 
-			    OR (g.id_gestion NOT IN (SELECT gg.id_gestion FROM estados_x_gestion gg) 
-			      AND (g.fecha_prox_gestion <= CURDATE())
-			    )) 
-			  AND d.id_deudor IN (SELECT d1.id_deudor FROM documentos d1 
-			  WHERE d1.id_deudor = d.id_deudor 
-			    AND d1.id_estado_doc NOT IN (2, 3, 4, 5, 13) 
-			    AND d1.activo = 'S') ";
+	$sqlpersonal->set_from( "gestiones_dia A ");
+	$where = " A.fecha_prox_gestion <= CURDATE() AND A.id_estado NOT IN (2, 3, 4, 5, 13) ";
 	
 	$sqlpersonal->set_where( $where );
 	

@@ -155,7 +155,11 @@
         </td>
         <td>
         	<div style="position:relative; margin-left:10px;">
-        	<input  type="button" name="btneliminar" id="btneliminar" onclick="eliminar()"   class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)' value="Eliminar" /><br />
+        	<? if($_SESSION["perfil"] == 'FUNCIONARIO'){ ?>
+        	<input  type="button" disabled="disabled" name="btneliminar" id="btneliminar" onclick="eliminar()"   class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)' value="Eliminar" /><br />
+	        <? }else{ ?>
+	        <input  type="button" name="btneliminar" id="btneliminar" onclick="eliminar()"   class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)' value="Eliminar" /><br />
+	        <? } ?>
 	        <input  type="button" name="btnnuevo" id="btnnuevo" onclick="nuevo()"  value="Nuevo"   class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/><br />
             <input  type="button" name="btnmodificar" id="btnmodificar" onclick="editar()"   value="Modificar"  class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/>
             </div>
