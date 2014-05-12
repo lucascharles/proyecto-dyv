@@ -117,10 +117,10 @@
 		$pantalla = "ADMIN";
 
 	?>
-     <tr bgcolor="#FFFFFF">
-    	<td colspan="10" align="center">
-        <div id='btnvermas_<? echo($datoTmp->get_data("id_gestion")) ?>' onclick="verMasRegistros(<? echo($datoTmp->get_data("id_gestion")) ?>,'<? echo($pantalla) ?>')" style="cursor:pointer;" >Ver mas </div></td>
-	</tr>
+<!--     <tr bgcolor="#FFFFFF">-->
+<!--    	<td colspan="10" align="center">-->
+<!--        <div id='btnvermas_<? echo($datoTmp->get_data("id_gestion")) ?>' onclick="verMasRegistros(<? echo($datoTmp->get_data("id_gestion")) ?>,'<? echo($pantalla) ?>')" style="cursor:pointer;" >Ver mas </div></td>-->
+<!--	</tr>-->
     <?
     }
 	?>

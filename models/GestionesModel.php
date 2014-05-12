@@ -111,7 +111,7 @@ class GestionesModel extends ModelBase
 	
 	
 	$sqlpersonal->set_where( $where );
-	$sqlpersonal->set_limit(0,30); // PARA MYSQL
+//	$sqlpersonal->set_limit(0,30); // PARA MYSQL
     $sqlpersonal->load();
 
     return $sqlpersonal;	
