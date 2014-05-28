@@ -72,6 +72,7 @@ class UsuarioModel extends ModelBase
 					$arraydetop[] = $datoomTmp->get_data("id");
 					$arraydetop[] = $datoomTmp->get_data("nombre");
 					$arraydetop[] = $datoomTmp->get_data("acceso","N");
+					$arraydetop[] = $datoomTmp->get_data("ventana");
 					$arrayopcion[] = $arraydetop;
 				}
 			}
@@ -82,6 +83,7 @@ class UsuarioModel extends ModelBase
 				$arraymodulo[] = $datomTmp->get_data("id");
 				$arraymodulo[] = $datomTmp->get_data("nombre");
 				$arraymodulo[] = $arrayopcion;
+				
 				/*
 				echo("<br>nombre_modulo: ".$datomTmp->get_data("nombre"));
 				echo("<br>".json_encode($arrayopcion));
@@ -126,24 +128,6 @@ class UsuarioModel extends ModelBase
 		$dato->load();
 		
 		return $dato;
-	}
-	
-	public function getPerfilUsuario($id_usuario)
-	{
-		include("config.php");
-
-		$select = " p.nombre perfil"; 
- 		$from = " usuario_permiso up, permiso p ";
-   		$where = " up.id_permiso = p.id ";
-		$where .= " and up.id_usuario = '".$id_usuario."'";
-				
-		$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
-		$sqlpersonal->set_select($select);
-		$sqlpersonal->set_from($from);
-		$sqlpersonal->set_where($where);
-    	$sqlpersonal->load();
-
-	    return $sqlpersonal;	
 	}
 }
 ?>
