@@ -1,4 +1,21 @@
 <?php
+
+function consulta($sql='',$debug="")
+	{
+		include("config.php");
+		$con_mysql=mysql_connect($config->get('dbhost'),$config->get('dbuser'),$config->get('dbpass')); 	
+		if (!$con_mysql) {echo 'No se ha podido encontrar el servidor de datos';exit;}
+		mysql_select_db($config->get('dbname'),$con_mysql);
+		if($debug == 1)
+		{
+			echo("<br>SQL: ".$sql);
+		}
+		$idsql = mysql_query($sql);
+		
+		return $idsql;
+	}
+	
+	
 	function conDecimales($valor, $decimales=0)
 	{
 		return number_format($valor,$decimales,'.','.');
