@@ -243,7 +243,14 @@ background:url(images/selected.png);
 			for($j=0; $j<count($arrayopcion);$j++)
 			{
 				$arraydetop = $arrayopcion[$j];
-                echo("<a href='#' id='item_".$arraydetop[0]."' acceso_op='".$arraydetop[2]."' onClick='verDetalle(this)' onMouseOver='overClassItem(this)' onMouseOut='outClassItem(this)'>&nbsp; ".$arraydetop[1]."</a>");
+				if($arraydetop[3] == "POPUP")
+				{
+					echo("<a href='".$arraydetop[2]."' id='item_".$arraydetop[0]."' target='_blank' onMouseOver='overClassItem(this)' onMouseOut='outClassItem(this)'>&nbsp; ".$arraydetop[1]."</a>");
+				}
+				else
+				{
+                	echo("<a href='#' id='item_".$arraydetop[0]."' acceso_op='".$arraydetop[2]."' onClick='verDetalle(this)' onMouseOver='overClassItem(this)' onMouseOut='outClassItem(this)'>&nbsp; ".$arraydetop[1]."</a>");
+				}
 			}
 			echo("</div>");
 		}
