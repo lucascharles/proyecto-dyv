@@ -1,7 +1,14 @@
 <?php
 class DocumentosController extends ControllerBase
 {
-    
+    public function carga_masiva($array)
+    {
+		$data['nom_sistema'] = "SISTEMA DyV";
+		$data['accion_form'] = "index.php?controlador=Documentos&accion=previewcarga_masiva";
+		
+		$this->view->show("carga_masiva_2.php", $data);
+	}  
+	
     //Accion index
     public function admin($array)
     {
