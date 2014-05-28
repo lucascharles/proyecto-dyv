@@ -1219,7 +1219,8 @@
 					"id" => array("int"),
 					"nombre" => array("varchar"),
 					"id_modulo" => array("int"),
-					"acceso" => array("varchar")
+					"acceso" => array("varchar"),
+					"ventana" => array("varchar")
 					
 				);
 			parent::BusinessObject();
