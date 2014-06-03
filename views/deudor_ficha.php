@@ -111,6 +111,7 @@
 			arrayin[16] = document.getElementById("id_doc");
 			arrayin[17] = document.getElementById("txtabogado2");
 			arrayin[18] = document.getElementById("txtjuzgadoanexo");
+			arrayin[19] = document.getElementById("txtexhorto");
 
 
 			var arraySel = new Array();
@@ -143,11 +144,9 @@
 			datos += "&txtrutaval="+document.getElementById("txtrutaval").value;
 			datos += "&txttelaval="+document.getElementById("txttelaval").value;
 			datos += "&txtdomicilioaval="+document.getElementById("txtdomicilioaval").value;
+			datos += "&txtexhorto="+document.getElementById("txtexhorto").value;
 			
 			datos += "&listdocs="+document.getElementById("listdocs").value;
-//			datos += "&"+getParametrosArray(arrayin);
-//			alert(datos);
-			//return false;
 			$.ajax({
 					url: "index.php",
 					type: "GET",
@@ -155,14 +154,11 @@
 					cache: false,
 					success: function(res)
 					{
-//						$("#pagina").load('views/default.php');
-						//alert("Los datos de la Ficha se han guardado correctamente.");
 						
 						$("#mensaje").text("Los datos de la Ficha se han guardado correctamente.");
 						$("#mensaje").show();
 						setTimeout("$('#mensaje').text('')",3000);
 						
-//						$("#id_alta").val(res);
 						
 					},
 					error: function()
@@ -182,7 +178,8 @@
 			var idGes = document.getElementById("idGes").value;
 			var idestadoges = 7; // document.getElementById("idestadoges").value;
 			var rutM = document.getElementById("txtrut_mandante").value;
-			$("#pagina").load('index.php?controlador=Gestiones&accion=gestionar&idgestion='+idGes+'&estadoGes='+idestadoges+'&rutM='+rutM);
+			var tipoges = document.getElementById("tipo_ges").value;
+			$("#pagina").load('index.php?controlador=Gestiones&accion=gestionar&idgestion='+idGes+'&estadoGes='+idestadoges+'&rutM='+rutM+"&tipoGestion="+tipoges);
 			
 		}
 		
@@ -426,6 +423,7 @@
 	$monto = ($tipoperacion == "M") ? $ficha->get_data("monto") : $montodemanda;
 	$abogado = ($tipoperacion == "M") ? $ficha->get_data("abogado") : "";
 	$abogado2 = ($tipoperacion == "M") ? $ficha->get_data("abogado2") : "";
+	$exhorto = ($tipoperacion == "M") ? $ficha->get_data("exhorto") : "";
 	$firma = ($tipoperacion == "M") ? $ficha->get_data("firma") : "";
 	$ingreso = ($tipoperacion == "M") ? formatoFecha($ficha->get_data("ingreso"),"yyyy-mm-dd","dd/mm/yyyy") : "";
 	$providencia_1 = ($tipoperacion == "M") ? $ficha->get_data("providencia") : "";
@@ -451,6 +449,7 @@
 <input  type="hidden" name="idestadoges" id="idestadoges" value="<? echo($idestadoges) ?>" />
 <input  type="hidden" name="listdocs" id="listdocs" value="<? echo($list_docs) ?>" />
 <input  type="hidden" name="id_juzgado" id="id_juzgado" value="" />
+<input  type="hidden" name="tipo_ges" id="tipo_ges" value="<? echo($tipo_ges) ?>" />
 
   <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="titulopantalla">
 	<tr>
@@ -507,12 +506,15 @@
 	 <tr>
 		<td align="left" class="etiqueta_form">Abogado</td>
         <td align="left" class="etiqueta_form">Abogado (2)</td>
+		<td align="left" class="etiqueta_form">Exhorto</td>
     </tr>
     <tr>
         <td><input type="text" grabar="S" name="txtabogado"  value="<? echo($abogado) ?>" id="txtabogado"  size="20" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" />
         </td>
         <td><input type="text" grabar="S" name="txtabogado2" id="txtabogado2"  value="<? echo($abogado2) ?>" size="20" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" />
         </td>
+		<td><input type="text" grabar="S" name="txtexhorto" id="txtexhorto"  value="<? echo($exhorto) ?>" size="20" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" />
+		</td>
     </tr>
     <tr>
 		<td align="left" class="etiqueta_form">Distribuci&oacute;n Corte</td>
