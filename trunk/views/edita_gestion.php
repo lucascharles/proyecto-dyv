@@ -85,7 +85,7 @@
 			var tg = document.getElementById("tipoGestion").value;
 			var idNextGes = document.getElementById("idNextGes").value;
 			var rutM = document.getElementById("rutM").value;
-
+			
 			if(tg == "D")	
 			{
 				$("#pagina").load('index.php?controlador=Gestiones&accion=admin&proc=1&rut_m='+$("#txtrut_mandante").val());
@@ -134,6 +134,7 @@
 		
 		function grabar()
 		{
+			var tipoges = document.getElementById("tipoGestion").value;
 			var doc ="";
 			if(document.getElementById("iddocumento").value == "" )
 				
@@ -193,7 +194,7 @@
 								if(idestadoges != 7){
 								var conf = confirm("Generar FICHA para deudor?");
 							    if(conf == true){
-							    	$("#pagina").load('index.php?controlador=Deudores&accion=deudor_ficha&id='+$("#id_deudor").val()+'&id_doc='+$("#iddocumento").val()+'&tipope=A'+'&idGes='+$("#id_gestion").val()+"&list_docs="+list_docs);
+							    	$("#pagina").load('index.php?controlador=Deudores&accion=deudor_ficha&id='+$("#id_deudor").val()+'&id_doc='+$("#iddocumento").val()+'&tipope=A'+'&idGes='+$("#id_gestion").val()+"&list_docs="+list_docs+"&tipo_ges="+tipoges);
 							    }
 								}
 							}
@@ -204,7 +205,7 @@
 									var id = document.getElementById("iddemanda").value;
 									var idestadoges = document.getElementById("idestadoges").value;
 									var idgestion = document.getElementById("id_gestion").value;
-									$("#pagina").load('index.php?controlador=Deudores&accion=deudor_ficha&id='+id+'&tipope=M&idGes='+idgestion+'&idestadoges='+idestadoges+"&list_docs="+list_docs+"&oper=I");
+									$("#pagina").load('index.php?controlador=Deudores&accion=deudor_ficha&id='+id+'&tipope=M&idGes='+idgestion+'&idestadoges='+idestadoges+"&list_docs="+list_docs+"&oper=I"+"&tipo_ges="+tipoges);
 							    }
 							}
 						}
@@ -441,7 +442,8 @@
 
 			var idestadoges = document.getElementById("idestadoges").value;
 			var idgestion = document.getElementById("id_gestion").value;
-			$("#pagina").load('index.php?controlador=Deudores&accion=deudor_ficha&id='+id+'&tipope=M&idGes='+idgestion+'&idestadoges='+idestadoges);
+			var tipoges = document.getElementById("tipoGestion").value;
+			$("#pagina").load('index.php?controlador=Deudores&accion=deudor_ficha&id='+id+'&tipope=M&idGes='+idgestion+'&idestadoges='+idestadoges+'&tipo_ges='+tipoges);
 		}
 		function seleccionado(id)
 		{
@@ -708,7 +710,7 @@
 <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="titulopantalla">
 	<tr>
 		<td>
-		<th align="left" height="30">&nbsp;Demandas - Cantidad: <? $var = &$cantidadDemandas; echo($var); ?> Rol: <? $var = &$rolDemanda; echo($var); ?>    -    Total: <? $var = &$totalDemandas; echo($var); ?>     -    Aval: <? $var = &$tieneaval; echo($var); ?> </th>
+		<th align="left" height="30">&nbsp;Demandas - Cantidad: <? $var = &$cantidadDemandas; echo($var); ?> Rol: <? $var = &$rolDemanda; echo($var); ?>    -    Total: <? $var = &$totalDemandas; echo($var); ?>     -    Aval: <? $var = &$tieneaval; echo($var); ?>    -    Exhorto: <? $var = &$exhorto; echo($var); ?> </th>
         <th></th>
         <th align="center" ></th>
         <th></th>

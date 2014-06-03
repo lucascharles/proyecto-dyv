@@ -278,6 +278,7 @@
 			datos += "&tipo="+$("#tipo").val();
 			datos += "&id_dir="+$("#id_dir").val();
 			datos += "&rep_legal="+$("#txtrep_legal").val();
+			datos += "&rutrep_legal="+$("#txtrutrep_legal").val();
 			
 			if(document.getElementById("chkvigente").checked == true)
 			{
@@ -550,6 +551,10 @@
                 <tr>
                     <td width="150" align="left" class="etiqueta_form">Rep. Legal:</td>
                     <td> &nbsp;&nbsp;&nbsp;<input type="text" grabar="S" name="txtrep_legal" id="txtrep_legal" value="<? echo($objDeudor->get_data("rep_legal")) ?>"  size="40"  tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtsnombre" class="msjdato_incomp"></span>
+                    </td>
+                    
+                    <td width="50" align="left" class="etiqueta_form">Rut Rep. Legal:</td>
+                    <td> &nbsp;&nbsp;&nbsp;<input type="text" grabar="S" name="txtrutrep_legal" id="txtrutrep_legal" value="<? echo($objDeudor->get_data("rutrep_legal")) ?>"  size="40"  tipovalida="texto" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"/><span id="msj_error_txtsnombre" class="msjdato_incomp"></span>
                     </td>
                 </tr>
             </table>

@@ -273,6 +273,7 @@ class DeudoresController extends ControllerBase
 		$data['idGes'] = $array["idGes"];
 		$data['idestadoges'] = $array["idestadoges"];
 		$data['list_docs'] = $array["list_docs"];
+		$data['tipo_ges'] = $array["tipo_ges"];
 		
 		if($array["idGes"]==""){
 			$data['origen'] = "admin_fichas";
@@ -637,6 +638,7 @@ class DeudoresController extends ControllerBase
 		$data["origen_l"] = $array["origen_l"];
 		
 		$this->view->show("alta_deudores.php", $data);
+		
 	}
 	
 	public function eliminar($array)
@@ -1074,7 +1076,7 @@ class DeudoresController extends ControllerBase
 		
 		$protesto = $deudores->getProtestoLiq($array["id"]); 
 		if($protesto->items[0]->get_data("gastos_prot") == ""){
-			$montoprotesto = 80;
+			$montoprotesto = 0;
 		}
 		else
 		{

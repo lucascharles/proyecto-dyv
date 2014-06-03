@@ -22,7 +22,6 @@ class GestionesController extends ControllerBase
 		$detalleDocs = $gestiones->getDetalleDocs();
 		$data['detalleDocs'] = $detalleDocs;
 		$data['idNextGes'] = $idNextGes;
-		
 		$data['coleccion_estadoGes'] = $documentos->getListaEstadoDoc("");
 		
 		if($array["nxt"] == 1)
@@ -72,7 +71,9 @@ class GestionesController extends ControllerBase
 		$mandantes = new MandantesModel();
 		$usuario = new UsuarioModel();
 		
-		$_SESSION["idNextGes"] = $array["idNextGes"];
+		if($array["idNextGes"] != ""){		
+			$_SESSION["idNextGes"] = $array["idNextGes"];
+		}
 		
 		$cabecera = $gestiones->getCabeceraGestion($array["idgestion"]);
 		$cab = $cabecera->items[0];
@@ -134,6 +135,15 @@ class GestionesController extends ControllerBase
 			{
 				$tieneaval = "No";
 			}
+			
+			if($rol->get_data("exhorto") != ""){
+				$exhorto = "Si";
+			}
+			else
+			{
+				$exhorto = "No";
+			}
+			
 			$totalDemandas = $deudor->getTotalDemandaId($ficha);
 		}
 		else
@@ -169,13 +179,15 @@ class GestionesController extends ControllerBase
 			$data['cantidadDemandas'] = $cantDemandas;
 			$data['totalDemandas'] = $totalDemandas;
 			$data['rolDemanda'] = $primerRol;
-			$data['tieneaval'] = $tieneaval;	
+			$data['tieneaval'] = $tieneaval;
+			$data['exhorto'] = $exhorto;
 		}else
 		{
 			$data['cantidadDemandas'] = 0;
 			$data['totalDemandas'] = 0;
 			$data['rolDemanda'] = "";
 			$data['tieneaval'] = $tieneaval;
+			$data['exhorto'] = $exhorto;
 		}
 		
 		$data['coleccionMandantesDeudor'] = $MandantesXDeudor;

@@ -138,6 +138,7 @@ class DeudoresModel extends ModelBase
 		$dato->set_data("rut_aval",$param["txtrutaval"]);
 		$dato->set_data("tel_aval",$param["txttelaval"]);
 		$dato->set_data("domicilio_aval",$param["txtdomicilioaval"]);
+		$dato->set_data("exhorto",$param["txtexhorto"]);
 		$dato->save();
 		
 		$docficha = new Documento_Ficha();
@@ -147,12 +148,6 @@ class DeudoresModel extends ModelBase
 		{
 			$id = $param["id_alta"];
 		
-//			for($j=0; $j<count($arrdocs); $j++) 	//graba relacion documento_ficha		
-//			{
-//				$docficha->set_data("id_ficha",$id);
-//				$docficha->set_data("id_documento",$arrdocs[$j]);
-//				$docficha->save();
-//			}
 		}
 		else
 		{
@@ -858,6 +853,7 @@ ORDER BY orden ASC ";
 		$dato->set_data("email",$arrayParam["email"]);
 		$dato->set_data("tipo",$arrayParam["tipo"]);
 		$dato->set_data("rep_legal",$arrayParam["rep_legal"]);
+		$dato->set_data("rutrep_legal",$arrayParam["rutrep_legal"]);
 		
 		$dato->set_data("activo","S");
 		$dato->save();
@@ -1062,6 +1058,7 @@ ORDER BY orden ASC ";
 		$dato->set_data("email",utf8_decode($arrayParam["email"]));
 		$dato->set_data("tipo",utf8_decode($arrayParam["tipo"]));
 		$dato->set_data("rep_legal",utf8_decode($arrayParam["rep_legal"]));
+		$dato->set_data("rutrep_legal",utf8_decode($arrayParam["rutrep_legal"]));
 		$dato->set_data("activo","S");
 		$dato->set_data("id_mandante",$arrayParam["idmandante"]);
 		$dato->save();
@@ -1237,7 +1234,8 @@ ORDER BY orden ASC ";
 									  f.id_ficha ficha,
 									  f.ingreso fecha,
 									  f.monto monto,
-									  f.aval aval  ");
+									  f.aval aval,
+									  f.exhorto exhorto");
 		$sqlpersonal->set_from( " ficha f ");
 		$sqlpersonal->set_where( " f.id_deudor = ".$iddeudor);
 	
@@ -1836,7 +1834,7 @@ ORDER BY orden ASC ";
 		include("config.php");
 
 		
-		$select = " MIN(id_ficha) idficha, rol rol, juzgado_anexo juzgado_anexo, aval aval "; 
+		$select = " MIN(id_ficha) idficha, rol rol, juzgado_anexo juzgado_anexo, aval aval , exhorto exhorto"; 
  		$from = " ficha f ";
     	$where = " id_deudor = ".$iddeudor;
     	$where = $where . " GROUP BY rol ";

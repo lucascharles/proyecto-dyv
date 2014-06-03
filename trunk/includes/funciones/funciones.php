@@ -121,5 +121,5 @@ function consulta($sql='',$debug="")
 
 		return $resp;
 	}
-	  
+
 ?>

@@ -123,7 +123,8 @@
 					"aval" => array("varchar"),
 					"rut_aval" => array("varchar"),
 					"tel_aval" => array("varchar"),
-					"domicilio_aval" => array("varchar")
+					"domicilio_aval" => array("varchar"),
+					"exhorto" => array("varchar")
 			
 				);
 			parent::BusinessObject();
@@ -667,6 +668,7 @@
 					"razonsocial" => array("varchar"),
 					"email" => array("varchar"),
 					"rep_legal" => array("varchar"),
+					"rutrep_legal" => array("varchar"),
 					"activo" => array("varchar")
 				);
 			parent::BusinessObject();
