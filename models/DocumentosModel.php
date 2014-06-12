@@ -45,7 +45,7 @@ class DocumentosModel extends ModelBase
 			}
 		}
 		
-		// VALIDACION TAMAÑO DE ARCHIVO
+		// VALIDACION TAMAï¿½O DE ARCHIVO
 		if (($nombre_archivo != NULL && $nombre_archivo != "") && $tamano_archivo > $max_size) 
 		{
 			if($error_upload == "")
@@ -136,7 +136,7 @@ class DocumentosModel extends ModelBase
 						
 					}
 					$idMandante = $mandante->get_data("id_mandante");
-					echo("valida rut deudor");
+//					echo("valida rut deudor");
 					// VALIDACION RUT DEUDOR
 					// cero
 					if((int)$arraydatos[0] == 0)
@@ -255,10 +255,265 @@ class DocumentosModel extends ModelBase
 							$deu_mand->save();
 						}
 					 }
-					 
+					
 					$idDeudor = $deudor->get_data("id_deudor");
-					 	
-				 	//se calcula fecha para la proxima gestion
+					//--------++++++++++++++++valida y guarda documento++++++++++++++++++++++++++++-----------------------
+					// VALIDACION IMPORTE
+										// vacio
+										if(trim($arraydatos[15]) == "")
+										{
+											$error_monto[] = 10;
+											$monto_doc = 0;
+										}
+										else
+										{
+											$monto_doc = $arraydatos[15];
+										}
+										// valor no numerico
+										if(false)
+										{
+											$error_monto[] = 11;
+											$monto_doc = 0;
+										}
+										
+										// VALIDACION TIPO DOCUMENTO
+										// vacio
+										if(trim($arraydatos[17]) == "")
+										{
+											$error_tipodocumento[] = 12;
+										}
+										
+										// no existe tipo documento
+										$tipodoc = new TipoDocumento();
+										$tipodoc->add_filter("tipo_documento","=",strtoupper(trim($arraydatos[17])));
+										$tipodoc->load();
+										if(is_null($tipodoc->get_data("id_tipo_documento")))
+										{
+											$error_tipodocumento[] = 13;
+											$idTipoDoc = 6; //Tipo de Doc = OTRO (6)
+										}
+										else
+										{
+											$idTipoDoc = $tipodoc->get_data("id_tipo_documento");
+										}
+										
+										// VALIDACION BANCO				
+										// vacio
+										if(trim($arraydatos[20]) == "")
+										{
+											$error_banco[] = 14;
+											$banco_default = 0;
+										}
+										
+										// no existe banco
+										$banco = new Bancos();
+										$banco->add_filter("banco","=",trim($arraydatos[20]));
+										$banco->load();
+										$banco_default = $banco->get_data("id_banco");
+										if(is_null($banco->get_data("id_banco")))
+										{
+											//echo("<br>ERROR banco 7 ");
+											$error_banco[] = 15;
+											$banco_default = 0;
+										}
+
+										// VALIDACION NUMERO DOCUMENTO
+										// cero
+										if((int)$arraydatos[19] == 0)
+										{
+											$nrodocumento = NULL;					
+										}
+										else
+										{
+											$nrodocumento =trim($arraydatos[19]);
+										}
+										
+										
+										// vacio
+										if(trim($arraydatos[19]) == "")
+										{
+											$nrodocumento = NULL;
+										}
+										else
+										{
+											$nrodocumento =trim($arraydatos[19]);
+										}
+										
+										// valor no numerico
+										if(false)
+										{
+											$error_nrodocumento[] = 18;
+										}
+										
+									// VALIDACION CUENTA CORRIENTE, puede no existir la cuenta 
+										// cero
+										if((int)$arraydatos[21] == 0)
+										{
+											$cta_cte = NULL;
+										}
+										else
+										{
+											$cta_cte =trim($arraydatos[21]);
+										}
+										
+										
+										// vacio
+										if(trim($arraydatos[21]) == "")
+										{
+											$cta_cte = NULL;
+										}
+										else
+										{
+											$cta_cte =trim($arraydatos[21]);
+										}
+										
+										//Validacion de fecha de protesto
+										
+										if(trim($arraydatos[22]) != "")
+										{
+											$fecha_protesto =trim($arraydatos[22]);
+										}
+										
+										//Validacion de causal de protesto
+										if(trim($arraydatos[23]) == "")
+										{
+											$causal_protesto = 13;
+										}
+										else
+										{
+											$datoCausal = new CausalProtesta();
+									        $datoCausal->add_filter("causal","like",trim($arraydatos[23])."%");
+									    	$datoCausal->load();
+											$causal_protesto = $datoCausal->get_data("id_causal");
+										}
+
+										//Validacion de gatos de protesto
+										if(trim($arraydatos[24]) == "")
+										{
+											$gastos_protesto = 0;
+										}
+										else
+										{
+											$gasto_protesto =trim($arraydatos[24]);
+										}
+										
+										if(count($error_rutmandante) == 0 && 
+											count($error_rutdeudor) == 0 )
+										{	
+											// GUARDAR DOCUMENTO
+											$datodoc = new Documentos();
+											$datodoc->set_data("id_estado_doc",999); // pendiente de enviar carta(hay que parametrizar)
+											$datodoc->set_data("id_tipo_doc",$idTipoDoc);
+											$datodoc->set_data("id_banco",$banco_default);				
+											$datodoc->set_data("id_mandatario",$idMandante);						
+											$datodoc->set_data("id_deudor",$idDeudor);
+											$datodoc->set_data("numero_documento",$nrodocumento);
+											$datodoc->set_data("monto",$monto_doc);
+											$datodoc->set_data("cta_cte",$cta_cte);
+					//						$datodoc->set_data("fecha_siniestro",date("Y-m-d"));
+											
+											$date = new DateTime($fecha_protesto);
+											$fechaProtesto = $date->format('Y-m-d'); 
+											$datodoc->set_data("fecha_siniestro",$fechaProtesto);
+
+											$datodoc->set_data("id_causa_protesto",$causal_protesto);
+											$datodoc->set_data("gastos_protesto",$gasto_protesto);
+											$datodoc->set_data("activo","S");
+											$datodoc->set_data("fecha_creacion",date("Y-m-d"));
+											$datodoc->set_data("usuario_creacion",$id_usuario);
+											
+											$datodoc->save();
+											
+										}
+										else
+										{
+											if($id_log == 0)
+											{
+												$logerror = new LogError();
+												$logerror->set_data("fecha_hora",date("d/m/Y H:i:s"));
+												$logerror->set_data("id_usuario",$id_usuario);
+												$logerror->save();
+												
+												$id_log = getUltimoId(new LogErrorCollection(), "id");
+											}
+											
+											for($j = 0; $j<count($error_rutmandante); $j++)
+											{
+												$log_e = new Det_LogError_CargaMasiva();
+												$log_e->set_data("id_logerror",$id_log);
+												$log_e->set_data("id_tipo_error",$error_rutmandante[$j]);
+												$log_e->set_data("archivo",$nombre_archivo);
+												$log_e->set_data("fila",$i);
+												$log_e->save();
+											}
+											
+											for($j = 0; $j<count($error_rutdeudor); $j++)
+											{
+												$log_e = new Det_LogError_CargaMasiva();
+												$log_e->set_data("id_logerror",$id_log);
+												$log_e->set_data("id_tipo_error",$error_rutdeudor[$j]);
+												$log_e->set_data("archivo",$nombre_archivo);
+												$log_e->set_data("fila",$i);
+												
+												$log_e->save();
+											}
+											
+											for($j = 0; $j<count($error_monto); $j++)
+											{
+												$log_e = new Det_LogError_CargaMasiva();
+												$log_e->set_data("id_logerror",$id_log);
+												$log_e->set_data("id_tipo_error",$error_monto[$j]);
+												$log_e->set_data("archivo",$nombre_archivo);
+												$log_e->set_data("fila",$i);
+												$log_e->save();
+											}
+											
+											for($j = 0; $j<count($error_tipodocumento); $j++)
+											{
+												$log_e = new Det_LogError_CargaMasiva();
+												$log_e->set_data("id_logerror",$id_log);
+												$log_e->set_data("id_tipo_error",$error_tipodocumento[$j]);
+												$log_e->set_data("archivo",$nombre_archivo);
+												$log_e->set_data("fila",$i);
+												$log_e->save();
+											}
+											
+											for($j = 0; $j<count($error_banco); $j++)
+											{
+												$log_e = new Det_LogError_CargaMasiva();
+												$log_e->set_data("id_logerror",$id_log);
+												$log_e->set_data("id_tipo_error",$error_banco[$j]);
+												$log_e->set_data("archivo",$nombre_archivo);
+												$log_e->set_data("fila",$i);
+												$log_e->save();
+											}
+											
+											for($j = 0; $j<count($error_nrodocumento); $j++)
+											{
+												$log_e = new Det_LogError_CargaMasiva();
+												$log_e->set_data("id_logerror",$id_log);
+												$log_e->set_data("id_tipo_error",$error_nrodocumento[$j]);
+												$log_e->set_data("archivo",$nombre_archivo);
+												$log_e->set_data("fila",$i);
+												$log_e->save();
+											}
+											
+											for($j = 0; $j<count($error_ctacte); $j++)
+											{
+												$log_e = new Det_LogError_CargaMasiva();
+												$log_e->set_data("id_logerror",$id_log);
+												$log_e->set_data("id_tipo_error",$error_ctacte[$j]);
+												$log_e->set_data("archivo",$nombre_archivo);
+												$log_e->set_data("fila",$i);
+												$log_e->save();
+											}
+										}
+					//-------++++++++++++++++fin valida y guarda documento+++++++++++++++++++++++++++++-----------------------
+				 	
+					//recupera el max ID documento ingresado para gestion
+					$ultimoDoc = getUltimoId(new DocumentosCollection(), "id_documento");					
+										
+					//se calcula fecha para la proxima gestion
 				 	$fechaHoy = date("Y-m-d");
 					$dias = 5;
 					$calculoHoy = strtotime("$fechaHoy +0 days");
@@ -309,6 +564,7 @@ class DocumentosModel extends ModelBase
 					    $estGes = new Estados_x_Gestion();
 					    $estGes->set_data("id_gestion",$ges->get_data("id_gestion"));
 					    $estGes->set_data("id_estado",1);
+					    $estGes->set_data("id_documento",$ultimoDoc);
 					    $estGes->set_data("id_mandante",$mandante->get_data("id_mandante"));
 					    $estGes->set_data("fecha_gestion",date("Y-m-d"));
 					    $estGes->set_data("fecha_prox_gestion",date("Y-m-d", $calculoFuturo));
@@ -318,257 +574,256 @@ class DocumentosModel extends ModelBase
 						
 					
 					} 	
-					// VALIDACION IMPORTE
-					// vacio
-					if(trim($arraydatos[15]) == "")
-					{
-						$error_monto[] = 10;
-						$monto_doc = 0;
-					}
-					else
-					{
-						$monto_doc = $arraydatos[15];
-					}
-					// valor no numerico
-					if(false)
-					{
-						$error_monto[] = 11;
-						$monto_doc = 0;
-					}
-					
-					// VALIDACION TIPO DOCUMENTO
-					// vacio
-					if(trim($arraydatos[17]) == "")
-					{
-						$error_tipodocumento[] = 12;
-					}
-					
-					// no existe tipo documento
-					$tipodoc = new TipoDocumento();
-					$tipodoc->add_filter("tipo_documento","=",strtoupper(trim($arraydatos[17])));
-					$tipodoc->load();
-					if(is_null($tipodoc->get_data("id_tipo_documento")))
-					{
-						$error_tipodocumento[] = 13;
-						$idTipoDoc = 6; //Tipo de Doc = OTRO (6)
-					}
-					else
-					{
-						$idTipoDoc = $tipodoc->get_data("id_tipo_documento");
-					}
-					
-					// VALIDACION BANCO				
-					// vacio
-					if(trim($arraydatos[20]) == "")
-					{
-						$error_banco[] = 14;
-						$banco_default = 0;
-					}
-					
-					// no existe banco
-					$banco = new Bancos();
-					$banco->add_filter("banco","=",trim($arraydatos[20]));
-					$banco->load();
-					$banco_default = $banco->get_data("id_banco");
-					if(is_null($banco->get_data("id_banco")))
-					{
-						//echo("<br>ERROR banco 7 ");
-						$error_banco[] = 15;
-						$banco_default = 0;
-					}
-
-					// VALIDACION NUMERO DOCUMENTO
-					// cero
-					if((int)$arraydatos[19] == 0)
-					{
-						$nrodocumento = NULL;					
-					}
-					else
-					{
-						$nrodocumento =trim($arraydatos[19]);
-					}
-					
-					
-					// vacio
-					if(trim($arraydatos[19]) == "")
-					{
-						$nrodocumento = NULL;
-					}
-					else
-					{
-						$nrodocumento =trim($arraydatos[19]);
-					}
-					
-					// valor no numerico
-					if(false)
-					{
-						$error_nrodocumento[] = 18;
-					}
-					
-				// VALIDACION CUENTA CORRIENTE, puede no existir la cuenta 
-					// cero
-					if((int)$arraydatos[21] == 0)
-					{
-						$cta_cte = NULL;
-					}
-					else
-					{
-						$cta_cte =trim($arraydatos[21]);
-					}
-					
-					
-					// vacio
-					if(trim($arraydatos[21]) == "")
-					{
-						$cta_cte = NULL;
-					}
-					else
-					{
-						$cta_cte =trim($arraydatos[21]);
-					}
-					
-					//Validacion de fecha de protesto
-					
-					if(trim($arraydatos[22]) != "")
-					{
-						$fecha_protesto =trim($arraydatos[22]);
-					}
-					
-					//Validacion de causal de protesto
-					if(trim($arraydatos[23]) == "")
-					{
-						$causal_protesto = 13;
-					}
-					else
-					{
-						$datoCausal = new CausalProtesta();
-				        $datoCausal->add_filter("causal","like",trim($arraydatos[23])."%");
-				    	$datoCausal->load();
-						$causal_protesto = $datoCausal->get_data("id_causal");
-					}
-
-					//Validacion de gatos de protesto
-					if(trim($arraydatos[24]) == "")
-					{
-						$gastos_protesto = 0;
-					}
-					else
-					{
-						$gasto_protesto =trim($arraydatos[24]);
-					}
-					
-					if(count($error_rutmandante) == 0 && 
-						count($error_rutdeudor) == 0 )
-					{	
-						// GUARDAR DOCUMENTO
-						$datodoc = new Documentos();
-						$datodoc->set_data("id_estado_doc",999); // pendiente de enviar carta(hay que parametrizar)
-						$datodoc->set_data("id_tipo_doc",$idTipoDoc);
-						$datodoc->set_data("id_banco",$banco_default);				
-						$datodoc->set_data("id_mandatario",$idMandante);						
-						$datodoc->set_data("id_deudor",$idDeudor);
-						$datodoc->set_data("numero_documento",$nrodocumento);
-						$datodoc->set_data("monto",$monto_doc);
-						$datodoc->set_data("cta_cte",$cta_cte);
-//						$datodoc->set_data("fecha_siniestro",date("Y-m-d"));
-						
-						$date = new DateTime($fecha_protesto);
-						$fechaProtesto = $date->format('Y-m-d'); 
-						$datodoc->set_data("fecha_siniestro",$fechaProtesto);
-
-						$datodoc->set_data("id_causa_protesto",$causal_protesto);
-						$datodoc->set_data("gastos_protesto",$gasto_protesto);
-						$datodoc->set_data("activo","S");
-						$datodoc->set_data("fecha_creacion",date("Y-m-d"));
-						$datodoc->set_data("usuario_creacion",$id_usuario);
-						
-						$datodoc->save();
-						
-						
-					}
-					else
-					{
-						if($id_log == 0)
-						{
-							$logerror = new LogError();
-							$logerror->set_data("fecha_hora",date("d/m/Y H:i:s"));
-							$logerror->set_data("id_usuario",$id_usuario);
-							$logerror->save();
-							
-							$id_log = getUltimoId(new LogErrorCollection(), "id");
-						}
-						
-						for($j = 0; $j<count($error_rutmandante); $j++)
-						{
-							$log_e = new Det_LogError_CargaMasiva();
-							$log_e->set_data("id_logerror",$id_log);
-							$log_e->set_data("id_tipo_error",$error_rutmandante[$j]);
-							$log_e->set_data("archivo",$nombre_archivo);
-							$log_e->set_data("fila",$i);
-							$log_e->save();
-						}
-						
-						for($j = 0; $j<count($error_rutdeudor); $j++)
-						{
-							$log_e = new Det_LogError_CargaMasiva();
-							$log_e->set_data("id_logerror",$id_log);
-							$log_e->set_data("id_tipo_error",$error_rutdeudor[$j]);
-							$log_e->set_data("archivo",$nombre_archivo);
-							$log_e->set_data("fila",$i);
-							
-							$log_e->save();
-						}
-						
-						for($j = 0; $j<count($error_monto); $j++)
-						{
-							$log_e = new Det_LogError_CargaMasiva();
-							$log_e->set_data("id_logerror",$id_log);
-							$log_e->set_data("id_tipo_error",$error_monto[$j]);
-							$log_e->set_data("archivo",$nombre_archivo);
-							$log_e->set_data("fila",$i);
-							$log_e->save();
-						}
-						
-						for($j = 0; $j<count($error_tipodocumento); $j++)
-						{
-							$log_e = new Det_LogError_CargaMasiva();
-							$log_e->set_data("id_logerror",$id_log);
-							$log_e->set_data("id_tipo_error",$error_tipodocumento[$j]);
-							$log_e->set_data("archivo",$nombre_archivo);
-							$log_e->set_data("fila",$i);
-							$log_e->save();
-						}
-						
-						for($j = 0; $j<count($error_banco); $j++)
-						{
-							$log_e = new Det_LogError_CargaMasiva();
-							$log_e->set_data("id_logerror",$id_log);
-							$log_e->set_data("id_tipo_error",$error_banco[$j]);
-							$log_e->set_data("archivo",$nombre_archivo);
-							$log_e->set_data("fila",$i);
-							$log_e->save();
-						}
-						
-						for($j = 0; $j<count($error_nrodocumento); $j++)
-						{
-							$log_e = new Det_LogError_CargaMasiva();
-							$log_e->set_data("id_logerror",$id_log);
-							$log_e->set_data("id_tipo_error",$error_nrodocumento[$j]);
-							$log_e->set_data("archivo",$nombre_archivo);
-							$log_e->set_data("fila",$i);
-							$log_e->save();
-						}
-						
-						for($j = 0; $j<count($error_ctacte); $j++)
-						{
-							$log_e = new Det_LogError_CargaMasiva();
-							$log_e->set_data("id_logerror",$id_log);
-							$log_e->set_data("id_tipo_error",$error_ctacte[$j]);
-							$log_e->set_data("archivo",$nombre_archivo);
-							$log_e->set_data("fila",$i);
-							$log_e->save();
-						}
-					}
+//					// VALIDACION IMPORTE
+//					// vacio
+//					if(trim($arraydatos[15]) == "")
+//					{
+//						$error_monto[] = 10;
+//						$monto_doc = 0;
+//					}
+//					else
+//					{
+//						$monto_doc = $arraydatos[15];
+//					}
+//					// valor no numerico
+//					if(false)
+//					{
+//						$error_monto[] = 11;
+//						$monto_doc = 0;
+//					}
+//					
+//					// VALIDACION TIPO DOCUMENTO
+//					// vacio
+//					if(trim($arraydatos[17]) == "")
+//					{
+//						$error_tipodocumento[] = 12;
+//					}
+//					
+//					// no existe tipo documento
+//					$tipodoc = new TipoDocumento();
+//					$tipodoc->add_filter("tipo_documento","=",strtoupper(trim($arraydatos[17])));
+//					$tipodoc->load();
+//					if(is_null($tipodoc->get_data("id_tipo_documento")))
+//					{
+//						$error_tipodocumento[] = 13;
+//						$idTipoDoc = 6; //Tipo de Doc = OTRO (6)
+//					}
+//					else
+//					{
+//						$idTipoDoc = $tipodoc->get_data("id_tipo_documento");
+//					}
+//					
+//					// VALIDACION BANCO				
+//					// vacio
+//					if(trim($arraydatos[20]) == "")
+//					{
+//						$error_banco[] = 14;
+//						$banco_default = 0;
+//					}
+//					
+//					// no existe banco
+//					$banco = new Bancos();
+//					$banco->add_filter("banco","=",trim($arraydatos[20]));
+//					$banco->load();
+//					$banco_default = $banco->get_data("id_banco");
+//					if(is_null($banco->get_data("id_banco")))
+//					{
+//						//echo("<br>ERROR banco 7 ");
+//						$error_banco[] = 15;
+//						$banco_default = 0;
+//					}
+//
+//					// VALIDACION NUMERO DOCUMENTO
+//					// cero
+//					if((int)$arraydatos[19] == 0)
+//					{
+//						$nrodocumento = NULL;					
+//					}
+//					else
+//					{
+//						$nrodocumento =trim($arraydatos[19]);
+//					}
+//					
+//					
+//					// vacio
+//					if(trim($arraydatos[19]) == "")
+//					{
+//						$nrodocumento = NULL;
+//					}
+//					else
+//					{
+//						$nrodocumento =trim($arraydatos[19]);
+//					}
+//					
+//					// valor no numerico
+//					if(false)
+//					{
+//						$error_nrodocumento[] = 18;
+//					}
+//					
+//				// VALIDACION CUENTA CORRIENTE, puede no existir la cuenta 
+//					// cero
+//					if((int)$arraydatos[21] == 0)
+//					{
+//						$cta_cte = NULL;
+//					}
+//					else
+//					{
+//						$cta_cte =trim($arraydatos[21]);
+//					}
+//					
+//					
+//					// vacio
+//					if(trim($arraydatos[21]) == "")
+//					{
+//						$cta_cte = NULL;
+//					}
+//					else
+//					{
+//						$cta_cte =trim($arraydatos[21]);
+//					}
+//					
+//					//Validacion de fecha de protesto
+//					
+//					if(trim($arraydatos[22]) != "")
+//					{
+//						$fecha_protesto =trim($arraydatos[22]);
+//					}
+//					
+//					//Validacion de causal de protesto
+//					if(trim($arraydatos[23]) == "")
+//					{
+//						$causal_protesto = 13;
+//					}
+//					else
+//					{
+//						$datoCausal = new CausalProtesta();
+//				        $datoCausal->add_filter("causal","like",trim($arraydatos[23])."%");
+//				    	$datoCausal->load();
+//						$causal_protesto = $datoCausal->get_data("id_causal");
+//					}
+//
+//					//Validacion de gatos de protesto
+//					if(trim($arraydatos[24]) == "")
+//					{
+//						$gastos_protesto = 0;
+//					}
+//					else
+//					{
+//						$gasto_protesto =trim($arraydatos[24]);
+//					}
+//					
+//					if(count($error_rutmandante) == 0 && 
+//						count($error_rutdeudor) == 0 )
+//					{	
+//						// GUARDAR DOCUMENTO
+//						$datodoc = new Documentos();
+//						$datodoc->set_data("id_estado_doc",999); // pendiente de enviar carta(hay que parametrizar)
+//						$datodoc->set_data("id_tipo_doc",$idTipoDoc);
+//						$datodoc->set_data("id_banco",$banco_default);				
+//						$datodoc->set_data("id_mandatario",$idMandante);						
+//						$datodoc->set_data("id_deudor",$idDeudor);
+//						$datodoc->set_data("numero_documento",$nrodocumento);
+//						$datodoc->set_data("monto",$monto_doc);
+//						$datodoc->set_data("cta_cte",$cta_cte);
+////						$datodoc->set_data("fecha_siniestro",date("Y-m-d"));
+//						
+//						$date = new DateTime($fecha_protesto);
+//						$fechaProtesto = $date->format('Y-m-d'); 
+//						$datodoc->set_data("fecha_siniestro",$fechaProtesto);
+//
+//						$datodoc->set_data("id_causa_protesto",$causal_protesto);
+//						$datodoc->set_data("gastos_protesto",$gasto_protesto);
+//						$datodoc->set_data("activo","S");
+//						$datodoc->set_data("fecha_creacion",date("Y-m-d"));
+//						$datodoc->set_data("usuario_creacion",$id_usuario);
+//						
+//						$datodoc->save();
+//						
+//					}
+//					else
+//					{
+//						if($id_log == 0)
+//						{
+//							$logerror = new LogError();
+//							$logerror->set_data("fecha_hora",date("d/m/Y H:i:s"));
+//							$logerror->set_data("id_usuario",$id_usuario);
+//							$logerror->save();
+//							
+//							$id_log = getUltimoId(new LogErrorCollection(), "id");
+//						}
+//						
+//						for($j = 0; $j<count($error_rutmandante); $j++)
+//						{
+//							$log_e = new Det_LogError_CargaMasiva();
+//							$log_e->set_data("id_logerror",$id_log);
+//							$log_e->set_data("id_tipo_error",$error_rutmandante[$j]);
+//							$log_e->set_data("archivo",$nombre_archivo);
+//							$log_e->set_data("fila",$i);
+//							$log_e->save();
+//						}
+//						
+//						for($j = 0; $j<count($error_rutdeudor); $j++)
+//						{
+//							$log_e = new Det_LogError_CargaMasiva();
+//							$log_e->set_data("id_logerror",$id_log);
+//							$log_e->set_data("id_tipo_error",$error_rutdeudor[$j]);
+//							$log_e->set_data("archivo",$nombre_archivo);
+//							$log_e->set_data("fila",$i);
+//							
+//							$log_e->save();
+//						}
+//						
+//						for($j = 0; $j<count($error_monto); $j++)
+//						{
+//							$log_e = new Det_LogError_CargaMasiva();
+//							$log_e->set_data("id_logerror",$id_log);
+//							$log_e->set_data("id_tipo_error",$error_monto[$j]);
+//							$log_e->set_data("archivo",$nombre_archivo);
+//							$log_e->set_data("fila",$i);
+//							$log_e->save();
+//						}
+//						
+//						for($j = 0; $j<count($error_tipodocumento); $j++)
+//						{
+//							$log_e = new Det_LogError_CargaMasiva();
+//							$log_e->set_data("id_logerror",$id_log);
+//							$log_e->set_data("id_tipo_error",$error_tipodocumento[$j]);
+//							$log_e->set_data("archivo",$nombre_archivo);
+//							$log_e->set_data("fila",$i);
+//							$log_e->save();
+//						}
+//						
+//						for($j = 0; $j<count($error_banco); $j++)
+//						{
+//							$log_e = new Det_LogError_CargaMasiva();
+//							$log_e->set_data("id_logerror",$id_log);
+//							$log_e->set_data("id_tipo_error",$error_banco[$j]);
+//							$log_e->set_data("archivo",$nombre_archivo);
+//							$log_e->set_data("fila",$i);
+//							$log_e->save();
+//						}
+//						
+//						for($j = 0; $j<count($error_nrodocumento); $j++)
+//						{
+//							$log_e = new Det_LogError_CargaMasiva();
+//							$log_e->set_data("id_logerror",$id_log);
+//							$log_e->set_data("id_tipo_error",$error_nrodocumento[$j]);
+//							$log_e->set_data("archivo",$nombre_archivo);
+//							$log_e->set_data("fila",$i);
+//							$log_e->save();
+//						}
+//						
+//						for($j = 0; $j<count($error_ctacte); $j++)
+//						{
+//							$log_e = new Det_LogError_CargaMasiva();
+//							$log_e->set_data("id_logerror",$id_log);
+//							$log_e->set_data("id_tipo_error",$error_ctacte[$j]);
+//							$log_e->set_data("archivo",$nombre_archivo);
+//							$log_e->set_data("fila",$i);
+//							$log_e->save();
+//						}
+//					}
 				}//If i>0
 				$i = $i + 1;
 			}//Foreach
@@ -1618,7 +1873,7 @@ class DocumentosModel extends ModelBase
 				$pdf->Write(0, "Rut: ".$rutDeudor);
 			}
 			$pdf->SetXY(10, 90+$delta); 
-			$pdf->Write(0, $deudorTmp->get_data("tipo_documento")." N°:".$deudorTmp->get_data("numero_documento")
+			$pdf->Write(0, $deudorTmp->get_data("tipo_documento")." Nï¿½:".$deudorTmp->get_data("numero_documento")
 							." ".$deudorTmp->get_data("estado")." Protestado el:".$deudorTmp->get_data("fecha_protesto")
 							." por ".$deudorTmp->get_data("monto"));
 		  }
@@ -1910,6 +2165,7 @@ class DocumentosModel extends ModelBase
 	
 		return $doc;
 	}
+	
 	
 }
 ?>

@@ -19,14 +19,37 @@ class DeudoresModel extends ModelBase
 		return $dato;
 	}
 
-	public function getCantFicha($iddeudor)
+//	public function getCantFicha($iddeudor)
+//	{
+//		$dato = new FichaCollection();
+//		$dato->add_filter("id_deudor","=",$iddeudor);
+//		$dato->load();
+//		$cantidad = $dato->get_count();		
+//		return $cantidad;
+//	}
+	
+	
+	public function getCantFicha($iddeudor,$idestadoges)
 	{
-		$dato = new FichaCollection();
-		$dato->add_filter("id_deudor","=",$iddeudor);
-		$dato->load();
-		$cantidad = $dato->get_count();		
-		return $cantidad;
+		include("config.php");
+		
+		$select = " DISTINCT f.id_ficha id_ficha "; 
+ 		$from = " ficha f, documento_ficha df, documentos d ";
+    	$where = $where." f.id_ficha = df.id_ficha	AND df.id_documento = d.id_documento ";
+    	$where = $where." AND f.id_deudor = ".$iddeudor;
+    	$where = $where." AND d.id_estado_doc = ".$idestadoges;
+		
+		$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
+		$sqlpersonal->set_select($select);
+		$sqlpersonal->set_from($from);
+		$sqlpersonal->set_where($where);
+    	$sqlpersonal->load();
+    	$cantidad = $sqlpersonal->get_count();		
+    	
+    	return $cantidad;
 	}
+
+	
 
 	public function getTotalDemanda($iddeudor)
 	{
@@ -1223,26 +1246,47 @@ ORDER BY orden ASC ";
 		$dato->save();
 	}
 	
-	public function lista_demandas($iddeudor)
-	{
-		include("config.php");
-
-		$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
+//	public function lista_demandas($iddeudor)
+//	{
+//		include("config.php");
+//
+//		$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
+//	
+//		$sqlpersonal->set_select( "   juzgado_anexo juzgado,
+//									  f.rol rol,
+//									  f.id_ficha ficha,
+//									  f.ingreso fecha,
+//									  f.monto monto,
+//									  f.aval aval,
+//									  f.exhorto exhorto");
+//		$sqlpersonal->set_from( " ficha f ");
+//		$sqlpersonal->set_where( " f.id_deudor = ".$iddeudor);
+//	
+//    	$sqlpersonal->load();
+//
+//    	return $sqlpersonal;	
+//	}
 	
-		$sqlpersonal->set_select( "   juzgado_anexo juzgado,
-									  f.rol rol,
-									  f.id_ficha ficha,
-									  f.ingreso fecha,
-									  f.monto monto,
-									  f.aval aval,
-									  f.exhorto exhorto");
-		$sqlpersonal->set_from( " ficha f ");
-		$sqlpersonal->set_where( " f.id_deudor = ".$iddeudor);
-	
-    	$sqlpersonal->load();
+	public function lista_demandas($iddeudor,$idestadoges)
+		{
+			include("config.php");
 
-    	return $sqlpersonal;	
-	}
+			$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
+		
+			$select = $select . " DISTINCT f.juzgado_anexo juzgado,f.rol rol,f.id_ficha ficha, f.ingreso fecha, f.monto monto, f.aval aval,f.exhorto exhorto ";
+			$from = $from . " ficha f, documento_ficha df, documentos d ";
+			$where = $where . " f.id_ficha = df.id_ficha AND df.id_documento = d.id_documento ";
+			$where = $where . " AND f.id_deudor = ". $iddeudor;
+			$where = $where . " AND d.id_estado_doc = " . $idestadoges;
+			
+			$sqlpersonal->set_select( $select );
+			$sqlpersonal->set_from( $from);
+			$sqlpersonal->set_where( $where);
+		
+	    	$sqlpersonal->load();
+
+	    	return $sqlpersonal;	
+		}
 	
 	public function getTodasFichas($array)
 	{
