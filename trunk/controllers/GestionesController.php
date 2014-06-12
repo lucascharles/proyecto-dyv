@@ -119,7 +119,8 @@ class GestionesController extends ControllerBase
 		$datoM = $gestiones->getListaMandantes($array["iddeudor"]);
 		
 		$MandantesXDeudor = $mandantes->getMandanteDeudor($iddeudor);
-		$cantDemandas = $deudor->getCantFicha($iddeudor);
+//		$cantDemandas = $deudor->getCantFicha($iddeudor);
+		$cantDemandas = $deudor->getCantFicha($iddeudor,$array["estadoGes"]);
 		
 		$existeLiquidacion = $deudor->getCantLiquidaciones($array["estadoGes"],$iddeudor);
 		
@@ -296,7 +297,7 @@ class GestionesController extends ControllerBase
     {
 		require 'models/DeudoresModel.php';
 		$dir = new DeudoresModel();
-		$dato = $dir->lista_demandas($array["iddeudor"]);	
+		$dato = $dir->lista_demandas($array["iddeudor"],$array["idestadoges"]);	
 		
 		$data['nom_sistema'] = "SISTEMA DyV";
 		$data['colleccionDemandas'] = $dato;

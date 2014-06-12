@@ -61,6 +61,7 @@
 		{
 			if(document.getElementById("id_gestion").value == "")
 			{
+				alert("Sin ID");
 				return false;
 			}
 			var id = document.getElementById("id_gestion").value;
