@@ -1273,7 +1273,7 @@ ORDER BY orden ASC ";
 
 			$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
 		
-			$select = $select . " DISTINCT f.juzgado_anexo juzgado,f.rol rol,f.id_ficha ficha, f.ingreso fecha, f.monto monto, f.aval aval,f.exhorto exhorto ";
+			$select = $select . " f.juzgado_anexo juzgado,f.rol rol,f.id_ficha ficha, f.ingreso fecha, f.monto monto, f.aval aval,f.exhorto exhorto ";
 			$from = $from . " ficha f, documento_ficha df, documentos d ";
 			$where = $where . " f.id_ficha = df.id_ficha AND df.id_documento = d.id_documento ";
 			$where = $where . " AND f.id_deudor = ". $iddeudor;

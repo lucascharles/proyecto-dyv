@@ -576,5 +576,15 @@ class GestionesController extends ControllerBase
 			$this->view->show("carta_pdf.php", $data);
 	
 		}
+	
+	public function eliminarGestion($idgestion)
+	{
+		require 'models/GestionesModel.php';
+		$gestiones = new GestionesModel();
+		
+		$result = $gestiones->eliminarGestiones($idgestion)
+		$this->view->show("carta_pdf.php", $data);
+	}
+	
 }
 ?>
