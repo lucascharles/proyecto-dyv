@@ -68,6 +68,17 @@
 			var idNextGes = document.getElementById("id_next").value;
 			$("#pagina").load('index.php?controlador=Gestiones&accion=gestionar&idgestion='+id+'&idNextGes='+idNextGes+'&tipoGestion='+document.getElementById("tipo_gestion").value+'&estadoGes='+document.getElementById("id_estado").value+'&rutM='+document.getElementById("rut_m").value);
 		}
+		
+		function eliminarGes()
+		{
+			var conf = confirm("Esta seguro de ELIMINAR la gestion seleccionada?");
+			if(conf == true){
+				var id = document.getElementById("id_gestion").value;
+				var idNextGes = document.getElementById("id_next").value;
+				$("#pagina").load('index.php?controlador=Gestiones&accion=eliminarGestionar&idgestion='+id+'&idNextGes='+idNextGes+'&tipoGestion='+document.getElementById("tipo_gestion").value+'&estadoGes='+document.getElementById("id_estado").value+'&rutM='+document.getElementById("rut_m").value);
+	
+			}
+		}
 
 		function ocultarGes()
 		{
@@ -163,15 +174,16 @@
        	<iframe id="frmlistgestiones" src="" width="100%" align="middle" height="320" scrolling="auto" frameborder="0"></iframe>        	
         </td>
         <td>
-        	<div style="position:relative; margin-left:10px;">
-            <input  type="button" name="btngestionar" id="btngestionar" onclick="gestionar()"  class="boton_form" value="Gestionar" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/>
-            </div>
+        <div style="position:relative; margin-left:10px;">
+        		<input  type="button" name="btngestionar" id="btngestionar" onclick="gestionar()"  class="boton_form" value="Gestionar" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/>
+        </div>
          </td>
     </tr>
     <tr>
     	 <td align="left" class="etiqueta_form" >Cantidad Gestiones: <?php $var = &$cantGestion; echo($var); ?>&nbsp;&nbsp;&nbsp;
     	 	<input  type="button" name="btnVerGestiones" id="btnVerGestiones" onclick="mostrarGes()" class="boton_form" value="Mostrar" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)' />&nbsp;&nbsp;&nbsp;
-    	 	<input  type="button" name="btnOcGestiones" id="btnOcGestiones" onclick="ocultarGes()" class="boton_form" value="Ocultar" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)' />
+    	 	<input  type="button" name="btnOcGestiones" id="btnOcGestiones" onclick="ocultarGes()" class="boton_form" value="Ocultar" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)' />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    	 	<input  type="button" name="btnDelGestiones" id="btnDelGestiones" onclick="eliminarGes()" class="boton_form" value="Eliminar" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)' />
     	 </td>
     	 <td align="right">
     	 	<input  type="button" name="btnsalir" id="btnsalir" onclick="salir()" class="boton_form" value="salir" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)' />&nbsp;&nbsp;&nbsp;

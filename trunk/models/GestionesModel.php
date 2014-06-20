@@ -2,6 +2,21 @@
 class GestionesModel extends ModelBase
 {
 		
+	public function eliminarGestiones($idgestion)
+	{
+		$dato = new Gestiones();
+		$dato->add_filter("id_gestion","=",$idgestion);
+		$dato->load();
+		$dato->mark_deleted();
+		$dato->save();
+		
+		$dato = new Estados_x_Gestion();
+		$dato->add_filter("id_gestion","=",$idgestion);
+		$dato->load();
+		$dato->mark_deleted();
+		$dato->save();
+		
+	}
 	
 	public function getListaGestiones($des, $param=array())
 	{
