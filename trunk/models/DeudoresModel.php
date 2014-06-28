@@ -908,16 +908,6 @@ ORDER BY orden ASC ";
 			$dirdeu->set_data("ciudad", $datoTmp->get_data("ciudad"));
 			$dirdeu->set_data("otros", $datoTmp->get_data("otros"));
 			$dirdeu->set_data("vigente", $datoTmp->get_data("vigente"));
-			/*
-			if($arrayParam["id_dir"] == $datoTmp->get_data("id_direccion"))
-			{
-				$dirdeu->set_data("vigente", $arrayParam["vigente"]);	
-			}
-			else
-			{
-				$dirdeu->set_data("vigente", "N");
-			}
-			*/
 			
 			$dirdeu->save();
 		}
@@ -948,6 +938,7 @@ ORDER BY orden ASC ";
 		
 		$mand->mark_deleted();
 		$mand->save();
+	
 	}
 
 	public function getDeudorDatos($id)

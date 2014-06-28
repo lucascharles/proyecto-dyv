@@ -280,6 +280,7 @@
 			datos += "&rep_legal="+$("#txtrep_legal").val();
 			datos += "&rutrep_legal="+$("#txtrutrep_legal").val();
 			
+			
 			if(document.getElementById("chkvigente").checked == true)
 			{
 				datos += "&vigente=S";
@@ -311,7 +312,6 @@
 						
 					}
 				});
-			
 			
 		}
 	

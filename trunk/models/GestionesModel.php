@@ -41,11 +41,12 @@ class GestionesModel extends ModelBase
 						  MAX(eg.fecha_prox_gestion) fecha_prox_gestion,
 						  esg.estado estado,
 						  ds.`id_estado_doc` id_estado ");
-	$sqlpersonal->set_from( " deudores d, documentos ds LEFT JOIN estados_x_gestion eg ON ds.id_documento = eg.id_documento, mandantes m, estadosgestion esg "); 
+	$sqlpersonal->set_from( " deudores d, documentos ds , estados_x_gestion eg , mandantes m, estadosgestion esg "); 
 
 	$where = " d.id_deudor = ds.id_deudor				
 				AND ds.id_mandatario = m.id_mandante 
 				AND esg.id_estado = ds.id_estado_doc
+				AND ds.id_documento = eg.id_documento
  				AND d.activo = 'S' 
   				AND m.activo = 'S' 
   				AND ds.activo = 'S'"; 

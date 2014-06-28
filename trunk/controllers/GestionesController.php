@@ -57,6 +57,15 @@ class GestionesController extends ControllerBase
 		$this->view->show("admin_gestiones.php", $data);
 	}
 	
+	public function eliminarGestion($idgestion,$tipoges)
+	{
+		require 'models/GestionesModel.php';
+		$gestiones = new GestionesModel();
+	
+		$result = $gestiones->eliminarGestiones($idgestion);
+		$this->view->show("admin_gestiones.php", $data);
+	}
+	
 	public function gestionar($array)
     {
 		require 'models/GestionesModel.php';
@@ -79,6 +88,7 @@ class GestionesController extends ControllerBase
 		$cab = $cabecera->items[0];
 		$rutDeudor = $cab->get_data("rut_deudor")."-".$cab->get_data("dv_deudor");
 		$nomDeudor = $cab->get_data("primer_apellido")." ".$cab->get_data("segundo_apellido")." ".$cab->get_data("primer_nombre");
+		$rutM = $cab->get_data("rut_mandante");
 		
 		if($nomDeudor =="  ")
 		{
@@ -87,7 +97,8 @@ class GestionesController extends ControllerBase
 		
 		$iddeudor = $cab->get_data("id_deudor");
 		
-		$idM = $mandantes->getMandanteByRut($array["rutM"]);
+//		$idM = $mandantes->getMandanteByRut($array["rutM"]);
+		$idM = $mandantes->getMandanteByRut($rutM);
 		
 		$rutMandante = $idM->get_data("rut_mandante")."-".$cab->get_data("dv_mandante");
 		$rutMand = $idM->get_data("rut_mandante");
@@ -351,6 +362,11 @@ class GestionesController extends ControllerBase
 		require 'models/GestionesModel.php';
 		$gestiones = new GestionesModel();
 		
+		if($array["eliminar"] == 1)
+		{
+			$e = $gestiones->eliminarGestiones($array["idgestion"]);
+		}
+		
 		if($array["filtro"] == 1)
 		{
 			$_SESSION["rut_d_f"] = $array["rut_d"];
@@ -577,14 +593,7 @@ class GestionesController extends ControllerBase
 	
 		}
 	
-	public function eliminarGestion($idgestion)
-	{
-		require 'models/GestionesModel.php';
-		$gestiones = new GestionesModel();
-		
-		$result = $gestiones->eliminarGestiones($idgestion)
-		$this->view->show("carta_pdf.php", $data);
-	}
+
 	
 }
 ?>
