@@ -1269,6 +1269,7 @@ ORDER BY orden ASC ";
 			$where = $where . " f.id_ficha = df.id_ficha AND df.id_documento = d.id_documento ";
 			$where = $where . " AND f.id_deudor = ". $iddeudor;
 			$where = $where . " AND d.id_estado_doc = " . $idestadoges;
+			$where = $where . " GROUP BY f.juzgado_anexo,f.rol ,f.id_ficha ,f.ingreso ,f.monto ,f.aval ,f.exhorto ";
 			
 			$sqlpersonal->set_select( $select );
 			$sqlpersonal->set_from( $from);
