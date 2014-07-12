@@ -531,7 +531,7 @@ class GestionesController extends ControllerBase
 			$this->view->show("carta_pdf.php", $data);
 		}
 		
-		$dato = $documentos->getListaDocMandanteDeudor($array["iddeudor"],$array["idmandante"],$array["idestadoges"]);
+		$dato = $documentos->getListaDocMandanteDeudor($array["iddeudor"],$array["idmandante"],$array["idestadoges"],$array["iddemanda"]);
 		
 		$data['nom_sistema'] = "SISTEMA DyV";
 		$data['colleccionDatosDocumentos'] = $dato;

@@ -1157,6 +1157,8 @@ class DeudoresController extends ControllerBase
 		if($array["id_liquidacion"] <> 0)
 		{
 			$data['doc_simulacion'] = $deudores->getDocSimulacionLiquidacion($array);
+			$dato2 = $documentos->getDocLiquidar2($array["iddeudor"],$array["idestadoges"]);
+			$data['colleccionDoc'] = $dato2;
 		}
 		else
 		{

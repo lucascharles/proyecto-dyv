@@ -448,6 +448,9 @@
 		function seleccionado(id)
 		{
 			document.getElementById("iddemanda").value = id;
+			
+			var url = "index.php?controlador=Gestiones&accion=listarDocumentoMandante&iddeudor="+<? echo($objGestion->get_data("id_deudor")) ?>+"&idmandante="+<? $var = &$idMandante; echo($var); ?>+"&idestadoges="+<? $var = &$idestadoges; echo($var); ?>+"&actDoc=S&iddemanda="+id;
+			document.getElementById("frmlistdocumentos").src = url;
 		}
 
 		function verDocMandante()
