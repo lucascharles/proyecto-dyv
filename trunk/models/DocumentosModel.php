@@ -1333,7 +1333,7 @@ class DocumentosModel extends ModelBase
 	}
 	
 	
-	public function getListaDocMandanteDeudor($iddeudor,$idmandante,$idestado)
+	public function getListaDocMandanteDeudor($iddeudor,$idmandante,$idestado,$iddemanda)
 	{
 	
 		include("config.php");
@@ -1356,7 +1356,9 @@ class DocumentosModel extends ModelBase
 				and ifnull(d.id_tipo_doc,6) = td.id_tipo_documento				
 				and d.activo = 'S'
 				and m.id_mandante = ". $idmandante." and d.id_deudor = ".$iddeudor." and d.id_estado_doc in(999, ".$idestado.")" ;
-
+		if($iddemanda != ""){
+			$where = $where . " and df.id_ficha = ".$iddemanda;
+		}
 		$where = $where . " GROUP BY d.id_documento, c.banco ,dd.primer_apellido , dd.segundo_apellido , dd.primer_nombre , dd.segundo_nombre , m.nombre, m.apellido,
                             ed.estado , td.tipo_documento , d.numero_documento, d.fecha_protesto , d.cta_cte , d.monto , d.fecha_siniestro , d.gastos_protesto , cp.causal "; 
 		$sqlpersonal->set_where($where);
@@ -2115,19 +2117,54 @@ class DocumentosModel extends ModelBase
      							 ,tipodocumento td, estadodocumentos ed  ");
 
 	  	$sqlpersonal->set_where($var_where);
-//	  	$sqlpersonal->set_where(" d.id_tipo_doc = td.id_tipo_documento
-//							and   d.id_estado_doc = ed.id_estado_doc
-//							and   d.activo = 'S'
-//							and   d.id_deudor = ".$id_deudor.
-//      					"   and   d.id_estado_doc = ".$idestado.
-//						    " GROUP BY id_deudor,tipo_documento, numero_documento,estado, fecha_protesto, fecha_siniestro,fecha_creacion,monto 
-//							order by id_deudor ");
       	
 
     	$sqlpersonal->load();
 
     	return $sqlpersonal;
 	}
+	
+	public function getDocLiquidar2($id_deudor,$idestado)
+	{
+		include("config.php");
+
+		$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
+
+      	$var_where = " d.id_tipo_doc = td.id_tipo_documento
+							and   d.id_estado_doc = ed.id_estado_doc
+							and   d.id_documento = df.id_documento
+							and   d.activo = 'S'
+							and   d.id_deudor = ".$id_deudor;
+      	if($idestado != ""){
+      		$var_where = $var_where . "   and   d.id_estado_doc = ".$idestado;      	
+      	}
+		
+      	 $var_where = $var_where . " GROUP BY id_deudor,tipo_documento, numero_documento,estado, fecha_protesto, fecha_siniestro,fecha_creacion,monto 
+							order by id_deudor ";
+		
+		$sqlpersonal->set_select(" d.id_deudor id_deudor,
+									d.id_documento id_documento, 
+									td.tipo_documento tipo_documento,
+									d.numero_documento numero_documento,
+									ed.estado estado,
+									d.fecha_protesto fecha_protesto,
+									d.fecha_siniestro fecha_siniestro,
+									d.fecha_siniestro fecha_vencimiento,
+									d.fecha_creacion fecha_creacion, 
+									d.monto monto,
+									IFNULL(d.gastos_protesto,0) gasto_protesto,
+									df.id_ficha id_ficha,
+									SUM(gf.importe) costas "); 
+	  	$sqlpersonal->set_from(" documento_ficha df LEFT JOIN gastos_ficha gf ON df.id_ficha = gf.id_ficha, tipodocumento td, estadodocumentos ed ,documentos d ");
+
+	  	$sqlpersonal->set_where($var_where);
+      	
+
+    	$sqlpersonal->load();
+
+    	return $sqlpersonal;
+	}
+
 	
 	public function getBancoDocumento($array)
 	{

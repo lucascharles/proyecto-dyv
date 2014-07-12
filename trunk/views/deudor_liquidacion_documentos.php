@@ -25,7 +25,32 @@
 	<script type="text/javascript" src="js/jquery-ui-sliderAccess.js"></script>
     <script language="javascript"> 
 
-		function seleccionado(id,monto,fecha,gastos)
+	function selecciona_demandas()
+	{
+				
+					var arraydoc = document.getElementsByTagName('input');
+					for(var i=0; i<arraydoc.length; i++)
+					{	 
+						if(arraydoc[i].getAttribute('type') == "checkbox")
+							{
+								if(arraydoc[i].getAttribute('estado') == 'DEMANDA')
+								{
+								}
+							}
+					}
+	}
+	
+	function selecciona_existencias()
+	{
+				
+					var arraydoc = document.getElementsByTagName('input');
+					for(var i=0; i<arraydoc.length; i++)
+					{	 
+					}
+	}
+
+	
+	function seleccionado(id,monto,fecha,gastos)
 		{
 			
 				var v_monto = 0;
@@ -33,7 +58,6 @@
 				var v_costas_proc = 0;
 				var v_dias = 0;
 				var v_fecha = "";	
-//				var v_fecha = fecha;
 				var v_protesto = 0;
 				var arraydoc = document.getElementsByTagName('input');
 				for(var i=0; i<arraydoc.length; i++)
@@ -136,8 +160,8 @@
 <div id="datos" style=" overflow:auto; height:150px; width:99%;">
 <table width="100%" cellpadding="2" cellspacing="2" align="center" border="0">
 	<tr class="cabecera_listado" >
-        <th align="center" width="5%"></th>
-        <th align="center" width="10%"><font class="titulolistado">Nro.Doc.</font></th>
+        <th align="center" width="5%"><font class="titulolistado">D</font><input type="checkbox" name="check_dem" value="" onclick="" ><font class="titulolistado">E</font><input type="checkbox" name="check_ext" value="" onclick="" ></th>
+		<th align="center" width="10%"><font class="titulolistado">Nro.Doc.</font></th>
         <th align="center" width="10%"><font class="titulolistado">Nro.Ficha</font></th>
         <th align="center" width="10%"><font class="titulolistado">Fecha Venc.</font></th>
 		<th align="center" width="8%"><font class="titulolistado">Monto</font></th>
