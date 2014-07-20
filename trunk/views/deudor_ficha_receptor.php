@@ -218,23 +218,23 @@
 			<div style="border:solid; border-width:2px; position:relative; margin-left:10px;">
         	<table cellpadding="0" cellspacing="2" border="0" align="center" width="100%" >
             	<tr>
-                	<td align="left" class="etiqueta_form">Providencia (1)</td>
-                    <td align="left" ><input type="text" grabar="S" name="txtfecha_providencia" id="txtfecha_providencia" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="fecha" value="<? echo($fecha_providencia) ?>" onKeyUp="this.value=formateafecha(this.value)" /></td>
+                <!-- <td align="left" class="etiqueta_form">Providencia (1)</td> -->
+                <!-- <td align="left" ><input type="text" grabar="S" name="txtfecha_providencia" id="txtfecha_providencia" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="fecha" value="<? echo($fecha_providencia) ?>" onKeyUp="this.value=formateafecha(this.value)" /></td> -->
 					<td align="left" class="etiqueta_form">Nombre Receptor </td>
                     <td align="left" ><input type="text" grabar="S" name="txtreceptor" id="txtreceptor" size="40" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo($receptor_view) ?>"/></td>
                     <td align="left" class="etiqueta_form">Fono/Email Receptor</td>
                     <td align="left" ><input type="text" grabar="S" name="txtfono_receptor" id="txtfono_receptor" size="40" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo($fono_receptor) ?>"/></td>
                 </tr>
             	<tr>
-                    <td align="left" class="etiqueta_form">Entrega a Receptor</td>
-                    <td align="left" ><input type="text" grabar="S" name="txtentrega_receptor_1" id="txtentrega_receptor_1" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo($entrega_receptor_1) ?>"/></td>
+                    <!-- <td align="left" class="etiqueta_form">Entrega a Receptor</td> -->
+                    <!-- <td align="left" ><input type="text" grabar="S" name="txtentrega_receptor_1" id="txtentrega_receptor_1" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo($entrega_receptor_1) ?>"/></td> -->
                 	<td align="left" class="etiqueta_form">Fecha Recepcion </td>
                     <td align="left" ><input type="text" grabar="S" name="txtfecha_mandamiento" id="txtfecha_mandamiento" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="fecha" value="<? echo($fecha_mandamiento) ?>" onKeyUp="this.value=formateafecha(this.value)" /></td>
                     
                 </tr>
                 <tr>
-					<td align="left" class="etiqueta_form">B&uacute;squeda </td>
-                    <td align="left" ><input type="text" grabar="S" name="txtbusqueda" id="txtbusqueda" size="40" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="fecha" value="<? echo($busqueda) ?>"/></td>
+					<!-- <td align="left" class="etiqueta_form">B&uacute;squeda </td> -->
+                    <!-- <td align="left" ><input type="text" grabar="S" name="txtbusqueda" id="txtbusqueda" size="40" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="fecha" value="<? echo($busqueda) ?>"/></td> -->
                     <td align="left" class="etiqueta_form">Resultado B&uacute;squeda</td>
                       <td align="left" >
                       <?php 
@@ -249,49 +249,66 @@
 			        		
 					  	</select>
 					</td>
+		
                  </tr>
                  <tr>
-					<td align="left" class="etiqueta_form">Notificaci&oacute;n </td>
-                    <td align="left" ><input type="text" grabar="S" name="txtnotificacion" id="txtnotificacion" size="40" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo($notificacion) ?>"/></td>
+				 <!-- <td align="left" class="etiqueta_form">Notificaci&oacute;n </td> -->
+                 <!-- <td align="left" ><input type="text" grabar="S" name="txtnotificacion" id="txtnotificacion" size="40" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo($notificacion) ?>"/></td> -->
                     <td align="left" class="etiqueta_form">Resultado Notificaci&oacute;n</td>
                     <td align="left" ><input type="text" grabar="S" name="txtresultado_notificacion_1" id="txtresultado_notificacion_1" size="40" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo($resultado_notificacion_1) ?>"/></td>
-                    
+ 
                  </tr>
                  </table>
  			</div>             
             <div style="border:solid; border-width:2px; position:relative; margin-left:10px;">
             <table cellpadding="0" cellspacing="2" border="0" align="center" width="100%" >
                  <tr>
-					<td align="left" class="etiqueta_form">Providencia (2)</td>
-                    <td align="left" ><input type="text" grabar="S" name="txtprovidencia_2" id="txtprovidencia_2" size="40" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="fecha" value="<? echo($providencia_2) ?>"/></td>
-					<td align="left" class="etiqueta_form">Nombre Receptor </td>
-                    <td align="left" ><input type="text" grabar="S" name="txtnombreceptor2" id="txtnombreceptor2" size="40" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo($receptor_view) ?>"/></td>
+				 <!-- <td align="left" class="etiqueta_form">Providencia (2)</td> -->
+                 <!-- <td align="left" ><input type="text" grabar="S" name="txtprovidencia_2" id="txtprovidencia_2" size="40" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="fecha" value="<? echo($providencia_2) ?>"/></td> -->
+				  <td align="left" class="etiqueta_form">Nombre Receptor </td>
+                  <td align="left" ><input type="text" grabar="S" name="txtnombreceptor2" id="txtnombreceptor2" size="40" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo($receptor_view) ?>"/></td>
                     <td align="left" class="etiqueta_form">Fono/Email Receptor</td>
                     <td align="left" ><input type="text" grabar="S" name="txtfono_receptor2" id="txtfono_receptor2" size="40" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo($fono_receptor2) ?>"/></td>
                   
                   </tr>  
                  <tr>
-					<td align="left" class="etiqueta_form">Entrega a receptor </td>
-                    <td align="left" ><input type="text" grabar="S" name="txtentrega_receptor_2" id="txtentrega_receptor_2" size="40" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo($entrega_receptor_2) ?>"/></td>
-					<td align="left" class="etiqueta_form">Fecha Recepcion </td>
-                    <td align="left" ><input type="text" grabar="S" name="txtfecha_domicilio_1" id="txtfecha_domicilio_1" size="40" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo($fecha_domicilio_1) ?>"/></td>
+					<!-- <td align="left" class="etiqueta_form">Entrega a receptor </td> -->
+                    <!-- <td align="left" ><input type="text" grabar="S" name="txtentrega_receptor_2" id="txtentrega_receptor_2" size="40" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo($entrega_receptor_2) ?>"/></td> -->
+					<!-- <td align="left" class="etiqueta_form">Fecha Recepcion </td> -->
+                    <!-- <td align="left" ><input type="text" grabar="S" name="txtfecha_domicilio_1" id="txtfecha_domicilio_1" size="40" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo($fecha_domicilio_1) ?>"/></td> -->
                  </tr>  
                  <tr>
-					<td align="left" class="etiqueta_form">Fecha B&uacute;squeda </td>
-                    <td align="left" ><input type="text" grabar="S" name="txtfecha_busqueda_2" id="txtfecha_busqueda_2" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="fecha" value="<? echo($fecha_busqueda_2) ?>" onKeyUp="this.value=formateafecha(this.value)"/></td>
-                	<td align="left" class="etiqueta_form">Resultado Busqueda</td>
-                    <td align="left" ><input type="text" grabar="S" name="txtresultado_busqueda_2" id="txtresultado_busqueda_2" size="40" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo($resultado_busqueda_2) ?>"/></td>
+					<!-- <td align="left" class="etiqueta_form">Fecha B&uacute;squeda </td> -->
+                    <!-- <td align="left" ><input type="text" grabar="S" name="txtfecha_busqueda_2" id="txtfecha_busqueda_2" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="fecha" value="<? echo($fecha_busqueda_2) ?>" onKeyUp="this.value=formateafecha(this.value)"/></td> -->
+                	<!-- <td align="left" class="etiqueta_form">Resultado Busqueda</td> -->
+                    <!-- <td align="left" ><input type="text" grabar="S" name="txtresultado_busqueda_2" id="txtresultado_busqueda_2" size="40" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo($resultado_busqueda_2) ?>"/></td> -->
 
+					<td align="left" class="etiqueta_form">Resultado B&uacute;squeda</td>
+					                      <td align="left" >
+					                      <?php 
+												$positivo = "";
+												$negativo = "";
+												if(trim($resultado_busqueda) == strtoupper("Positiva")) $positivo = "selected='selected'";
+												if(trim($resultado_busqueda) == strtoupper("Negativa")) $negativo = "selected='selected'";
+												?>
+					                      	<select name="txtresultado_busqueda_2" grabar="S" tipovalida="texto" id="txtresultado_busqueda_2" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)">
+								     			<option value="Positiva" <?=$positivo?>> Positiva</option>
+								     			<option value="Negativa" <?=$negativo?>> Negativa </option>
+								        		
+										  	</select>
+				    </td>
+					
                  </tr> 
                   <tr>
-					<td align="left" class="etiqueta_form">Notificaci&oacute;n </td>
-                    <td align="left" ><input type="text" grabar="S" name="txtnotificacion_2" id="txtnotificacion_2" size="40" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo($notificacion_2) ?>"/></td>
-                	<td align="left" class="etiqueta_form">Resultado notificaci&oacute;n 2</td>
+					<!-- <td align="left" class="etiqueta_form">Notificaci&oacute;n </td> -->
+                    <!-- <td align="left" ><input type="text" grabar="S" name="txtnotificacion_2" id="txtnotificacion_2" size="40" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo($notificacion_2) ?>"/></td> -->
+                	<td align="left" class="etiqueta_form">Resultado Notificaci&oacute;n 2</td>
                     <td align="left" ><input type="text" grabar="S" name="txtresultado_notificacion_2" id="txtresultado_notificacion_2" size="40" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" valida="requerido" tipovalida="texto" value="<? echo($resultado_notificacion_2) ?>"/></td>
-                 </tr>
+                  </tr>
 
 			</table>            
             </div> 
+<!--
             <div style="border:solid; border-width:2px; position:relative; margin-left:10px;">
             <table cellpadding="0" cellspacing="2" border="0" align="center" width="100%" >
                  <tr>
@@ -323,7 +340,7 @@
                   </tr> 
             	</table>
             	</div>
-
+-->
         </td>
         <td width="20%" valign="top"> 
         	<div style="border:solid; border-width:2px; position:relative; margin-left:10px;">
@@ -336,7 +353,9 @@
             <?
             for($j=0; $j<$colGastosReceptor->get_count(); $j++) 
 			{
-				$datoTmp = &$colGastosReceptor->items[$j];  
+				$datoTmp = &$colGastosReceptor->items[$j];
+				if($datoTmp->get_data("gasto") != "OFICIO"){
+					if($datoTmp->get_data("gasto") != "EMBARGO"){
 			?>
             	<tr>
                 	<td align="left" class="etiqueta_form"><? echo($datoTmp->get_data("gasto")) ?></td>
@@ -344,6 +363,8 @@
                     <td width="5"></td>
                 </tr>
            <?
+					}
+				}   
            }
 		   ?>
              </table>
