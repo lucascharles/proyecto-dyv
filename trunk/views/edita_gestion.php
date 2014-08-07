@@ -451,6 +451,10 @@
 			
 			var url = "index.php?controlador=Gestiones&accion=listarDocumentoMandante&iddeudor="+<? echo($objGestion->get_data("id_deudor")) ?>+"&idmandante="+<? $var = &$idMandante; echo($var); ?>+"&idestadoges="+<? $var = &$idestadoges; echo($var); ?>+"&actDoc=S&iddemanda="+id;
 			document.getElementById("frmlistdocumentos").src = url;
+			
+			var url2 = "index.php?controlador=Gestiones&accion=listar_bitacora_gestion&idgestion=<? echo($objGestion->get_data("id_gestion"))?>&idestadoges=<? $var = &$idestadoges; echo($var); ?>&iddemanda=<? echo($objGestion->get_data("id_gestion"))?>&iddemanda="+id;
+			document.getElementById("frmlistagestiones").src = url2;		
+			 
 		}
 
 		function verDocMandante()
