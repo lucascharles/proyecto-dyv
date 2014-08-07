@@ -738,8 +738,8 @@
 
 	
 			var v_int_acum_orig = parseInt($("#txtinteresacumulado").val());
-			var v_int_orig = parseInt($("#interes_orig").val());
-			var v_int = parseInt($("#txtinteres").val());
+			var v_int_orig = parseFloat($("#interes_orig").val());
+			var v_int = parseFloat($("#txtinteres").val());
 			var v_int_d = 0;
 			var v_int_acum = 0;
 			var v_sum_int = 0;

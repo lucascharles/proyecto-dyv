@@ -732,9 +732,11 @@
 			var monto = document.getElementById("txttotal").value;
 			var fecha = document.getElementById("txtfechavenc").value;
 			var dias = document.getElementById("txtdiasatraso").value;
+			var interes_ref = document.getElementById("txtinteres").value;
 
 			// CALCULO INTERES DIARIO 
-			var interes = ((parseInt($("#txtinteres").val()) * parseInt(document.getElementById("txttotal").value) ) / 100)/30;
+//			var interes = ((parseFloat($("#txtinteres").val()) * parseInt(document.getElementById("txttotal").value) ) / 100)/30;
+			var interes = ((parseFloat(interes_ref) * parseInt(monto) ) / 100)/30;
 			if(interes == 0)
 			{
 				$("#txtinteresdiario").val("");
@@ -755,7 +757,8 @@
 				$("#txtinteresacumulado").val(parseInt(int_acum));
 			}
 
-			var v_int = parseInt($("#txtinteres").val());
+//			var v_int = parseInt($("#txtinteres").val());
+			var v_int = parseFloat(interes_ref);
 			var v_int_d = 0;
 			var v_int_acum = 0;
 			var v_sum_int = 0;

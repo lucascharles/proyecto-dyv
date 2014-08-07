@@ -990,7 +990,8 @@
 					"fecha_gestion" => array("date"),
 					"fecha_prox_gestion" => array("date"),
 					"notas" => array("varchar"),
-					"usuario" => array("varchar")
+					"usuario" => array("varchar"),
+					"activo" => array("varchar")
 				);
 			parent::BusinessObject();
 		}
