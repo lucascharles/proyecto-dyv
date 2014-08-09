@@ -41,12 +41,11 @@ class GestionesModel extends ModelBase
 						  MAX(eg.fecha_prox_gestion) fecha_prox_gestion,
 						  esg.estado estado,
 						  ds.`id_estado_doc` id_estado ");
-	$sqlpersonal->set_from( " deudores d, documentos ds , estados_x_gestion eg , mandantes m, estadosgestion esg "); 
+	$sqlpersonal->set_from( " deudores d, documentos ds LEFT JOIN estados_x_gestion eg ON ds.id_documento = eg.id_documento, mandantes m, estadosgestion esg "); 
 
 	$where = " d.id_deudor = ds.id_deudor				
 				AND ds.id_mandatario = m.id_mandante 
 				AND esg.id_estado = ds.id_estado_doc
-				AND ds.id_documento = eg.id_documento
  				AND d.activo = 'S' 
   				AND m.activo = 'S' 
   				AND ds.activo = 'S' ";
@@ -159,7 +158,7 @@ class GestionesModel extends ModelBase
 	$where .= "	AND g.id_deudor = d.id_deudor "; 
 	$where .= "	AND g.id_mandante = m.id_mandante "; 
 	$where .= "	AND a.id_estado = esg.id_estado "; 
-	$where .= "	AND a.fecha_prox_gestion > b.fecha_gestion "; 		
+//	$where .= "	AND a.fecha_prox_gestion >= b.fecha_gestion "; 		
 	$where .= "	AND a.fecha_prox_gestion <= CURDATE() AND a.id_estado NOT IN ( 2,3,4,5,13 ) ";
 	
 	if(trim($param["rut_d"]) <> "")
@@ -232,7 +231,7 @@ class GestionesModel extends ModelBase
 		$sqlpersonal->set_from( "gestiones g, deudores d, mandantes m, estadosgestion esg, gestion_a a, gestion_b b ");
 		$where = " a.id_gestion = b.id_gestion AND g.id_gestion = a.id_gestion AND g.id_deudor = d.id_deudor ";
 		$where .= " and g.id_mandante = m.id_mandante and a.id_estado = esg.id_estado ";
-		$where .= " and a.fecha_prox_gestion > b.fecha_gestion  and a.fecha_prox_gestion <= CURDATE() and a.id_estado NOT IN ( 2,3,4,5,13 ) ";
+		$where .= " and a.fecha_prox_gestion <= CURDATE() and a.id_estado NOT IN ( 2,3,4,5,13 ) ";
 		$sqlpersonal->set_where( $where );
 		
 	    $sqlpersonal->load();
@@ -436,7 +435,7 @@ class GestionesModel extends ModelBase
 		
 		$sqlpersonal->set_select(" eg.id id"); 
 		$sqlpersonal->set_from(" estados_x_gestion eg ");
-		$sqlpersonal->set_where(" eg.id_gestion = " .$gestion." and id_documentos in (".$documentos.")");
+		$sqlpersonal->set_where(" eg.id_gestion = " .$gestion." and id_documento in (".$documentos.")");
 		
 	    $sqlpersonal->load();
 	    
@@ -461,16 +460,16 @@ class GestionesModel extends ModelBase
 	  $documentos = $documentos . "0";
 	  	  
 	  $listages = $this->cambiarEstadoGestion($array["idgestion"], $documentos,"N");
-
-      for($i=0; $i<$listaeg->get_count(); $i++) 
+// 	  $comentario = $listages->get_count();
+       for($i=0; $i<$listages->get_count(); $i++) 
       {	
-		  	$egTmp = &$listaeg->items[$i];
+		  	$egTmp = &$listages->items[$i];
 		  	$varId = $egTmp->get_data("id");
 		  	
 		  	$estges = new Estados_x_Gestion();
 			$estges->add_filter("id","=",$varId);
 			$estges->load();
-			$estges->set_data("activo",$estado);
+			$estges->set_data("activo","N");
 			$estges->save();
       }
 
@@ -495,6 +494,7 @@ class GestionesModel extends ModelBase
 			  $dato->set_data("fecha_prox_gestion",date('Y-m-d', strtotime($date)));
 			  
 			  $dato->set_data("notas",$array["txtcomentarios"]);
+			  $dato->set_data("activo","S");
 			  $dato->set_data("usuario",$array["txtusuario"]);
 			  
 			  $dato->save();

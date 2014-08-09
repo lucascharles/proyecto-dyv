@@ -10,9 +10,9 @@
     <script src="js/scrollTo.js" type="text/javascript"></script>
     
     <script language="javascript"> 
-		function seleccionado(id,idest,idnext,rutm)
+		function seleccionado(id,idest,idnext,rutm,fpg)
 		{
-			window.parent.seleccionado(id,idest,idnext,rutm);			
+			window.parent.seleccionado(id,idest,idnext,rutm,fpg);			
 		}
 		
 		function seleccionadoScroll(id,idest,idnext,rutm)
@@ -91,7 +91,7 @@
 	?>
 	<tr bgcolor="#FFFFFF" id="" >
 		
-		<td height="25" width='1%'><A name="fila_<?=$datoTmp->get_data("id_gestion")?>"></A><input type="radio" <?=$checked?> id="<? echo($datoTmp->get_data("id_gestion")) ?>" name="checktipdoc" value="" onclick="seleccionado(<? echo($datoTmp->get_data("id_gestion")) ?>,<? echo($datoTmp->get_data("id_estado")) ?>,<?=$nex_id_gestion?>,<?echo($datoTmp->get_data("rut_mandante"))?>)"></td>
+		<td height="25" width='1%'><A name="fila_<?=$datoTmp->get_data("id_gestion")?>"></A><input type="radio" <?=$checked?> id="<? echo($datoTmp->get_data("id_gestion")) ?>" name="checktipdoc" value="" onclick="seleccionado(<? echo($datoTmp->get_data("id_gestion")) ?>,<? echo($datoTmp->get_data("id_estado")) ?>,<?=$nex_id_gestion?>,<?echo($datoTmp->get_data("rut_mandante"))?>,'<?php echo ($datoTmp->get_data("fecha_prox_gestion")) ?>')"></td>
         <td align="left" width='8%' class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("rut_mandante")."-".$datoTmp->get_data("dv_mandante")) ?></td>
         <td align="left" width='8%' class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("rut_deudor")."-".$datoTmp->get_data("dv_deudor")) ?></td>
 		<td align="left" width='10%' class="dato_lista">&nbsp;&nbsp;<?php echo (utf8_decode($datoTmp->get_data("razonsocial"))) ?></td>

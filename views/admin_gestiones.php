@@ -43,12 +43,13 @@
 			document.getElementById("frmlistgestiones").src = url;
 		}
 		
-		function seleccionado(id,idest,idnext,rutm)
+		function seleccionado(id,idest,idnext,rutm,fpg)
 		{
 			document.getElementById("id_gestion").value = id;
 			document.getElementById("id_estado").value = idest;
 			document.getElementById("id_next").value = idnext;
 			document.getElementById("rut_m").value = rutm;
+			document.getElementById("fecproxges").value = fpg;
 		}
 		
 		function salir()
@@ -66,7 +67,8 @@
 			}
 			var id = document.getElementById("id_gestion").value;
 			var idNextGes = document.getElementById("id_next").value;
-			$("#pagina").load('index.php?controlador=Gestiones&accion=gestionar&idgestion='+id+'&idNextGes='+idNextGes+'&tipoGestion='+document.getElementById("tipo_gestion").value+'&estadoGes='+document.getElementById("id_estado").value+'&rutM='+document.getElementById("rut_m").value);
+			var fecproxges = document.getElementById("fecproxges").value;
+			$("#pagina").load('index.php?controlador=Gestiones&accion=gestionar&idgestion='+id+'&idNextGes='+idNextGes+'&tipoGestion='+document.getElementById("tipo_gestion").value+'&estadoGes='+document.getElementById("id_estado").value+'&rutM='+document.getElementById("rut_m").value+"&fecproxges="+fecproxges);
 		}
 		
 		function eliminarGes()
@@ -102,6 +104,7 @@
 <input  type="hidden" name="tipo_gestion" id="tipo_gestion" value="<?php $var = &$tipoGestion; echo($var); ?>"/>
 <input  type="hidden" name="estadoGes" id="estadoGes" value="<?php $var = &$estadoGestion; echo($var); ?>"/>
 <input  type="hidden" name="rut_m" id="rut_m" value="<?php $var = &$rut_m; echo($var); ?>"/>
+<input  type="hidden" name="fecproxges" id="fecproxges" value=""/>	
 <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="titulopantalla">
 	<tr>
 		<th align="left" height="30">&nbsp;Gestiones<?php $var = &$tipoGestion; if($var == "D"){echo(" del dia");} ?></th>

@@ -1333,7 +1333,7 @@ class DocumentosModel extends ModelBase
 	}
 	
 	
-	public function getListaDocMandanteDeudor($iddeudor,$idmandante,$idestado,$iddemanda)
+	public function getListaDocMandanteDeudor($iddeudor,$idmandante,$idestado,$iddemanda,$idgestion,$fecproxges)
 	{
 	
 		include("config.php");
@@ -1359,6 +1359,11 @@ class DocumentosModel extends ModelBase
 		if($iddemanda != ""){
 			$where = $where . " and df.id_ficha = ".$iddemanda;
 		}
+
+		if($idgestion != "" && $fecproxges !=""){
+			$where = $where . " and d.id_documento IN (SELECT eg.id_documento FROM estados_x_gestion eg WHERE eg.id_gestion = ".$idgestion." AND eg.activo = 'S' AND eg.fecha_prox_gestion = DATE('".$fecproxges." ')) ";
+		}
+
 		$where = $where . " GROUP BY d.id_documento, c.banco ,dd.primer_apellido , dd.segundo_apellido , dd.primer_nombre , dd.segundo_nombre , m.nombre, m.apellido,
                             ed.estado , td.tipo_documento , d.numero_documento, d.fecha_protesto , d.cta_cte , d.monto , d.fecha_siniestro , d.gastos_protesto , cp.causal "; 
 		$sqlpersonal->set_where($where);
