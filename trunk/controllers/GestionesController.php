@@ -187,6 +187,7 @@ class GestionesController extends ControllerBase
 		$data['cantidadLiquidacion'] = $existeLiquidacion;
 		$data['deudaNetaMandante'] = $deudaMandante;
 		$data['tipoGestion'] = $array["tipoGestion"];
+		$data['fecproxges'] = $array["fecproxges"];
 		if($array["estadoGes"] != 1){
 			$data['cantidadDemandas'] = $cantDemandas;
 			$data['totalDemandas'] = $totalDemandas;
@@ -532,8 +533,8 @@ class GestionesController extends ControllerBase
 			$this->view->show("carta_pdf.php", $data);
 		}
 		
-		$dato = $documentos->getListaDocMandanteDeudor($array["iddeudor"],$array["idmandante"],$array["idestadoges"],$array["iddemanda"]);
-		
+//		$dato = $documentos->getListaDocMandanteDeudor($array["iddeudor"],$array["idmandante"],$array["idestadoges"],$array["iddemanda"]);
+		$dato = $documentos->getListaDocMandanteDeudor($array["iddeudor"],$array["idmandante"],$array["idestadoges"],$array["iddemanda"],$array["idgestion"],$array["fecproxges"]);		
 		$data['nom_sistema'] = "SISTEMA DyV";
 		$data['colleccionDatosDocumentos'] = $dato;
 		
