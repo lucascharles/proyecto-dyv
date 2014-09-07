@@ -5,15 +5,48 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<title></title>
-	<script src="js/scrollTo.js" type="text/javascript"></script>
+<link rel="stylesheet" href="css/general.css" type="text/css" />
+<script src="js/jquery-1.7.1.min.js" type="text/javascript"></script>
+<script src="js/validacampos.js" type="text/javascript"></script>
+<script src="js/funcionesgral.js" type="text/javascript"></script>
+ <link rel="stylesheet" media="all" type="text/css" href="css/smoothness/jquery-ui-1.8.17.custom.css" />
+<style type="text/css"> 
+		/* css for timepicker */	
+		#ui-datepicker-div, .ui-datepicker{ font-size: 80%; }
+		.ui-timepicker-div .ui-widget-header { margin-bottom: 8px; }
+		.ui-timepicker-div dl { text-align: left; }
+		.ui-timepicker-div dl dt { height: 25px; margin-bottom: -25px; }
+		.ui-timepicker-div dl dd { margin: 0 10px 10px 65px; }
+		.ui-timepicker-div td { font-size: 90%; }
+		.ui-tpicker-grid-label { background: none; border: none; margin: 0; padding: 0; }
+</style>
+
+<script type="text/javascript" src="js/jquery-ui-1.8.16.custom.min.js"></script>
+<script type="text/javascript" src="js/jquery-ui-timepicker-addon.js"></script>
+<script type="text/javascript" src="js/i18n/jquery.ui.datepicker-es.js"></script>
+<script type="text/javascript" src="js/jquery-ui-sliderAccess.js"></script>
+
     <script language="javascript">
+
+$(document).ready(function(){
+		$('form').validator();
+		$("#txtfechadesde").datepicker({changeYear: true});
+	$("#txtfechahasta").datepicker({changeYear: true});
+
+});
+
+
 		function mostrar(obj)
 		{
-			var tipoG = document.getElementById("tipo_gestion").value;
+			var fhasta = document.getElementById("txtfechahasta").value;
+			var fdesde = document.getElementById("txtfechadesde").value;
+			var tipoG = document.getElementById("tipo_gestion").value;		
 			var url = "index.php?controlador=Gestiones&accion=listarGestiones&rut_d="+document.getElementById("txtrutdeudor").value+"&rut_m="+document.getElementById("txtrutmandante").value+"&tipoGestion="+tipoG;
 			url +="&id_partida=0";
 			url +="&selEstado="+document.getElementById("selEstado").value;
 			url +="&nombre_deudor="+document.getElementById("txtnombredeudor").value;
+			url +="&fdesde="+fdesde;
+			url +="&fhasta="+fhasta;
 			url +="&filtro=1";
 			document.getElementById("frmlistgestiones").src = url;
 
@@ -24,6 +57,8 @@
 			document.getElementById("txtrutdeudor").value = "";
 			document.getElementById("txtrutmandante").value = "";
 			document.getElementById("txtnombredeudor").value  = "";
+			document.getElementById("txtfechadesde").value  = "";
+			document.getElementById("txtfechahasta").value  = "";
 			var tipoG = document.getElementById("tipo_gestion").value;
 			var url = "index.php?controlador=Gestiones&accion=listarGestiones&rut_d="+document.getElementById("txtrutdeudor").value+"&rut_m="+document.getElementById("txtrutmandante").value+"&tipoGestion="+tipoG;
 			url +="&id_partida=0";
@@ -34,11 +69,15 @@
 		
 		function buscar()
 		{
+			var fhasta = document.getElementById("txtfechahasta").value;
+			var fdesde = document.getElementById("txtfechadesde").value;
 			var tipoG = document.getElementById("tipo_gestion").value;
 			var url = "index.php?controlador=Gestiones&accion=listarGestiones&rut_d="+document.getElementById("txtrutdeudor").value+"&rut_m="+document.getElementById("txtrutmandante").value+"&tipoGestion="+tipoG;
 			url +="&id_partida=0";
 			url +="&selEstado="+document.getElementById("selEstado").value;
 			url +="&nombre_deudor="+document.getElementById("txtnombredeudor").value;
+			url +="&fdesde="+fdesde;
+			url +="&fhasta="+fhasta;
 			url +="&filtro=1";
 			document.getElementById("frmlistgestiones").src = url;
 		}
@@ -162,20 +201,32 @@
 		<td align="right" class="etiqueta_form" width="20">Rut Deudor:</td>
         <td>&nbsp;&nbsp;&nbsp;<input type="text" name="txtrutdeudor" id="txtrutdeudor"  size="40" onkeyup='mostrar(this)' class="input_form" value="<?=$_SESSION["rut_d_f"]?>"  onFocus="resaltar(this)" onBlur="noresaltar(this)"/> &nbsp;
         </td>
-        <td align="right" class="etiqueta_form" width="20"></td>
-        <td></td>
-        <td align="right" class="etiqueta_form" width="20"></td>
-        <td></td>
+        <td align="right" class="etiqueta_form" width="20">Fecha Desde:</td>
+        <td>&nbsp;&nbsp;&nbsp;<input type="text" name="txtfechadesde" id="txtfechadesde" onkeyup='mostrar(this)' value="" class="input_form_medio"  tipovalida="texto" onFocus="resaltar(this)" onBlur="noresaltar(this)" onKeyUp="this.value=formateafecha(this.value)"/>
+        </td>
+        <td align="right" class="etiqueta_form" width="20">Fecha Hasta</td>
+        <td>&nbsp;&nbsp;&nbsp;<input type="text" name="txtfechahasta" id="txtfechahasta" onkeyup='mostrar(this)' value="" class="input_form_medio"  tipovalida="texto" onFocus="resaltar(this)" onBlur="noresaltar(this)" onKeyUp="this.value=formateafecha(this.value)"/>
+        </td>
         <td></td>
     </tr>
  </table>
  </div>
  <div id="datos" style="">
- <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
+ 
+        
+        
+                
+    <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
     <tr>
 		<td colspan="2">
-       	<iframe id="frmlistgestiones" src="" width="100%" align="middle" height="320" scrolling="auto" frameborder="0"></iframe>        	
+
+        <iframe id="frmlistgestiones" src="" width="100%" align="middle" height="320" scrolling="auto" frameborder="0"></iframe>        	
+
+        
         </td>
+        
+
+        
         <td>
         <div style="position:relative; margin-left:10px;">
         		<input  type="button" name="btngestionar" id="btngestionar" onclick="gestionar()"  class="boton_form" value="Gestionar" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'/>

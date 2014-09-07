@@ -1066,7 +1066,7 @@ class DeudoresController extends ControllerBase
 		$data['interes_base'] = $parametros->getParametro("interes_diario_normal"); //"2";    //crear metodo en la base para este parametro
 		$costas = $deudores->getGastosfichadeudor($data['liquidacion']->get_data("id_deudor"));
 		if($costas->items[0]->get_data("total_gastos") == "") $costasProcesales = 0;
-		$data['costasProcesales'] = $costasProcesales; 
+		$data['costasProcesales'] = $costas->items[0]->get_data("total_gastos"); //$costasProcesales; 
 		$data['interes_simulacion'] = $parametros->getParametro(array("nom_param"=>"interes_simulacion")); //"1.5";	
 		$data['cuotas_simulacion'] = $parametros->getParametro(array("nom_param"=>"cuotas_simulacion")); //"2";    
 		$fecha = date('Y-m-d');
@@ -1118,6 +1118,11 @@ class DeudoresController extends ControllerBase
 		$datomandante = $mandate->getMandanteDatos($datodeudor->get_data("id_mandante"));
 
 		$datodocumento = $documentos->getDatoDocumento($array["id_doc"]);
+		
+		$costas = $deudores->getGastosfichadeudor($datoliquidacion->get_data("id_deudor"));
+		if($costas->items[0]->get_data("total_gastos") == "") $costasProcesales = 0;
+		$data['costasProcesales'] = $costas->items[0]->get_data("total_gastos"); //$costasProcesales; 
+
 		
 		$data['deudor'] = $datodeudor;
 		$data['mandante'] = $datomandante;

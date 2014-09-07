@@ -262,18 +262,28 @@ class GestionesController extends ControllerBase
     {
 		require 'models/GestionesModel.php';
 		$gestiones = new GestionesModel();
-		
+		$gest = new GestionesModel();
 
 		if($array["tipoGestion"] == "D")
-		{
+		{	
+    		$cantidad = $gest->cuentaGestionesDia();
+    		$cuenta = $cantidad->items[0];
+    		$cant = $cuenta->get_data("cantidad");
+			
 			$dato = $gestiones->getListaGestionesDia($array["des_int"]);			
 		}
 		else
 		{
+	    	
+	    	$cantidad = $gest->cuentaGestionesTotal();
+	    	$cuenta = $cantidad->items[0];
+			$cant = $cuenta->get_data("cantidad");
+
 			$dato = $gestiones->getListaGestiones($array["des_int"]);
 		}
 		$data['nom_sistema'] = "SISTEMA DyV";
 		$data['colleccionGestiones'] = $dato;
+		$data['cantGest'] =  $cant;
 		
 		$this->view->show("lista_gestiones.php", $data);
 	}    
@@ -363,6 +373,7 @@ class GestionesController extends ControllerBase
     {
 		require 'models/GestionesModel.php';
 		$gestiones = new GestionesModel();
+		$gest = new GestionesModel();
 		
 		if($array["eliminar"] == 1)
 		{
@@ -379,10 +390,18 @@ class GestionesController extends ControllerBase
 		
 		if($array["tipoGestion"]=="D")
 		{
+    		$cantidad = $gest->cuentaGestionesDia();
+    		$cuenta = $cantidad->items[0];
+    		$cant = $cuenta->get_data("cantidad");
+
 			$dato = $gestiones->getListaGestionesDia($array["des_int"],$array);	
 		}
 		else
 		{
+	    	$cantidad = $gest->cuentaGestionesTotal();
+	    	$cuenta = $cantidad->items[0];
+			$cant = $cuenta->get_data("cantidad");
+			
 			$dato = $gestiones->getListaGestiones($array["des_int"],$array);
 		}
 		$cant_datos = 0;
@@ -406,6 +425,7 @@ class GestionesController extends ControllerBase
 		
 		
 		//$data['idNextGes'] = $array["idNextGes"];
+		$data['cantGest'] = $cant;
 		$data['cant_mas'] = $cant_datos;
 		$data['nom_sistema'] = "SISTEMA DyV";
 		$data['colleccionGestiones'] = $dato;
@@ -519,10 +539,6 @@ class GestionesController extends ControllerBase
 		require 'models/DocumentosModel.php';
 		$documentos = new DocumentosModel();
 		
-//		if($array["actDoc"]=='S'){
-//			$x = $documentos->actualizaMandanteDocumento($array);
-//		}
-		
 		$docCartas = new DocumentosModel();
 		if($array["enviarCarta"]=="S")
 		{
@@ -533,8 +549,13 @@ class GestionesController extends ControllerBase
 			$this->view->show("carta_pdf.php", $data);
 		}
 		
-//		$dato = $documentos->getListaDocMandanteDeudor($array["iddeudor"],$array["idmandante"],$array["idestadoges"],$array["iddemanda"]);
-		$dato = $documentos->getListaDocMandanteDeudor($array["iddeudor"],$array["idmandante"],$array["idestadoges"],$array["iddemanda"],$array["idgestion"],$array["fecproxges"]);		
+		if($array["tipoges"]=="D"){
+			$dato = $documentos->getListaDocMandanteDeudor($array["iddeudor"],$array["idmandante"],$array["idestadoges"],$array["iddemanda"],$array["idgestion"],$array["fecproxges"]);		
+		}
+		else
+		{
+			$dato = $documentos->getListaDocMandanteDeudorGG($array["iddeudor"],$array["idmandante"],$array["idestadoges"],$array["iddemanda"],$array["idgestion"],$array["fecproxges"]);
+		}
 		$data['nom_sistema'] = "SISTEMA DyV";
 		$data['colleccionDatosDocumentos'] = $dato;
 		

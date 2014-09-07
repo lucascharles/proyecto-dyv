@@ -6,10 +6,17 @@
 	
 	<title></title>
     <link rel="stylesheet" href="css/general.css" type="text/css" />
-    <script src="js/jquery-1.7.1.min.js" type="text/javascript"></script>
+<link type="text/css" href="css/styles.css" rel="stylesheet" />
+<script type="text/javascript" src="js/jquery.js"></script>
+
+<script src="js/jquery-1.7.1.min.js" type="text/javascript"></script>
     <script src="js/scrollTo.js" type="text/javascript"></script>
+
     
-    <script language="javascript"> 
+    <script language="javascript">
+
+
+
 		function seleccionado(id,idest,idnext,rutm,fpg)
 		{
 			window.parent.seleccionado(id,idest,idnext,rutm,fpg);			
@@ -22,10 +29,12 @@
 			window.parent.seleccionado(id,idest,idnext,rutm);
 		}
 		
-		function verMasRegistros(id, pantalla)
+		function verMasRegistros(cantPag,id, pantalla)
 		{
+			
 			var datos = "controlador=Gestiones&accion=listar_mas_registros";
 			var tipoG = window.parent.document.getElementById("tipo_gestion").value;
+			
 			datos += "&rut_d="+window.parent.document.getElementById("txtrutdeudor").value+"&rut_m="+window.parent.document.getElementById("txtrutmandante").value+"&tipoGestion="+tipoG;
 			datos += "&id_partida="+id;
 			$.ajax({
@@ -65,6 +74,9 @@
         <th align="center"><font class="titulolistado">ESTADO</font></th>
     </tr>
 	<?php
+			
+	$c = ceil($cantGest / 10);
+			
 	for($j=0; $j<$colleccionGestiones->get_count(); $j++) 
 	{
 		$nex_id_gestion = 0;
@@ -118,8 +130,15 @@
 
 	?>
      <tr bgcolor="#FFFFFF">
-    	<td colspan="10" align="center">
-        <div id='btnvermas_<? echo($datoTmp->get_data("id_gestion")) ?>' onclick="verMasRegistros(<? echo($datoTmp->get_data("id_gestion")) ?>,'<? echo($pantalla) ?>')" style="cursor:pointer;" >Ver mas </div></td>
+
+		<!--
+			<td colspan="10" align="center">
+			<div id='btnvermas_<? echo($datoTmp->get_data("id_gestion")) ?>' onclick="verMasRegistros(<? echo($c) ?>, <? echo($datoTmp->get_data("id_gestion")) ?>,'<? echo($pantalla) ?>')" style="cursor:pointer;" >
+				Ver mas 
+			</div>
+			</td>
+		-->
+		
 	</tr>
     <?
     }

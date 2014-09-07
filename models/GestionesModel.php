@@ -18,69 +18,7 @@ class GestionesModel extends ModelBase
 		
 	}
 	
-	public function getListaGestiones($des, $param=array())
-	{
-	
-	include("config.php");
-
-	
-	$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
-	
-	$sqlpersonal->set_select( " 
-					    eg.id_gestion id_gestion,
-						  m.rut_mandante rut_mandante,
-						  m.dv_mandante dv_mandante,
-						  d.rut_deudor rut_deudor,
-						  d.dv_deudor dv_deudor,
-						  d.primer_apellido primer_apellido,
-						  d.segundo_apellido segundo_apellido,
-						  d.primer_nombre primer_nombre,
-						  d.segundo_nombre segundo_nombre,
-						  d.razonsocial razonsocial,
-						  eg.fecha_gestion fecha_gestion,
-						  MAX(eg.fecha_prox_gestion) fecha_prox_gestion,
-						  esg.estado estado,
-						  ds.`id_estado_doc` id_estado ");
-	$sqlpersonal->set_from( " deudores d, documentos ds LEFT JOIN estados_x_gestion eg ON ds.id_documento = eg.id_documento, mandantes m, estadosgestion esg "); 
-
-	$where = " d.id_deudor = ds.id_deudor				
-				AND ds.id_mandatario = m.id_mandante 
-				AND esg.id_estado = ds.id_estado_doc
- 				AND d.activo = 'S' 
-  				AND m.activo = 'S' 
-  				AND ds.activo = 'S' ";
-//  				AND eg.fecha_prox_gestion > (SELECT MAX(exg.fecha_gestion) FROM estados_x_gestion exg WHERE exg.id_gestion = eg.id_gestion) "; 
-	
-	if(trim($param["rut_d"]) <> "")
-	{
-		$where .= " and d.rut_deudor like '".trim($param["rut_d"])."%'";
-	}
-	if(trim($param["nombre_deudor"]) <> "")
-	{
-		$where .= " and (d.primer_nombre like '".trim($param["nombre_deudor"])."%' ";
-		$where .= " OR d.segundo_nombre like '".trim($param["nombre_deudor"])."%' ";
-		$where .= " OR d.primer_apellido like '".trim($param["nombre_deudor"])."%' ";
-		$where .= " OR d.segundo_apellido like '".trim($param["nombre_deudor"])."%' )";	
-	}
-	if(trim($param["rut_m"]) <> "")
-	{
-		$where .= " and m.rut_mandante like '".trim($param["rut_m"])."%'";
-	}
-	if(trim($param["id_estado"]) <> "")
-	{
-		$where .= " and g.estado = ".trim($param["id_estado"]);
-	}
-
-	$where = $where ." GROUP BY  ds.id_estado_doc, ds.id_mandatario, d.id_deudor  ORDER BY m.rut_mandante, eg.fecha_prox_gestion DESC, eg.id_gestion ";
-	
-	$sqlpersonal->set_where( $where );
-	$sqlpersonal->set_limit(0,30); // PARA MYSQL
-    $sqlpersonal->load();
-
-    return $sqlpersonal;		
-	}
-
-//	public function getListaGestionesDia($des, $param=array())
+//	public function getListaGestiones($des, $param=array())
 //	{
 //	
 //	include("config.php");
@@ -89,52 +27,70 @@ class GestionesModel extends ModelBase
 //	$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
 //	
 //	$sqlpersonal->set_select( " 
-//						  A.id_gestion id_gestion,  A.rut_mandante rut_mandante,  A.dv_mandante dv_mandante,  A.rut_deudor rut_deudor,
-//						  A.dv_deudor dv_deudor,  A.primer_apellido primer_apellido,  A.segundo_apellido segundo_apellido,  A.primer_nombre primer_nombre,
-//						  A.segundo_nombre segundo_nombre,  A.razonsocial razonsocial, A.fecha_gestion fecha_gestion,  A.fecha_prox_gestion fecha_prox_gestion,  A.estado estado,  A.id_estado id_estado 
-//						     ");
-//	$sqlpersonal->set_from( " gestiones_dia A ");
+//					    eg.id_gestion id_gestion,
+//						  m.rut_mandante rut_mandante,
+//						  m.dv_mandante dv_mandante,
+//						  d.rut_deudor rut_deudor,
+//						  d.dv_deudor dv_deudor,
+//						  d.primer_apellido primer_apellido,
+//						  d.segundo_apellido segundo_apellido,
+//						  d.primer_nombre primer_nombre,
+//						  d.segundo_nombre segundo_nombre,
+//						  d.razonsocial razonsocial,
+//						  eg.fecha_gestion fecha_gestion,
+//						  MAX(eg.fecha_prox_gestion) fecha_prox_gestion,
+//						  esg.estado estado,
+//						  ds.`id_estado_doc` id_estado ");
+//	$sqlpersonal->set_from( " deudores d, documentos ds LEFT JOIN estados_x_gestion eg ON ds.id_documento = eg.id_documento, mandantes m, estadosgestion esg "); 
 //
-//	$where = " A.fecha_prox_gestion <= CURDATE() AND A.id_estado NOT IN ( 2,3,4,5,13 ) ";
-//	$where = $where . " AND A.fecha_prox_gestion > (SELECT MAX( exg.`fecha_gestion`) FROM estados_x_gestion exg WHERE exg.`id_gestion` = A.id_gestion) ";
+//	$where = " d.id_deudor = ds.id_deudor				
+//				AND ds.id_mandatario = m.id_mandante 
+//				AND esg.id_estado = ds.id_estado_doc
+// 				AND d.activo = 'S' 
+//  				AND m.activo = 'S' 
+//  				AND ds.activo = 'S' ";
+////  				AND eg.fecha_prox_gestion > (SELECT MAX(exg.fecha_gestion) FROM estados_x_gestion exg WHERE exg.id_gestion = eg.id_gestion) "; 
 //	
 //	if(trim($param["rut_d"]) <> "")
 //	{
-//		$where .= " and A.rut_deudor like '".trim($param["rut_d"])."%'";
+//		$where .= " and d.rut_deudor like '".trim($param["rut_d"])."%'";
 //	}
+//	
+//	if((trim($param["fdesde"]) <> "") &&(trim($param["fhasta"]) <> "") )
+//		{
+//			$fd = substr(trim($param["fdesde"]),6,4).'-'.substr(trim($param["fdesde"]),3,2).'-'.substr(trim($param["fdesde"]),0,2);
+//			$fh = substr(trim($param["fhasta"]),6,4).'-'.substr(trim($param["fhasta"]),3,2).'-'.substr(trim($param["fhasta"]),0,2);
+//			$where .= " and a.fecha_prox_gestion between '".$fd."' and '".$fh."'";
+//		}
+//
 //	
 //	if(trim($param["nombre_deudor"]) <> "")
 //	{
-//		$where .= " and (A.primer_nombre like '".trim($param["nombre_deudor"])."%' ";
-//		$where .= " OR A.segundo_nombre like '".trim($param["nombre_deudor"])."%' ";
-//		$where .= " OR A.primer_apellido like '".trim($param["nombre_deudor"])."%' ";
-//		$where .= " OR A.segundo_apellido like '".trim($param["nombre_deudor"])."%' )";	
+//		$where .= " and (d.primer_nombre like '".trim($param["nombre_deudor"])."%' ";
+//		$where .= " OR d.segundo_nombre like '".trim($param["nombre_deudor"])."%' ";
+//		$where .= " OR d.primer_apellido like '".trim($param["nombre_deudor"])."%' ";
+//		$where .= " OR d.segundo_apellido like '".trim($param["nombre_deudor"])."%' )";	
 //	}
-//	
 //	if(trim($param["rut_m"]) <> "")
 //	{
-//		$where .= " and A.rut_mandante like '".trim($param["rut_m"])."%'";
+//		$where .= " and m.rut_mandante like '".trim($param["rut_m"])."%'";
+//	}
+//	if(trim($param["id_estado"]) <> "")
+//	{
+//		$where .= " and g.estado = ".trim($param["id_estado"]);
 //	}
 //
-//	if(trim($param["selEstado"]) <> "")
-//	{
-//		$where .= " and A.estado = ".trim($param["selEstado"]);
-//	}
-//	
-////	$where = $where ." GROUP BY ds.id_estado_doc, ds.id_mandatario, d.id_deudor ";
-////	$where = $where ." ORDER by m.rut_mandante, eg.fecha_prox_gestion DESC, eg.id_gestion  ";
-//	
+//	$where = $where ." GROUP BY  ds.id_estado_doc, ds.id_mandatario, d.id_deudor  ORDER BY m.rut_mandante, eg.fecha_prox_gestion DESC, eg.id_gestion ";
 //	
 //	$sqlpersonal->set_where( $where );
-////	$sqlpersonal->set_limit(0,30); // PARA MYSQL
+//	$sqlpersonal->set_limit(0,30); // PARA MYSQL
 //    $sqlpersonal->load();
 //
-//    return $sqlpersonal;	
-//	
+//    return $sqlpersonal;		
 //	}
 
 	
-	public function getListaGestionesDia($des, $param=array())
+	public function getListaGestiones($des, $param=array())
 	{
 	
 	include("config.php");
@@ -148,23 +104,28 @@ class GestionesModel extends ModelBase
 	$select .= " d.primer_apellido primer_apellido, d.segundo_apellido segundo_apellido, ";
 	$select .= " d.primer_nombre primer_nombre, d.segundo_nombre segundo_nombre, ";
 	$select .= " d.razonsocial razonsocial, ";
-	$select .= " b.fecha_gestion fecha_gestion, a.fecha_prox_gestion fecha_prox_gestion, ";
+	$select .= " a.fecha_prox_gestion fecha_prox_gestion, ";
 	$select .= " esg.estado estado, a.id_estado id_estado ";
 	
-	$from = " gestiones g, deudores d, mandantes m, estadosgestion esg, gestion_a a, gestion_b b ";
+	$from = " gestiones g, deudores d, mandantes m, estadosgestion esg, gestion_a a "; //, gestion_b b ";
 	
-	$where = " a.id_gestion = b.id_gestion ";
-	$where .= "	AND g.id_gestion = a.id_gestion "; 
+	$where .= "	 g.id_gestion = a.id_gestion "; 
 	$where .= "	AND g.id_deudor = d.id_deudor "; 
 	$where .= "	AND g.id_mandante = m.id_mandante "; 
 	$where .= "	AND a.id_estado = esg.id_estado "; 
-//	$where .= "	AND a.fecha_prox_gestion >= b.fecha_gestion "; 		
-	$where .= "	AND a.fecha_prox_gestion <= CURDATE() AND a.id_estado NOT IN ( 2,3,4,5,13 ) ";
+//	$where .= "	AND a.fecha_prox_gestion <= CURDATE() AND a.id_estado NOT IN ( 2,3,4,5,13 ) ";
 	
 	if(trim($param["rut_d"]) <> "")
 	{
 		$where .= " and d.rut_deudor like '".trim($param["rut_d"])."%'";
 	}
+	
+	if((trim($param["fdesde"]) <> "") &&(trim($param["fhasta"]) <> "") )
+		{
+			$fd = substr(trim($param["fdesde"]),6,4).'-'.substr(trim($param["fdesde"]),3,2).'-'.substr(trim($param["fdesde"]),0,2);
+			$fh = substr(trim($param["fhasta"]),6,4).'-'.substr(trim($param["fhasta"]),3,2).'-'.substr(trim($param["fhasta"]),0,2);
+			$where .= " and a.fecha_prox_gestion between '".$fd."' and '".$fh."'";
+		}
 	
 	if(trim($param["nombre_deudor"]) <> "")
 	{
@@ -184,12 +145,83 @@ class GestionesModel extends ModelBase
 		$where .= " and esg.estado = ".trim($param["selEstado"]);
 	}
 	
-	$where .= " order by fecha_prox_gestion desc ";
+	$where .= " order by a.fecha_prox_gestion, d.primer_apellido ASC ";
 	
 	$sqlpersonal->set_select($select);
 	$sqlpersonal->set_from($from);
 	$sqlpersonal->set_where( $where );
-	$sqlpersonal->set_limit(0,30); // PARA MYSQL
+
+    $sqlpersonal->load();
+
+    return $sqlpersonal;	
+	
+	}
+
+	
+	public function getListaGestionesDia($des, $param=array())
+	{
+	
+	include("config.php");
+
+	
+	$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
+	
+	$select = " g.id_gestion id_gestion, ";
+	$select .= " m.rut_mandante rut_mandante, m.dv_mandante dv_mandante, ";
+	$select .= " d.rut_deudor rut_deudor, d.dv_deudor dv_deudor, ";    
+	$select .= " d.primer_apellido primer_apellido, d.segundo_apellido segundo_apellido, ";
+	$select .= " d.primer_nombre primer_nombre, d.segundo_nombre segundo_nombre, ";
+	$select .= " d.razonsocial razonsocial, ";
+//	$select .= " b.fecha_gestion fecha_gestion, "
+	$select .= " a.fecha_prox_gestion fecha_prox_gestion, ";
+	$select .= " esg.estado estado, a.id_estado id_estado ";
+	
+	$from = " gestiones g, deudores d, mandantes m, estadosgestion esg, gestion_a a "; //, gestion_b b ";
+	
+//	$where = " a.id_gestion = b.id_gestion ";
+	$where .= "	 g.id_gestion = a.id_gestion "; 
+	$where .= "	AND g.id_deudor = d.id_deudor "; 
+	$where .= "	AND g.id_mandante = m.id_mandante "; 
+	$where .= "	AND a.id_estado = esg.id_estado "; 
+//	$where .= "	AND a.fecha_prox_gestion >= b.fecha_gestion "; 		
+	$where .= "	AND a.fecha_prox_gestion <= CURDATE() AND a.id_estado NOT IN ( 2,3,4,5,13 ) ";
+	
+	if(trim($param["rut_d"]) <> "")
+	{
+		$where .= " and d.rut_deudor like '".trim($param["rut_d"])."%'";
+	}
+	
+	if((trim($param["fdesde"]) <> "") &&(trim($param["fhasta"]) <> "") )
+		{
+			$fd = substr(trim($param["fdesde"]),6,4).'-'.substr(trim($param["fdesde"]),3,2).'-'.substr(trim($param["fdesde"]),0,2);
+			$fh = substr(trim($param["fhasta"]),6,4).'-'.substr(trim($param["fhasta"]),3,2).'-'.substr(trim($param["fhasta"]),0,2);
+			$where .= " and a.fecha_prox_gestion between '".$fd."' and '".$fh."'";
+		}
+	
+	if(trim($param["nombre_deudor"]) <> "")
+	{
+		$where .= " and (d.primer_nombre like '".trim($param["nombre_deudor"])."%' ";
+		$where .= " OR d.segundo_nombre like '".trim($param["nombre_deudor"])."%' ";
+		$where .= " OR d.primer_apellido like '".trim($param["nombre_deudor"])."%' ";
+		$where .= " OR d.segundo_apellido like '".trim($param["nombre_deudor"])."%' )";	
+	}
+	
+	if(trim($param["rut_m"]) <> "")
+	{
+		$where .= " and m.rut_mandante like '".trim($param["rut_m"])."%'";
+	}
+
+	if(trim($param["selEstado"]) <> "")
+	{
+		$where .= " and esg.estado = ".trim($param["selEstado"]);
+	}
+	
+	$where .= " order by a.fecha_prox_gestion, d.primer_apellido ASC ";
+	
+	$sqlpersonal->set_select($select);
+	$sqlpersonal->set_from($from);
+	$sqlpersonal->set_where( $where );
+//	$sqlpersonal->set_limit(0,30); // PARA MYSQL
 
     $sqlpersonal->load();
 
@@ -348,7 +380,7 @@ class GestionesModel extends ModelBase
 	  	  	  	  	  	  	 }
 	  	  	  	  	  	  	 else
 	  	  	  	  	  	  	 {
-	  	  	  	  	  	  		 $vwhere = $vwhere ." and eg.id_documento in (SELECT DISTINCT e.id_documento FROM estados_x_gestion e, documento_ficha df WHERE e.id_documento = df.id_documento AND e.id_gestion = ".$idgestion.")";
+	  	  	  	  	  	  		 $vwhere = $vwhere ." and eg.id_documento in (SELECT DISTINCT e.id_documento FROM estados_x_gestion e left join documento_ficha df on e.id_documento = df.id_documento WHERE  e.id_gestion = ".$idgestion.")";
 	  	  	  	  	  	  	 }
 	  	  	  	  	  	  	 
 	  	  	  	  	  	  	 

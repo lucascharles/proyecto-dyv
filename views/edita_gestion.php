@@ -656,7 +656,7 @@
     	<td align="right" valign="top" >
 <!--        			<iframe id="frmlistdocumentos" src="index.php?controlador=Gestiones&accion=listarDocumentoMandante&iddeudor="+idDeudor+"&idmandante="+idMandante+"&idestadoges="+idestadoges+"&actDoc=S";-->
 <!--        			<iframe id="frmlistdocumentos" src="index.php?controlador=Gestiones&accion=listarDocumentoMandante&iddeudor=<? echo($objGestion->get_data("id_deudor")) ?>&idmandante=<? echo($objGestion->get_data("id_mandante")) ?>&idestadoges=<? $var = &$idestadoges; echo($var); ?>&actDoc=S" frameborder="0" align="middle" width="100%" height="120" scrolling="auto"></iframe>-->
-						<iframe id="frmlistdocumentos" src="index.php?controlador=Gestiones&accion=listarDocumentoMandante&iddeudor=<? echo($objGestion->get_data("id_deudor")) ?>&idmandante=<? $var = &$idMandante; echo($var); ?>&idestadoges=<? $var = &$idestadoges; echo($var); ?>&actDoc=S&idgestion=<? $var = &$idgestion; echo($var); ?>&fecproxges=<? $var = &$fecproxges; echo($var); ?>" frameborder="0" align="middle" width="100%" height="120" scrolling="auto"></iframe>
+						<iframe id="frmlistdocumentos" src="index.php?controlador=Gestiones&accion=listarDocumentoMandante&iddeudor=<? echo($objGestion->get_data("id_deudor")) ?>&idmandante=<? $var = &$idMandante; echo($var); ?>&idestadoges=<? $var = &$idestadoges; echo($var); ?>&actDoc=S&idgestion=<? $var = &$idgestion; echo($var); ?>&fecproxges=<? $var = &$fecproxges; echo($var); ?>&tipoges=<? $var = &$tipoGestion; echo($var); ?>" frameborder="0" align="middle" width="100%" height="120" scrolling="auto"></iframe>
         </td>
         <td align="center" width="100">
 			<table>

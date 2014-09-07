@@ -1373,6 +1373,48 @@ class DocumentosModel extends ModelBase
 		return $sqlpersonal;
 	
 	}
+
+	public function getListaDocMandanteDeudorGG($iddeudor,$idmandante,$idestado,$iddemanda,$idgestion,$fecproxges)
+	{
+	
+		include("config.php");
+	
+		$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
+		$sqlpersonal->set_select(" d.id_documento id_documento, c.banco id_banco, dd.primer_apellido ape1_deudor, dd.segundo_apellido ape2_deudor,
+							  		dd.primer_nombre nom1_deudor, dd.segundo_nombre nom2_deudor,
+									ifnull(m.nombre, m.apellido) nombre_mandante, ed.estado id_estado_doc, td.tipo_documento id_tipo_doc,
+									d.numero_documento numero_documento,d.fecha_protesto fecha_protesto, d.cta_cte cta_cte,d.monto monto , d.fecha_siniestro fecha_recibido, d.gastos_protesto gastos_protesto,
+									df.id_ficha id_ficha,cp.causal causal ");
+		$sqlpersonal->set_from(" ((documentos d LEFT JOIN bancos c ON d.id_banco = c.id_banco) LEFT JOIN documento_ficha df ON d.id_documento = df.id_documento)
+									LEFT JOIN causalprotesta cp ON d.id_causa_protesto = cp.id_causal,
+	 								deudores dd,
+	 								mandantes m,
+	 								estadodocumentos ed,
+	 								tipodocumento td");
+		$where = " d.id_deudor = dd.id_deudor
+				and m.id_mandante = d.id_mandatario
+				and d.id_estado_doc = ed.id_estado_doc
+				and ifnull(d.id_tipo_doc,6) = td.id_tipo_documento				
+				and d.activo = 'S'
+				and m.id_mandante = ". $idmandante." and d.id_deudor = ".$iddeudor." and d.id_estado_doc in(999, ".$idestado.")" ;
+		if($iddemanda != ""){
+			$where = $where . " and df.id_ficha = ".$iddemanda;
+		}
+
+		if($idgestion != "" && $fecproxges !=""){
+			$where = $where . " and d.id_documento IN (SELECT eg.id_documento FROM estados_x_gestion eg WHERE eg.id_gestion = ".$idgestion." AND eg.activo = 'S' AND eg.fecha_prox_gestion = DATE('".$fecproxges." ')) ";
+		}
+
+		$where = $where . " GROUP BY d.id_documento, c.banco ,dd.primer_apellido , dd.segundo_apellido , dd.primer_nombre , dd.segundo_nombre , m.nombre, m.apellido,
+                            ed.estado , td.tipo_documento , d.numero_documento, d.fecha_protesto , d.cta_cte , d.monto , d.fecha_siniestro , d.gastos_protesto , cp.causal "; 
+		$sqlpersonal->set_where($where);
+	
+		$sqlpersonal->load();
+	
+		return $sqlpersonal;
+	
+	}
+
 	
 	public function getListaDocumentosGestion($des, $idd='',$array='')
 	{
