@@ -1075,7 +1075,10 @@
                 <tr>   
                     <td align="right" class="etiqueta_form">Costas Procesales&nbsp;</td>
                     <td align="left">
-                        <input type="text" name="txtcostasprocesales" id="txtcostasprocesales" tipovalida="moneda" class="input_form" onFocus="resaltar(this)" onblur="recalcular()" value="<? echo($interes_acumulado) ?>"/>
+                    <!--    <input type="text" name="txtcostasprocesales" id="txtcostasprocesales" tipovalida="moneda" class="input_form" onFocus="resaltar(this)" onblur="recalcular()" value="<? echo($costasProcesales) ?>"/>
+                    -->
+                	<input type="text" name="txtcostasprocesales" id="txtcostasprocesales" tipovalida="moneda" class="input_form" onFocus="resaltar(this)" onblur="recalcular()" value="<?=$costasProcesales ?>"/>
+
                     </td>
                 </tr>
                 <tr>   

@@ -1044,7 +1044,9 @@
                 <tr>   
                     <td align="right" class="etiqueta_form">Costas Procesales&nbsp;</td>
                     <td align="left">
-                        <input type="text" name="txtcostasprocesales" id="txtcostasprocesales" tipovalida="moneda" class="input_form" onFocus="resaltar(this)" onblur="recalcular()" value="<?=$liquidacion->get_data("costas_procesales") ?>"/>
+                    <!--  <input type="text" name="txtcostasprocesales" id="txtcostasprocesales" tipovalida="moneda" class="input_form" onFocus="resaltar(this)" onblur="recalcular()" value="<?=$liquidacion->get_data("costas_procesales") ?>"/>
+                    -->
+                    	<input type="text" name="txtcostasprocesales" id="txtcostasprocesales" tipovalida="moneda" class="input_form" onFocus="resaltar(this)" onblur="recalcular()" value="<?=$costasProcesales ?>"/>
                     </td>
                 </tr>
                 <tr>   
