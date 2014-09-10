@@ -27,28 +27,129 @@
 
 	function selecciona_demandas()
 	{
+		var boxes = document.getElementsByName("checkbox");
+		var vid="";
+		var vmonto="";
+		var vfecha_protesto="";
+		var vgasto_protesto="";
+		
+//		alert('SELECCIONA DEMANDAS');
+		for (var i = 0; i < boxes.length; i++) {
+			if(boxes[i].getAttribute('estado') == 'DEMANDA')
+			{
+				boxes[i].checked = true;
 				
-					var arraydoc = document.getElementsByTagName('input');
-					for(var i=0; i<arraydoc.length; i++)
-					{	 
-						if(arraydoc[i].getAttribute('type') == "checkbox")
-							{
-								if(arraydoc[i].getAttribute('estado') == 'DEMANDA')
-								{
-								}
-							}
-					}
+				vid = boxes[i].getAttribute('id');
+				vmonto = boxes[i].getAttribute('monto');
+				vfecha_protesto = boxes[i].getAttribute('fecha_protesto');
+				if(vfecha_protesto==""){
+//					alert('fecha_doc='+boxes[i].getAttribute('fecha_doc'));
+					vfecha_protesto=boxes[i].getAttribute('fecha_doc');
+				}
+				vgastos_protesto = boxes[i].getAttribute('gasto_protesto');
+				
+				seleccionado2(vid,vmonto,vfecha_protesto,vgasto_protesto);
+			}
+		}
 	}
 	
 	function selecciona_existencias()
 	{
+		var boxes = document.getElementsByName("checkbox");
+		var vid="";
+		var vmonto="";
+		var vfecha_protesto="";
+		var vgasto_protesto="";
+		
+		for (var i = 0; i < boxes.length; i++) {
+			if(boxes[i].getAttribute('estado') == 'EXISTENCIA')
+			{
+				boxes[i].checked = true;
 				
-					var arraydoc = document.getElementsByTagName('input');
-					for(var i=0; i<arraydoc.length; i++)
-					{	 
-					}
+				vid = boxes[i].getAttribute('id');
+				vmonto = boxes[i].getAttribute('monto');
+				vfecha_protesto = boxes[i].getAttribute('fecha_protesto');
+				if(vfecha_protesto==""){
+					vfecha_protesto=boxes[i].getAttribute('fecha_doc');
+				}
+				vgastos_protesto = boxes[i].getAttribute('gasto_protesto');
+				
+				seleccionado2(vid,vmonto,vfecha_protesto,vgasto_protesto);
+			}
+		}
 	}
 
+	
+	function seleccionado2(id,monto,fecha,gastos)
+		{
+			
+				var v_monto = 0;
+				var valor_doc = 0;
+				var v_costas_proc = 0;
+				var v_dias = 0;
+				var v_fecha = "";	
+				var v_protesto = 0;
+				var arraydoc = document.getElementsByTagName('input');
+				for(var i=0; i<arraydoc.length; i++)
+				{	 
+					if(arraydoc[i].getAttribute('type') == "checkbox")
+					{
+						if(arraydoc[i].checked == true)
+						{
+							v_monto = v_monto + parseFloat(monto);
+							valor_doc = parseFloat(monto);
+							
+							if(gastos!="")
+								v_costas_proc = v_costas_proc + parseFloat(gastos);
+							
+							if(gastos == "") {
+								gastos = 0;
+							}
+								v_protesto = v_protesto + parseInt(gastos);
+
+							v_fecha = fecha;
+							
+							if(v_fecha == "")
+							{
+								v_fecha = fecha; // arraydoc[i].getAttribute('fecha_protesto');
+							}
+						}
+					}
+				}	
+
+//				v_protesto = v_protesto - parseInt(gastos);
+				
+				// CALCULO CANTIDAD DIAS ATRASO
+				var dias = 0;
+				if(v_fecha != "" && v_fecha != "//00/00/00")
+				{
+					var d1 = v_fecha.split("/");
+					var dat1 = new Date(d1[2], parseFloat(d1[1])-1, parseFloat(d1[0]));
+					var d2 = $('#fecha_sim').val().split("/");
+					var dat2 = new Date(d2[2], parseFloat(d2[1])-1, parseFloat(d2[0]));
+	 
+					var fin = dat2.getTime() - dat1.getTime();
+					dias = Math.floor(fin / (1000 * 60 * 60 * 24));  
+					v_dias = dias;
+				}
+				else
+				{
+					v_dias = parseInt("0");
+				}
+
+				if(document.getElementById(id).checked == false)
+				{
+					window.parent.quitarDoc(id,v_monto,v_fecha,v_dias,v_protesto,v_costas_proc);
+				}
+				else
+				{
+//					alert('id='+id+' monto='+v_monto+' v_fecha='+v_fecha+'v_dias='+v_dias +'v_protesto='+v_protesto +'costas_proc='+v_costas_proc+'valor_doc='+valor_doc);
+					window.parent.seleccionado(id,v_monto,v_fecha,v_dias,v_protesto,v_costas_proc,valor_doc);
+				}
+
+		}
+
+	
 	
 	function seleccionado(id,monto,fecha,gastos)
 		{
@@ -100,7 +201,6 @@
 					var d1 = v_fecha.split("/");
 					var dat1 = new Date(d1[2], parseFloat(d1[1])-1, parseFloat(d1[0]));
 					var d2 = $('#fecha_sim').val().split("/");
-//					var d2 = v_fecha.split("/");
 					var dat2 = new Date(d2[2], parseFloat(d2[1])-1, parseFloat(d2[0]));
 	 
 					var fin = dat2.getTime() - dat1.getTime();
@@ -118,7 +218,7 @@
 				}
 				else
 				{
-//					alert("id:"+ id+ " monto:"+v_monto+" fecha:"+v_fecha+" dias:"+v_dias+" protesto:"+v_protesto+" costas:"+v_costas_proc+" valor_doc:"+valor_doc);
+					alert('id='+id+' monto='+v_monto+' v_fecha='+v_fecha+'v_dias='+v_dias +'v_protesto='+v_protesto +'costas_proc='+v_costas_proc);
 					window.parent.seleccionado(id,v_monto,v_fecha,v_dias,v_protesto,v_costas_proc,valor_doc);
 				}
 
@@ -160,7 +260,7 @@
 <div id="datos" style=" overflow:auto; height:150px; width:99%;">
 <table width="100%" cellpadding="2" cellspacing="2" align="center" border="0">
 	<tr class="cabecera_listado" >
-        <th align="center" width="5%"><font class="titulolistado">D</font><input type="checkbox" name="check_dem" value="" onclick="" ><font class="titulolistado">E</font><input type="checkbox" name="check_ext" value="" onclick="" ></th>
+        <th align="center" width="5%"><font class="titulolistado">D</font><input type="checkbox" name="check_dem" value="" onclick="selecciona_demandas()" ><font class="titulolistado">E</font><input type="checkbox" name="check_ext" value="" onclick="selecciona_existencias()" ></th>
 		<th align="center" width="10%"><font class="titulolistado">Nro.Doc.</font></th>
         <th align="center" width="10%"><font class="titulolistado">Nro.Ficha</font></th>
         <th align="center" width="10%"><font class="titulolistado">Fecha Venc.</font></th>
@@ -182,7 +282,7 @@
 		}
 	?>
 	<tr bgcolor="#FFFFFF">
-    	<td><input type="checkbox" monto="<?php echo ($datoTmp->get_data("monto")) ?>" costas="<?php echo ($datoTmp->get_data("costas")) ?>" gasto_protesto="<?php echo ($datoTmp->get_data("gasto_protesto")) ?>" fecha_protesto="<?php  echo (formatoFecha($datoTmp->get_data("fecha_protesto"),"yyyy-mm-dd","dd/mm/yyyy"))?>" fecha_doc="<?php  echo (formatoFecha($datoTmp->get_data("fecha_vencimiento"),"yyyy-mm-dd","dd/mm/yyyy"))?>" id="<? echo($datoTmp->get_data("id_documento")) ?>" name="checkdoc_sim" value="" onclick="seleccionado(<? echo($datoTmp->get_data("id_documento")) ?>,<? echo($datoTmp->get_data("monto")) ?>,'<?php  echo (formatoFecha($datoTmp->get_data("fecha_protesto"),"yyyy-mm-dd","dd/mm/yyyy"))?>',<? echo($datoTmp->get_data("gasto_protesto")) ?>)" <? echo($checked) ?>></td>	
+    	<td><input type="checkbox" name="checkbox" estado="<?php echo ($datoTmp->get_data("estado")) ?>" monto="<?php echo ($datoTmp->get_data("monto")) ?>" costas="<?php echo ($datoTmp->get_data("costas")) ?>" gasto_protesto="<?php echo ($datoTmp->get_data("gasto_protesto")) ?>" fecha_protesto="<?php  echo (formatoFecha($datoTmp->get_data("fecha_protesto"),"yyyy-mm-dd","dd/mm/yyyy"))?>" fecha_doc="<?php  echo (formatoFecha($datoTmp->get_data("fecha_vencimiento"),"yyyy-mm-dd","dd/mm/yyyy"))?>" id="<? echo($datoTmp->get_data("id_documento")) ?>" name="checkdoc_sim" value="" onclick="seleccionado(<? echo($datoTmp->get_data("id_documento")) ?>,<? echo($datoTmp->get_data("monto")) ?>,'<?php  echo (formatoFecha($datoTmp->get_data("fecha_protesto"),"yyyy-mm-dd","dd/mm/yyyy"))?>',<? echo($datoTmp->get_data("gasto_protesto")) ?>)" <? echo($checked) ?>></td>	
 		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("numero_documento")) ?></td>
 		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo ($datoTmp->get_data("id_ficha")) ?></td>
 		<td align="left" class="dato_lista">&nbsp;&nbsp;<?php echo (formatoFecha($datoTmp->get_data("fecha_vencimiento"),"yyyy-mm-dd","dd/mm/yyyy")) ?></td>
