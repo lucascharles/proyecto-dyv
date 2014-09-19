@@ -2179,7 +2179,6 @@ class DocumentosModel extends ModelBase
 
       	$var_where = " d.id_tipo_doc = td.id_tipo_documento
 							and   d.id_estado_doc = ed.id_estado_doc
-							and   d.id_documento = df.id_documento
 							and   d.activo = 'S'
 							and   d.id_deudor = ".$id_deudor;
       	if($idestado != ""){
@@ -2202,7 +2201,7 @@ class DocumentosModel extends ModelBase
 									IFNULL(d.gastos_protesto,0) gasto_protesto,
 									df.id_ficha id_ficha,
 									SUM(gf.importe) costas "); 
-	  	$sqlpersonal->set_from(" documento_ficha df LEFT JOIN gastos_ficha gf ON df.id_ficha = gf.id_ficha, tipodocumento td, estadodocumentos ed ,documentos d ");
+	  	$sqlpersonal->set_from(" documentos d LEFT JOIN (documento_ficha df LEFT JOIN gastos_ficha gf ON df.id_ficha = gf.id_ficha) ON d.id_documento = df.id_documento, tipodocumento td, estadodocumentos ed ");
 
 	  	$sqlpersonal->set_where($var_where);
       	

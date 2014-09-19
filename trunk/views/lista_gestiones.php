@@ -22,11 +22,11 @@
 			window.parent.seleccionado(id,idest,idnext,rutm,fpg);			
 		}
 		
-		function seleccionadoScroll(id,idest,idnext,rutm)
+		function seleccionadoScroll(id,idest,idnext,rutm,fpg)
 		{
 			document.getElementById('mylink').href = "#fila_"+id;
 			document.getElementById('mylink').click();
-			window.parent.seleccionado(id,idest,idnext,rutm);
+			window.parent.seleccionado(id,idest,idnext,rutm,fpg);
 		}
 		
 		function verMasRegistros(cantPag,id, pantalla)
@@ -95,7 +95,7 @@
 		{
 			$checked = "checked='checked'";
 			echo("<script language='javascript'>");
-			echo(" seleccionadoScroll(".$datoTmp->get_data("id_gestion").",".$datoTmp->get_data("id_estado").",".$nex_id_gestion.",".$datoTmp->get_data("rut_mandante").");");
+			echo(" seleccionadoScroll(".$datoTmp->get_data("id_gestion").",".$datoTmp->get_data("id_estado").",".$nex_id_gestion.",".$datoTmp->get_data("rut_mandante").","."'".$datoTmp->get_data("fecha_prox_gestion")."');");
 			//echo("$.scrollTo('#fila_".$datoTmp->get_data("id_gestion")."',{duration:20});");
 			echo("</script>");
 		}
