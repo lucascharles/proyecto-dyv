@@ -319,8 +319,8 @@ class GestionesController extends ControllerBase
     {
 		require 'models/DeudoresModel.php';
 		$dir = new DeudoresModel();
-		$dato = $dir->lista_demandas($array["iddeudor"],$array["idestadoges"]);	
-		
+//		$dato = $dir->lista_demandas($array["iddeudor"],$array["idestadoges"]);	
+		$dato = $dir->lista_demandas($array["iddeudor"],$array["idestadoges"],$array["idmandante"]);		
 		$data['nom_sistema'] = "SISTEMA DyV";
 		$data['colleccionDemandas'] = $dato;
 		
