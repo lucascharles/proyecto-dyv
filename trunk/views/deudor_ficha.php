@@ -112,6 +112,8 @@
 			arrayin[17] = document.getElementById("txtabogado2");
 			arrayin[18] = document.getElementById("txtjuzgadoanexo");
 			arrayin[19] = document.getElementById("txtexhorto");
+			arrayin[20] = document.getElementById("txtexhorto2");
+			arrayin[21] = document.getElementById("txtexhorto3");
 
 
 			var arraySel = new Array();
@@ -145,7 +147,8 @@
 			datos += "&txttelaval="+document.getElementById("txttelaval").value;
 			datos += "&txtdomicilioaval="+document.getElementById("txtdomicilioaval").value;
 			datos += "&txtexhorto="+document.getElementById("txtexhorto").value;
-			
+			datos += "&txtexhorto2="+document.getElementById("txtexhorto2").value;
+			datos += "&txtexhorto3="+document.getElementById("txtexhorto3").value;
 			datos += "&listdocs="+document.getElementById("listdocs").value;
 			$.ajax({
 					url: "index.php",
@@ -424,6 +427,8 @@
 	$abogado = ($tipoperacion == "M") ? $ficha->get_data("abogado") : "";
 	$abogado2 = ($tipoperacion == "M") ? $ficha->get_data("abogado2") : "";
 	$exhorto = ($tipoperacion == "M") ? $ficha->get_data("exhorto") : "";
+	$exhorto2 = ($tipoperacion == "M") ? $ficha->get_data("exhorto2") : "";
+	$exhorto3 = ($tipoperacion == "M") ? $ficha->get_data("exhorto3") : "";
 	$firma = ($tipoperacion == "M") ? $ficha->get_data("firma") : "";
 	$ingreso = ($tipoperacion == "M") ? formatoFecha($ficha->get_data("ingreso"),"yyyy-mm-dd","dd/mm/yyyy") : "";
 	$providencia_1 = ($tipoperacion == "M") ? $ficha->get_data("providencia") : "";
@@ -506,7 +511,9 @@
 	 <tr>
 		<td align="left" class="etiqueta_form">Abogado</td>
         <td align="left" class="etiqueta_form">Abogado (2)</td>
-		<td align="left" class="etiqueta_form">Exhorto</td>
+		<td align="left" class="etiqueta_form">Exhorto (1)</td>
+		<td align="left" class="etiqueta_form">Exhorto (2)</td>
+		<td align="left" class="etiqueta_form">Exhorto (3)</td>
     </tr>
     <tr>
         <td><input type="text" grabar="S" name="txtabogado"  value="<? echo($abogado) ?>" id="txtabogado"  size="20" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" />
@@ -514,6 +521,10 @@
         <td><input type="text" grabar="S" name="txtabogado2" id="txtabogado2"  value="<? echo($abogado2) ?>" size="20" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" />
         </td>
 		<td><input type="text" grabar="S" name="txtexhorto" id="txtexhorto"  value="<? echo($exhorto) ?>" size="20" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" />
+		</td>
+		<td><input type="text" grabar="S" name="txtexhorto2" id="txtexhorto2"  value="<? echo($exhorto2) ?>" size="20" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" />
+		</td>
+		<td><input type="text" grabar="S" name="txtexhorto3" id="txtexhorto3"  value="<? echo($exhorto3) ?>" size="20" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)" />
 		</td>
     </tr>
     <tr>
