@@ -124,7 +124,9 @@
 					"rut_aval" => array("varchar"),
 					"tel_aval" => array("varchar"),
 					"domicilio_aval" => array("varchar"),
-					"exhorto" => array("varchar")
+					"exhorto" => array("varchar"),
+					"exhorto2" => array("varchar"),
+					"exhorto3" => array("varchar")
 			
 				);
 			parent::BusinessObject();
@@ -346,7 +348,8 @@
 				"emailreceptor1" => array("varchar"),
 				"embargo1" => array("varchar"),
 				"martillero" => array("varchar"),
-				"gasto" => array("decimal")
+				"gasto" => array("decimal"),
+				"embargo_gasto" => array("int")
 				
 				
 				

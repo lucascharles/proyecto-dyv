@@ -162,6 +162,8 @@ class DeudoresModel extends ModelBase
 		$dato->set_data("tel_aval",$param["txttelaval"]);
 		$dato->set_data("domicilio_aval",$param["txtdomicilioaval"]);
 		$dato->set_data("exhorto",$param["txtexhorto"]);
+		$dato->set_data("exhorto2",$param["txtexhorto2"]);
+		$dato->set_data("exhorto3",$param["txtexhorto3"]);
 		$dato->save();
 		
 		$docficha = new Documento_Ficha();
@@ -618,6 +620,7 @@ class DeudoresModel extends ModelBase
 			$datom->set_data("embargo1",$param["txtembargo1"]);
 			$datom->set_data("oposicion_retiro",$param["txtoposicion_retiro"]);
 			$datom->set_data("gasto",$param["txtgasto"]);
+			$datom->set_data("embargo_gasto",$param["txtembargogastos"]);
 			
 			$datom->save();	
 			
@@ -633,11 +636,50 @@ class DeudoresModel extends ModelBase
 				$gasto_ficha->add_filter("AND");
 				$gasto_ficha->add_filter("id_gasto","=",11);// gasto martillero
 				$gasto_ficha->load();
+				
+				$x = new Gastos_FichaCollection();
+				$x->add_filter("id_ficha","=",$resp);
+				$x->add_filter("AND");
+				$x->add_filter("id_gasto","=",11);// gasto martillero
+				if($x->get_count() <= 0){
+					$gasto_ficha = new Gastos_Ficha();
+				}
 			}
 			$gasto_ficha->set_data("id_gasto",11);
 			$gasto_ficha->set_data("id_ficha",$resp);
 			$gasto_ficha->set_data("importe",$param["txtgasto"]);
 			$gasto_ficha->save();
+
+
+			$gasto_ficha9 = new Gastos_Ficha();
+			if($val->get_count() > 0)
+			{
+				$gasto_ficha9->add_filter("id_ficha","=",$resp);
+				$gasto_ficha9->add_filter("AND");
+				$gasto_ficha9->add_filter("id_gasto","=",9);// gasto embargo
+				$gasto_ficha9->load();
+				
+				$x = new Gastos_FichaCollection();
+				$x->add_filter("id_ficha","=",$resp);
+				$x->add_filter("AND");
+				$x->add_filter("id_gasto","=",9);
+				if($x->get_count() <= 0){
+					$gasto_ficha9 = new Gastos_Ficha();
+				}
+			}
+			$gasto_ficha9->set_data("id_gasto",9);
+			$gasto_ficha9->set_data("id_ficha",$resp);
+			$gasto_ficha9->set_data("importe",$param["txtembargogastos"]);
+			$gasto_ficha9->save();
+
+			
+//			$gasto_ficha9 = new Gastos_Ficha();
+//				$gasto_ficha9->set_data("id_gasto",9);
+//				$gasto_ficha9->set_data("id_ficha",$resp);
+//				$gasto_ficha9->set_data("importe",$param["txtembargogastos"]);
+//				$gasto_ficha9->save();	
+//			}
+			
 			
 			
 			$ultid_ficha = $resp;	
@@ -684,6 +726,7 @@ class DeudoresModel extends ModelBase
 			$datom->set_data("embargo1",$param["txtembargo1"]);
 			$datom->set_data("oposicion_retiro",$param["txtoposicion_retiro"]);
 			$datom->set_data("gasto",$param["txtgasto"]);
+			$datom->set_data("embargo_gasto",$param["txtembargogastos"]);
 			
 			$ultid_mart = getUltimoId(new Martillero_FichaCollection(), "id_martillero");
 
@@ -692,6 +735,13 @@ class DeudoresModel extends ModelBase
 			$gasto_ficha->set_data("id_ficha",$ultid_ficha);
 			$gasto_ficha->set_data("importe",$param["txtgasto"]);
 			$gasto_ficha->save();			
+			
+			$gasto_ficha9 = new Gastos_Ficha();
+			$gasto_ficha9->set_data("id_gasto",9);
+			$gasto_ficha9->set_data("id_ficha",$ultid_ficha);
+			$gasto_ficha9->set_data("importe",$param["txtembargogastos"]);
+			$gasto_ficha9->save();
+
 		}
 		
 		return $ultid_ficha;
@@ -1237,27 +1287,6 @@ ORDER BY orden ASC ";
 		$dato->save();
 	}
 	
-//	public function lista_demandas($iddeudor)
-//	{
-//		include("config.php");
-//
-//		$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
-//	
-//		$sqlpersonal->set_select( "   juzgado_anexo juzgado,
-//									  f.rol rol,
-//									  f.id_ficha ficha,
-//									  f.ingreso fecha,
-//									  f.monto monto,
-//									  f.aval aval,
-//									  f.exhorto exhorto");
-//		$sqlpersonal->set_from( " ficha f ");
-//		$sqlpersonal->set_where( " f.id_deudor = ".$iddeudor);
-//	
-//    	$sqlpersonal->load();
-//
-//    	return $sqlpersonal;	
-//	}
-	
 	public function lista_demandas($iddeudor,$idestadoges,$idmandante)
 		{
 			include("config.php");
@@ -1269,7 +1298,7 @@ ORDER BY orden ASC ";
 			$where = $where . " f.id_ficha = df.id_ficha AND df.id_documento = d.id_documento ";
 			$where = $where . " AND f.id_deudor = ". $iddeudor;
 			$where = $where . " AND d.id_estado_doc = " . $idestadoges;
-			$where = $where . " AND f.id_mandante = " . $idmandante;
+			$where = $where . " AND d.id_mandatario = " . $idmandante;
 			$where = $where . " GROUP BY f.juzgado_anexo,f.rol ,f.id_ficha ,f.ingreso ,f.monto ,f.aval ,f.exhorto ";
 			
 			$sqlpersonal->set_select( $select );

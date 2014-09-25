@@ -1094,6 +1094,7 @@ class DocumentosModel extends ModelBase
 	    $estGes->set_data("fecha_prox_gestion",date("Y-m-d", $calculoFuturo));
 	    $estGes->set_data("notas","Inicia Gestion");
 	    $estGes->set_data("usuario","SISTEMA");
+	    $estGes->set_data("activo","S");
 	    $estGes->save();  	
 	  }
 	  else

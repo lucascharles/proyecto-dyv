@@ -77,7 +77,7 @@
 			}
 		
 			datos += "&"+getParametros();
-			// alert(datos);
+//			 alert(datos);
 			//return false;
 			$.ajax({
 					url: "index.php",
@@ -140,6 +140,7 @@
 	$embargo1 = ($id_alta > 0) ? $martillero->get_data("embargo1") : "";
 	$oposicion_retiro = ($id_alta > 0) ? $martillero->get_data("oposicion_retiro") : "";
 	$gasto = ($id_alta > 0) ? $martillero->get_data("gasto") : "";
+	$embargogastos = ($id_alta > 0) ? $martillero->get_data("embargo_gasto") : "";	 
 			
 ?>
 <form name="frmreceptor">
@@ -211,6 +212,8 @@
                  <tr>
 					<td align="left" class="etiqueta_form">Embargo</td>
                     <td align="left" ><input type="text" grabar="S" name="txtembargo" id="txtembargo" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)"  tipovalida="texto" value="<? echo($embargo_1) ?>"/></td>
+					<td align="left" class="etiqueta_form">Gastos Embargo</td>
+                 	<td align="left" ><input type="text" grabar="S" name="txtembargogastos" id="txtembargogastos" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)"  tipovalida="texto" value="<? echo($embargogastos) ?>"/></td>
 
                  </tr>
 
@@ -305,7 +308,6 @@
                  <tr>
 					<td align="left" class="etiqueta_form">Embargo</td>
                     <td align="left" ><input type="text" grabar="S" name="txtembargo1" id="txtembargo1" size="40" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)"  tipovalida="texto" value="<? echo($embargo1) ?>"/></td>
-
                  </tr>
                  <tr>
 					<td align="left" class="etiqueta_form">Fuerza Publica</td>
