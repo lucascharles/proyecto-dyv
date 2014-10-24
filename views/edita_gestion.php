@@ -427,8 +427,9 @@
 
 		function enviarCartas(idmandante,iddeudor)
 		{
-			
+					
 			var url = "index.php?controlador=Gestiones&accion=listarDocumentoMandante&iddeudor="+iddeudor+"&idmandante="+idmandante+"&enviarCarta=S";
+			alert(url);
 			document.getElementById("frmlistdocumentos").src = url;
 		}
 
@@ -748,7 +749,7 @@
     </tr>
     <tr>
 		<td >
-            	<iframe id="frmdemandas" src="index.php?controlador=Gestiones&accion=listar_demandas&iddeudor=<? echo($objGestion->get_data("id_deudor")) ?>&idestadoges=<? $var = &$idestadoges; echo($var); ?>&idmandante=<? echo($objGestion->get_data("id_mandante")) ?>" frameborder="0" align="middle" width="80%" height="120" scrolling="auto"></iframe>
+            	<iframe id="frmdemandas" src="index.php?controlador=Gestiones&accion=listar_demandas&iddeudor=<? echo($objGestion->get_data("id_deudor")) ?>&idestadoges=<? $var = &$idestadoges; echo($var); ?>&idmandante= <? $var = &$idMandante; echo($var); ?> " frameborder="0" align="middle" width="80%" height="120" scrolling="auto"></iframe>
         </td>
 	</tr>
 	<tr>
