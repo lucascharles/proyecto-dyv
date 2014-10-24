@@ -19,25 +19,36 @@ class DeudoresModel extends ModelBase
 		return $dato;
 	}
 
-//	public function getCantFicha($iddeudor)
+//	public function getCantFicha($iddeudor,$idestadoges)
 //	{
-//		$dato = new FichaCollection();
-//		$dato->add_filter("id_deudor","=",$iddeudor);
-//		$dato->load();
-//		$cantidad = $dato->get_count();		
-//		return $cantidad;
+//		include("config.php");
+//		
+//		$select = " DISTINCT f.id_ficha id_ficha "; 
+// 		$from = " ficha f, documento_ficha df, documentos d ";
+//    	$where = $where." f.id_ficha = df.id_ficha	AND df.id_documento = d.id_documento ";
+//    	$where = $where." AND f.id_deudor = ".$iddeudor;
+//    	$where = $where." AND d.id_estado_doc = ".$idestadoges;
+//		
+//		$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
+//		$sqlpersonal->set_select($select);
+//		$sqlpersonal->set_from($from);
+//		$sqlpersonal->set_where($where);
+//    	$sqlpersonal->load();
+//    	$cantidad = $sqlpersonal->get_count();		
+//    	
+//    	return $cantidad;
 //	}
-	
-	
-	public function getCantFicha($iddeudor,$idestadoges)
+
+	public function getCantFicha($idgestion,$idmandante,$fecha)
 	{
 		include("config.php");
 		
-		$select = " DISTINCT f.id_ficha id_ficha "; 
- 		$from = " ficha f, documento_ficha df, documentos d ";
-    	$where = $where." f.id_ficha = df.id_ficha	AND df.id_documento = d.id_documento ";
-    	$where = $where." AND f.id_deudor = ".$iddeudor;
-    	$where = $where." AND d.id_estado_doc = ".$idestadoges;
+		$select = " DISTINCT df.id_ficha id_ficha"; 
+ 		$from = " estados_x_gestion eg, documento_ficha df ";
+    	$where = $where." eg.id_documento = df.id_documento	AND eg.activo = 'S' AND eg.id_estado = 7 ";
+    	$where = $where." AND eg.id_gestion = ".$idgestion;
+    	$where = $where." AND eg.id_mandante = ".$idmandante;
+    	$where = $where." AND eg.fecha_prox_gestion = '".$fecha."'";
 		
 		$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
 		$sqlpersonal->set_select($select);

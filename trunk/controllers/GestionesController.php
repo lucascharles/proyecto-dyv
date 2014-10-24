@@ -88,7 +88,7 @@ class GestionesController extends ControllerBase
 		$cab = $cabecera->items[0];
 		$rutDeudor = $cab->get_data("rut_deudor")."-".$cab->get_data("dv_deudor");
 		$nomDeudor = $cab->get_data("primer_apellido")." ".$cab->get_data("segundo_apellido")." ".$cab->get_data("primer_nombre");
-		$rutM = $cab->get_data("rut_mandante");
+		$rutM = $array["rutM"];
 		
 		if($nomDeudor =="  ")
 		{
@@ -97,13 +97,12 @@ class GestionesController extends ControllerBase
 		
 		$iddeudor = $cab->get_data("id_deudor");
 		
-//		$idM = $mandantes->getMandanteByRut($array["rutM"]);
 		$idM = $mandantes->getMandanteByRut($rutM);
 		
-		$rutMandante = $idM->get_data("rut_mandante")."-".$cab->get_data("dv_mandante");
+		$rutMandante = $idM->get_data("rut_mandante")."-".$idM->get_data("dv_mandante");
 		$rutMand = $idM->get_data("rut_mandante");
 		$rutDvMand = $idM->get_data("dv_mandante");
-		$nomMandante = $idM->get_data("nombre_mandante")." ".$cab->get_data("apellido_mandante");
+		$nomMandante = $idM->get_data("apellido"); 
 		
 		
 		$idmandante = $idM->get_data("id_mandante");
@@ -130,8 +129,7 @@ class GestionesController extends ControllerBase
 		$datoM = $gestiones->getListaMandantes($array["iddeudor"]);
 		
 		$MandantesXDeudor = $mandantes->getMandanteDeudor($iddeudor);
-//		$cantDemandas = $deudor->getCantFicha($iddeudor);
-		$cantDemandas = $deudor->getCantFicha($iddeudor,$array["estadoGes"]);
+		$cantDemandas = $deudor->getCantFicha($array["idgestion"],$idmandante,$array["fecproxges"]);
 		
 		$existeLiquidacion = $deudor->getCantLiquidaciones($array["estadoGes"],$iddeudor);
 		
