@@ -89,15 +89,21 @@
 				var v_dias = 0;
 				var v_fecha = "";	
 				var v_protesto = 0;
-				var arraydoc = document.getElementsByTagName('input');
+				//var arraydoc = document.getElementsByTagName('input');
+				var arraydoc = document.getElementsByName("checkbox");
 				for(var i=0; i<arraydoc.length; i++)
 				{	 
 					if(arraydoc[i].getAttribute('type') == "checkbox")
 					{
 						if(arraydoc[i].checked == true)
 						{
-							v_monto = v_monto + parseFloat(monto);
-							valor_doc = parseFloat(monto);
+							//v_monto = v_monto + parseFloat(monto);
+							 v_monto = v_monto + parseFloat(arraydoc[i].getAttribute('monto'));
+
+//							alert(arraydoc[i].getAttribute('monto'));
+
+							//valor_doc = parseFloat(monto);
+							valor_doc = parseFloat(arraydoc[i].getAttribute('monto'));
 							
 							if(gastos!="")
 								v_costas_proc = v_costas_proc + parseFloat(gastos);
@@ -143,7 +149,7 @@
 				}
 				else
 				{
-//					alert('id='+id+' monto='+v_monto+' v_fecha='+v_fecha+'v_dias='+v_dias +'v_protesto='+v_protesto +'costas_proc='+v_costas_proc+'valor_doc='+valor_doc);
+					//alert('id='+id+' monto='+v_monto+' v_fecha='+v_fecha+'v_dias='+v_dias +'v_protesto='+v_protesto +'costas_proc='+v_costas_proc+'valor_doc='+valor_doc);
 					window.parent.seleccionado(id,v_monto,v_fecha,v_dias,v_protesto,v_costas_proc,valor_doc);
 				}
 
@@ -160,7 +166,8 @@
 				var v_dias = 0;
 				var v_fecha = "";	
 				var v_protesto = 0;
-				var arraydoc = document.getElementsByTagName('input');
+				//var arraydoc = document.getElementsByTagName('input');
+				var arraydoc = document.getElementsByName("checkbox");
 				for(var i=0; i<arraydoc.length; i++)
 				{	 
 					if(arraydoc[i].getAttribute('type') == "checkbox")
@@ -218,7 +225,7 @@
 				}
 				else
 				{
-					alert('id='+id+' monto='+v_monto+' v_fecha='+v_fecha+'v_dias='+v_dias +'v_protesto='+v_protesto +'costas_proc='+v_costas_proc);
+					//alert('id='+id+' monto='+v_monto+' v_fecha='+v_fecha+'v_dias='+v_dias +'v_protesto='+v_protesto +'costas_proc='+v_costas_proc);
 					window.parent.seleccionado(id,v_monto,v_fecha,v_dias,v_protesto,v_costas_proc,valor_doc);
 				}
 
