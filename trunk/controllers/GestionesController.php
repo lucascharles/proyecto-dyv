@@ -6,7 +6,7 @@ class GestionesController extends ControllerBase
     {
 		require 'models/GestionesModel.php';
     	require 'models/DocumentosModel.php';
-		
+
 		$documentos = new DocumentosModel();
 		$gestiones = new GestionesModel();
     	$cantidad = $gestiones->cuentaGestionesDia();
@@ -133,7 +133,7 @@ class GestionesController extends ControllerBase
 		
 		$existeLiquidacion = $deudor->getCantLiquidaciones($array["estadoGes"],$iddeudor);
 		
-		$rolDemanda = $deudor->getRolDemanda($iddeudor);
+		$rolDemanda = $deudor->getRolDemanda($iddeudor,$array["fecproxges"]);
 		$rol = $rolDemanda->items[0];
 		if($rol != ""){
 			$primerRol = $rol->get_data("juzgado_anexo") ." / ".$rol->get_data("rol");
@@ -318,7 +318,7 @@ class GestionesController extends ControllerBase
 		require 'models/DeudoresModel.php';
 		$dir = new DeudoresModel();
 //		$dato = $dir->lista_demandas($array["iddeudor"],$array["idestadoges"]);	
-		$dato = $dir->lista_demandas($array["iddeudor"],$array["idestadoges"],$array["idmandante"]);		
+		$dato = $dir->lista_demandas($array["iddeudor"],$array["idestadoges"],$array["idmandante"],$array["fecproxges"]);		
 		$data['nom_sistema'] = "SISTEMA DyV";
 		$data['colleccionDemandas'] = $dato;
 		
