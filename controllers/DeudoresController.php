@@ -274,6 +274,7 @@ class DeudoresController extends ControllerBase
 		$data['idestadoges'] = $array["idestadoges"];
 		$data['list_docs'] = $array["list_docs"];
 		$data['tipo_ges'] = $array["tipo_ges"];
+		$data['fecproxges'] = $array["fecproxges"];
 		
 		if($array["idGes"]==""){
 			$data['origen'] = "admin_fichas";
@@ -488,7 +489,7 @@ class DeudoresController extends ControllerBase
 	{
 		require 'models/DireccionDeudoresModel.php';
 		$dir = new DireccionDeudoresModel();
-		$dir->guardarDireccionTmp($array["calle"],$array["numero"],$array["piso"],$array["departamento"],$array["comuna"],$array["ciudad"],$array["otros"], session_id(),$array["vigente"]);
+		$dir->guardarDireccionTmp($array["id_deudor"],$array["calle"],$array["numero"],$array["piso"],$array["departamento"],$array["comuna"],$array["ciudad"],$array["otros"], session_id(),$array["vigente"]);
 	}
 	
 	public function editardirtmp($array)
@@ -666,7 +667,11 @@ class DeudoresController extends ControllerBase
 		$data['param_volver'] = $array["param_volver"];
 		$data['val_volver'] = $array["val_volver"];
 		$data['estadoGes'] = $array["estadoGes"];
-		
+		$data['iddeudor'] = $array["iddeudor"];
+		$data['idgestion'] = $array["idgestion"];
+		$data['rutM'] = $array["rutM"];
+		$data['fecproxges'] = $array["fecproxges"];
+
 		$this->view->show("edita_deudores.php", $data);
 	}
 	
