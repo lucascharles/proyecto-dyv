@@ -182,7 +182,8 @@
 			var idestadoges = 7; // document.getElementById("idestadoges").value;
 			var rutM = document.getElementById("txtrut_mandante").value;
 			var tipoges = document.getElementById("tipo_ges").value;
-			$("#pagina").load('index.php?controlador=Gestiones&accion=gestionar&idgestion='+idGes+'&estadoGes='+idestadoges+'&rutM='+rutM+"&tipoGestion="+tipoges);
+			var fecproxges = document.getElementById("fecproxges").value;
+			$("#pagina").load('index.php?controlador=Gestiones&accion=gestionar&idgestion='+idGes+'&estadoGes='+idestadoges+'&rutM='+rutM+"&tipoGestion="+tipoges+'&fecproxges='+fecproxges);
 			
 		}
 		
@@ -455,7 +456,7 @@
 <input  type="hidden" name="listdocs" id="listdocs" value="<? echo($list_docs) ?>" />
 <input  type="hidden" name="id_juzgado" id="id_juzgado" value="" />
 <input  type="hidden" name="tipo_ges" id="tipo_ges" value="<? echo($tipo_ges) ?>" />
-
+<input  type="hidden" name="fecproxges" id="fecproxges" value="<? echo($fecproxges) ?>" />
   <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="titulopantalla">
 	<tr>
 		<th align="left" height="30">&nbsp;Ficha Deudor</th>
