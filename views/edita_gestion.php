@@ -402,13 +402,27 @@
 
 		function modDeudor(iddeudor)
 		{
-			var estadoGes = document.getElementById("idestadoges").value; 
+			var url;
+			var estadoGes = document.getElementById("idestadoges").value;
+			var rutM = document.getElementById("rutM").value;
+			var fecproxges = document.getElementById("fecproxges").value;  
 			if(iddeudor == "")
 			{
 				return false;
 			}
-
-			$("#pagina").load('index.php?controlador=Deudores&accion=editar&estadoGes='+estadoGes+'&iddeudor='+iddeudor+"&control_volver=Gestiones&accion_volver=gestionar&param_volver=idgestion&val_volver="+$("#id_gestion").val());
+			url = "index.php?controlador=Deudores";
+			url = url +"&accion=editar";
+			url = url +"&estadoGes="+ estadoGes;
+			url = url +"&iddeudor="+iddeudor;
+			url = url +"&control_volver=Gestiones";
+			url = url +"&accion_volver=gestionar";
+			url = url +"&param_volver=idgestion";
+			url = url +"&val_volver="+$("#id_gestion").val();
+			url = url +"&rutM="+rutM;
+			url = url +"&fecproxges="+fecproxges;
+			//alert(url);
+			//$("#pagina").load('index.php?controlador=Deudores&accion=editar&estadoGes='+estadoGes+'&iddeudor='+iddeudor+"&control_volver=Gestiones&accion_volver=gestionar&param_volver=idgestion&val_volver="+$("#id_gestion").val()+"&rutM="+rutM);
+			$("#pagina").load(url);
 		}
 
 		function liquidar(iddeudor)
@@ -429,7 +443,7 @@
 		{
 					
 			var url = "index.php?controlador=Gestiones&accion=listarDocumentoMandante&iddeudor="+iddeudor+"&idmandante="+idmandante+"&enviarCarta=S";
-			alert(url);
+			//alert(url);
 			document.getElementById("frmlistdocumentos").src = url;
 		}
 
@@ -444,7 +458,8 @@
 			var idestadoges = document.getElementById("idestadoges").value;
 			var idgestion = document.getElementById("id_gestion").value;
 			var tipoges = document.getElementById("tipoGestion").value;
-			$("#pagina").load('index.php?controlador=Deudores&accion=deudor_ficha&id='+id+'&tipope=M&idGes='+idgestion+'&idestadoges='+idestadoges+'&tipo_ges='+tipoges);
+			var fecproxges = document.getElementById("fecproxges").value;
+			$("#pagina").load('index.php?controlador=Deudores&accion=deudor_ficha&id='+id+'&tipope=M&idGes='+idgestion+'&idestadoges='+idestadoges+'&tipo_ges='+tipoges+'&fecproxges='+fecproxges);
 		}
 		function seleccionado(id)
 		{
@@ -655,8 +670,6 @@
      </tr>
     <tr>
     	<td align="right" valign="top" >
-<!--        			<iframe id="frmlistdocumentos" src="index.php?controlador=Gestiones&accion=listarDocumentoMandante&iddeudor="+idDeudor+"&idmandante="+idMandante+"&idestadoges="+idestadoges+"&actDoc=S";-->
-<!--        			<iframe id="frmlistdocumentos" src="index.php?controlador=Gestiones&accion=listarDocumentoMandante&iddeudor=<? echo($objGestion->get_data("id_deudor")) ?>&idmandante=<? echo($objGestion->get_data("id_mandante")) ?>&idestadoges=<? $var = &$idestadoges; echo($var); ?>&actDoc=S" frameborder="0" align="middle" width="100%" height="120" scrolling="auto"></iframe>-->
 						<iframe id="frmlistdocumentos" src="index.php?controlador=Gestiones&accion=listarDocumentoMandante&iddeudor=<? echo($objGestion->get_data("id_deudor")) ?>&idmandante=<? $var = &$idMandante; echo($var); ?>&idestadoges=<? $var = &$idestadoges; echo($var); ?>&actDoc=S&idgestion=<? $var = &$idgestion; echo($var); ?>&fecproxges=<? $var = &$fecproxges; echo($var); ?>&tipoges=<? $var = &$tipoGestion; echo($var); ?>" frameborder="0" align="middle" width="100%" height="120" scrolling="auto"></iframe>
         </td>
         <td align="center" width="100">
@@ -749,7 +762,7 @@
     </tr>
     <tr>
 		<td >
-            	<iframe id="frmdemandas" src="index.php?controlador=Gestiones&accion=listar_demandas&iddeudor=<? echo($objGestion->get_data("id_deudor")) ?>&idestadoges=<? $var = &$idestadoges; echo($var); ?>&idmandante= <? $var = &$idMandante; echo($var); ?> " frameborder="0" align="middle" width="80%" height="120" scrolling="auto"></iframe>
+            	<iframe id="frmdemandas" src="index.php?controlador=Gestiones&accion=listar_demandas&iddeudor=<? echo($objGestion->get_data("id_deudor")) ?>&idestadoges=<? $var = &$idestadoges; echo($var); ?>&idmandante= <? $var = &$idMandante; echo($var); ?>&fecproxges= <? $var = &$fecproxges; echo($var); ?> " frameborder="0" align="middle" width="80%" height="120" scrolling="auto"></iframe>
         </td>
 	</tr>
 	<tr>
