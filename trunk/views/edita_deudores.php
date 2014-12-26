@@ -128,6 +128,7 @@
 					datos += "&accion=editardirtmp";
 					datos += "&iddir="+$("#id_dir").val();
 				}
+				datos += "&id_deudor="+$("#id_deudor").val();
 				datos += "&calle="+$("#txtcalle").val();
 				datos += "&numero="+$("#txtnumero").val();
 				datos += "&piso="+$("#txtpiso").val();
@@ -204,7 +205,15 @@
 		{
 			if($.trim($("#control_volver").val()) != "")
 			{
-				$("#pagina").load('index.php?controlador='+$("#control_volver").val()+'&accion='+$("#accion_volver").val()+'&'+$("#param_volver").val()+'='+$("#val_volver").val()+'&estadoGes='+$("#estadoGes").val());
+				
+				url = 'index.php?controlador='+$("#control_volver").val()+'&accion='+$("#accion_volver").val()+
+						'&'+$("#param_volver").val()+'='+$("#val_volver").val()+'&estadoGes='+$("#estadoGes").val()+
+						'&rutM='+$("#rutM").val()+
+						'&fecproxges='+$("#fecproxges").val();
+				
+				//alert('index.php?controlador='+$("#control_volver").val()+'&accion='+$("#accion_volver").val()+'&'+$("#param_volver").val()+'='+$("#val_volver").val()+'&estadoGes='+$("#estadoGes").val());
+				//$("#pagina").load('index.php?controlador='+$("#control_volver").val()+'&accion='+$("#accion_volver").val()+'&'+$("#param_volver").val()+'='+$("#val_volver").val()+'&estadoGes='+$("#estadoGes").val());
+				$("#pagina").load(url);
 			}
 			else
 			{
@@ -298,7 +307,14 @@
 					{
 						if($.trim($("#control_volver").val()) != "")
 						{
-							$("#pagina").load('index.php?controlador='+$("#control_volver").val()+'&accion='+$("#accion_volver").val()+'&'+$("#param_volver").val()+'='+$("#val_volver").val()+'&estadoGes='+$("#estadoGes").val());
+							url = 'index.php?controlador='+$("#control_volver").val()+'&accion='+$("#accion_volver").val()+
+									'&'+$("#param_volver").val()+'='+$("#val_volver").val()+'&estadoGes='+$("#estadoGes").val()+
+									'&rutM='+$("#rutM").val()+									
+									'&fecproxges='+$("#fecproxges").val();
+								
+							$("#pagina").load(url);
+							//$("#pagina").load('index.php?controlador='+$("#control_volver").val()+'&accion='+$("#accion_volver").val()+'&'+$("#param_volver").val()+'='+$("#val_volver").val()+'&estadoGes='+$("#estadoGes").val()+'&rutM='+$("#txtrut_m").val());
+							
 						}
 						else
 						{
@@ -485,6 +501,11 @@
 <input type="hidden" name="val_volver" id="val_volver" value="<? echo($val_volver) ?>" />
 <input type="hidden" name="estadoGes" id="estadoGes" value="<? echo($estadoGes) ?>" />
 
+<input type="hidden" name="idgestion" id="idgestion" value="<? echo($idgestion) ?>" />
+<input type="hidden" name="rutM" id="rutM" value="<? echo($rutM) ?>" />
+<input type="hidden" name="fecproxges" id="fecproxges" value="<? echo($fecproxges) ?>" />
+
+
 <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="titulopantalla">
 	<tr>
 		<th align="left" height="30">&nbsp;Editar Deudores</th>
@@ -631,7 +652,7 @@
 	<tr>
 		<th align="left">Dirección</th>
         <th></th>
-        <th align="right"><input type="button" name="btnagregardir" id="btnagregardir" title="Agregar Direcci&oacute;n" value="Agregar" onclick="agregarDir()" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'>&nbsp;<input type="button" name="btneditardir" id="btneditardir" title="Editar Direcci&oacute;n" onclick="editarDir()" value="Editar" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'></th>
+        <th align="right"><input type="button" name="btnagregardir" id="btnagregardir" title="Agregar Direcci&oacute;n" value="Nueva" onclick="agregarDir()" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'>&nbsp;<input type="button" name="btneditardir" id="btneditardir" title="Editar Direcci&oacute;n" onclick="editarDir()" value="Modificar" class="boton_form" onMouseOver='overClassBoton(this)' onMouseOut='outClassBoton(this)'></th>
     </tr>
  </table>
  <div id="formsoporte" style=" display:none">
