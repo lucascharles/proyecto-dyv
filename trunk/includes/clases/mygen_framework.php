@@ -121,7 +121,7 @@
 			}
 			$sql .= ";";
 			
-//			echo("<br>sql: ".$sql);
+			echo("<br>sql: ".$sql);
 			
 //			$select = mssql_query($sql,$this->db_connect_id_s);//sql_server
 			$select = mysql_query($sql,$this->db_connect_id_s);
