@@ -57,12 +57,32 @@ class GestionesController extends ControllerBase
 		$this->view->show("admin_gestiones.php", $data);
 	}
 	
-	public function eliminarGestion($idgestion,$tipoges)
+// 	public function eliminarGestion($idgestion,$tipoges)
+	public function eliminarGestion($array)
 	{
+		require 'models/DocumentosModel.php';
 		require 'models/GestionesModel.php';
 		$gestiones = new GestionesModel();
 	
-		$result = $gestiones->eliminarGestiones($idgestion);
+		$result = $gestiones->eliminarGestiones($array["idgestion"]);
+		
+		$documentos = new DocumentosModel();		
+		$cantidad = $gestiones->cuentaGestionesTotal();
+		$cuenta = $cantidad->items[0];
+		$cant = $cuenta->get_data("cantidad");
+		 
+		$detalleDocs = $gestiones->getDetalleDocs();
+		
+		$data['nom_sistema'] = "SISTEMA DyV";
+		$data['accion_form'] = "";
+		$data['tipoGestion'] = "";
+		$data['rut_m'] = $array["rut_m"];
+		$data['cantGestion'] = $cant;
+		
+		$data['detalleDocs'] = $detalleDocs;
+		$data['coleccion_estadoGes'] = $documentos->getListaEstadoDoc("");
+		
+		
 		$this->view->show("admin_gestiones.php", $data);
 	}
 	
@@ -135,9 +155,14 @@ class GestionesController extends ControllerBase
 		
 		$rolDemanda = $deudor->getRolDemanda($iddeudor,$array["fecproxges"]);
 		$rol = $rolDemanda->items[0];
+		
+		
+		
 		if($rol != ""){
 			$primerRol = $rol->get_data("juzgado_anexo") ." / ".$rol->get_data("rol");
-			$ficha = $rol->get_data("idficha");
+			
+			$ficha = $rol->get_data("id_ficha");
+			
 			if($rol->get_data("aval") != ""){
 				$tieneaval = "Si";
 			}
