@@ -171,7 +171,8 @@ class GestionesController extends ControllerBase
 				$tieneaval = "No";
 			}
 			
-			if($rol->get_data("exhorto") != ""){
+// 			if($rol->get_data("exhorto") != ""){
+			if($rol->get_data("exhorto1") != "" || $rol->get_data("exhorto2") != "" || $rol->get_data("exhorto3") != ""){
 				$exhorto = "Si";
 			}
 			else

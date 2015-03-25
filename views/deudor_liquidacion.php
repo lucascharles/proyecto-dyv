@@ -514,6 +514,7 @@
 			else
 			{
 				document.getElementById("txtinteresacumulado").value = parseInt(document.getElementById("txtinteresacumulado").value)+ int_acum;
+				//alert("interes= "+ interes+" dias= "+dias+" int_acum= "+int_acum);
 			}
 
 			//CALCULO DE SIMULACION

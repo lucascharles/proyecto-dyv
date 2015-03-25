@@ -117,7 +117,7 @@ $(document).ready(function(){
 			if(conf == true){
 				var id = document.getElementById("id_gestion").value;
 				var idNextGes = document.getElementById("id_next").value;
-				$("#pagina").load('index.php?controlador=Gestiones&accion=eliminarGestionar&idgestion='+id+'&idNextGes='+idNextGes+'&tipoGestion='+document.getElementById("tipo_gestion").value+'&estadoGes='+document.getElementById("id_estado").value+'&rutM='+document.getElementById("rut_m").value);
+				$("#pagina").load('index.php?controlador=Gestiones&accion=eliminarGestion&idgestion='+id+'&idNextGes='+idNextGes+'&tipoGestion='+document.getElementById("tipo_gestion").value+'&estadoGes='+document.getElementById("id_estado").value+'&rutM='+document.getElementById("rut_m").value);
 	
 			}
 		}

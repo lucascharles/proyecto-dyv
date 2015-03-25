@@ -68,9 +68,11 @@
 				
 				vid = boxes[i].getAttribute('id');
 				vmonto = boxes[i].getAttribute('monto');
-				vfecha_protesto = boxes[i].getAttribute('fecha_protesto');
-				if(vfecha_protesto==""){
-					vfecha_protesto=boxes[i].getAttribute('fecha_doc');
+				//vfecha_protesto = boxes[i].getAttribute('fecha_protesto');
+				vfecha_protesto = boxes[i].getAttribute('fecha_doc');
+				if(vfecha_protesto=="" || vfecha_protesto == "00/00/0000"){
+					//vfecha_protesto=boxes[i].getAttribute('fecha_doc');
+					vfecha_protesto=boxes[i].getAttribute('fecha_protesto');
 				}
 				vgastos_protesto = boxes[i].getAttribute('gasto_protesto');
 				
@@ -133,10 +135,13 @@
 					var dat1 = new Date(d1[2], parseFloat(d1[1])-1, parseFloat(d1[0]));
 					var d2 = $('#fecha_sim').val().split("/");
 					var dat2 = new Date(d2[2], parseFloat(d2[1])-1, parseFloat(d2[0]));
-	 
+	 			
 					var fin = dat2.getTime() - dat1.getTime();
 					dias = Math.floor(fin / (1000 * 60 * 60 * 24));  
 					v_dias = dias;
+
+				//alert("d1= "+dat1 + " d2= "+dat2+ " dias="+dias);
+					
 				}
 				else
 				{

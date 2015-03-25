@@ -18,6 +18,6 @@ class BancosModel extends ModelBase
        
 	    return $dato;
 	}
-	
+//fin de archivo	
 }
 ?>

@@ -570,11 +570,260 @@ class DocumentosModel extends ModelBase
 					    $estGes->set_data("fecha_prox_gestion",date("Y-m-d", $calculoFuturo));
 					    $estGes->set_data("notas","Inicia Gestion");
 					    $estGes->set_data("usuario","SISTEMA");
-					    $estGes->set_data("activo","S");
 					    $estGes->save();  
 						
 					
 					} 	
+//					// VALIDACION IMPORTE
+//					// vacio
+//					if(trim($arraydatos[15]) == "")
+//					{
+//						$error_monto[] = 10;
+//						$monto_doc = 0;
+//					}
+//					else
+//					{
+//						$monto_doc = $arraydatos[15];
+//					}
+//					// valor no numerico
+//					if(false)
+//					{
+//						$error_monto[] = 11;
+//						$monto_doc = 0;
+//					}
+//					
+//					// VALIDACION TIPO DOCUMENTO
+//					// vacio
+//					if(trim($arraydatos[17]) == "")
+//					{
+//						$error_tipodocumento[] = 12;
+//					}
+//					
+//					// no existe tipo documento
+//					$tipodoc = new TipoDocumento();
+//					$tipodoc->add_filter("tipo_documento","=",strtoupper(trim($arraydatos[17])));
+//					$tipodoc->load();
+//					if(is_null($tipodoc->get_data("id_tipo_documento")))
+//					{
+//						$error_tipodocumento[] = 13;
+//						$idTipoDoc = 6; //Tipo de Doc = OTRO (6)
+//					}
+//					else
+//					{
+//						$idTipoDoc = $tipodoc->get_data("id_tipo_documento");
+//					}
+//					
+//					// VALIDACION BANCO				
+//					// vacio
+//					if(trim($arraydatos[20]) == "")
+//					{
+//						$error_banco[] = 14;
+//						$banco_default = 0;
+//					}
+//					
+//					// no existe banco
+//					$banco = new Bancos();
+//					$banco->add_filter("banco","=",trim($arraydatos[20]));
+//					$banco->load();
+//					$banco_default = $banco->get_data("id_banco");
+//					if(is_null($banco->get_data("id_banco")))
+//					{
+//						//echo("<br>ERROR banco 7 ");
+//						$error_banco[] = 15;
+//						$banco_default = 0;
+//					}
+//
+//					// VALIDACION NUMERO DOCUMENTO
+//					// cero
+//					if((int)$arraydatos[19] == 0)
+//					{
+//						$nrodocumento = NULL;					
+//					}
+//					else
+//					{
+//						$nrodocumento =trim($arraydatos[19]);
+//					}
+//					
+//					
+//					// vacio
+//					if(trim($arraydatos[19]) == "")
+//					{
+//						$nrodocumento = NULL;
+//					}
+//					else
+//					{
+//						$nrodocumento =trim($arraydatos[19]);
+//					}
+//					
+//					// valor no numerico
+//					if(false)
+//					{
+//						$error_nrodocumento[] = 18;
+//					}
+//					
+//				// VALIDACION CUENTA CORRIENTE, puede no existir la cuenta 
+//					// cero
+//					if((int)$arraydatos[21] == 0)
+//					{
+//						$cta_cte = NULL;
+//					}
+//					else
+//					{
+//						$cta_cte =trim($arraydatos[21]);
+//					}
+//					
+//					
+//					// vacio
+//					if(trim($arraydatos[21]) == "")
+//					{
+//						$cta_cte = NULL;
+//					}
+//					else
+//					{
+//						$cta_cte =trim($arraydatos[21]);
+//					}
+//					
+//					//Validacion de fecha de protesto
+//					
+//					if(trim($arraydatos[22]) != "")
+//					{
+//						$fecha_protesto =trim($arraydatos[22]);
+//					}
+//					
+//					//Validacion de causal de protesto
+//					if(trim($arraydatos[23]) == "")
+//					{
+//						$causal_protesto = 13;
+//					}
+//					else
+//					{
+//						$datoCausal = new CausalProtesta();
+//				        $datoCausal->add_filter("causal","like",trim($arraydatos[23])."%");
+//				    	$datoCausal->load();
+//						$causal_protesto = $datoCausal->get_data("id_causal");
+//					}
+//
+//					//Validacion de gatos de protesto
+//					if(trim($arraydatos[24]) == "")
+//					{
+//						$gastos_protesto = 0;
+//					}
+//					else
+//					{
+//						$gasto_protesto =trim($arraydatos[24]);
+//					}
+//					
+//					if(count($error_rutmandante) == 0 && 
+//						count($error_rutdeudor) == 0 )
+//					{	
+//						// GUARDAR DOCUMENTO
+//						$datodoc = new Documentos();
+//						$datodoc->set_data("id_estado_doc",999); // pendiente de enviar carta(hay que parametrizar)
+//						$datodoc->set_data("id_tipo_doc",$idTipoDoc);
+//						$datodoc->set_data("id_banco",$banco_default);				
+//						$datodoc->set_data("id_mandatario",$idMandante);						
+//						$datodoc->set_data("id_deudor",$idDeudor);
+//						$datodoc->set_data("numero_documento",$nrodocumento);
+//						$datodoc->set_data("monto",$monto_doc);
+//						$datodoc->set_data("cta_cte",$cta_cte);
+////						$datodoc->set_data("fecha_siniestro",date("Y-m-d"));
+//						
+//						$date = new DateTime($fecha_protesto);
+//						$fechaProtesto = $date->format('Y-m-d'); 
+//						$datodoc->set_data("fecha_siniestro",$fechaProtesto);
+//
+//						$datodoc->set_data("id_causa_protesto",$causal_protesto);
+//						$datodoc->set_data("gastos_protesto",$gasto_protesto);
+//						$datodoc->set_data("activo","S");
+//						$datodoc->set_data("fecha_creacion",date("Y-m-d"));
+//						$datodoc->set_data("usuario_creacion",$id_usuario);
+//						
+//						$datodoc->save();
+//						
+//					}
+//					else
+//					{
+//						if($id_log == 0)
+//						{
+//							$logerror = new LogError();
+//							$logerror->set_data("fecha_hora",date("d/m/Y H:i:s"));
+//							$logerror->set_data("id_usuario",$id_usuario);
+//							$logerror->save();
+//							
+//							$id_log = getUltimoId(new LogErrorCollection(), "id");
+//						}
+//						
+//						for($j = 0; $j<count($error_rutmandante); $j++)
+//						{
+//							$log_e = new Det_LogError_CargaMasiva();
+//							$log_e->set_data("id_logerror",$id_log);
+//							$log_e->set_data("id_tipo_error",$error_rutmandante[$j]);
+//							$log_e->set_data("archivo",$nombre_archivo);
+//							$log_e->set_data("fila",$i);
+//							$log_e->save();
+//						}
+//						
+//						for($j = 0; $j<count($error_rutdeudor); $j++)
+//						{
+//							$log_e = new Det_LogError_CargaMasiva();
+//							$log_e->set_data("id_logerror",$id_log);
+//							$log_e->set_data("id_tipo_error",$error_rutdeudor[$j]);
+//							$log_e->set_data("archivo",$nombre_archivo);
+//							$log_e->set_data("fila",$i);
+//							
+//							$log_e->save();
+//						}
+//						
+//						for($j = 0; $j<count($error_monto); $j++)
+//						{
+//							$log_e = new Det_LogError_CargaMasiva();
+//							$log_e->set_data("id_logerror",$id_log);
+//							$log_e->set_data("id_tipo_error",$error_monto[$j]);
+//							$log_e->set_data("archivo",$nombre_archivo);
+//							$log_e->set_data("fila",$i);
+//							$log_e->save();
+//						}
+//						
+//						for($j = 0; $j<count($error_tipodocumento); $j++)
+//						{
+//							$log_e = new Det_LogError_CargaMasiva();
+//							$log_e->set_data("id_logerror",$id_log);
+//							$log_e->set_data("id_tipo_error",$error_tipodocumento[$j]);
+//							$log_e->set_data("archivo",$nombre_archivo);
+//							$log_e->set_data("fila",$i);
+//							$log_e->save();
+//						}
+//						
+//						for($j = 0; $j<count($error_banco); $j++)
+//						{
+//							$log_e = new Det_LogError_CargaMasiva();
+//							$log_e->set_data("id_logerror",$id_log);
+//							$log_e->set_data("id_tipo_error",$error_banco[$j]);
+//							$log_e->set_data("archivo",$nombre_archivo);
+//							$log_e->set_data("fila",$i);
+//							$log_e->save();
+//						}
+//						
+//						for($j = 0; $j<count($error_nrodocumento); $j++)
+//						{
+//							$log_e = new Det_LogError_CargaMasiva();
+//							$log_e->set_data("id_logerror",$id_log);
+//							$log_e->set_data("id_tipo_error",$error_nrodocumento[$j]);
+//							$log_e->set_data("archivo",$nombre_archivo);
+//							$log_e->set_data("fila",$i);
+//							$log_e->save();
+//						}
+//						
+//						for($j = 0; $j<count($error_ctacte); $j++)
+//						{
+//							$log_e = new Det_LogError_CargaMasiva();
+//							$log_e->set_data("id_logerror",$id_log);
+//							$log_e->set_data("id_tipo_error",$error_ctacte[$j]);
+//							$log_e->set_data("archivo",$nombre_archivo);
+//							$log_e->set_data("fila",$i);
+//							$log_e->save();
+//						}
+//					}
 				}//If i>0
 				$i = $i + 1;
 			}//Foreach
@@ -738,7 +987,7 @@ class DocumentosModel extends ModelBase
       $dato->set_data("numero_documento",$array["txtnrodoc"]);
       $dato->set_data("id_tipo_doc",$array["selTipoDoc"]);
 	  
-      $date = str_replace('/', '-',$array["txtfechaRecibido"]); 
+      $date = str_replace('/', '-',$array["txtfechaVenc"]); 
       $dato->set_data("fecha_siniestro",date('Y-m-d', strtotime($date)));
       
       $dato->set_data("monto",$array["txtmonto"]);
@@ -850,11 +1099,39 @@ class DocumentosModel extends ModelBase
 	  }
 	  else
 	  {
-	  	$dato3 = new Gestiones();
-	  	$dato3->set_data("id_deudor",$array["deudor"]);
-      	$dato3->set_data("id_mandante",$array["mandante"]);
-      	$dato3->set_data("nota_gestion","Inicia Gestion");
-      	$dato3->save();
+
+	  	//Recupera el id del documento que se da de alta
+	  	$doc = new Documentos();
+	  	$doc->add_filter("id_deudor","=",$array["deudor"]);
+	  	$doc->add_filter("AND");
+	  	$doc->add_filter("id_mandatario","=",$array["mandante"]);
+	  	$doc->add_filter("AND");
+	  	$doc->add_filter("id_estado_doc","=",999);
+	  	$doc->add_filter("AND");
+	  	$doc->add_filter("numero_documento","=",$array["txtnrodoc"]);
+	  	$doc->load();
+	  	
+	  	
+	  	//agrega documento a la gestion
+	  	$ges = new Gestiones();
+	  	$ges->add_filter("id_deudor","=",$array["deudor"]);
+	  	$ges->add_filter("AND");
+	  	$ges->add_filter("id_mandante","=",$array["mandante"]);
+	  	$ges->add_filter("AND");
+	  	$ges->add_filter("activo","=","S");
+	  	$ges->load();
+
+	  	$estGes = new Estados_x_Gestion();
+	  	$estGes->set_data("id_gestion",$ges->get_data("id_gestion"));
+	  	$estGes->set_data("id_estado",1);
+	  	$estGes->set_data("id_mandante",$array["mandante"]);
+	  	$estGes->set_data("id_documento",$doc->get_data("id_documento"));
+	  	$estGes->set_data("fecha_gestion",date("Y-m-d"));
+	  	$estGes->set_data("fecha_prox_gestion",date("Y-m-d", $calculoFuturo));
+	  	$estGes->set_data("notas","Inicia Gestion nuevo documento");
+	  	$estGes->set_data("usuario","SISTEMA");
+	  	$estGes->set_data("activo","S");
+	  	$estGes->save();
       	
 	  }
 	 
@@ -1096,8 +1373,9 @@ class DocumentosModel extends ModelBase
 									ifnull(m.nombre, m.apellido) nombre_mandante, ed.estado id_estado_doc, td.tipo_documento id_tipo_doc,
 									d.numero_documento numero_documento,d.fecha_protesto fecha_protesto, d.cta_cte cta_cte,d.monto monto , d.fecha_siniestro fecha_recibido, d.gastos_protesto gastos_protesto,
 									df.id_ficha id_ficha,cp.causal causal ");
-		$sqlpersonal->set_from(" ((documentos d LEFT JOIN bancos c ON d.id_banco = c.id_banco) LEFT JOIN documento_ficha df ON d.id_documento = df.id_documento)
+		$sqlpersonal->set_from(" ((documentos d LEFT JOIN bancos c ON d.id_banco = c.id_banco))
 									LEFT JOIN causalprotesta cp ON d.id_causa_protesto = cp.id_causal,
+									documento_ficha df ,
 	 								deudores dd,
 	 								mandantes m,
 	 								estadodocumentos ed,
@@ -1105,6 +1383,7 @@ class DocumentosModel extends ModelBase
 		$where = " d.id_deudor = dd.id_deudor
 				and m.id_mandante = d.id_mandatario
 				and d.id_estado_doc = ed.id_estado_doc
+				and d.id_documento = df.id_documento
 				and ifnull(d.id_tipo_doc,6) = td.id_tipo_documento				
 				and d.activo = 'S'
 				and m.id_mandante = ". $idmandante." and d.id_deudor = ".$iddeudor." and d.id_estado_doc in(999, ".$idestado.")" ;
@@ -1118,6 +1397,30 @@ class DocumentosModel extends ModelBase
 
 		$where = $where . " GROUP BY d.id_documento, c.banco ,dd.primer_apellido , dd.segundo_apellido , dd.primer_nombre , dd.segundo_nombre , m.nombre, m.apellido,
                             ed.estado , td.tipo_documento , d.numero_documento, d.fecha_protesto , d.cta_cte , d.monto , d.fecha_siniestro , d.gastos_protesto , cp.causal "; 
+		
+		//
+		
+		$where = $where .		
+		" UNION  SELECT d.id_documento id_documento,c.banco id_banco,dd.primer_apellido ape1_deudor,dd.segundo_apellido ape2_deudor,	dd.primer_nombre nom1_deudor,
+		  dd.segundo_nombre nom2_deudor,IFNULL(m.nombre, m.apellido) nombre_mandante,	ed.estado id_estado_doc,td.tipo_documento id_tipo_doc,
+		  d.numero_documento numero_documento,d.fecha_protesto fecha_protesto,d.cta_cte cta_cte,d.monto monto,
+		  d.fecha_siniestro fecha_recibido,d.gastos_protesto gastos_protesto,NULL id_ficha,cp.causal causal
+		FROM((	documentos d LEFT JOIN bancos c	ON d.id_banco = c.id_banco	))
+		  LEFT JOIN causalprotesta cp	ON d.id_causa_protesto = cp.id_causal,
+		  deudores dd,mandantes m,estadodocumentos ed,tipodocumento td
+		WHERE d.id_deudor = dd.id_deudor
+		  AND m.id_mandante = d.id_mandatario
+		  AND d.id_estado_doc = ed.id_estado_doc
+		  AND IFNULL(d.id_tipo_doc, 6) = td.id_tipo_documento
+		  AND d.activo = 'S'
+		  AND m.id_mandante = ". $idmandante." AND d.id_deudor = ".$iddeudor.	" AND d.id_estado_doc IN (999,". $idestado.")
+		  AND d.id_documento NOT IN (SELECT df2.id_documento FROM documento_ficha df2 )
+		GROUP BY d.id_documento,
+		  c.banco,dd.primer_apellido,	dd.segundo_apellido,dd.primer_nombre,dd.segundo_nombre,	m.nombre,m.apellido,ed.estado,td.tipo_documento,
+		  d.numero_documento,	d.fecha_protesto,d.cta_cte,	d.monto,d.fecha_siniestro,d.gastos_protesto,cp.causal ";
+		
+		//
+		
 		$sqlpersonal->set_where($where);
 	
 		$sqlpersonal->load();
@@ -1137,8 +1440,9 @@ class DocumentosModel extends ModelBase
 									ifnull(m.nombre, m.apellido) nombre_mandante, ed.estado id_estado_doc, td.tipo_documento id_tipo_doc,
 									d.numero_documento numero_documento,d.fecha_protesto fecha_protesto, d.cta_cte cta_cte,d.monto monto , d.fecha_siniestro fecha_recibido, d.gastos_protesto gastos_protesto,
 									df.id_ficha id_ficha,cp.causal causal ");
-		$sqlpersonal->set_from(" ((documentos d LEFT JOIN bancos c ON d.id_banco = c.id_banco) LEFT JOIN documento_ficha df ON d.id_documento = df.id_documento)
+		$sqlpersonal->set_from(" ((documentos d LEFT JOIN bancos c ON d.id_banco = c.id_banco))
 									LEFT JOIN causalprotesta cp ON d.id_causa_protesto = cp.id_causal,
+									documento_ficha df,
 	 								deudores dd,
 	 								mandantes m,
 	 								estadodocumentos ed,
@@ -1146,6 +1450,7 @@ class DocumentosModel extends ModelBase
 		$where = " d.id_deudor = dd.id_deudor
 				and m.id_mandante = d.id_mandatario
 				and d.id_estado_doc = ed.id_estado_doc
+				and d.id_documento = df.id_documento 
 				and ifnull(d.id_tipo_doc,6) = td.id_tipo_documento				
 				and d.activo = 'S'
 				and m.id_mandante = ". $idmandante." and d.id_deudor = ".$iddeudor." and d.id_estado_doc in(999, ".$idestado.")" ;
@@ -1159,6 +1464,31 @@ class DocumentosModel extends ModelBase
 
 		$where = $where . " GROUP BY d.id_documento, c.banco ,dd.primer_apellido , dd.segundo_apellido , dd.primer_nombre , dd.segundo_nombre , m.nombre, m.apellido,
                             ed.estado , td.tipo_documento , d.numero_documento, d.fecha_protesto , d.cta_cte , d.monto , d.fecha_siniestro , d.gastos_protesto , cp.causal "; 
+
+		//
+		
+		$where = $where .
+		" UNION  SELECT d.id_documento id_documento,c.banco id_banco,dd.primer_apellido ape1_deudor,dd.segundo_apellido ape2_deudor,	dd.primer_nombre nom1_deudor,
+		dd.segundo_nombre nom2_deudor,IFNULL(m.nombre, m.apellido) nombre_mandante,	ed.estado id_estado_doc,td.tipo_documento id_tipo_doc,
+		d.numero_documento numero_documento,d.fecha_protesto fecha_protesto,d.cta_cte cta_cte,d.monto monto,
+		d.fecha_siniestro fecha_recibido,d.gastos_protesto gastos_protesto,NULL id_ficha,cp.causal causal
+		FROM((	documentos d LEFT JOIN bancos c	ON d.id_banco = c.id_banco	))
+		LEFT JOIN causalprotesta cp	ON d.id_causa_protesto = cp.id_causal,
+		deudores dd,mandantes m,estadodocumentos ed,tipodocumento td
+		WHERE d.id_deudor = dd.id_deudor
+		AND m.id_mandante = d.id_mandatario
+		AND d.id_estado_doc = ed.id_estado_doc
+		AND IFNULL(d.id_tipo_doc, 6) = td.id_tipo_documento
+		AND d.activo = 'S'
+		AND m.id_mandante = ". $idmandante." AND d.id_deudor = ".$iddeudor.	" AND d.id_estado_doc IN (999,". $idestado.")
+		AND d.id_documento NOT IN (SELECT df2.id_documento FROM documento_ficha df2 )
+		GROUP BY d.id_documento,
+		c.banco,dd.primer_apellido,	dd.segundo_apellido,dd.primer_nombre,dd.segundo_nombre,	m.nombre,m.apellido,ed.estado,td.tipo_documento,
+		d.numero_documento,	d.fecha_protesto,d.cta_cte,	d.monto,d.fecha_siniestro,d.gastos_protesto,cp.causal ";
+		
+		//
+		
+		
 		$sqlpersonal->set_where($where);
 	
 		$sqlpersonal->load();

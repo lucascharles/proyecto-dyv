@@ -19,35 +19,17 @@ class DeudoresModel extends ModelBase
 		return $dato;
 	}
 
-//	public function getCantFicha($iddeudor,$idestadoges)
-//	{
-//		include("config.php");
-//		
-//		$select = " DISTINCT f.id_ficha id_ficha "; 
-// 		$from = " ficha f, documento_ficha df, documentos d ";
-//    	$where = $where." f.id_ficha = df.id_ficha	AND df.id_documento = d.id_documento ";
-//    	$where = $where." AND f.id_deudor = ".$iddeudor;
-//    	$where = $where." AND d.id_estado_doc = ".$idestadoges;
-//		
-//		$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
-//		$sqlpersonal->set_select($select);
-//		$sqlpersonal->set_from($from);
-//		$sqlpersonal->set_where($where);
-//    	$sqlpersonal->load();
-//    	$cantidad = $sqlpersonal->get_count();		
-//    	
-//    	return $cantidad;
-//	}
 
 	public function getCantFicha($idgestion,$idmandante,$fecha)
 	{
 		include("config.php");
 		
 		$select = " DISTINCT df.id_ficha id_ficha"; 
- 		$from = " estados_x_gestion eg, documento_ficha df ";
+ 		$from = " estados_x_gestion eg, documento_ficha df, documentos d ";
     	$where = $where." eg.id_documento = df.id_documento	AND eg.activo = 'S' AND eg.id_estado = 7 ";
+    	$where = $where." AND df.id_documento = d.id_documento ";
     	$where = $where." AND eg.id_gestion = ".$idgestion;
-    	$where = $where." AND eg.id_mandante = ".$idmandante;
+    	$where = $where." AND d.id_mandatario = ".$idmandante;
     	$where = $where." AND eg.fecha_prox_gestion = '".$fecha."'";
 		
 		$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
@@ -684,15 +666,6 @@ class DeudoresModel extends ModelBase
 			$gasto_ficha9->save();
 
 			
-//			$gasto_ficha9 = new Gastos_Ficha();
-//				$gasto_ficha9->set_data("id_gasto",9);
-//				$gasto_ficha9->set_data("id_ficha",$resp);
-//				$gasto_ficha9->set_data("importe",$param["txtembargogastos"]);
-//				$gasto_ficha9->save();	
-//			}
-			
-			
-			
 			$ultid_ficha = $resp;	
 		}
 		else
@@ -1298,18 +1271,20 @@ ORDER BY orden ASC ";
 		$dato->save();
 	}
 	
-	public function lista_demandas($iddeudor,$idestadoges,$idmandante)
+	public function lista_demandas($iddeudor,$idestadoges,$idmandante,$fechagestion)
 		{
 			include("config.php");
 
 			$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
 		
-			$select = $select . " f.juzgado_anexo juzgado,f.rol rol,f.id_ficha ficha, f.ingreso fecha, f.monto monto, f.aval aval,f.exhorto exhorto ";
-			$from = $from . " ficha f, documento_ficha df, documentos d ";
-			$where = $where . " f.id_ficha = df.id_ficha AND df.id_documento = d.id_documento ";
+			$select = $select . " f.juzgado_anexo juzgado,f.rol rol,f.id_ficha ficha, f.ingreso fecha, f.monto monto, f.aval aval,IFNULL(f.exhorto3,IFNULL(f.exhorto2,f.exhorto)) exhorto ";
+			$select = $select . " ,IFNULL(f.exhorto3,'') exhorto3,IFNULL(f.exhorto2,'') exhorto2,IFNULL(f.exhorto,'') exhorto1  ";
+			$from = $from . " ficha f, documento_ficha df, documentos ds, estados_x_gestion d ";
+			$where = $where . " f.id_ficha = df.id_ficha AND df.id_documento = d.id_documento AND df.id_documento = ds.id_documento ";
 			$where = $where . " AND f.id_deudor = ". $iddeudor;
-			$where = $where . " AND d.id_estado_doc = " . $idestadoges;
-			$where = $where . " AND d.id_mandatario = " . $idmandante;
+			$where = $where . " AND d.id_estado = " . $idestadoges;
+			$where = $where . " AND ds.id_mandatario = " . $idmandante;
+			$where = $where . " AND d.fecha_prox_gestion = '".$fechagestion."'";
 			$where = $where . " GROUP BY f.juzgado_anexo,f.rol ,f.id_ficha ,f.ingreso ,f.monto ,f.aval ,f.exhorto ";
 			
 			$sqlpersonal->set_select( $select );
@@ -1905,16 +1880,20 @@ ORDER BY orden ASC ";
 	    return $sqlpersonal;
 	}
 	
-	public function getRolDemanda($iddeudor)
+	public function getRolDemanda($iddeudor,$fechagestion)
 	{
 		
 		include("config.php");
 
+		$select = " f.id_ficha id_ficha, f.rol rol, f.juzgado_anexo juzgado_anexo,f.aval aval, IFNULL(f.exhorto3,IFNULL(f.exhorto2,f.exhorto)) exhorto ";
+		$select = $select . " ,IFNULL(f.exhorto3,'') exhorto3,IFNULL(f.exhorto2,'') exhorto2,IFNULL(f.exhorto,'') exhorto1  "; 
+		$from = " estados_x_gestion eg ,documento_ficha df, ficha f ";
+		$where = "  eg.id_documento = df.id_documento 
+					 AND df.id_ficha = f.id_ficha
+					 AND eg.fecha_prox_gestion = '".$fechagestion."'".
+				   " AND eg.activo = 'S' AND id_deudor = ".$iddeudor.
+				   " GROUP BY rol"; 
 		
-		$select = " MIN(id_ficha) idficha, rol rol, juzgado_anexo juzgado_anexo, aval aval , exhorto exhorto"; 
- 		$from = " ficha f ";
-    	$where = " id_deudor = ".$iddeudor;
-    	$where = $where . " GROUP BY rol ";
 		
 		$sqlpersonal = new SqlPersonalizado($config->get('dbhost'), $config->get('dbuser'), $config->get('dbpass') );
 		$sqlpersonal->set_select($select);

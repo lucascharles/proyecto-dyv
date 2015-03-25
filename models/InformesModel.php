@@ -24,11 +24,10 @@ public function listar_informe($tipoInforme,$mandante,$tipodoc, $iddocs='')
 								   ig.rol rol,
 								   ig.id_documento id_documento,
 								   ig.fecha_prox_gestion fecha_prox_gestion,
-								   eg.notas notas ");
-	$sqlpersonal->set_from( " informe_gestiones ig , estados_x_gestion eg ");
+								   ig.notas notas ");
+	$sqlpersonal->set_from( " informe_gestiones ig ");
 			
-		$where = " ig.id_nota = eg.id
-					AND ig.id_estado_doc ".$tipoInforme .
+		$where = "  ig.id_estado_doc ".$tipoInforme .
 			  " 	AND ig.id_mandatario = ". $mandante;
 		
 		if($tipodoc != ""){

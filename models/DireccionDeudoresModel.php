@@ -66,9 +66,26 @@ class DireccionDeudoresModel extends ModelBase
 		$dato->save();
 	}
 	
-	public function guardarDireccionTmp($calle, $numero, $piso, $departamento, $comuna, $ciudad, $otros, $id_sesion,$vigente)
+	public function guardarDireccionTmp($iddeudor,$calle, $numero, $piso, $departamento, $comuna, $ciudad, $otros, $id_sesion,$vigente)
 	{
+		$dato = new Direccion_DeudoresTmpCollection();
+		$dato->add_filter("id_deudor","=",$iddeudor);
+		$dato->load();
+		
+		for($j=0; $j<$dato->get_count(); $j++)
+		{
+			$datoTmp = &$dato->items[$j];
+			$varIdDireccion = $datoTmp->get_data("id_direccion");
+			
+			$dirTemp = New Direccion_DeudoresTmp();
+			$dirTemp->add_filter("id_direccion","=",$varIdDireccion);
+			$dirTemp->load();
+			$dirTemp->set_data("vigente","N");
+			$dirTemp->save();
+		}
+		
 		$dato = new Direccion_DeudoresTmp();
+		
 		$dato->set_data("calle",$calle); 
 		$dato->set_data("numero",$numero); 
 		$dato->set_data("piso",$piso); 

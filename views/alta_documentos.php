@@ -32,11 +32,13 @@
 		$(function () {
 			$("#txtfechaRecibido").datepicker({changeYear: true});
 			$("#txtfechaprotesto").datepicker({changeYear: true});
+			$("#txtfechaVenc").datepicker({changeYear: true});
 		});
 		$(document).ready(function(){
 			$('form').validator();
 			$("#txtfechaRecibido").datepicker();
 			$("#txtfechaprotesto").datepicker();
+			$("#txtfechaVenc").datepicker();
 			
 		});
 		
@@ -293,6 +295,7 @@
 				datos += "&accion=grabar";
 				datos += "&deudor="+$("#id_deudor").val();
 				datos += "&mandante="+$("#id_mandante").val();
+				datos += "&txtfechaVenc="+$("#txtfechaVenc").val();
 				datos += "&txtfechaRecibido="+$("#txtfechaRecibido").val();
 				datos += "&txtnrodoc="+$("#txtnrodoc").val();
 				datos += "&selTipoDoc="+$("#selTipoDoc").val();
@@ -689,13 +692,15 @@
                 </tr>
 			   <tr>                  
 		        <td width="20" align="left" class="etiqueta_form">Cta. Cte.:</td>
+		        <td width="50" align="left" class="etiqueta_form">Fecha Venc.:</td>
                 <td width="70" align="left" class="etiqueta_form">Fecha Protesto:</td>
                 <td width="20" align="left" colspan="2" class="etiqueta_form">Causal Protesto:</td>
                 <td width="70" align="left" class="etiqueta_form">Monto Protesto:</td>
         	   </tr>
     			<tr>
     				<td align="left"><input type="text" grabar="S" name="txtctacte" id="txtctacte"  size="15" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)"  /></td>        
-        			<td align="left"><input type="text" grabar="S" name="txtfechaprotesto" id="txtfechaprotesto"  size="15" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)"  tipovalida="fecha" onKeyUp="this.value=formateafecha(this.value)"/></td>
+        			<td align="left"><input type="text" grabar="S" name="txtfechaVenc" id="txtfechaVenc"  size="15" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)"  tipovalida="fecha" onKeyUp="this.value=formateafecha(this.value)"/></td>    				
+    				<td align="left"><input type="text" grabar="S" name="txtfechaprotesto" id="txtfechaprotesto"  size="15" class="input_form_medio" onFocus="resaltar(this)" onBlur="noresaltar(this)"  tipovalida="fecha" onKeyUp="this.value=formateafecha(this.value)"/></td>
                     <td colspan="2">
         	<select name="selCausalProtesta" grabar="S" tipovalida="texto" id="selCausalProtesta" class="input_form" onFocus="resaltar(this)" onBlur="noresaltar(this)">
      			<option value=""><? print utf8_encode("----Seleccione----") ?></option>
