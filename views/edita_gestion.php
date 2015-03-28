@@ -9,6 +9,7 @@
     <script src="js/jquery-1.7.1.min.js" type="text/javascript"></script>
     <script src="js/validacampos.js" type="text/javascript"></script>
     <script src="js/funcionesgral.js" type="text/javascript"></script>
+    <script src="js/cabecera.js" type="text/javascript"></script>    
      <link rel="stylesheet" media="all" type="text/css" href="css/smoothness/jquery-ui-1.8.17.custom.css" />
     <style type="text/css"> 
 			/* css for timepicker */	
@@ -136,8 +137,32 @@
 		{
 			var tipoges = document.getElementById("tipoGestion").value;
 			var doc ="";
-			if(document.getElementById("iddocumento").value == "" )
+
+			if(document.getElementById("txtusuario").value == "" )
+			{
+				alert('La sesion terminó debe ingresar nuevamente.');
+				var datos = "controlador=Index";
+				datos += "&accion=logoff";
+							
+				$.ajax({
+					url: "index.php",
+					type: "POST",
+					data: datos,
+					cache: false,
+					success: function(res)
+					{
+						window.location = "index.php";
+					},
+					error: function()
+					{
+						$("#mensaje").text("Ha ocurrido un error.");
+						setTimeout("$('#mensaje').text('')",3000);
+					}
+				});
 				
+			}
+			
+			if(document.getElementById("iddocumento").value == "" )
 			{
 				alert('Debe Seleccionar un Documento para registrar la bitacora.');
 			}
